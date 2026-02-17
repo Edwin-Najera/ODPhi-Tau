@@ -9,13 +9,13 @@
 }
 
 #navbar-open {
-  @media (max-width: 1200px) {
+  @media (max-width: 990px) {
     justify-self: center;
   }
 }
 
 #nav-items {
-  @media (max-width: 1200px) {
+  @media (max-width: 990px) {
     padding: 5%;
     border-bottom-left-radius: 3rem;
     border-bottom-right-radius: 3rem;
@@ -24,12 +24,12 @@
   }
 }
 
-#nav-item {
+.nav-items-custom {
   cursor: pointer;
 }
 
 #nav-item:hover {
-  transform: scale(1.5);
+  transform: scale(1.1);
 }
 
 #navbar-icon {
@@ -40,7 +40,7 @@
 
 #homeGrid {
   display: grid;
-  @media (max-width: 1320px) {
+  @media (max-width: 992px) {
     grid-template-areas:
       "lHalf"
       "rHalf";
@@ -50,82 +50,105 @@
     grid-template-rows: 20vh 60vh;
   }
   @media (max-width: 450px) {
-    grid-template-rows: 40vh 40vh;
+    grid-template-rows: 30vh 40vh;
   }
-  @media (min-width: 1321px) {
+  @media (min-width: 992px) {
     grid-template-areas: "lHalf rHalf";
-    grid-template-columns: 2fr 4fr;
+    grid-template-columns: 100% 67%;
+    justify-content: space-between;
+    overflow: hidden;
   }
-  height: 80vh;
-  max-width: 100%;
+  height: 100%;
   width: 100%;
 }
 
 #homeGrid > #leftHalf {
   grid-area: lHalf;
   align-content: center;
+  position: relative;
   z-index: 2;
+  @media (min-width: 992px) {
+    background-color: black;
+    z-index: 1;
+  }
 }
 
 #homeGrid > #rightHalf {
   grid-area: rHalf;
+  background-color: black;
   overflow: hidden;
   position: relative;
-  z-index: 1;
-  @media (max-width: 1320px) {
+  @media (max-width: 991px) {
     top: -12vh;
     margin-bottom: -12vh;
+    z-index: 1;
   }
   @media (max-width: 870px) {
     top: -20vh;
     margin-bottom: -20vh;
   }
   @media (max-width: 450px) {
-    top: -40vh;
+    top: -30vh;
     margin-bottom: -40vh;
   }
-  @media (min-width: 1321px) {
-    grid-template-areas: "lHalf rHalf";
-    grid-template-columns: 2fr 4fr;
+  @media (min-width: 992px) {
+    z-index: 1;
+    left: -100%;
+    background: transparent;
   }
 }
 
 .relativeContainer {
-  background-color: silver;
+  @media (min-width: 990px) {
+    background-color: black;
+    background-image: url(./Photos/Crest.png);
+    background-position: cover;
+    background-position: 150px -160px;
+    background-repeat: no-repeat;
+  }
+  @media (min-width: 1920px) {
+    background-position: 300px center;
+  }
+
   height: 100%;
-  @media (max-width: 1320px) {
+  @media (max-width: 990px) {
     opacity: 0.5;
+    background-color: silver;
   }
 }
 
 #textLeft {
   font-size: 3rem;
-  color: black;
   position: absolute;
   top: 30vh;
-  left: 30%;
+  transform: translate(500px, 0);
   animation: comeIn 1s forwards;
   animation-delay: 500ms;
   opacity: 0;
-  @media (max-width: 1320px) {
-    top: 25vh;
+  @media (min-width: 990px) {
+    color: white;
+    -webkit-text-stroke: 5px black;
+    paint-order: stroke;
+  }
+  @media (max-width: 990px) {
+    color: white;
     animation: comeUp 1s forwards;
     animation-delay: 500ms;
     opacity: 0;
-    left: 1%;
+    transform: translate(0, 15vh);
   }
 }
 
 @keyframes comeIn {
   to {
-    left: 1%;
+    transform: translate(20px, 0);
     opacity: 1;
   }
 }
 
 @keyframes comeUp {
   to {
-    top: 9vh;
+    transform: translate(0, -25vh);
     opacity: 1;
   }
 }
@@ -137,4 +160,80 @@
   height: 100%;
   object-fit: cover;
   object-position: center bottom;
+  @media (min-width: 992px) {
+    animation: fromLeft 1s forwards;
+    animation-delay: 1s;
+    transform: translate(-100px, 0);
+    opacity: 0;
+    z-index: 3;
+  }
+}
+
+@keyframes fromLeft {
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
+/*  Events.tsx  */
+
+/*  School.tsx  */
+a.clickButton {
+  background-color: black;
+  border-radius: 5em;
+  width: fit-content;
+  padding: 0 5px;
+  text-decoration: none;
+  color: white;
+}
+
+.schoolContainer {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  height: 100%;
+}
+
+#resourcesRow {
+  justify-content: space-between;
+  width: 80%;
+
+  @media (max-width: 992px) {
+    width: 100%;
+  }
+}
+
+#helpResources {
+  max-width: 40%;
+  justify-items: center;
+}
+
+#helpList {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  text-align: center;
+  gap: 25px;
+}
+
+#studyResources {
+  max-width: 40%;
+  justify-items: center;
+}
+
+#studyList {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  text-align: center;
+  gap: 25px;
+}
+
+/*  Footer.tsx  */
+.footerContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
