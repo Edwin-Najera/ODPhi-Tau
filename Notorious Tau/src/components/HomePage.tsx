@@ -34,12 +34,12 @@ function HomePage() {
 
   return (
     <Fragment>
-      <div id="homeGrid">
-        <div id="leftHalf">
-          <div className="relativeContainer"></div>
-          <h2 id="textLeft" ref={textRefLeft}></h2>
+      <div id="home-grid">
+        <div id="left-half">
+          <div className="relative-container"></div>
+          <h2 id="text-left" ref={textRefLeft}></h2>
         </div>
-        <div id="rightHalf">
+        <div id="right-half">
           <img src={tau} alt="TAU" />
         </div>
       </div>

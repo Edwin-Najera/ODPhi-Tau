@@ -4,17 +4,17 @@ import "./global.css";
 function School() {
   return (
     <Fragment>
-      <div className="schoolContainer">
+      <div className="school-container">
         <h3>UTA Resources</h3>
-        <div className="row" id="resourcesRow">
-          <div className="col" id="helpResources">
+        <div className="row" id="resources-row">
+          <div className="col" id="help-resources">
             <h6>Student Help Resources</h6>
-            <ul id="helpList">
+            <ul id="help-list">
               <li>
                 Counseling
                 <br />
                 <a
-                  className="clickButton"
+                  className="click-button"
                   href="https://www.uta.edu/student-affairs/caps"
                   target="_blank"
                 >
@@ -25,7 +25,7 @@ function School() {
                 Health Services
                 <br />
                 <a
-                  className="clickButton"
+                  className="click-button"
                   href="http://www.uta.edu/healthservices/"
                   target="_blank"
                 >
@@ -36,7 +36,7 @@ function School() {
                 Student Support
                 <br />
                 <a
-                  className="clickButton"
+                  className="click-button"
                   href="https://www.uta.edu/student-affairs/student-support"
                   target="_blank"
                 >
@@ -45,14 +45,14 @@ function School() {
               </li>
             </ul>
           </div>
-          <div className="col" id="studyResources">
+          <div className="col" id="study-resources">
             <h6>Study Tools and Areas</h6>
-            <ul id="studyList">
+            <ul id="study-list">
               <li>
                 Math Clinic
                 <br />
                 <a
-                  className="clickButton"
+                  className="click-button"
                   href="https://www.uta.edu/math/LRC/clinic.php"
                   target="_blank"
                 >
@@ -63,7 +63,7 @@ function School() {
                 Writing Center
                 <br />
                 <a
-                  className="clickButton"
+                  className="click-button"
                   href="http://www.uta.edu/owl/"
                   target="_blank"
                 >
@@ -74,7 +74,7 @@ function School() {
                 Study Rooms
                 <br />
                 <a
-                  className="clickButton"
+                  className="click-button"
                   href="https://libraries.uta.edu/services/study-spaces"
                   target="_blank"
                 >
@@ -85,7 +85,7 @@ function School() {
                 Tutoring
                 <br />
                 <a
-                  className="clickButton"
+                  className="click-button"
                   href="https://www.uta.edu/student-success/course-assistance/tutoring"
                   target="_blank"
                 >

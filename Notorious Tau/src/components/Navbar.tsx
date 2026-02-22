@@ -1,11 +1,12 @@
 import "./global.css";
+import Logo from "./Photos/T.png";
 
 function Navbar() {
   return (
     <nav className="navbar navbar-expand-xl fixed-top" id="navbar">
       <div className="container" id="navbar-container">
-        <a className="navbar-brand ms-4" href="#" id="nav-icon">
-          Tau
+        <a className="navbar-brand" href="#">
+          <img src={Logo} alt="Tau" id="logo" />
         </a>
         <button
           className="navbar-toggler"

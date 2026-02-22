@@ -4,9 +4,9 @@ import "./global.css";
 function Footer() {
   return (
     <Fragment>
-      <div className="footerContainer">
-        <div id="footerRight">Developed By Edwin Najera</div>
-        <div id="footerLeft">Some words</div>
+      <div className="footer-container">
+        <div id="footer-right">Developed By Edwin Najera</div>
+        <div id="footer-left">Some words</div>
       </div>
     </Fragment>
   );

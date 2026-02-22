@@ -5,7 +5,7 @@
   height: 60px;
   border: solid black;
   top: 0;
-  background-color: rgb(147, 5, 5);
+  background-color: rgb(200, 59, 59);
 }
 
 #navbar-open {
@@ -15,6 +15,7 @@
 }
 
 #nav-items {
+  cursor: pointer;
   @media (max-width: 990px) {
     padding: 5%;
     border-bottom-left-radius: 3rem;
@@ -32,13 +33,16 @@
   transform: scale(1.1);
 }
 
-#navbar-icon {
+.navbar-brand #logo {
   justify-self: start;
+  width: 50px;
+  border: solid black;
+  height: auto;
 }
 
 /*  HomePage.tsx    */
 
-#homeGrid {
+#home-grid {
   display: grid;
   @media (max-width: 992px) {
     grid-template-areas:
@@ -62,7 +66,7 @@
   width: 100%;
 }
 
-#homeGrid > #leftHalf {
+#home-grid > #left-half {
   grid-area: lHalf;
   align-content: center;
   position: relative;
@@ -73,11 +77,12 @@
   }
 }
 
-#homeGrid > #rightHalf {
+#home-grid > #right-half {
   grid-area: rHalf;
   background-color: black;
   overflow: hidden;
   position: relative;
+  display: block;
   @media (max-width: 991px) {
     top: -12vh;
     margin-bottom: -12vh;
@@ -98,7 +103,7 @@
   }
 }
 
-.relativeContainer {
+.relative-container {
   @media (min-width: 990px) {
     background-color: black;
     background-image: url(./Photos/Crest.png);
@@ -117,7 +122,7 @@
   }
 }
 
-#textLeft {
+#text-left {
   font-size: 3rem;
   position: absolute;
   top: 30vh;
@@ -153,7 +158,7 @@
   }
 }
 
-#rightHalf img {
+#right-half img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -161,25 +166,98 @@
   object-fit: cover;
   object-position: center bottom;
   @media (min-width: 992px) {
-    animation: fromLeft 1s forwards;
-    animation-delay: 1s;
-    transform: translate(-100px, 0);
-    opacity: 0;
     z-index: 3;
+    top: -5vh;
+    left: 10vw;
   }
-}
-
-@keyframes fromLeft {
-  to {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, black 20%),
+    linear-gradient(to top, transparent 0%, black 30%);
+  -webkit-mask-composite: intersect;
+  mask-image:
+    linear-gradient(to right, transparent 0%, black 20%),
+    linear-gradient(to top, transparent 0%, black 30%);
+  mask-composite: intersect;
+  border-bottom-left-radius: 50% 60%;
 }
 
 /*  Events.tsx  */
+.card-container {
+  display: flex;
+  flex-direction: row;
+  background-color: transparent;
+  width: 90%;
+  height: 100%;
+  align-items: center;
+}
+
+.card-event {
+  width: 35%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 3em;
+  justify-self: center;
+}
+
+.card-text {
+  color: black;
+  width: 75%;
+  justify-self: center;
+}
+
+.card-text h5 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+#event-title {
+  justify-self: center;
+  font-size: 4em;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+#event-prices {
+  display: flex;
+  justify-self: center;
+  width: 80%;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+#sell-items {
+  list-style-type: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#sell-items li {
+  display: flex;
+  align-items: center;
+}
+
+.item-name {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  white-space: pre-line;
+}
+
+.item-price {
+  margin-left: auto;
+  white-space: nowrap;
+  padding-left: 3%;
+}
+
+.item-name::after {
+  content: "";
+  flex: 1;
+  border-bottom: 2px dashed black;
+  margin-left: 1rem;
+}
 
 /*  School.tsx  */
-a.clickButton {
+a.click-button {
   background-color: black;
   border-radius: 5em;
   width: fit-content;
@@ -188,7 +266,7 @@ a.clickButton {
   color: white;
 }
 
-.schoolContainer {
+.school-container {
   display: flex;
   flex-direction: column;
   justify-items: center;
@@ -196,7 +274,7 @@ a.clickButton {
   height: 100%;
 }
 
-#resourcesRow {
+#resources-row {
   justify-content: space-between;
   width: 80%;
 
@@ -205,12 +283,12 @@ a.clickButton {
   }
 }
 
-#helpResources {
+#help-resources {
   max-width: 40%;
   justify-items: center;
 }
 
-#helpList {
+#help-list {
   display: flex;
   flex-direction: column;
   list-style-type: none;
@@ -218,12 +296,12 @@ a.clickButton {
   gap: 25px;
 }
 
-#studyResources {
+#study-resources {
   max-width: 40%;
   justify-items: center;
 }
 
-#studyList {
+#study-list {
   display: flex;
   flex-direction: column;
   list-style-type: none;
@@ -232,7 +310,7 @@ a.clickButton {
 }
 
 /*  Footer.tsx  */
-.footerContainer {
+.footer-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
