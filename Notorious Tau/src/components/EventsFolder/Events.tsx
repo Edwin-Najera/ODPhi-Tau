@@ -1,4 +1,4 @@
-import "./global.css";
+import "../global.css";
 import { eventData } from "./eventData";
 
 function Events() {

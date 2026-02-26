@@ -1,7 +1,7 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
 import HomePage from "./components/HomePage";
-import Events from "./components/Events";
+import Events from "./components/EventsFolder/Events";
 import About from "./components/About";
 import School from "./components/School";
 import Footer from "./components/Footer";

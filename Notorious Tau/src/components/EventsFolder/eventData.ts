@@ -1,5 +1,5 @@
-import fundraiser from "./Photos/ConchasFund.jpeg";
-import somePhoto from "./Photos/T.png";
+import fundraiser from "../Photos/ConchasFund.jpeg";
+import somePhoto from "../Photos/T.png";
 
 
 export interface eventItem{
