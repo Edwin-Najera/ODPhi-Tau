@@ -23,11 +23,11 @@ function Navbar() {
             className="d-flex navbar-nav justify-contents-center ms-auto"
             id="nav-items"
           >
-            <div className="nav-link nav-item-custom">About</div>
-            <div className="nav-link nav-item-custom">Brothers</div>
-            <div className="nav-link nav-item-custom">Service</div>
-            <div className="nav-link nav-item-custom">Brothers Only</div>
-            <div className="nav-link nav-item-custom">Contact</div>
+            <div className="nav-link">About</div>
+            <div className="nav-link">Brothers</div>
+            <div className="nav-link">Service</div>
+            <div className="nav-link">Brothers Only</div>
+            <div className="nav-link">Contact</div>
           </div>
         </div>
       </div>

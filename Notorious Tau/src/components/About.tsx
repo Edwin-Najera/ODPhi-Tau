@@ -7,7 +7,7 @@ function About() {
       id="about-container"
     >
       <img src={tau} alt="Group Photo" className="me-4 group-photo" />
-      <span id="about-description">
+      <p id="about-description">
         Welcome to the offical website of The Notorious Tau Chapter of Omega
         Delta Phi fraternity Inc. (ΩΔΦ)
         <br /> <br />
@@ -16,12 +16,12 @@ function About() {
         will strive to shape and make you the best you can be. Whether it be
         academically, personally, or professionally, this brotherhood will
         challenge you to grow while giving back to the community. As in our
-        motto <span className="motto">"One culture, Any Race"</span>we celebrate
-        every triumph, and we foster brotherhood that lives on for a lifetime.
+        motto <strong>"One culture, Any Race"</strong> we celebrate every
+        triumph, and we foster brotherhood that lives on for a lifetime.
         <br /> <br />
         Explore the website and discover how being a Knight has transformed the
         brothers
-      </span>
+      </p>
     </div>
   );
 }

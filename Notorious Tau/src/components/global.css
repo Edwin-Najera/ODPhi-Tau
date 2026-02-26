@@ -4,21 +4,15 @@
 #navbar {
   height: 60px;
   top: 0;
+  width: 100%;
   background-color: rgb(200, 59, 59);
-}
-
-@media (max-width: 990px) {
-  #navbar {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  @media (max-width: 990px) {
     top: 0px;
-    height: 80px;
+    height: 90px;
     justify-content: center;
-  }
-}
-
-@media (max-width: 990px) {
-  #navbar-open {
-    border: solid black;
-    justify-self: center;
   }
 }
 
@@ -29,16 +23,14 @@
     border-bottom-left-radius: 3rem;
     border-bottom-right-radius: 3rem;
     justify-self: end;
-    background-color: rgb(147, 5, 5);
+    background-color: rgb(200, 59, 59);
+    align-items: center;
   }
 }
 
-.nav-items-custom {
+.nav-link:hover {
   cursor: pointer;
-}
-
-#nav-item:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 .navbar-brand #logo {
@@ -238,7 +230,7 @@
   @media (max-width: 992px) {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -287,6 +279,12 @@
   width: 80%;
   justify-content: space-between;
   padding: 5px;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 #sell-items {
