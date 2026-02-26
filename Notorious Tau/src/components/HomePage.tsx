@@ -7,15 +7,14 @@ function HomePage() {
   const textRefLeft = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const element = textRefLeft.current;
-    if (!element) {
-      console.error("Element not found");
-      return;
-    }
-
     const mediaQuery = window.matchMedia("(max-width: 1320px)");
 
     function handleScreenChange(event: MediaQueryList | MediaQueryListEvent) {
+      const element = textRefLeft.current;
+      if (!element) {
+        console.error("Element not found");
+        return;
+      }
       if (event.matches) {
         element.innerHTML = "The Notorious Tau Omega Delta Phi Inc.";
       } else {

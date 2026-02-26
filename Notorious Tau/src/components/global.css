@@ -3,13 +3,21 @@
 /*  Navbar.tsx  */
 #navbar {
   height: 60px;
-  border: solid black;
   top: 0;
   background-color: rgb(200, 59, 59);
 }
 
-#navbar-open {
-  @media (max-width: 990px) {
+@media (max-width: 990px) {
+  #navbar {
+    top: 0px;
+    height: 80px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 990px) {
+  #navbar-open {
+    border: solid black;
     justify-self: center;
   }
 }
@@ -36,7 +44,6 @@
 .navbar-brand #logo {
   justify-self: start;
   width: 50px;
-  border: solid black;
   height: auto;
 }
 
@@ -44,6 +51,8 @@
 
 #home-grid {
   display: grid;
+  height: 100%;
+  width: 100%;
   @media (max-width: 992px) {
     grid-template-areas:
       "lHalf"
@@ -56,14 +65,13 @@
   @media (max-width: 450px) {
     grid-template-rows: 30vh 40vh;
   }
+
   @media (min-width: 992px) {
     grid-template-areas: "lHalf rHalf";
     grid-template-columns: 100% 67%;
     justify-content: space-between;
     overflow: hidden;
   }
-  height: 100%;
-  width: 100%;
 }
 
 #home-grid > #left-half {
@@ -71,8 +79,10 @@
   align-content: center;
   position: relative;
   z-index: 2;
+  color: white;
+  height: 100%;
+  width: 100%;
   @media (min-width: 992px) {
-    background-color: black;
     z-index: 1;
   }
 }
@@ -83,42 +93,52 @@
   overflow: hidden;
   position: relative;
   display: block;
+
   @media (max-width: 991px) {
-    top: -12vh;
     margin-bottom: -12vh;
     z-index: 1;
   }
+
   @media (max-width: 870px) {
-    top: -20vh;
     margin-bottom: -20vh;
   }
+
   @media (max-width: 450px) {
     top: -30vh;
     margin-bottom: -40vh;
   }
+
   @media (min-width: 992px) {
-    z-index: 1;
     left: -100%;
     background: transparent;
   }
 }
 
 .relative-container {
-  @media (min-width: 990px) {
+  @media (max-width: 990px) {
+    opacity: 0.5;
     background-color: black;
-    background-image: url(./Photos/Crest.png);
-    background-position: cover;
-    background-position: 150px -160px;
-    background-repeat: no-repeat;
   }
   @media (min-width: 1920px) {
     background-position: 300px center;
   }
+  @media (min-width: 990px) {
+    height: 100%;
+    background-color: black;
+    background-image: url(./Photos/outline.png);
+    background-position: center;
+    background-position: 2000px -125px;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    animation: fadeInRight 1s forwards;
+    animation-delay: 500ms;
+  }
+}
 
-  height: 100%;
-  @media (max-width: 990px) {
-    opacity: 0.5;
-    background-color: silver;
+@keyframes fadeInRight {
+  to {
+    background-color: black;
+    background-position: 50px -125px;
   }
 }
 
@@ -131,10 +151,10 @@
   animation-delay: 500ms;
   opacity: 0;
   @media (min-width: 990px) {
-    color: white;
     -webkit-text-stroke: 5px black;
     paint-order: stroke;
   }
+
   @media (max-width: 990px) {
     color: white;
     animation: comeUp 1s forwards;
@@ -165,30 +185,61 @@
   height: 100%;
   object-fit: cover;
   object-position: center bottom;
-  @media (min-width: 992px) {
-    z-index: 3;
-    top: -5vh;
-    left: 10vw;
-  }
   -webkit-mask-image:
-    linear-gradient(to right, transparent 0%, black 20%),
-    linear-gradient(to top, transparent 0%, black 30%);
+    linear-gradient(to right, transparent 0%, black 15%),
+    linear-gradient(to top, transparent 0%, black 40%);
   -webkit-mask-composite: intersect;
   mask-image:
-    linear-gradient(to right, transparent 0%, black 20%),
-    linear-gradient(to top, transparent 0%, black 30%);
+    linear-gradient(to right, transparent 0%, black 15%),
+    linear-gradient(to top, transparent 0%, black 40%);
   mask-composite: intersect;
-  border-bottom-left-radius: 50% 60%;
+  border-bottom-left-radius: 4em;
+  @media (min-width: 992px) {
+    z-index: 3;
+    top: -100vh;
+    left: 5vw;
+    animation: fadeIn 1s forwards;
+    animation-delay: 800ms;
+  }
+  @media (max-width: 991px) {
+    width: 100%;
+    height: 100%;
+    mask-image: linear-gradient(to top, transparent 0%, black 30%);
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 30%);
+    border-radius: 0;
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    left: 5vw;
+    top: -5vh;
+  }
 }
 
 /*  Events.tsx  */
+#events-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 2em;
+}
+
 .card-container {
   display: flex;
   flex-direction: row;
-  background-color: transparent;
-  width: 90%;
+  width: 100%;
   height: 100%;
+  padding: 3%;
   align-items: center;
+  justify-content: center;
+  @media (max-width: 992px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 
 .card-event {
@@ -196,18 +247,32 @@
   height: auto;
   object-fit: contain;
   border-radius: 3em;
-  justify-self: center;
+  @media (max-width: 992px) {
+    width: 80%;
+    justify-items: center;
+    align-items: center;
+  }
 }
 
 .card-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: black;
   width: 75%;
   justify-self: center;
+  font-size: 1em;
+  @media (max-width: 992px) {
+    width: 100%;
+    text-align: center;
+    justify-items: center;
+  }
 }
 
 .card-text h5 {
   text-align: center;
   font-size: 2rem;
+  padding: 50px 0;
 }
 
 #event-title {
@@ -229,6 +294,19 @@
   width: 100%;
   padding: 0;
   margin: 0;
+  text-align: center;
+  @media (max-width: 992px) {
+    list-style-position: inside;
+    text-align: left;
+    justify-self: center;
+  }
+}
+
+.card-text ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
 #sell-items li {
@@ -256,6 +334,41 @@
   margin-left: 1rem;
 }
 
+.card-container.reverse {
+  flex-direction: row-reverse;
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
+}
+
+/*  About.tsx   */
+#about-container {
+  display: flex;
+  flex-direction: row;
+  width: 75%;
+  justify-self: center;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 992px) {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+#about-description {
+  width: 50%;
+  text-align: start;
+  @media (max-width: 992px) {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.group-photo {
+  object-fit: contain;
+  width: 40%;
+}
+
 /*  School.tsx  */
 a.click-button {
   background-color: black;
@@ -277,7 +390,6 @@ a.click-button {
 #resources-row {
   justify-content: space-between;
   width: 80%;
-
   @media (max-width: 992px) {
     width: 100%;
   }

@@ -63,6 +63,7 @@ body {
   align-content: center;
   align-items: center;
   height: 10vh;
+  top: -5vh;
   justify-items: center;
   justify-content: center;
   z-index: 3;
@@ -71,6 +72,10 @@ body {
     rgba(0, 0, 0) 20%,
     rgba(255, 255, 255) 100%
   );
+  @media (max-width: 992px) {
+    flex-direction: column;
+    top: -5vh;
+  }
 }
 
 #AppGrid > #Events {
@@ -85,10 +90,8 @@ body {
 
 #AppGrid > #About {
   grid-area: About;
-  display: flex;
-  flex-direction: row;
   width: 100%;
-  align-items: center;
+  height: auto;
 }
 
 #AppGrid > #School {
