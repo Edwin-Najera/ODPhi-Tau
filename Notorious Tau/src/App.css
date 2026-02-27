@@ -1,6 +1,6 @@
 body {
   background-color: white;
-  padding-top: 60px;
+  padding-top: 30px;
   overflow-x: hidden;
 }
 
@@ -33,7 +33,7 @@ body {
     "gap gap gap"
     "Events Events Events"
     "About About About"
-    "School MGC MGC"
+    "School School MGC"
     "Contact Contact Contact"
     "Footer Footer Footer";
   @media (max-width: 992px) {

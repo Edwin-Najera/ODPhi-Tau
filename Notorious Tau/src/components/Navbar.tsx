@@ -1,13 +1,14 @@
 import "./global.css";
 import Logo from "./Photos/T.png";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
     <nav className="navbar navbar-expand-xl fixed-top" id="navbar">
       <div className="container" id="navbar-container">
-        <a className="navbar-brand" href="#">
+        <Link to="/" className="navbar-brand">
           <img src={Logo} alt="Tau" id="logo" />
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -24,10 +25,16 @@ function Navbar() {
             id="nav-items"
           >
             <div className="nav-link">About</div>
-            <div className="nav-link">Brothers</div>
+            <Link to="/Gallery" className="nav-link">
+              Gallery
+            </Link>
             <div className="nav-link">Service</div>
-            <div className="nav-link">Brothers Only</div>
-            <div className="nav-link">Contact</div>
+            <Link to="/BrotherOnly" className="nav-link">
+              Brothers Only
+            </Link>
+            <Link to="/Contact" className="nav-link">
+              Contact
+            </Link>
           </div>
         </div>
       </div>

@@ -1,41 +1,25 @@
 import "./App.css";
+import { Fragment } from "react/jsx-runtime";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import HomePage from "./components/HomePage";
-import Events from "./components/EventsFolder/Events";
-import About from "./components/About";
-import MGC from "./components/mgc";
-import School from "./components/School";
-import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Mtb from "./pages/mtb";
+import Gallery from "./pages/Gallery";
+import Onlybros from "./pages/Onlybros";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
-    <div id="AppGrid">
+    <Fragment>
       <Navbar />
-
-      <div id="Welcome">
-        <HomePage />
-      </div>
-      <div id="gap">
-        <div className="chevron" />
-      </div>
-      <div id="Events">
-        <Events />
-      </div>
-
-      <div id="About">
-        <About />
-      </div>
-      <div id="School">
-        <School />
-      </div>
-      <div id="MGC">
-        <MGC />
-      </div>
-      <div id="Contact"></div>
-      <div id="Footer">
-        <Footer />
-      </div>
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/Mtb" element={<Mtb />} />
+        <Route path="/Gallery" element={<Gallery />} />
+        <Route path="/Onlybros" element={<Onlybros />} />
+        <Route path="/Contact" element={<Contact />} />
+      </Routes>
+    </Fragment>
   );
 }
 

@@ -17,7 +17,7 @@ function School() {
         <h1>UTA Resources</h1>
         <div className="row" id="resources-row">
           <div className="col" id="help-resources">
-            <h6>Student Help Resources</h6>
+            <h6>Student Help</h6>
             <ul id="help-list">
               <li className="school-list-item">
                 Counseling
