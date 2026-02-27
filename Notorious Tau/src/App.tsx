@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import HomePage from "./components/HomePage";
 import Events from "./components/EventsFolder/Events";
 import About from "./components/About";
+import MGC from "./components/mgc";
 import School from "./components/School";
 import Footer from "./components/Footer";
 
@@ -27,7 +28,9 @@ function App() {
       <div id="School">
         <School />
       </div>
-      <div id="MGC"></div>
+      <div id="MGC">
+        <MGC />
+      </div>
       <div id="Contact"></div>
       <div id="Footer">
         <Footer />

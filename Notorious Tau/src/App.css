@@ -96,14 +96,24 @@ body {
 
 #AppGrid > #School {
   grid-area: School;
-  background-color: aqua;
+  padding-top: 3em;
+  padding-bottom: 3em;
+  background-color: black;
   min-height: 35vh;
+  @media (max-width: 992px) {
+    padding-top: 0;
+  }
 }
 
 #AppGrid > #MGC {
   grid-area: MGC;
-  background-color: purple;
+  padding-top: 3em;
+  padding-bottom: 3em;
+  background-color: black;
   min-height: 35vh;
+  @media (max-width: 992px) {
+    padding-bottom: 0;
+  }
 }
 
 #AppGrid > #Contact {
