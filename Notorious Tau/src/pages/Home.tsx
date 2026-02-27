@@ -1,6 +1,5 @@
 import { Fragment } from "react/jsx-runtime";
-import Navbar from "../components/Navbar";
-import HomePage from "../components/HomePage";
+import IntroSec from "../components/IntroSec";
 import Events from "../components/EventsFolder/Events";
 import About from "../components/About";
 import MGC from "../components/mgc";
@@ -28,7 +27,7 @@ function App() {
       ;
       <div id="AppGrid">
         <div id="Welcome">
-          <HomePage />
+          <IntroSec />
         </div>
         <div id="gap">
           <div className="chevron" />

@@ -29,7 +29,7 @@ function Navbar() {
               Gallery
             </Link>
             <div className="nav-link">Service</div>
-            <Link to="/BrotherOnly" className="nav-link">
+            <Link to="/Onlybros" className="nav-link">
               Brothers Only
             </Link>
             <Link to="/Contact" className="nav-link">

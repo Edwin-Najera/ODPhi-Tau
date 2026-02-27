@@ -39,7 +39,8 @@
   height: auto;
 }
 
-/*  HomePage.tsx    */
+/*  This and below is for the Home Page */
+/*  HomePage.tsx  */
 
 #home-grid {
   display: grid;
@@ -391,8 +392,18 @@
   paint-order: stroke;
 }
 
+.mgc-link {
+  font-size: 3em;
+  text-decoration: none;
+  color: white;
+}
+
+.mgc-link:hover {
+  text-decoration: none;
+}
+
 .mgc-icon {
-  font-size: 9em;
+  font-size: 3em;
 }
 
 /*  School.tsx  */
@@ -507,3 +518,7 @@ a.click-button {
   flex-direction: row;
   justify-content: space-between;
 }
+
+/*              This and below will be for the Gallery                */
+/*              This and below will be for the OnlyBros               */
+/*            This and below will be for the Meet The bros            */

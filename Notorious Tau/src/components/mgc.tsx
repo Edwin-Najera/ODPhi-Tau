@@ -14,14 +14,20 @@ function MGC() {
         <a
           href="https://www.instagram.com/utamgc/"
           target="_blank"
-          id="mgc-link"
+          className="mgc-link"
         >
           <FaInstagramSquare
             className="mgc-icon"
             style={{ fill: "url(#mgcInsta)" }}
           />
         </a>
-        <a>More!</a>
+        <a
+          href="https://www.uta.edu/student-affairs/fsl/our-community/multicultural-greek-council"
+          target="_blank"
+          className="mgc-link"
+        >
+          More!
+        </a>
       </div>
     </Fragment>
   );

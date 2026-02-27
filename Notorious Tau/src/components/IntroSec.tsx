@@ -3,7 +3,7 @@ import { useRef, useEffect } from "react";
 import tau from "./Photos/Tau1.jpeg";
 import "./global.css";
 
-function HomePage() {
+function IntroSec() {
   const textRefLeft = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -46,4 +46,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default IntroSec;
