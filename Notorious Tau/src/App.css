@@ -96,23 +96,23 @@ body {
 
 #AppGrid > #School {
   grid-area: School;
-  padding-top: 3em;
-  padding-bottom: 3em;
+  padding: 1em 0;
   background-color: black;
   min-height: 35vh;
   @media (max-width: 992px) {
     padding-top: 0;
+    margin-top: 0;
   }
 }
 
 #AppGrid > #MGC {
   grid-area: MGC;
-  padding-top: 3em;
-  padding-bottom: 3em;
+  padding: 1em 0;
   background-color: black;
   min-height: 35vh;
   @media (max-width: 992px) {
     padding-bottom: 0;
+    margin-bottom: 0;
   }
 }
 

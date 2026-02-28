@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 import {
   setPersistence,
   browserSessionPersistence,
@@ -25,22 +25,22 @@ function Login() {
 
   return (
     <Fragment>
-      <h2>Admin Login</h2>
-
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <br />
-      <br />
-      <button onClick={handleLogin}>Login</button>
+      <div className="login-form">
+        <h2>Admin Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <br />
+        <br />
+        <button onClick={handleLogin}>Login</button>
+      </div>
     </Fragment>
   );
 }

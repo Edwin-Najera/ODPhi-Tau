@@ -5,40 +5,84 @@ import { signOut } from "firebase/auth";
 import {
   collection,
   addDoc,
-  getDocs,
   deleteDoc,
+  updateDoc,
   doc,
+  onSnapshot,
 } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
+import "../components/global.css";
+import type { eventItem, event } from "../components/EventsFolder/eventData";
 
 function Onlybros() {
-  const [eventTitle, setEventTitle] = useState("");
-  const [items, setItems] = useState([{ itemName: "", price: "" }]);
-  const [events, setEvents] = useState<any[]>([]);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [eventTitle, setEventTitle] = useState(""); //For Title of the Event *REQUIRED*
+  const [items, setItems] = useState([{ name: "", price: "" }]); //For items and prices of items
+  const [description, setDescription] = useState(""); //For description of the event
+  const [events, setEvents] = useState<any[]>([]); //List of all events
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editItems, setEditItems] = useState<{ name: string; price: string }[]>(
+    [],
+  );
+  const [imageFile, setImageFile] = useState<File | null>(null); //For the image/flyer of the event *REQUIRED*
   const navigate = useNavigate();
 
-  const fetchEvents = async () => {
-    const querySnapshots = await getDocs(collection(db, "events"));
-    const eventsData = querySnapshots.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setEvents(eventsData);
-  };
-
   useEffect(() => {
-    fetchEvents();
+    const unsubscribe = onSnapshot(collection(db, "events"), (snapshot) => {
+      const eventList = snapshot.docs.map((doc) => {
+        const data = doc.data() as Omit<event, "id">;
+
+        return {
+          id: doc.id,
+          ...data,
+        };
+      });
+      setEvents(eventList);
+    });
+    return () => unsubscribe();
   }, []);
 
-  const handleDelete = async (id: string) => {
-    await deleteDoc(doc(db, "events", id));
-    fetchEvents(); // refresh list
+  //Handles the deleting of events
+  const handleDelete = async (eventId: string, imagePath: string) => {
+    //Deleting image from database
+    const imageRef = ref(storage, imagePath);
+    await deleteObject(imageRef);
+
+    //Deleting Firestore document
+    await deleteDoc(doc(db, "events", eventId));
   };
 
+  //Whenever the admin is going edit the event
+  const handleEdit = async (event: any) => {
+    setEditingId(event.id);
+    setEditTitle(event.eventTitle);
+    setEditDescription(event.description || "");
+    setEditItems(event.items || []);
+  };
+
+  const handleSaveEdit = async (eventId: string) => {
+    try {
+      await updateDoc(doc(db, "events", eventId), {
+        eventTitle: editTitle,
+        description: editDescription,
+        items: editItems,
+      });
+      setEditingId(null);
+    } catch (error) {
+      console.error("Error editing: ", error);
+    }
+  };
+
+  //Whenever an item is being added to the event
   const handleItemChange = (
     index: number,
-    field: "itemName" | "price",
+    field: "name" | "price",
     value: string,
   ) => {
     const updatedItems = [...items];
@@ -47,7 +91,7 @@ function Onlybros() {
   };
 
   const addItemField = () => {
-    setItems([...items, { itemName: "", price: "" }]);
+    setItems([...items, { name: "", price: "" }]);
   };
 
   const handleSubmit = async () => {
@@ -60,21 +104,26 @@ function Onlybros() {
       return;
     }
 
-    const imageRef = ref(storage, `events/${imageFile.name}`);
+    const imagePath = `events/${Date.now()}-${imageFile.name}`;
+    const imageRef = ref(storage, imagePath);
+
     await uploadBytes(imageRef, imageFile);
     const downloadURL = await getDownloadURL(imageRef);
 
     try {
       await addDoc(collection(db, "events"), {
         eventTitle,
+        description,
         imageURL: downloadURL,
+        imagePath: imagePath,
         items,
         createdAt: new Date(),
       });
 
       alert("Event Added");
       setEventTitle("");
-      setItems([{ itemName: "", price: "" }]);
+      setDescription("");
+      setItems([{ name: "", price: "" }]);
     } catch (error) {
       console.error("Error adding event: ", error);
     }
@@ -89,81 +138,154 @@ function Onlybros() {
     }
   };
   return (
-    <div style={{ padding: "2rem", color: "black" }}>
-      <button onClick={handleLogout} style={{ float: "right" }}>
+    <div className="admin-page">
+      <button className="admin-btn logout-btn" onClick={handleLogout}>
         Logout
       </button>
-      <h2>Onlybros Admin Panel</h2>
-
-      <input
-        type="text"
-        placeholder="Main Event Title"
-        value={eventTitle}
-        onChange={(e) => setEventTitle(e.target.value)}
-      />
-      <br />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => {
-          if (e.target.files) {
-            setImageFile(e.target.files[0]);
-          }
-        }}
-      />
-
-      <h3>Price Options</h3>
-
-      {items.map((item, index) => (
-        <div key={index} style={{ marginBottom: "10px" }}>
+      <div className="row w-100 d-flex justify-content-around">
+        <div className="admin-container">
+          <h2 className="admin-header">Events Admin Panel</h2>
           <input
             type="text"
-            placeholder="Item Title"
-            value={item.itemName}
-            onChange={(e) =>
-              handleItemChange(index, "itemName", e.target.value)
-            }
+            placeholder="Main Event Title"
+            value={eventTitle}
+            onChange={(e) => setEventTitle(e.target.value)}
           />
-
+          <br />
+          <textarea
+            className="description-input"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <br />
           <input
-            type="text"
-            placeholder="Price"
-            value={item.price}
-            onChange={(e) => handleItemChange(index, "price", e.target.value)}
-            style={{ marginLeft: "10px" }}
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              if (e.target.files) {
+                setImageFile(e.target.files[0]);
+              }
+            }}
           />
-        </div>
-      ))}
-
-      <button onClick={addItemField}>+ Add Another Price</button>
-
-      <br />
-      <br />
-
-      <button onClick={handleSubmit}>Save Event</button>
-      <hr />
-      <h3>Existing Events</h3>
-
-      {events.map((event) => (
-        <div
-          key={event.id}
-          style={{
-            marginBottom: "20px",
-            border: "1px solid black",
-            padding: "10px",
-          }}
-        >
-          <h4>{event.eventTitle}</h4>
-
-          {event.items?.map((item: any, index: number) => (
-            <p key={index}>
-              {item.itemName} — {item.price}
-            </p>
+          <h3>Price Options</h3>
+          <div className="item-input">
+            {items.map((item, index) => (
+              <div className="item-row" key={index}>
+                <input
+                  className="input-event"
+                  type="text"
+                  placeholder="Item Title"
+                  value={item.name}
+                  onChange={(e) =>
+                    handleItemChange(index, "name", e.target.value)
+                  }
+                />
+                <input
+                  className="input-event"
+                  type="text"
+                  placeholder="Price"
+                  value={item.price}
+                  onChange={(e) =>
+                    handleItemChange(index, "price", e.target.value)
+                  }
+                />
+              </div>
+            ))}
+          </div>
+          <button className="admin-btn" onClick={addItemField}>
+            + Add Another Price
+          </button>
+          <br />
+          <br />
+          <button className="admin-btn" onClick={handleSubmit}>
+            Save Event
+          </button>
+          <hr />
+          <h3>Existing Events</h3>
+          {events.map((event) => (
+            <div key={event.id}>
+              {editingId === event.id ? (
+                <div className="edit-container">
+                  <input
+                    type="text"
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                  />
+                  <textarea
+                    value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)}
+                  />
+                  {editItems.map((item, index) => (
+                    <div className="item-row" key={index}>
+                      <input
+                        type="text"
+                        value={item.name}
+                        onChange={(e) => {
+                          const updatedItems = [...editItems];
+                          updatedItems[index].name = e.target.value;
+                          setEditItems(updatedItems);
+                        }}
+                      />
+                      <input
+                        type="text"
+                        value={item.price}
+                        onChange={(e) => {
+                          const updatedItems = [...editItems];
+                          updatedItems[index].price = e.target.value;
+                          setEditItems(updatedItems);
+                        }}
+                      />
+                    </div>
+                  ))}
+                  <div className="event-actions">
+                    <button
+                      className="admin-btn edit-btn"
+                      onClick={() => handleSaveEdit(event.id)}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="admin-btn cancel-btn"
+                      onClick={() => setEditingId(null)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <h4>{event.eventTitle}</h4>
+                  <p>{event.description}</p>
+                  {event.items?.map((item: eventItem, index: number) => (
+                    <div className="item-row" key={index}>
+                      <span>{item.name}</span>
+                      <span>{item.price}</span>
+                    </div>
+                  ))}
+                  <div className="event-actions">
+                    <button
+                      className="admin-btn edit-btn"
+                      onClick={() => handleEdit(event)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="admin-btn delete-btn"
+                      onClick={() => handleDelete(event.id, event.imagePath)}
+                    >
+                      Delete Event
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           ))}
-
-          <button onClick={() => handleDelete(event.id)}>Delete Event</button>
         </div>
-      ))}
+        <div className="admin-container">
+          <h2 className="admin-header">Admin Brotherhood Events</h2>
+        </div>
+      </div>
     </div>
   );
 }
