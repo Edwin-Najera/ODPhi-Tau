@@ -4,7 +4,7 @@ import {
   browserSessionPersistence,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth } from "../components/firebase";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -15,8 +15,23 @@ function Login() {
   const handleLogin = async () => {
     try {
       await setPersistence(auth, browserSessionPersistence);
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/Onlybros");
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
+
+      const tokenResult = await user.getIdTokenResult();
+      const role = tokenResult.claims.role;
+
+      if (role === "active" || role === "admin") {
+        navigate("/Onlybros");
+      } else if (role === "alumni" || role === "bro") {
+        navigate("/Alumni");
+      } else {
+        alert("No role assigned, contact admin");
+      }
     } catch (error) {
       alert("Invalid Login");
       console.error(error);

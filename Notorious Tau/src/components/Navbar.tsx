@@ -1,3 +1,4 @@
+import UserInfo from "./Admin/UserInfo";
 import "./global.css";
 import Logo from "./Photos/T.png";
 import { Link } from "react-router-dom";
@@ -19,22 +20,27 @@ function Navbar() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbar-open">
-          <div
-            className="d-flex navbar-nav justify-contents-center ms-auto"
-            id="nav-items"
-          >
-            <div className="nav-link">About</div>
-            <Link to="/Gallery" className="nav-link">
-              Gallery
-            </Link>
-            <div className="nav-link">Service</div>
-            <Link to="/Onlybros" className="nav-link">
-              Brothers Only
-            </Link>
-            <Link to="/Contact" className="nav-link">
-              Contact
-            </Link>
+        <div className="navbar-col">
+          <div className="ms-auto d-flex">
+            <UserInfo />
+          </div>
+          <div className="collapse navbar-collapse" id="navbar-open">
+            <div
+              className="d-flex navbar-nav justify-contents-center ms-auto"
+              id="nav-items"
+            >
+              <div className="nav-link">About</div>
+              <Link to="/Gallery" className="nav-link">
+                Gallery
+              </Link>
+              <div className="nav-link">Service</div>
+              <Link to="/Onlybros" className="nav-link">
+                Brothers Only
+              </Link>
+              <Link to="/Contact" className="nav-link">
+                Contact
+              </Link>
+            </div>
           </div>
         </div>
       </div>

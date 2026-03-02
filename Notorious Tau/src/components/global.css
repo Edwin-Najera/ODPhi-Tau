@@ -2,7 +2,7 @@
 
 /*  Navbar.tsx  */
 #navbar {
-  height: 60px;
+  height: 100px;
   top: 0;
   width: 100%;
   background-color: rgb(200, 59, 59);
@@ -10,16 +10,24 @@
   font-size: 1.2em;
   font-weight: bold;
   @media (max-width: 990px) {
-    top: 0px;
-    height: 90px;
+    top: 0;
+    height: 120px;
     justify-content: center;
   }
+}
+
+.navbar-col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: end;
 }
 
 #nav-items {
   cursor: pointer;
   @media (max-width: 990px) {
-    padding: 5%;
+    padding: 2%;
+    width: 100%;
     border-bottom-left-radius: 3rem;
     border-bottom-right-radius: 3rem;
     justify-self: end;
@@ -529,27 +537,39 @@ a.click-button {
   padding-top: 50px;
   flex-direction: column;
   align-items: start;
-  border: solid red;
   @media (max-width: 992px) {
     align-items: center;
     justify-content: center;
   }
 }
+
+.admin-panels-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+  }
+}
+/*  AdminPanel.tsx  */
 .admin-container {
   display: flex;
   flex-direction: column;
   max-width: 600px;
-  width: 40vw;
+  width: 95%;
   margin: 40px auto;
   padding: 10px;
   background: white;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   @media (max-width: 992px) {
-    width: 95%;
+    max-width: 95%;
+    width: 100%;
     margin: 0;
     padding: 0;
-    border: solid red;
   }
 }
 
@@ -558,6 +578,7 @@ a.click-button {
   justify-content: space-between;
   align-items: center;
   align-self: center;
+  text-align: center;
 }
 
 .admin-button {
@@ -604,6 +625,22 @@ a.click-button {
   color: black;
 }
 
+.price-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.price-wrapper span {
+  margin-left: 5px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.price-input {
+  width: 100px;
+}
+
 .delete-btn {
   background-color: #ff4d4d;
   color: white;
@@ -615,18 +652,37 @@ a.click-button {
   margin-right: 10px;
 }
 
-.logout-btn {
-  background-color: #222;
-  color: white;
-  max-width: fit-content;
-  @media (max-width: 992px) {
-    align-self: start;
-  }
-}
-
 .edit-container {
   display: flex;
   flex-direction: column;
+}
+/*    PreLogin.tsx */
+.prelogin-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  max-width: 100%;
+  height: 100%;
+  padding: 50px;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    gap: 25px;
+  }
+}
+.active-alumni-btn {
+  border: 3px solid black;
+  cursor: pointer;
+  padding: 50px 100px;
+  border-radius: 3em;
+  background-color: red;
+  color: silver;
+  text-decoration: none;
+  font-size: 2em;
+  font-weight: 800;
+  -webkit-text-stroke: 3px black;
+  paint-order: stroke;
 }
 /*    Login.tsx   */
 .login-form {
@@ -644,5 +700,57 @@ a.click-button {
   margin: 25px;
   justify-content: center;
   text-align: center;
+  @media (max-width: 992px) {
+    width: 75%;
+  }
 }
+
+/*  AssignRole.tsx  */
+.assign-role-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 50%;
+  margin: 10px 12px;
+  padding: 10px 12px;
+  align-self: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+}
+
+.assign-role-container h2 {
+  text-align: center;
+}
+
+.uid-input {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.role-input {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/*  UserInfo.tsx   */
+.user-info-container {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.75em;
+  @media (max-width: 992px) {
+    margin: 5px 0 5px 0;
+  }
+}
+
+.logout-btn {
+  background-color: #ffffff;
+  color: white;
+  max-width: fit-content;
+  padding: 1px 10px;
+  margin: 0 5px;
+  border-radius: 4px;
+  border: solid black;
+  color: black;
+}
+
 /*            This and below will be for the Meet The bros            */
