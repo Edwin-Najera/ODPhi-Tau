@@ -8,7 +8,7 @@ function Onlybros() {
 
   return (
     <div className="admin-page">
-      <div className="admin-page-swap" onClick={() => navigate("./Alumni")}>
+      <div className="admin-page-swap" onClick={() => navigate("/Alumni")}>
         Go To Alumni Page
       </div>
       <div className="admin-panels-container">
