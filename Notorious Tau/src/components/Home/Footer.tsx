@@ -1,5 +1,5 @@
 import { Fragment } from "react/jsx-runtime";
-import "./global.css";
+import "../global.css";
 
 function Footer() {
   return (

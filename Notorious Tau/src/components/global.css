@@ -585,6 +585,12 @@ a.click-button {
   }
 }
 
+.admin-page-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
 .admin-page-swap {
   padding: 5px 10px;
   background-color: red;
@@ -594,7 +600,8 @@ a.click-button {
   font-weight: 500;
   color: silver;
   cursor: pointer;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
+  width: fit-content;
 }
 
 .admin-panels-container {
@@ -636,7 +643,7 @@ a.click-button {
   text-align: center;
 }
 
-.admin-button {
+.admin-btn {
   padding: 8px 14px;
   border: none;
   border-radius: 6px;

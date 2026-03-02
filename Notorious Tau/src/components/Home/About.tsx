@@ -1,4 +1,4 @@
-import tau from "./Photos/T.png";
+import tau from "../Photos/T.png";
 
 function About() {
   return (

@@ -1,6 +1,6 @@
 import { Fragment } from "react/jsx-runtime";
 import { FaInstagramSquare } from "react-icons/fa";
-import "./global.css";
+import "../global.css";
 
 function MGC() {
   return (

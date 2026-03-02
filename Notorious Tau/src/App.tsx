@@ -8,8 +8,8 @@ import Gallery from "./pages/Gallery";
 import Login from "./pages/Login";
 import Onlybros from "./pages/Onlybros";
 import Contact from "./pages/Contact";
-import Alumni from "./components/Admin/Alumni";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Alumni from "./components/Brotherhood/Alumni";
+import ProtectedRoute from "./components/Admin/ProtectedRoute";
 
 function App() {
   return (

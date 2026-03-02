@@ -1,6 +1,6 @@
 import { Fragment } from "react/jsx-runtime";
 import { useInView } from "react-intersection-observer";
-import "./global.css";
+import "../global.css";
 
 function School() {
   const { ref: myRef, inView: visibleElement } = useInView({

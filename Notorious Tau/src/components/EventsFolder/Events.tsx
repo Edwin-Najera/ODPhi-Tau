@@ -1,7 +1,7 @@
 import "../global.css";
 import { useEffect, useState } from "react";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../Admin/firebase";
 import type { Event } from "./eventData";
 
 function Events() {

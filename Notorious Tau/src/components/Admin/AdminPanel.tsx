@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
-import { db, storage } from "../firebase";
+import { db, storage } from "./firebase";
 import {
   collection,
   addDoc,
@@ -23,16 +23,24 @@ type Props = {
   collectionName: string;
   panelTitle: string;
   hasItems: boolean;
+  hasDate: boolean;
 };
 
-function AdminPanel({ collectionName, panelTitle, hasItems }: Props) {
+function AdminPanel({
+  collectionName,
+  panelTitle,
+  hasItems = false,
+  hasDate = false,
+}: Props) {
   const [eventTitle, setEventTitle] = useState(""); //For Title of the Event *REQUIRED*
   const [items, setItems] = useState([{ name: "", price: "" }]); //For items and prices of items
   const [description, setDescription] = useState(""); //For description of the event
   const [events, setEvents] = useState<any[]>([]); //List of all events
+  const [eventDate, setEventDate] = useState<Date | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
+  const [editDate, setEditDate] = useState<Date | null>(null);
   const [editItems, setEditItems] = useState<{ name: string; price: string }[]>(
     [],
   );
@@ -74,6 +82,7 @@ function AdminPanel({ collectionName, panelTitle, hasItems }: Props) {
     setEditTitle(event.eventTitle);
     setEditDescription(event.description || "");
     setEditItems(event.items || []);
+    setEditDate(event.eventDate);
   };
 
   const handleSaveEdit = async (eventId: string) => {
@@ -85,6 +94,9 @@ function AdminPanel({ collectionName, panelTitle, hasItems }: Props) {
 
       if (hasItems) {
         updateData.items = editItems;
+      }
+      if (hasDate) {
+        updateData.date = editDate;
       }
 
       await updateDoc(doc(db, collectionName, eventId), updateData);
@@ -138,6 +150,9 @@ function AdminPanel({ collectionName, panelTitle, hasItems }: Props) {
       if (hasItems) {
         newEvent.items = items;
       }
+      if (hasDate) {
+        newEvent.date = eventDate;
+      }
 
       await addDoc(collection(db, collectionName), newEvent);
 
@@ -159,23 +174,40 @@ function AdminPanel({ collectionName, panelTitle, hasItems }: Props) {
           value={eventTitle}
           onChange={(e) => setEventTitle(e.target.value)}
         />
-        <br />
-        <textarea
-          className="description-input"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <br />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => {
-            if (e.target.files) {
-              setImageFile(e.target.files[0]);
-            }
-          }}
-        />
+        {!hasDate && (
+          <Fragment>
+            <br />
+            <textarea
+              className="description-input"
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </Fragment>
+        )}
+        {hasDate && (
+          <Fragment>
+            <br />
+            <input
+              type="date"
+              value={eventDate ? eventDate.toISOString().split("T")[0] : []}
+            />
+          </Fragment>
+        )}
+        {!hasDate && (
+          <Fragment>
+            <br />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files) {
+                  setImageFile(e.target.files[0]);
+                }
+              }}
+            />
+          </Fragment>
+        )}
         {hasItems && (
           <Fragment>
             <h3>Price Options</h3>
@@ -214,7 +246,7 @@ function AdminPanel({ collectionName, panelTitle, hasItems }: Props) {
           </Fragment>
         )}
         <br />
-        <br />
+        {!hasDate && <br />}
         <button className="admin-btn" onClick={handleSubmit}>
           Save Event
         </button>
@@ -234,6 +266,17 @@ function AdminPanel({ collectionName, panelTitle, hasItems }: Props) {
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
                 />
+                {hasDate && (
+                  <Fragment>
+                    <br />
+                    <input
+                      type="date"
+                      value={
+                        eventDate ? eventDate.toISOString().split("T")[0] : []
+                      }
+                    />
+                  </Fragment>
+                )}
                 {hasItems &&
                   editItems.map((item, index) => (
                     <div className="item-row" key={index}>
@@ -281,6 +324,16 @@ function AdminPanel({ collectionName, panelTitle, hasItems }: Props) {
               <div>
                 <h4>{event.eventTitle}</h4>
                 <p>{event.description}</p>
+                {hasDate && event.date && (
+                  <p>
+                    <strong>Date</strong>{" "}
+                    {new Date(
+                      event.date.seconds
+                        ? event.date.seconds * 1000
+                        : event.date,
+                    ).toLocaleDateString()}
+                  </p>
+                )}
                 {hasItems &&
                   event.items?.map((item: EventItem, index: number) => (
                     <div className="item-row" key={index}>
