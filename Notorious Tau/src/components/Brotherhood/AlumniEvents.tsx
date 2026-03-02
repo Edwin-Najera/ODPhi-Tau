@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../Admin/firebase";
-import { useNavigate } from "react-router-dom";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "../Admin/firebase";
 import type { Event } from "../EventsFolder/eventData";
 import "../global.css";
-import AlumniEvents from "./AlumniEvents";
-import AlumniUpdates from "./AlumniUpdates";
 
-function Alumni() {
+function AlumniEvents() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
-  const [userRole, setUserRole] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -43,23 +36,8 @@ function Alumni() {
       }
     };
 
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      const tokenResult = await user?.getIdTokenResult();
-      setUserRole(tokenResult?.claims.role as string);
-    });
-
     fetchEvents();
-
-    return () => unsubscribe();
   }, []);
-
-  const handleNavigate = async () => {
-    if (userRole !== "admin") {
-      alert("Cannot Navigate to admin page");
-    } else {
-      navigate("/Onlybros");
-    }
-  };
 
   if (loading) {
     return (
@@ -72,17 +50,24 @@ function Alumni() {
   }
 
   return (
-    <div className="alumni-page">
-      <button className="return-admin" onClick={handleNavigate}>
-        Admin Page
-      </button>
-      <h1 className="alumni-page-header">Welcome to The Tau Alumni Page</h1>
-      <div className="alumni-newsletter">
-        <AlumniEvents />
-        <AlumniUpdates />
-      </div>
+    <div className="alumni-events">
+      <h3 className="alumni-header">Important Events & Dates</h3>
+      {events.map((event, index) => (
+        <div key={index} className="alumni-event-container">
+          <div className="alumni-event-title">{event.eventTitle}</div>
+          <div className="alumni-event-date">
+            {event.date?.toLocaleString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
 
-export default Alumni;
+export default AlumniEvents;

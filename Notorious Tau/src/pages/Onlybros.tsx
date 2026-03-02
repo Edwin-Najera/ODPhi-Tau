@@ -38,12 +38,20 @@ function Onlybros() {
         </div>
       </div>
       <div className="admin-panels-container">
-        <div className="col">
+        <div className="col-xl">
           <AdminPanel
             collectionName="alumni"
             panelTitle="Alumni Event Admin Panel"
             hasItems={false}
             hasDate={true}
+          />
+        </div>
+        <div className="col-xl">
+          <AdminPanel
+            collectionName="campus"
+            panelTitle="Campus Updates"
+            hasItems={false}
+            hasDate={false}
           />
         </div>
       </div>

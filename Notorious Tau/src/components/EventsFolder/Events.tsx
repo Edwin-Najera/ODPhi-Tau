@@ -40,6 +40,7 @@ function Events() {
       </div>
     );
   }
+
   return (
     <div id="events-container">
       {events.map((event, index) => (
