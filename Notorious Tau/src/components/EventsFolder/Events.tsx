@@ -55,7 +55,7 @@ function Events() {
           <div>
             {/* We will ask the user the event title and the description such that it will be displayed here */}
             <div className="card-text">
-              <h1 id="event-title">{event.title}</h1>
+              <h1 id="event-title">{event.eventTitle}</h1>
               <div>
                 <p>{event.description}</p>
                 <h5>Prices below</h5>

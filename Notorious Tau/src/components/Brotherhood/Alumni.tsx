@@ -24,6 +24,7 @@ function Alumni() {
       navigate("/Onlybros");
     }
   };
+
   return (
     <div className="alumni-page">
       <button className="return-admin" onClick={handleNavigate}>

@@ -1,10 +1,10 @@
 import { Fragment } from "react/jsx-runtime";
-import IntroSec from "../components/IntroSec";
+import IntroSec from "../components/Home/IntroSec";
 import Events from "../components/EventsFolder/Events";
-import About from "../components/About";
-import MGC from "../components/mgc";
-import School from "../components/School";
-import Footer from "../components/Footer";
+import About from "../components/Home/About";
+import MGC from "../components/Home/mgc";
+import School from "../components/Home/School";
+import Footer from "../components/Home/Footer";
 
 function App() {
   return (

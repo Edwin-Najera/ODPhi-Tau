@@ -9,18 +9,19 @@ export type EventItem = {
 
 export type Event = {
     id: string;
-    title: string;
-    description: string;
-    imageURL: string;
-    imagePath: string;
+    eventTitle: string;
+    description?: string;
+    imageURL?: string;
+    imagePath?: string;
     items?: EventItem[];
+    date?: Date;
     createdAt: any;
 }
 
 
 export const eventData: Event[] = [{
     id: "1203",
-    title: "Conchas con Cafe",
+    eventTitle: "Conchas con Cafe",
     imageURL: fundraiser,
     imagePath: "Something",
     description: "Too cold and need something to warm you up? 🔥 Stop by on Tuesday, February 24, and treat yourself to a concha (or two😏) with some delicious Abuelita hot chocolate☕️! The Notorious Tau Chapter of Omega Delta Phi will be at the UC Mall from 11 AM to 2 PM. We hope to see you there and as always, stay hype! 🔥",
@@ -31,7 +32,7 @@ export const eventData: Event[] = [{
     createdAt: "any"
 }, {
     id: "19394",
-    title: "Another event",
+    eventTitle: "Another event",
     imageURL: somePhoto,
     imagePath: "Something",
     description: "This is a random description. I have to make the description long in order for the title to not be cut",

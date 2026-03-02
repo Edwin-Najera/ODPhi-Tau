@@ -35,12 +35,14 @@ function AdminPanel({
   const [eventTitle, setEventTitle] = useState(""); //For Title of the Event *REQUIRED*
   const [items, setItems] = useState([{ name: "", price: "" }]); //For items and prices of items
   const [description, setDescription] = useState(""); //For description of the event
-  const [events, setEvents] = useState<any[]>([]); //List of all events
-  const [eventDate, setEventDate] = useState<Date | null>(null);
+  const [events, setEvents] = useState<Event[]>([]); //List of all events
+  const [eventDate, setEventDate] = useState<string>("");
+  const [eventTime, setEventTime] = useState<string>("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
-  const [editDate, setEditDate] = useState<Date | null>(null);
+  const [editDate, setEditDate] = useState<string>("");
+  const [editTime, setEditTime] = useState<string>("");
   const [editItems, setEditItems] = useState<{ name: string; price: string }[]>(
     [],
   );
@@ -53,13 +55,14 @@ function AdminPanel({
       orderBy("createdAt", "desc"),
     );
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const eventList = snapshot.docs.map((doc) => {
-        const data = doc.data() as Omit<Event, "id">;
+      const eventList: Event[] = snapshot.docs.map((doc) => {
+        const rawData = doc.data();
 
         return {
           id: doc.id,
-          ...data,
-        };
+          ...rawData,
+          date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
+        } as Event;
       });
       setEvents(eventList);
     });
@@ -67,10 +70,12 @@ function AdminPanel({
   }, [collectionName]);
 
   //Handles the deleting of events
-  const handleDelete = async (eventId: string, imagePath: string) => {
+  const handleDelete = async (eventId: string, imagePath?: string) => {
     //Deleting image from database
-    const imageRef = ref(storage, imagePath);
-    await deleteObject(imageRef);
+    if (!hasDate) {
+      const imageRef = ref(storage, imagePath);
+      await deleteObject(imageRef);
+    }
 
     //Deleting Firestore document
     await deleteDoc(doc(db, collectionName, eventId));
@@ -82,23 +87,48 @@ function AdminPanel({
     setEditTitle(event.eventTitle);
     setEditDescription(event.description || "");
     setEditItems(event.items || []);
-    setEditDate(event.eventDate);
+    if (event.date) {
+      const dateObj = event.date.toDate()
+        ? event.date.toDate()
+        : new Date(event.date);
+
+      const formattedDate = dateObj.toISOString().split("T")[0];
+      const formattedTime = dateObj.toTimeString().slice(0, 5);
+
+      setEditDate(formattedDate);
+      setEditTime(formattedTime);
+    }
   };
 
   const handleSaveEdit = async (eventId: string) => {
     try {
       const updateData: any = {
         eventTitle: editTitle,
-        description: editDescription,
       };
 
       if (hasItems) {
         updateData.items = editItems;
       }
       if (hasDate) {
-        updateData.date = editDate;
+        if (!editDate || !editTime) {
+          alert("Date and Time Required");
+          return;
+        }
+
+        const combinedDateTime = new Date(`${editDate}T${editTime}`);
+
+        if (isNaN(combinedDateTime.getTime())) {
+          alert("Invalid Date/Time");
+          return;
+        }
+
+        updateData.date = combinedDateTime;
+      } else {
+        updateData.description = editDescription;
       }
 
+      console.log("editDate", editDate);
+      console.log("parsed", new Date(editDate));
       await updateDoc(doc(db, collectionName, eventId), updateData);
 
       setEditingId(null);
@@ -127,31 +157,57 @@ function AdminPanel({
       alert("Event Title Required");
       return;
     }
-    if (!imageFile) {
+    if (!imageFile && !hasDate) {
       alert("Image File required");
       return;
     }
+    if (hasDate && eventDate === "") {
+      alert("Event date Required");
+      return;
+    }
 
-    const imagePath = `events/${Date.now()}-${imageFile.name}`;
-    const imageRef = ref(storage, imagePath);
+    let imagePath = "";
+    let downloadURL = "";
 
-    await uploadBytes(imageRef, imageFile);
-    const downloadURL = await getDownloadURL(imageRef);
+    if (imageFile) {
+      imagePath = `events/${Date.now()}-${imageFile?.name}`;
+      const imageRef = ref(storage, imagePath);
+
+      await uploadBytes(imageRef, imageFile);
+
+      downloadURL = await getDownloadURL(imageRef);
+    }
 
     try {
       const newEvent: any = {
         eventTitle,
-        description,
-        imageURL: downloadURL,
-        imagePath: imagePath,
         createdAt: new Date(),
       };
+
+      if (imageFile) {
+        newEvent.imageURL = downloadURL;
+        newEvent.imagePath = imagePath;
+      }
 
       if (hasItems) {
         newEvent.items = items;
       }
       if (hasDate) {
-        newEvent.date = eventDate;
+        if (!eventDate || !eventTime) {
+          alert("Date and Time Required");
+          return;
+        }
+
+        const combinedDateTime = new Date(`${eventDate}T${eventTime}`);
+
+        if (isNaN(combinedDateTime.getTime())) {
+          alert("Invalid Date/Time");
+          return;
+        }
+
+        newEvent.date = combinedDateTime;
+      } else {
+        newEvent.description = description;
       }
 
       await addDoc(collection(db, collectionName), newEvent);
@@ -159,11 +215,14 @@ function AdminPanel({
       alert("Event Added");
       setEventTitle("");
       setDescription("");
+      setEventDate("");
+      setEventTime("");
       setItems([{ name: "", price: "" }]);
     } catch (error) {
       console.error("Error adding event: ", error);
     }
   };
+
   return (
     <div className="row w-100 d-flex justify-content-around">
       <div className="admin-container">
@@ -190,7 +249,16 @@ function AdminPanel({
             <br />
             <input
               type="date"
-              value={eventDate ? eventDate.toISOString().split("T")[0] : []}
+              value={eventDate}
+              onChange={(e) => {
+                setEventDate(e.target.value);
+              }}
+            />
+            <br />
+            <input
+              type="time"
+              value={eventTime}
+              onChange={(e) => setEventTime(e.target.value)}
             />
           </Fragment>
         )}
@@ -261,19 +329,26 @@ function AdminPanel({
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
                 />
-                <textarea
-                  className="description-input"
-                  value={editDescription}
-                  onChange={(e) => setEditDescription(e.target.value)}
-                />
+                {!hasDate && (
+                  <textarea
+                    className="description-input"
+                    value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)}
+                  />
+                )}
                 {hasDate && (
                   <Fragment>
                     <br />
                     <input
                       type="date"
-                      value={
-                        eventDate ? eventDate.toISOString().split("T")[0] : []
-                      }
+                      value={editDate}
+                      onChange={(e) => setEditDate(e.target.value)}
+                    />
+                    <br />
+                    <input
+                      type="time"
+                      value={editTime}
+                      onChange={(e) => setEditTime(e.target.value)}
                     />
                   </Fragment>
                 )}
@@ -327,11 +402,13 @@ function AdminPanel({
                 {hasDate && event.date && (
                   <p>
                     <strong>Date</strong>{" "}
-                    {new Date(
-                      event.date.seconds
-                        ? event.date.seconds * 1000
-                        : event.date,
-                    ).toLocaleDateString()}
+                    {new Date(event.date).toLocaleString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
                   </p>
                 )}
                 {hasItems &&
