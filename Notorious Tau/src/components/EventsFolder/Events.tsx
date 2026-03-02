@@ -1,12 +1,6 @@
 import "../global.css";
 import { useEffect, useState } from "react";
-import {
-  collection,
-  getDoc,
-  query,
-  orderBy,
-  getDocs,
-} from "firebase/firestore";
+import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import type { Event } from "./eventData";
 
@@ -37,6 +31,15 @@ function Events() {
     fetchEvents();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-ball" id="loading-one" />
+        <div className="loading-ball" id="loading-two" />
+        <div className="loading-ball" id="loading-three" />
+      </div>
+    );
+  }
   return (
     <div id="events-container">
       {events.map((event, index) => (
@@ -60,7 +63,7 @@ function Events() {
               This will update as the user adds it */}
                 <div id="event-prices">
                   <ul id="sell-items">
-                    {event.items.map((item, i) => (
+                    {event.items?.map((item, i) => (
                       <li key={i}>
                         <span className="item-name">{item.name}</span>
                         <span className="item-price">${item.price}</span>

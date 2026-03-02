@@ -142,9 +142,9 @@ body {
 @keyframes bounce {
   0%,
   100% {
-    transform: rotate(45deg) translate(0, 0);
+    transform: rotate(45deg) translate(10px, 10px);
   }
   50% {
-    transform: rotate(45deg) translate(15px, 15px);
+    transform: rotate(45deg) translate(25px, 25px);
   }
 }

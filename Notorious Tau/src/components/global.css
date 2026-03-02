@@ -231,6 +231,49 @@
   gap: 2em;
 }
 
+.loading-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  max-width: 100%;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+.loading-ball {
+  border-radius: 100%;
+  width: 100px;
+  height: 100px;
+  background-color: silver;
+}
+
+#loading-one {
+  animation: bounceInfinite 1s ease-in-out infinite;
+  animation-delay: 200ms;
+}
+
+#loading-two {
+  animation: bounceInfinite 1s ease-in-out infinite;
+  animation-delay: 500ms;
+}
+
+#loading-three {
+  animation: bounceInfinite 1s ease-in-out infinite;
+  animation-delay: 800ms;
+}
+
+@keyframes bounceInfinite {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25px);
+  }
+}
+
 .card-container {
   display: flex;
   flex-direction: row;
@@ -727,11 +770,14 @@ a.click-button {
 }
 
 .logout-btn {
+  display: flex;
+  align-items: center;
   background-color: #ffffff;
   color: white;
   max-width: fit-content;
+  height: 20px;
   padding: 1px 10px;
-  margin: 0 5px;
+  margin: 2px 5px;
   border-radius: 4px;
   border: solid black;
   color: black;
@@ -747,6 +793,18 @@ a.click-button {
   border: solid black;
   justify-content: center;
   align-items: center;
+}
+
+.return-admin {
+  background-color: #ffffff;
+  color: white;
+  max-width: fit-content;
+  padding: 1px 10px;
+  margin: 0 5px;
+  border-radius: 4px;
+  border: solid black;
+  color: black;
+  align-self: start;
 }
 
 .alumni-header {
