@@ -1,23 +1,16 @@
 import AdminPanel from "../components/Admin/AdminPanel";
-import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { auth } from "../components/firebase";
 import AssignRole from "../components/Admin/AssignRole";
 import "../components/global.css";
+import { useNavigate } from "react-router-dom";
 
 function Onlybros() {
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout Error:", error);
-    }
-  };
   return (
     <div className="admin-page">
+      <div className="admin-page-swap" onClick={() => navigate("./Alumni")}>
+        Go To Alumni Page
+      </div>
       <div className="admin-panels-container">
         <div className="col">
           <AdminPanel

@@ -8,7 +8,6 @@ import Gallery from "./pages/Gallery";
 import Login from "./pages/Login";
 import Onlybros from "./pages/Onlybros";
 import Contact from "./pages/Contact";
-import PreLogin from "./pages/PreLogin";
 import Alumni from "./components/Admin/Alumni";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -20,7 +19,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Mtb" element={<Mtb />} />
         <Route path="/Gallery" element={<Gallery />} />
-        <Route path="/PreLogin" element={<PreLogin />} />
         <Route path="/login" element={<Login />} />
         <Route
           path="/Onlybros"

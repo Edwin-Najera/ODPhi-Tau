@@ -24,7 +24,7 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
       </div>
     );
 
-  return user ? children : <Navigate to="/PreLogin" />;
+  return user ? children : <Navigate to="/Login" />;
 }
 
 export default ProtectedRoute;

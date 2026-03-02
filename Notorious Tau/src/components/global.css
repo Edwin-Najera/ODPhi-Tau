@@ -543,6 +543,17 @@ a.click-button {
   }
 }
 
+.admin-page-swap {
+  padding: 5px 10px;
+  background-color: red;
+  margin-left: 3%;
+  border-radius: 12px;
+  font-size: 1.25em;
+  font-weight: 500;
+  color: silver;
+  cursor: pointer;
+}
+
 .admin-panels-container {
   display: flex;
   flex-direction: row;
