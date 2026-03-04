@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import type { Event } from "../EventsFolder/eventData";
 import "../global.css";
-import "../global.css";
 import Popup from "../Admin/Popup";
 
 function Alumni() {
@@ -15,13 +14,14 @@ function Alumni() {
   const [events, setEvents] = useState<Event[]>([]);
   const [updates, setUpdates] = useState<Event[]>([]);
   const [gallery, setGallery] = useState<Event[]>([]);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const eventsSnap = await getDocs(
-          query(collection(db, "alumni"), orderBy("createdAt", "desc")),
+          query(collection(db, "alumni"), orderBy("date", "asc")),
         );
         const updatesSnap = await getDocs(
           query(collection(db, "campus"), orderBy("createdAt", "desc")),
@@ -52,12 +52,14 @@ function Alumni() {
           })),
         );
 
-        setGallery(
-          gallerySnap.docs.map((doc) => ({
+        const alumniGallery = gallerySnap.docs
+          .map((doc) => ({
             id: doc.id,
             ...(doc.data() as Omit<Event, "id">),
-          })),
-        );
+          }))
+          .filter((event) => event.id.startsWith("alumni_"));
+
+        setGallery(alumniGallery);
       } catch (error) {
         console.error("Error fetching events", error);
       } finally {
@@ -80,9 +82,20 @@ function Alumni() {
     if (userRole === "admin" || userRole === "active") {
       navigate("/Onlybros");
     } else {
+      setMessage("Only Admin and Actives allowed");
       setShowPopup(true);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-ball" id="loading-one" />
+        <div className="loading-ball" id="loading-two" />
+        <div className="loading-ball" id="loading-three" />
+      </div>
+    );
+  }
 
   return (
     <div className="alumni-page">
@@ -91,7 +104,7 @@ function Alumni() {
       </button>
       {showPopup && (
         <Popup
-          message="Only Admin and Actives can go to admin page"
+          message={message}
           onClose={() => setShowPopup(false)}
           collectionName=""
           autoClose={true}
@@ -127,8 +140,8 @@ function Alumni() {
             </div>
           ))}
         </div>
-        <div>
-          <h3 className="month-recap-gallery">Month Recap</h3>
+        <div className="alumni-events">
+          <h3 className="alumni-header">Month Recap</h3>
           {gallery.map((event, index) => (
             <div key={index} className="alumni-image-container">
               <div className="alumni-event-title">{event.eventTitle}</div>

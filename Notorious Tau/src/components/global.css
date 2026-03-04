@@ -890,14 +890,25 @@ a.click-button {
   border: solid purple;
   width: 100%;
   gap: 15px;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .alumni-events {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%;
+  width: 33%;
+  max-height: 750px;
+  gap: 50px;
+  overflow-y: auto;
   border: solid red;
+  @media (max-width: 992px) {
+    width: 100%;
+    max-height: 250px;
+  }
 }
 
 .alumni-event-container {

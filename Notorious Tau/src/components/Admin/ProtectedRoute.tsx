@@ -15,15 +15,15 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
     return () => unsubscribe();
   }, []);
 
-  if (loading)
+  if (loading) {
     return (
-      <div>
-        <div />
-        <div />
-        <div />
+      <div className="loading-container">
+        <div className="loading-ball" id="loading-one" />
+        <div className="loading-ball" id="loading-two" />
+        <div className="loading-ball" id="loading-three" />
       </div>
     );
-
+  }
   return user ? children : <Navigate to="/Login" />;
 }
 
