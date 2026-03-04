@@ -34,7 +34,8 @@ function UserInfo() {
     }
   };
 
-  const username = userEmail?.split(".")[0];
+  let username = userEmail?.split("0")[0];
+  username = username?.split("0")[0];
   if (!userEmail) {
     return null;
   }

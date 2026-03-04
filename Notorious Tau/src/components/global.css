@@ -59,6 +59,7 @@
   height: 100%;
   width: 100%;
   @media (max-width: 992px) {
+    /* The rows will dynamically change as the max-width gets smaller and smaller */
     grid-template-areas:
       "lHalf"
       "rHalf";
@@ -79,7 +80,9 @@
   }
 }
 
+/* The left half and right half will overlap and have animations */
 #home-grid > #left-half {
+  /* The left hand is for text, will have the chapter and org name */
   grid-area: lHalf;
   align-content: center;
   position: relative;
@@ -93,6 +96,7 @@
 }
 
 #home-grid > #right-half {
+  /* Right side is dedicated to an image of the active house */
   grid-area: rHalf;
   background-color: black;
   overflow: hidden;
@@ -128,6 +132,7 @@
     background-position: 300px center;
   }
   @media (min-width: 990px) {
+    /* Whenever we are on a bigger screen we will make sure that the left hand will contain a background image */
     height: 100%;
     background-color: black;
     background-image: url(./Photos/outline.png);
@@ -142,6 +147,7 @@
 
 @keyframes fadeInRight {
   to {
+    /* This is for the image, allows the image to have an animation when loading the page */
     background-color: black;
     background-position: 50px -125px;
   }
@@ -187,6 +193,8 @@
 }
 
 #right-half img {
+  /* This is specifically for the image on the right half, 
+  This allows for the image to fade into the back and be able to blend seamlessly */
   position: absolute;
   inset: 0;
   width: 100%;
@@ -235,6 +243,8 @@
   gap: 2em;
 }
 
+/* The following, will be when the page is loading, 
+it will display a different page where it shows an animation to display loading*/
 .loading-container {
   display: flex;
   flex-direction: row;
@@ -867,8 +877,9 @@ a.click-button {
   color: black;
 }
 
-/*    Alumni.tsx    */
-.alumni-page {
+/*    Alumni.tsx   &  AllBros.tsx */
+.alumni-page,
+.all-bros-page {
   display: flex;
   flex-direction: column;
   width: 100vw;
@@ -883,22 +894,35 @@ a.click-button {
 }
 
 .return-admin {
+  position: fixed;
+  top: 2.75em;
   background-color: #ffffff;
   color: white;
   max-width: fit-content;
   padding: 1px 10px;
-  margin: 0 0 5px 0;
+  margin: 60px 0 5px 0;
   border-radius: 4px;
   border: solid black;
   color: black;
   align-self: start;
+  @media (max-width: 992px) {
+    top: 4em;
+  }
 }
 
-.alumni-page-header {
+.page-header {
+  position: fixed;
+  top: 3.5em;
   text-align: center;
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: fit-content;
+  padding: 5px 25px;
+  margin: 5px 25px;
   background-color: red;
+  z-index: 1000;
+  @media (max-width: 992px) {
+    top: 5.75em;
+  }
 }
 
 .alumni-newsletter {
@@ -907,9 +931,11 @@ a.click-button {
   padding: 50px 0;
   width: 100%;
   gap: 15px;
+  margin-top: 4.5em;
   @media (max-width: 992px) {
     flex-direction: column;
     align-items: center;
+    margin-top: 6.75em;
   }
 }
 
@@ -967,10 +993,11 @@ a.click-button {
   display: flex;
   flex-direction: row;
   border-bottom: solid black;
-  text-wrap: wrap;
+  flex-wrap: wrap;
   padding: 10px 20px;
   width: 95%;
   align-items: center;
+  z-index: 0;
 }
 
 .alumni-updates-container {
@@ -1000,8 +1027,16 @@ a.click-button {
   margin-left: 25px;
 }
 
-.alumni-updates {
-  border: solid black;
+.alumni-images {
+  flex-direction: row;
+  flex-wrap: wrap;
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
+}
+
+.recap-image {
+  width: 300px;
 }
 
 /*            This and below will be for the Meet The bros            */

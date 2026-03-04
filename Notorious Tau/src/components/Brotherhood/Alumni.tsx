@@ -20,14 +20,19 @@ function Alumni() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        //This is for fetching important events
         const eventsSnap = await getDocs(
           query(collection(db, "alumni"), orderBy("date", "asc")),
         );
+
+        //To fetch updates from the collection campus
         const updatesSnap = await getDocs(
           query(collection(db, "campus"), orderBy("createdAt", "desc")),
         );
+
+        //To fetch all images that are for the alumni gallery
         const gallerySnap = await getDocs(
-          query(collection(db, "gallery"), orderBy("createdAt", "desc")),
+          query(collection(db, "photos"), orderBy("createdAt", "desc")),
         );
 
         setEvents(
@@ -52,12 +57,14 @@ function Alumni() {
           })),
         );
 
-        const alumniGallery = gallerySnap.docs
-          .map((doc) => ({
-            id: doc.id,
-            ...(doc.data() as Omit<Event, "id">),
-          }))
-          .filter((event) => event.id.startsWith("alumni_"));
+        const gallery = gallerySnap.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<Event, "id">),
+        }));
+
+        const alumniGallery = gallery.filter((event) =>
+          event.id.startsWith("alumni_"),
+        );
 
         setGallery(alumniGallery);
       } catch (error) {
@@ -75,8 +82,6 @@ function Alumni() {
     fetchData();
     return () => unsubscribe();
   }, []);
-
-  useEffect(() => {}, []);
 
   const handleNavigate = async () => {
     if (userRole === "admin" || userRole === "active") {
@@ -110,7 +115,7 @@ function Alumni() {
           autoClose={true}
         />
       )}
-      <h1 className="alumni-page-header">Welcome to The Tau Alumni Page</h1>
+      <h1 className="page-header">Welcome to The Tau Alumni Page</h1>
       <div className="alumni-newsletter">
         <div className="alumni-events">
           <h3 className="alumni-header">Important Events & Dates</h3>
@@ -140,7 +145,7 @@ function Alumni() {
             </div>
           ))}
         </div>
-        <div className="alumni-events">
+        <div className="alumni-events alumni-events">
           <h3 className="alumni-header">Month Recap</h3>
           {gallery.map((event, index) => (
             <div key={index} className="alumni-image-container">
