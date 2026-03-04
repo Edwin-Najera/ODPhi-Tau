@@ -1,23 +1,7 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, Fragment } from "react";
 import { db, storage } from "./firebase";
-import {
-  collection,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  setDoc,
-  doc,
-  onSnapshot,
-  query,
-  orderBy,
-} from "firebase/firestore";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
-import type { EventItem, Event } from "../EventsFolder/eventData";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import "../global.css";
 import Popup from "./Popup";
 

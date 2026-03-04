@@ -1,29 +1,86 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../Admin/firebase";
+import { auth, db } from "../Admin/firebase";
 import { useNavigate } from "react-router-dom";
+import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import type { Event } from "../EventsFolder/eventData";
 import "../global.css";
-import AlumniEvents from "./AlumniEvents";
-import AlumniUpdates from "./AlumniUpdates";
+import "../global.css";
+import Popup from "../Admin/Popup";
 
 function Alumni() {
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [updates, setUpdates] = useState<Event[]>([]);
+  const [gallery, setGallery] = useState<Event[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const eventsSnap = await getDocs(
+          query(collection(db, "alumni"), orderBy("createdAt", "desc")),
+        );
+        const updatesSnap = await getDocs(
+          query(collection(db, "campus"), orderBy("createdAt", "desc")),
+        );
+        const gallerySnap = await getDocs(
+          query(collection(db, "gallery"), orderBy("createdAt", "desc")),
+        );
+
+        setEvents(
+          eventsSnap.docs.map((doc) => {
+            const rawData = doc.data();
+
+            return {
+              id: doc.id,
+              ...rawData,
+              date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
+              createdAt: rawData.createdAt?.toDate
+                ? rawData.createdAt.toDate()
+                : rawData.createdAt,
+            } as Event;
+          }),
+        );
+
+        setUpdates(
+          updatesSnap.docs.map((doc) => ({
+            id: doc.id,
+            ...(doc.data() as Omit<Event, "id">),
+          })),
+        );
+
+        setGallery(
+          gallerySnap.docs.map((doc) => ({
+            id: doc.id,
+            ...(doc.data() as Omit<Event, "id">),
+          })),
+        );
+      } catch (error) {
+        console.error("Error fetching events", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       const tokenResult = await user?.getIdTokenResult();
       setUserRole(tokenResult?.claims.role as string);
     });
 
+    fetchData();
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {}, []);
 
   const handleNavigate = async () => {
     if (userRole === "admin" || userRole === "active") {
       navigate("/Onlybros");
     } else {
-      alert("Cannot Navigate to admin page");
+      setShowPopup(true);
     }
   };
 
@@ -32,10 +89,53 @@ function Alumni() {
       <button className="return-admin" onClick={handleNavigate}>
         Admin Page
       </button>
+      {showPopup && (
+        <Popup
+          message="Only Admin and Actives can go to admin page"
+          onClose={() => setShowPopup(false)}
+          collectionName=""
+          autoClose={true}
+        />
+      )}
       <h1 className="alumni-page-header">Welcome to The Tau Alumni Page</h1>
       <div className="alumni-newsletter">
-        <AlumniEvents />
-        <AlumniUpdates />
+        <div className="alumni-events">
+          <h3 className="alumni-header">Important Events & Dates</h3>
+          {events.map((event, index) => (
+            <div key={index} className="alumni-event-container">
+              <div className="alumni-event-title">{event.eventTitle}</div>
+              <div className="alumni-event-date">
+                {event.date?.toLocaleString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "2-digit",
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="alumni-events">
+          <h3 className="alumni-header">Updates</h3>
+          {updates.map((event, index) => (
+            <div key={index} className="alumni-updates-container">
+              <div className="alumni-event-title">{event.eventTitle}</div>
+              <div className="alumni-event-description">
+                {event.description}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div>
+          <h3 className="month-recap-gallery">Month Recap</h3>
+          {gallery.map((event, index) => (
+            <div key={index} className="alumni-image-container">
+              <div className="alumni-event-title">{event.eventTitle}</div>
+              <img className="recap-image" src={event.imageURL} alt="Recap" />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
