@@ -83,9 +83,14 @@ function Alumni() {
     return () => unsubscribe();
   }, []);
 
-  const handleNavigate = async () => {
-    if (userRole === "admin" || userRole === "active") {
+  const handleNavigate = async (location: string) => {
+    if (
+      (userRole === "admin" || userRole === "active") &&
+      location == "onlybros"
+    ) {
       navigate("/Onlybros");
+    } else if (location === "alumni") {
+      navigate("/AllBros");
     } else {
       setMessage("Only Admin and Actives allowed");
       setShowPopup(true);
@@ -104,9 +109,20 @@ function Alumni() {
 
   return (
     <div className="alumni-page">
-      <button className="return-admin" onClick={handleNavigate}>
-        Admin Page
-      </button>
+      <div className="top-of-page">
+        <button
+          className="return-admin"
+          onClick={() => handleNavigate("onlybros")}
+        >
+          Admin Page
+        </button>
+        <button
+          className="return-admin return-alumni"
+          onClick={() => handleNavigate("alumni")}
+        >
+          Brotherhood Page
+        </button>
+      </div>
       {showPopup && (
         <Popup
           message={message}
@@ -145,7 +161,7 @@ function Alumni() {
             </div>
           ))}
         </div>
-        <div className="alumni-events alumni-events">
+        <div className="alumni-events">
           <h3 className="alumni-header">Month Recap</h3>
           {gallery.map((event, index) => (
             <div key={index} className="alumni-image-container">

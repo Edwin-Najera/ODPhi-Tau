@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../Admin/firebase";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,8 @@ import Popup from "../Admin/Popup";
 function AllBros() {
   const [userRole, setUserRole] = useState("");
   const [events, setEvents] = useState<Event[]>([]);
+  const [brotherhoodEvents, setBrotherhoodEvents] = useState<Event[]>([]);
+  const [alumniEvents, setAlumniEvents] = useState<Event[]>([]);
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -20,7 +22,7 @@ function AllBros() {
       try {
         //to fetch all events in the collection "events"
         const eventsSnap = await getDocs(
-          query(collection(db, "events"), orderBy("createdAt", "asc")),
+          query(collection(db, "events"), orderBy("createdAt", "desc")),
         );
 
         //to fetch all events in the collection brotherhood
@@ -30,7 +32,36 @@ function AllBros() {
 
         //to fetch all events in the collection alumni, this also includes important events
         const alumniSnap = await getDocs(
-          query(collection(db, "alumni"), orderBy("date", "desc")),
+          query(collection(db, "alumni"), orderBy("date", "asc")),
+        );
+
+        setEvents(
+          eventsSnap.docs.map((doc) => ({
+            id: doc.id,
+            ...(doc.data() as Omit<Event, "id">),
+          })),
+        );
+
+        setBrotherhoodEvents(
+          brotherhoodSnap.docs.map((doc) => ({
+            id: doc.id,
+            ...(doc.data() as Omit<Event, "id">),
+          })),
+        );
+
+        setAlumniEvents(
+          alumniSnap.docs.map((doc) => {
+            const rawData = doc.data();
+
+            return {
+              id: doc.id,
+              ...rawData,
+              date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
+              createdAt: rawData.createdAt?.toDate
+                ? rawData.createdAt.toDate()
+                : rawData.createdAt,
+            } as Event;
+          }),
         );
       } catch (error) {
         console.error(error);
@@ -44,12 +75,19 @@ function AllBros() {
       setUserRole(tokenResult?.claims.role as string);
     });
 
+    fetchData();
+
     return () => unsubscribe();
   }, []);
 
-  const handleNavigate = async () => {
-    if (userRole === "admin" || userRole === "active") {
+  const handleNavigate = async (location: string) => {
+    if (
+      (userRole === "admin" || userRole === "active") &&
+      location == "onlybros"
+    ) {
       navigate("/Onlybros");
+    } else if (location === "alumni") {
+      navigate("/Alumni");
     } else {
       setMessage("Only Admin and Actives allowed");
       setShowPopup(true);
@@ -69,9 +107,20 @@ function AllBros() {
 
   return (
     <div className="all-bros-page">
-      <button className="return-admin" onClick={handleNavigate}>
-        Admin Page
-      </button>
+      <div className="top-of-page">
+        <button
+          className="return-admin"
+          onClick={() => handleNavigate("onlybros")}
+        >
+          Admin Page
+        </button>
+        <button
+          className="return-admin return-previous"
+          onClick={() => handleNavigate("alumni")}
+        >
+          Alumni Page
+        </button>
+      </div>
       {showPopup && (
         <Popup
           message={message}
@@ -81,6 +130,53 @@ function AllBros() {
         />
       )}
       <h1 className="page-header">All Events</h1>
+      <div className="all-bros-all-events">
+        <h3 className="all-bros-header">Events</h3>
+        <div className="all-bros-events">
+          {events.map((event, index) => (
+            <div className="all-bros-event-container" key={index}>
+              <h2 className="all-bros-title">{event.eventTitle}</h2>
+              <img
+                className="img-fluid all-bros-image"
+                src={event.imageURL}
+                alt="event"
+              />
+            </div>
+          ))}
+        </div>
+        <h3 className="all-bros-header">Brotherhood Events</h3>
+        <div className="all-bros-events">
+          {brotherhoodEvents.map((event, index) => (
+            <div className="all-bros-event-container" key={index}>
+              <h2 className="all-bros-title">{event.eventTitle}</h2>
+              <img
+                className="img-fluid all-bros-image"
+                src={event.imageURL}
+                alt="Brotherhood"
+              />
+            </div>
+          ))}
+        </div>
+        <h3 className="all-bros-header">Important Events and Dates</h3>
+        <div className="all-bros-events important-events">
+          {alumniEvents.map((event, index) => (
+            <div className="alumni-event-container" key={index}>
+              <h2 className="alumni-event-title all-bros-event-title">
+                {event.eventTitle}
+              </h2>
+              <div className="alumni-event-date">
+                {event.date?.toLocaleString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "2-digit",
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
