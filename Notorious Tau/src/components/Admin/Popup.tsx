@@ -152,6 +152,7 @@ function Popup({
       <div className="popup-box">
         <p>{message}</p>
         {showGallery && (
+          // This is when displaying the gallery
           <div className="gallery-container">
             {events.map((event) => (
               <Fragment key={event.id}>
@@ -174,6 +175,7 @@ function Popup({
           </div>
         )}
         {!showGallery && message === "" && (
+          // If not displaying gallery display the events depending on which admin panel was clicked
           <Fragment>
             {events && (
               <div className="event-popup-container">
@@ -183,6 +185,7 @@ function Popup({
                     {editingId === event.id ? (
                       <div className="edit-container">
                         {!showGallery && (
+                          // For Editing title
                           <input
                             type="text"
                             value={editTitle}
@@ -190,6 +193,7 @@ function Popup({
                           />
                         )}
                         {!event.date && (
+                          // For Editing description if there is one
                           <Fragment>
                             <br />
                             <textarea
@@ -203,6 +207,7 @@ function Popup({
                           </Fragment>
                         )}
                         {event.date && (
+                          // For editing date if there is one
                           <Fragment>
                             <br />
                             <input
@@ -219,6 +224,7 @@ function Popup({
                           </Fragment>
                         )}
                         {event.items &&
+                          // For editing items if there are any
                           editItems.map((item, index) => (
                             <div className="item-row" key={index}>
                               <input
@@ -262,6 +268,7 @@ function Popup({
                         </div>
                       </div>
                     ) : (
+                      // The following is whenever the event is in display mode, no editing is being made
                       <div>
                         <h4>{event.eventTitle}</h4>
                         <p>{event.description}</p>

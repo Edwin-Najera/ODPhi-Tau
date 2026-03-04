@@ -157,30 +157,42 @@ function AdminPanel({
   };
 
   return (
+    // The following is only whenever inputting events
+
     <div className="row w-100 d-flex justify-content-around">
       <div className="admin-container">
         <h2 className="admin-header">{panelTitle}</h2>
         {onlyPhotos && (
-          <select
-            value={eventTitle}
-            onChange={(e) => setEventTitle(e.target.value)}
-          >
-            <option value="">Choose Gallery</option>
-            <option value="alumni">Alumni Gallery</option>
-            <option value="gallery">Gallery</option>
-          </select>
+          // Specifically for inputting only photos, only a title in which the title is the database, and photo are needed
+          <Fragment>
+            <label className="admin-label">Choose a Gallery</label>
+            <select
+              value={eventTitle}
+              onChange={(e) => setEventTitle(e.target.value)}
+            >
+              <option value="">Choose Gallery</option>
+              <option value="alumni">Alumni Gallery</option>
+              <option value="gallery">Gallery</option>
+            </select>
+          </Fragment>
         )}
         {!onlyPhotos && (
-          <input
-            type="text"
-            placeholder="Event Title"
-            value={eventTitle}
-            onChange={(e) => setEventTitle(e.target.value)}
-          />
+          // If its not for a gallery, the title can be anything
+          <Fragment>
+            <label className="admin-label">Enter Title</label>
+            <input
+              type="text"
+              placeholder="Event Title"
+              value={eventTitle}
+              onChange={(e) => setEventTitle(e.target.value)}
+            />
+          </Fragment>
         )}
         {!hasDate && !onlyPhotos && (
+          // When an event does not have a date or isn't only photos the following will be executed
           <Fragment>
             <br />
+            <label className="admin-label">Enter Description</label>
             <textarea
               className="description-input"
               placeholder="Description"
@@ -190,8 +202,10 @@ function AdminPanel({
           </Fragment>
         )}
         {hasDate && (
+          //If there is a date, then we will ask for the date of the event
           <Fragment>
             <br />
+            <label className="admin-label">Enter Date</label>
             <input
               type="date"
               value={eventDate}
@@ -200,6 +214,7 @@ function AdminPanel({
               }}
             />
             <br />
+            <label className="admin-label">Enter Time</label>
             <input
               type="time"
               value={eventTime}
@@ -208,8 +223,10 @@ function AdminPanel({
           </Fragment>
         )}
         {!hasDate && collectionName !== "campus" && (
+          // If the event requires an image, there will be an input for images
           <Fragment>
             <br />
+            <label className="admin-label">Enter Event Image</label>
             <input
               type="file"
               accept="image/*"
@@ -222,9 +239,11 @@ function AdminPanel({
           </Fragment>
         )}
         {hasItems && (
+          // If the event has items to sell there will be an input for it
           <Fragment>
             <h3>Price Options</h3>
             <div className="item-input">
+              <label className="admin-label">Enter Items and Prices</label>
               {items.map((item, index) => (
                 <div className="item-row" key={index}>
                   <input

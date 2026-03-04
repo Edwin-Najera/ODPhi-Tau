@@ -23,6 +23,10 @@
   align-items: end;
 }
 
+.navbar-collapse {
+  width: 75%;
+}
+
 #nav-items {
   cursor: pointer;
   @media (max-width: 990px) {
@@ -651,8 +655,13 @@ a.click-button {
   cursor: pointer;
   font-weight: 600;
   @media (max-width: 992px) {
-    padding: 0;
+    padding: 8px 14px;
   }
+}
+
+.admin-label {
+  align-self: start;
+  font-weight: 500;
 }
 
 .description-input {
@@ -725,6 +734,11 @@ a.click-button {
   flex-direction: column;
 }
 
+.close-btn {
+  background-color: black;
+  color: white;
+}
+
 .popup-overlay {
   position: fixed;
   top: 100px;
@@ -777,7 +791,7 @@ a.click-button {
 }
 
 .gallery-image {
-  width: 100px;
+  width: 250px;
   border: solid black;
 }
 
@@ -860,9 +874,12 @@ a.click-button {
   width: 100vw;
   max-width: 100%;
   padding: 0 2%;
-  border: solid black;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
+  @media (max-width: 992px) {
+    margin-top: 50px;
+  }
 }
 
 .return-admin {
@@ -887,7 +904,7 @@ a.click-button {
 .alumni-newsletter {
   display: flex;
   flex-direction: row;
-  border: solid purple;
+  padding: 50px 0;
   width: 100%;
   gap: 15px;
   @media (max-width: 992px) {
@@ -903,20 +920,56 @@ a.click-button {
   width: 33%;
   max-height: 750px;
   gap: 50px;
-  overflow-y: auto;
-  border: solid red;
+  overflow-y: scroll;
+  padding: 0 15px;
   @media (max-width: 992px) {
     width: 100%;
-    max-height: 250px;
+    max-height: 400px;
+    border-bottom: 5px solid black;
+    margin: 10px 0px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    scrollbar-color: black;
+    scrollbar-width: 5px;
   }
+}
+
+.alumni-events::-webkit-scrollbar {
+  width: 5px;
+  height: 2em;
+}
+
+.alumni-events::-webkit-scrollbar-track {
+  background: rgb(92, 92, 92);
+  border-radius: 20px;
+}
+
+.alumni-events::-webkit-scrollbar-thumb {
+  background: #797979;
+  border-radius: 20px;
+}
+
+.alumni-events::-webkit-scrollbar-thumb:hover {
+  background: black;
+}
+
+.alumni-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
+  background-color: black;
+  color: white;
 }
 
 .alumni-event-container {
   display: flex;
   flex-direction: row;
-  border: solid black;
+  border-bottom: solid black;
+  text-wrap: wrap;
   padding: 10px 20px;
-  width: 100%;
+  width: 95%;
   align-items: center;
 }
 

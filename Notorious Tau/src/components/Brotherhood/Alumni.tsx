@@ -144,7 +144,6 @@ function Alumni() {
           <h3 className="alumni-header">Month Recap</h3>
           {gallery.map((event, index) => (
             <div key={index} className="alumni-image-container">
-              <div className="alumni-event-title">{event.eventTitle}</div>
               <img className="recap-image" src={event.imageURL} alt="Recap" />
             </div>
           ))}
