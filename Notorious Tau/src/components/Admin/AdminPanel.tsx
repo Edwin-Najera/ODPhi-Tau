@@ -5,6 +5,7 @@ import {
   addDoc,
   deleteDoc,
   updateDoc,
+  setDoc,
   doc,
   onSnapshot,
   query,
@@ -18,12 +19,14 @@ import {
 } from "firebase/storage";
 import type { EventItem, Event } from "../EventsFolder/eventData";
 import "../global.css";
+import Popup from "./Popup";
 
 type Props = {
   collectionName: string;
   panelTitle: string;
   hasItems: boolean;
   hasDate: boolean;
+  onlyPhotos: boolean;
 };
 
 function AdminPanel({
@@ -31,6 +34,7 @@ function AdminPanel({
   panelTitle,
   hasItems = false,
   hasDate = false,
+  onlyPhotos = false,
 }: Props) {
   const [eventTitle, setEventTitle] = useState(""); //For Title of the Event *REQUIRED*
   const [items, setItems] = useState([{ name: "", price: "" }]); //For items and prices of items
@@ -47,6 +51,10 @@ function AdminPanel({
     [],
   );
   const [imageFile, setImageFile] = useState<File | null>(null); //For the image/flyer of the event *REQUIRED*
+  const [showSavePopup, setShowSavePopup] = useState(false);
+  const [showGalleryPopup, setShowGalleryPopup] = useState(false);
+  const [showEventsPopup, setShowEventsPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
 
   //Fetches events
   useEffect(() => {
@@ -152,17 +160,30 @@ function AdminPanel({
     setItems([...items, { name: "", price: "" }]);
   };
 
+  const deleteItemField = (index: number) => {
+    const updateItems = items.filter((_, i) => i !== index);
+    setItems(updateItems);
+  };
+
   const handleSubmit = async () => {
+    let message = "";
     if (!eventTitle) {
-      alert("Event Title Required");
+      message = onlyPhotos ? "Please Choose a Gallery" : "Event Title Required";
+
+      setPopupMessage(message);
+      setShowSavePopup(true);
       return;
     }
-    if (!imageFile && !hasDate) {
-      alert("Image File required");
+    if (!imageFile && (!hasDate || onlyPhotos)) {
+      message = "Image File required";
+      setPopupMessage(message);
+      setShowSavePopup(true);
       return;
     }
     if (hasDate && eventDate === "") {
-      alert("Event date Required");
+      message = "Event date Required";
+      setPopupMessage(message);
+      setShowSavePopup(true);
       return;
     }
 
@@ -170,7 +191,9 @@ function AdminPanel({
     let downloadURL = "";
 
     if (imageFile) {
-      imagePath = `events/${Date.now()}-${imageFile?.name}`;
+      imagePath = onlyPhotos
+        ? `gallery/${Date.now()}-${imageFile?.name}`
+        : `events/${Date.now()}-${imageFile?.name}`;
       const imageRef = ref(storage, imagePath);
 
       await uploadBytes(imageRef, imageFile);
@@ -194,14 +217,18 @@ function AdminPanel({
       }
       if (hasDate) {
         if (!eventDate || !eventTime) {
-          alert("Date and Time Required");
+          message = "Date and Time Required";
+          setPopupMessage(message);
+          setShowSavePopup(true);
           return;
         }
 
         const combinedDateTime = new Date(`${eventDate}T${eventTime}`);
 
         if (isNaN(combinedDateTime.getTime())) {
-          alert("Invalid Date/Time");
+          message = "Invalid Date/Time";
+          setPopupMessage(message);
+          setShowSavePopup(true);
           return;
         }
 
@@ -210,15 +237,35 @@ function AdminPanel({
         newEvent.description = description;
       }
 
-      await addDoc(collection(db, collectionName), newEvent);
+      if (onlyPhotos) {
+        const collectionRef = collection(db, "photos");
 
-      alert("Event Added");
+        const autoId = doc(collectionRef).id;
+        let customId = "";
+
+        if (eventTitle === "alumni") {
+          customId = `alumni_${autoId}`;
+        } else if (eventTitle === "gallery") {
+          customId = `gallery_${autoId}`;
+        }
+
+        await setDoc(doc(db, collectionName, customId), newEvent);
+      } else {
+        await addDoc(collection(db, collectionName), newEvent);
+      }
+
+      message = "Event added Successfully";
+      setPopupMessage(message);
+      setShowSavePopup(true);
       setEventTitle("");
       setDescription("");
       setEventDate("");
       setEventTime("");
       setItems([{ name: "", price: "" }]);
     } catch (error) {
+      message = "Error adding event";
+      setPopupMessage(message);
+      setShowSavePopup(true);
       console.error("Error adding event: ", error);
     }
   };
@@ -227,13 +274,25 @@ function AdminPanel({
     <div className="row w-100 d-flex justify-content-around">
       <div className="admin-container">
         <h2 className="admin-header">{panelTitle}</h2>
-        <input
-          type="text"
-          placeholder="Event Title"
-          value={eventTitle}
-          onChange={(e) => setEventTitle(e.target.value)}
-        />
-        {!hasDate && (
+        {onlyPhotos && (
+          <select
+            value={eventTitle}
+            onChange={(e) => setEventTitle(e.target.value)}
+          >
+            <option value="">Choose Gallery</option>
+            <option value="alumni">Alumni Gallery</option>
+            <option value="gallery">Gallery</option>
+          </select>
+        )}
+        {!onlyPhotos && (
+          <input
+            type="text"
+            placeholder="Event Title"
+            value={eventTitle}
+            onChange={(e) => setEventTitle(e.target.value)}
+          />
+        )}
+        {!hasDate && !onlyPhotos && (
           <Fragment>
             <br />
             <textarea
@@ -262,7 +321,7 @@ function AdminPanel({
             />
           </Fragment>
         )}
-        {!hasDate && (
+        {!hasDate && collectionName !== "campus" && (
           <Fragment>
             <br />
             <input
@@ -305,137 +364,188 @@ function AdminPanel({
                       }
                     />
                   </div>
+                  <button
+                    className="admin-btn delete-btn item-delete"
+                    onClick={() => deleteItemField(index)}
+                  >
+                    Delete
+                  </button>
                 </div>
               ))}
             </div>
-            <button className="admin-btn" onClick={addItemField}>
+            <button className="admin-btn col" onClick={addItemField}>
               + Add Another Price
             </button>
           </Fragment>
         )}
         <br />
         {!hasDate && <br />}
-        <button className="admin-btn" onClick={handleSubmit}>
+        <button className="admin-btn" onClick={() => handleSubmit()}>
           Save Event
         </button>
-        <hr />
-        <h3>Existing Events</h3>
-        {events.map((event) => (
-          <div key={event.id}>
-            {editingId === event.id ? (
-              <div className="edit-container">
-                <input
-                  type="text"
-                  value={editTitle}
-                  onChange={(e) => setEditTitle(e.target.value)}
-                />
-                {!hasDate && (
-                  <textarea
-                    className="description-input"
-                    value={editDescription}
-                    onChange={(e) => setEditDescription(e.target.value)}
-                  />
-                )}
-                {hasDate && (
-                  <Fragment>
-                    <br />
-                    <input
-                      type="date"
-                      value={editDate}
-                      onChange={(e) => setEditDate(e.target.value)}
-                    />
-                    <br />
-                    <input
-                      type="time"
-                      value={editTime}
-                      onChange={(e) => setEditTime(e.target.value)}
-                    />
-                  </Fragment>
-                )}
-                {hasItems &&
-                  editItems.map((item, index) => (
-                    <div className="item-row" key={index}>
+        {showSavePopup && (
+          <Popup
+            message={popupMessage}
+            onClose={() => setShowSavePopup(false)}
+            autoClose={true}
+            duration={1000}
+            showCloseButton={false}
+          />
+        )}
+        {!onlyPhotos && (
+          <Fragment>
+            <h3>Existing Events</h3>
+            {events.map((event) => (
+              <div key={event.id}>
+                {editingId === event.id ? (
+                  <div className="edit-container">
+                    {onlyPhotos && (
+                      <select
+                        value={editTitle}
+                        onChange={(e) => setEditTitle(e.target.value)}
+                      >
+                        <option value="alumni">Alumni Gallery</option>
+                        <option value="gallery">Gallery</option>
+                      </select>
+                    )}
+                    {!onlyPhotos && (
                       <input
-                        className="input-event"
                         type="text"
-                        value={item.name}
-                        onChange={(e) => {
-                          const updatedItems = [...editItems];
-                          updatedItems[index].name = e.target.value;
-                          setEditItems(updatedItems);
-                        }}
+                        value={editTitle}
+                        onChange={(e) => setEditTitle(e.target.value)}
                       />
-                      <div className="price-wrapper">
-                        <span>$</span>
-                        <input
-                          className="input-event price-input"
-                          type="text"
-                          value={item.price}
-                          onChange={(e) => {
-                            const updatedItems = [...editItems];
-                            updatedItems[index].price = e.target.value;
-                            setEditItems(updatedItems);
-                          }}
+                    )}
+                    {!hasDate && (
+                      <Fragment>
+                        <br />
+                        <textarea
+                          className="description-input"
+                          value={editDescription}
+                          onChange={(e) => setEditDescription(e.target.value)}
                         />
-                      </div>
+                        <br />
+                      </Fragment>
+                    )}
+                    {hasDate && (
+                      <Fragment>
+                        <br />
+                        <input
+                          type="date"
+                          value={editDate}
+                          onChange={(e) => setEditDate(e.target.value)}
+                        />
+                        <br />
+                        <input
+                          type="time"
+                          value={editTime}
+                          onChange={(e) => setEditTime(e.target.value)}
+                        />
+                      </Fragment>
+                    )}
+                    {hasItems &&
+                      editItems.map((item, index) => (
+                        <div className="item-row" key={index}>
+                          <input
+                            className="input-event"
+                            type="text"
+                            value={item.name}
+                            onChange={(e) => {
+                              const updatedItems = [...editItems];
+                              updatedItems[index].name = e.target.value;
+                              setEditItems(updatedItems);
+                            }}
+                          />
+                          <div className="price-wrapper">
+                            <span>$</span>
+                            <input
+                              className="input-event price-input"
+                              type="text"
+                              value={item.price}
+                              onChange={(e) => {
+                                const updatedItems = [...editItems];
+                                updatedItems[index].price = e.target.value;
+                                setEditItems(updatedItems);
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    <div className="event-actions">
+                      <button
+                        className="admin-btn edit-btn"
+                        onClick={() => handleSaveEdit(event.id)}
+                      >
+                        Save
+                      </button>
+                      <button
+                        className="admin-btn cancel-btn"
+                        onClick={() => setEditingId(null)}
+                      >
+                        Cancel
+                      </button>
                     </div>
-                  ))}
-                <div className="event-actions">
-                  <button
-                    className="admin-btn edit-btn"
-                    onClick={() => handleSaveEdit(event.id)}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="admin-btn cancel-btn"
-                    onClick={() => setEditingId(null)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <h4>{event.eventTitle}</h4>
-                <p>{event.description}</p>
-                {hasDate && event.date && (
-                  <p>
-                    <strong>Date</strong>{" "}
-                    {new Date(event.date).toLocaleString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                      hour: "numeric",
-                      minute: "2-digit",
-                    })}
-                  </p>
+                  </div>
+                ) : (
+                  <div>
+                    <h4>{event.eventTitle}</h4>
+                    <p>{event.description}</p>
+                    {hasDate && event.date && (
+                      <p>
+                        <strong>Date</strong>
+                        {new Date(event.date).toLocaleString("en-US", {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    )}
+                    {hasItems &&
+                      event.items?.map((item: EventItem, index: number) => (
+                        <div className="item-row" key={index}>
+                          <span>{item.name}</span>
+                          <span>{item.price}</span>
+                        </div>
+                      ))}
+                    <div className="event-actions">
+                      <button
+                        className="admin-btn edit-btn"
+                        onClick={() => handleEdit(event)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="admin-btn delete-btn"
+                        onClick={() => handleDelete(event.id, event.imagePath)}
+                      >
+                        Delete Event
+                      </button>
+                    </div>
+                  </div>
                 )}
-                {hasItems &&
-                  event.items?.map((item: EventItem, index: number) => (
-                    <div className="item-row" key={index}>
-                      <span>{item.name}</span>
-                      <span>{item.price}</span>
-                    </div>
-                  ))}
-                <div className="event-actions">
-                  <button
-                    className="admin-btn edit-btn"
-                    onClick={() => handleEdit(event)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="admin-btn delete-btn"
-                    onClick={() => handleDelete(event.id, event.imagePath)}
-                  >
-                    Delete Event
-                  </button>
-                </div>
               </div>
+            ))}
+          </Fragment>
+        )}
+        {onlyPhotos && (
+          <Fragment>
+            <button
+              className="admin-btn mt-2"
+              onClick={() => setShowGalleryPopup(true)}
+            >
+              Display Gallery
+            </button>
+            {showGalleryPopup && (
+              <Popup
+                message="Gallery Photos"
+                onClose={() => setShowGalleryPopup(false)}
+                showCloseButton={true}
+                showGallery={true}
+              />
             )}
-          </div>
-        ))}
+          </Fragment>
+        )}
       </div>
     </div>
   );

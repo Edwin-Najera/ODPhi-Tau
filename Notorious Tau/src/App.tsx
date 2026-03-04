@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 import Onlybros from "./pages/Onlybros";
 import Contact from "./pages/Contact";
 import Alumni from "./components/Brotherhood/Alumni";
-import Brotherhood from "./components/Brotherhood/Brotherhood";
+import AllBros from "./components/Brotherhood/AllBros";
 import ProtectedRoute from "./components/Admin/ProtectedRoute";
 
 function App() {
@@ -38,10 +38,10 @@ function App() {
           }
         />
         <Route
-          path="/Brotherhood"
+          path="/AllBros"
           element={
             <ProtectedRoute>
-              <Brotherhood />
+              <AllBros />
             </ProtectedRoute>
           }
         />

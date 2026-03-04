@@ -12,10 +12,7 @@ function Onlybros() {
         <div className="admin-page-swap" onClick={() => navigate("/Alumni")}>
           Alumni
         </div>
-        <div
-          className="admin-page-swap"
-          onClick={() => navigate("/Brotherhood")}
-        >
+        <div className="admin-page-swap" onClick={() => navigate("/AllBros")}>
           Brotherhood Events
         </div>
       </div>
@@ -26,6 +23,7 @@ function Onlybros() {
             panelTitle="Events Admin Panel"
             hasItems={true}
             hasDate={false}
+            onlyPhotos={false}
           />
         </div>
         <div className="col">
@@ -34,6 +32,7 @@ function Onlybros() {
             panelTitle="Brotherhood Event Admin Panel"
             hasItems={false}
             hasDate={false}
+            onlyPhotos={false}
           />
         </div>
       </div>
@@ -44,6 +43,7 @@ function Onlybros() {
             panelTitle="Alumni Event Admin Panel"
             hasItems={false}
             hasDate={true}
+            onlyPhotos={false}
           />
         </div>
         <div className="col-xl">
@@ -52,6 +52,18 @@ function Onlybros() {
             panelTitle="Campus Updates"
             hasItems={false}
             hasDate={false}
+            onlyPhotos={false}
+          />
+        </div>
+      </div>
+      <div className="admin-panels-container">
+        <div className="col-xl">
+          <AdminPanel
+            collectionName="photos"
+            panelTitle="Gallery Photos"
+            hasItems={false}
+            hasDate={false}
+            onlyPhotos={true}
           />
         </div>
       </div>

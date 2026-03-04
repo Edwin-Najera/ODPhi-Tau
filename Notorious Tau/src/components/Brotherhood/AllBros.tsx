@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../Admin/firebase";
-import { useNavigate } from "react-router-dom";
-import "../global.css";
-import AlumniEvents from "./AlumniEvents";
-import AlumniUpdates from "./AlumniUpdates";
 
-function Alumni() {
-  const [userRole, setUserRole] = useState<string | null>(null);
+function AllBros() {
   const navigate = useNavigate();
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -26,19 +23,13 @@ function Alumni() {
       alert("Cannot Navigate to admin page");
     }
   };
-
   return (
-    <div className="alumni-page">
+    <div>
       <button className="return-admin" onClick={handleNavigate}>
         Admin Page
       </button>
-      <h1 className="alumni-page-header">Welcome to The Tau Alumni Page</h1>
-      <div className="alumni-newsletter">
-        <AlumniEvents />
-        <AlumniUpdates />
-      </div>
     </div>
   );
 }
 
-export default Alumni;
+export default AllBros;
