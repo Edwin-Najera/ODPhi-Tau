@@ -39,111 +39,13 @@ function AdminPanel({
   const [eventTitle, setEventTitle] = useState(""); //For Title of the Event *REQUIRED*
   const [items, setItems] = useState([{ name: "", price: "" }]); //For items and prices of items
   const [description, setDescription] = useState(""); //For description of the event
-  const [events, setEvents] = useState<Event[]>([]); //List of all events
   const [eventDate, setEventDate] = useState<string>("");
   const [eventTime, setEventTime] = useState<string>("");
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editTitle, setEditTitle] = useState("");
-  const [editDescription, setEditDescription] = useState("");
-  const [editDate, setEditDate] = useState<string>("");
-  const [editTime, setEditTime] = useState<string>("");
-  const [editItems, setEditItems] = useState<{ name: string; price: string }[]>(
-    [],
-  );
   const [imageFile, setImageFile] = useState<File | null>(null); //For the image/flyer of the event *REQUIRED*
   const [showSavePopup, setShowSavePopup] = useState(false);
   const [showGalleryPopup, setShowGalleryPopup] = useState(false);
   const [showEventsPopup, setShowEventsPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
-
-  //Fetches events
-  useEffect(() => {
-    const q = query(
-      collection(db, collectionName),
-      orderBy("createdAt", "desc"),
-    );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const eventList: Event[] = snapshot.docs.map((doc) => {
-        const rawData = doc.data();
-
-        return {
-          id: doc.id,
-          ...rawData,
-          date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
-        } as Event;
-      });
-      setEvents(eventList);
-    });
-    return () => unsubscribe();
-  }, [collectionName]);
-
-  //Handles the deleting of events
-  const handleDelete = async (eventId: string, imagePath?: string) => {
-    //Deleting image from database
-    if (!hasDate) {
-      const imageRef = ref(storage, imagePath);
-      await deleteObject(imageRef);
-    }
-
-    //Deleting Firestore document
-    await deleteDoc(doc(db, collectionName, eventId));
-  };
-
-  //Whenever the admin is going edit the event
-  const handleEdit = async (event: any) => {
-    setEditingId(event.id);
-    setEditTitle(event.eventTitle);
-    setEditDescription(event.description || "");
-    setEditItems(event.items || []);
-    if (event.date) {
-      const dateObj = event.date.toDate()
-        ? event.date.toDate()
-        : new Date(event.date);
-
-      const formattedDate = dateObj.toISOString().split("T")[0];
-      const formattedTime = dateObj.toTimeString().slice(0, 5);
-
-      setEditDate(formattedDate);
-      setEditTime(formattedTime);
-    }
-  };
-
-  const handleSaveEdit = async (eventId: string) => {
-    try {
-      const updateData: any = {
-        eventTitle: editTitle,
-      };
-
-      if (hasItems) {
-        updateData.items = editItems;
-      }
-      if (hasDate) {
-        if (!editDate || !editTime) {
-          alert("Date and Time Required");
-          return;
-        }
-
-        const combinedDateTime = new Date(`${editDate}T${editTime}`);
-
-        if (isNaN(combinedDateTime.getTime())) {
-          alert("Invalid Date/Time");
-          return;
-        }
-
-        updateData.date = combinedDateTime;
-      } else {
-        updateData.description = editDescription;
-      }
-
-      console.log("editDate", editDate);
-      console.log("parsed", new Date(editDate));
-      await updateDoc(doc(db, collectionName, eventId), updateData);
-
-      setEditingId(null);
-    } catch (error) {
-      console.error("Error editing: ", error);
-    }
-  };
 
   //Whenever an item is being added to the event
   const handleItemChange = (
@@ -174,7 +76,7 @@ function AdminPanel({
       setShowSavePopup(true);
       return;
     }
-    if (!imageFile && (!hasDate || onlyPhotos)) {
+    if (!imageFile && (!hasDate || onlyPhotos) && collectionName !== "campus") {
       message = "Image File required";
       setPopupMessage(message);
       setShowSavePopup(true);
@@ -386,6 +288,7 @@ function AdminPanel({
         {showSavePopup && (
           <Popup
             message={popupMessage}
+            collectionName={""}
             onClose={() => setShowSavePopup(false)}
             autoClose={true}
             duration={1000}
@@ -393,140 +296,22 @@ function AdminPanel({
           />
         )}
         {!onlyPhotos && (
-          <Fragment>
-            <h3>Existing Events</h3>
-            {events.map((event) => (
-              <div key={event.id}>
-                {editingId === event.id ? (
-                  <div className="edit-container">
-                    {onlyPhotos && (
-                      <select
-                        value={editTitle}
-                        onChange={(e) => setEditTitle(e.target.value)}
-                      >
-                        <option value="alumni">Alumni Gallery</option>
-                        <option value="gallery">Gallery</option>
-                      </select>
-                    )}
-                    {!onlyPhotos && (
-                      <input
-                        type="text"
-                        value={editTitle}
-                        onChange={(e) => setEditTitle(e.target.value)}
-                      />
-                    )}
-                    {!hasDate && (
-                      <Fragment>
-                        <br />
-                        <textarea
-                          className="description-input"
-                          value={editDescription}
-                          onChange={(e) => setEditDescription(e.target.value)}
-                        />
-                        <br />
-                      </Fragment>
-                    )}
-                    {hasDate && (
-                      <Fragment>
-                        <br />
-                        <input
-                          type="date"
-                          value={editDate}
-                          onChange={(e) => setEditDate(e.target.value)}
-                        />
-                        <br />
-                        <input
-                          type="time"
-                          value={editTime}
-                          onChange={(e) => setEditTime(e.target.value)}
-                        />
-                      </Fragment>
-                    )}
-                    {hasItems &&
-                      editItems.map((item, index) => (
-                        <div className="item-row" key={index}>
-                          <input
-                            className="input-event"
-                            type="text"
-                            value={item.name}
-                            onChange={(e) => {
-                              const updatedItems = [...editItems];
-                              updatedItems[index].name = e.target.value;
-                              setEditItems(updatedItems);
-                            }}
-                          />
-                          <div className="price-wrapper">
-                            <span>$</span>
-                            <input
-                              className="input-event price-input"
-                              type="text"
-                              value={item.price}
-                              onChange={(e) => {
-                                const updatedItems = [...editItems];
-                                updatedItems[index].price = e.target.value;
-                                setEditItems(updatedItems);
-                              }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    <div className="event-actions">
-                      <button
-                        className="admin-btn edit-btn"
-                        onClick={() => handleSaveEdit(event.id)}
-                      >
-                        Save
-                      </button>
-                      <button
-                        className="admin-btn cancel-btn"
-                        onClick={() => setEditingId(null)}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    <h4>{event.eventTitle}</h4>
-                    <p>{event.description}</p>
-                    {hasDate && event.date && (
-                      <p>
-                        <strong>Date</strong>
-                        {new Date(event.date).toLocaleString("en-US", {
-                          month: "long",
-                          day: "numeric",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "2-digit",
-                        })}
-                      </p>
-                    )}
-                    {hasItems &&
-                      event.items?.map((item: EventItem, index: number) => (
-                        <div className="item-row" key={index}>
-                          <span>{item.name}</span>
-                          <span>{item.price}</span>
-                        </div>
-                      ))}
-                    <div className="event-actions">
-                      <button
-                        className="admin-btn edit-btn"
-                        onClick={() => handleEdit(event)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="admin-btn delete-btn"
-                        onClick={() => handleDelete(event.id, event.imagePath)}
-                      >
-                        Delete Event
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </Fragment>
+          <button
+            className="admin-btn show-events-btn mt-2"
+            onClick={() => setShowEventsPopup(true)}
+          >
+            Display Events
+          </button>
+        )}
+        {showEventsPopup && (
+          <Popup
+            message={""}
+            onClose={() => setShowEventsPopup(false)}
+            collectionName={collectionName}
+            showCloseButton={true}
+            hasDate={hasDate}
+            hasItems={hasItems}
+          />
         )}
         {onlyPhotos && (
           <Fragment>
@@ -540,6 +325,7 @@ function AdminPanel({
               <Popup
                 message="Gallery Photos"
                 onClose={() => setShowGalleryPopup(false)}
+                collectionName={collectionName}
                 showCloseButton={true}
                 showGallery={true}
               />

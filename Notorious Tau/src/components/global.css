@@ -616,7 +616,8 @@ a.click-button {
     margin-bottom: 50px;
   }
 }
-/*  AdminPanel.tsx  */
+/*  AdminPanel.tsx   & Popup.tsx */
+
 .admin-container {
   display: flex;
   flex-direction: column;
@@ -724,8 +725,6 @@ a.click-button {
   flex-direction: column;
 }
 
-/*  Popup.tsx */
-
 .popup-overlay {
   position: fixed;
   top: 100px;
@@ -750,6 +749,13 @@ a.click-button {
   text-align: center;
   border: solid black;
   align-items: center;
+}
+
+.event-popup-container {
+  width: 1000px;
+  max-height: 400px;
+  overflow-y: auto;
+  gap: 15px;
 }
 
 .gallery-container {
