@@ -6,6 +6,8 @@ import {
 } from "firebase/auth";
 import { auth } from "../components/Admin/firebase";
 import { useNavigate } from "react-router-dom";
+import sword from "../components/Photos/sword.png";
+import Sparks from "../components/Admin/Spark";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -40,21 +42,25 @@ function Login() {
 
   return (
     <Fragment>
-      <div className="login-form">
-        <h2>Admin Login</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br />
-        <br />
-        <button onClick={handleLogin}>Login</button>
+      <div className="login-page">
+        <img className="sword" src={sword} alt="sword" />
+        <Sparks />
+        <div className="login-form">
+          <h2>Admin Login</h2>
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <br />
+          <br />
+          <button onClick={handleLogin}>Login</button>
+        </div>
       </div>
     </Fragment>
   );

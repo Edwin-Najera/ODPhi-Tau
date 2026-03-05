@@ -117,7 +117,7 @@ function Alumni() {
           Admin Page
         </button>
         <button
-          className="return-admin return-alumni"
+          className="return-admin return-previous"
           onClick={() => handleNavigate("alumni")}
         >
           Brotherhood Page

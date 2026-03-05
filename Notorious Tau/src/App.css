@@ -1,7 +1,7 @@
 body {
   background-color: white;
-  padding-top: 75px;
   overflow-x: hidden;
+  height: 100%;
 }
 
 ::-webkit-scrollbar {
@@ -24,6 +24,7 @@ body {
 /* App grid to help place all contents in web app */
 
 #AppGrid {
+  padding-top: 75px;
   display: grid;
   max-width: 100%;
   width: 100vw;

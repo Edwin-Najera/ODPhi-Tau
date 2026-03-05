@@ -592,7 +592,7 @@ a.click-button {
   flex-direction: column;
   max-width: 100%;
   width: 100vw;
-  padding-top: 50px;
+  padding-top: 125px;
   align-items: start;
   @media (max-width: 992px) {
     align-items: start;
@@ -806,7 +806,54 @@ a.click-button {
 }
 
 /*    Login.tsx   */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0;
+  padding-top: 75px;
+  height: 100vh;
+  color: white;
+  background-color: rgba(111, 105, 105, 0.51);
+}
+
+.sword {
+  position: fixed;
+  justify-self: center;
+  z-index: 2;
+  width: 650px;
+  top: -125vh;
+  animation: comeDown 100ms forwards;
+  animation-delay: 400ms;
+}
+
+@keyframes comeDown {
+  to {
+    top: 10vh;
+  }
+}
+
+.spark-container {
+  position: relative;
+  padding-top: 60px;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+
+.spark {
+  width: 100%;
+}
+
+@keyframes arc {
+}
+
 .login-form {
+  position: fixed;
   display: flex;
   flex-direction: column;
   max-width: 100%;
@@ -814,6 +861,7 @@ a.click-button {
   height: 100%;
   justify-content: center;
   align-items: center;
+  z-index: 3;
 }
 
 .login-form input {
@@ -884,7 +932,7 @@ a.click-button {
   flex-direction: column;
   width: 100vw;
   max-width: 100%;
-  padding: 0 2%;
+  padding: 75px 2% 0;
   justify-content: center;
   align-items: center;
   margin: 30px 0;
