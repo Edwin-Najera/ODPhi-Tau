@@ -37,7 +37,9 @@ function Navbar() {
               className="d-flex navbar-nav justify-contents-center ms-auto"
               id="nav-items"
             >
-              <div className="nav-link">About</div>
+              <Link to="/Mtb" className="nav-link" onClick={closeNavbar}>
+                About
+              </Link>
               <Link to="/Gallery" className="nav-link" onClick={closeNavbar}>
                 Gallery
               </Link>
