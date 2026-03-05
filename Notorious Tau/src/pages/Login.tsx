@@ -27,9 +27,9 @@ function Login() {
       const tokenResult = await user.getIdTokenResult();
       const role = tokenResult.claims.role;
 
-      if (role === "active" || role === "admin") {
-        navigate("/Onlybros");
-      } else if (role === "alumni" || role === "bro") {
+      if (role === "active" || role === "admin" || role === "bro") {
+        navigate("/AllBros");
+      } else if (role === "alumni") {
         navigate("/Alumni");
       } else {
         alert("No role assigned, contact admin");

@@ -188,7 +188,7 @@ function AdminPanel({
             />
           </Fragment>
         )}
-        {!hasDate && !onlyPhotos && (
+        {!hasDate && (!onlyPhotos || eventTitle === "gallery") && (
           // When an event does not have a date or isn't only photos the following will be executed
           <Fragment>
             <br />

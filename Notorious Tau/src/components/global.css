@@ -585,6 +585,85 @@ a.click-button {
 }
 
 /*              This and below will be for the Gallery                */
+.odphi-gallery-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100vw;
+  max-width: 100%;
+  margin-top: 100px;
+  overflow-y: scroll;
+  @media (max-width: 992px) {
+    margin-top: 120px;
+  }
+}
+
+.odphi-gallery-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 25px;
+  top: 110px;
+  font-weight: 800;
+  text-align: center;
+  justify-self: start;
+  z-index: 1000;
+}
+
+.letters {
+  width: 500px;
+}
+
+.odphi-gallery-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 50px;
+  padding: 25px;
+  @media (max-width: 992px) {
+    padding: 0;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.image-description-container {
+  width: 600px;
+  min-height: 500px;
+  max-height: 600px;
+  @media (max-width: 992px) {
+    width: 350px;
+    min-width: 300px;
+    max-height: 400px;
+  }
+}
+
+.odphi-gallery-image {
+  width: 500px;
+  @media (max-width: 992px) {
+    width: 300px;
+  }
+}
+
+.image-description {
+  width: 95%;
+}
+
+.part-line {
+  border: 1px solid black;
+  height: 250px;
+  width: 1px;
+  position: relative;
+  @media (max-width: 992px) {
+    border: none;
+    height: 0;
+    width: 0;
+  }
+}
 /*              This and below will be for the OnlyBros               */
 /*  Onlybros.tsx  */
 .admin-page {

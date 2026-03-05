@@ -42,7 +42,7 @@ function Navbar() {
                 Gallery
               </Link>
               <div className="nav-link">Service</div>
-              <Link to="/Onlybros" className="nav-link" onClick={closeNavbar}>
+              <Link to="/AllBros" className="nav-link" onClick={closeNavbar}>
                 Brothers Only
               </Link>
               <Link to="/Contact" className="nav-link" onClick={closeNavbar}>

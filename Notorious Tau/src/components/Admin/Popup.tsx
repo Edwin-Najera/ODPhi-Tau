@@ -175,7 +175,7 @@ function Popup({
           </div>
         )}
         {!showGallery && message === "" && (
-          // If not displaying gallery display the events depending on which admin panel was clicked
+          // If not displaying gallery display the events depending on which admin panel is being used
           <Fragment>
             {events && (
               <div className="event-popup-container">
