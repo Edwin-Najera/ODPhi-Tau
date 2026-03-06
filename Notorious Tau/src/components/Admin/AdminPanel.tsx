@@ -127,13 +127,7 @@ function AdminPanel({
         const collectionRef = collection(db, "photos");
 
         const autoId = doc(collectionRef).id;
-        let customId = "";
-
-        if (eventTitle === "alumni") {
-          customId = `alumni_${autoId}`;
-        } else if (eventTitle === "gallery") {
-          customId = `gallery_${autoId}`;
-        }
+        const customId = `${eventTitle}_${autoId}`;
 
         await setDoc(doc(db, collectionName, customId), newEvent);
       } else {
@@ -173,6 +167,8 @@ function AdminPanel({
               <option value="">Choose Gallery</option>
               <option value="alumni">Alumni Gallery</option>
               <option value="gallery">Gallery</option>
+              <option value="active">Active</option>
+              <option value="executive">Executive</option>
             </select>
           </Fragment>
         )}

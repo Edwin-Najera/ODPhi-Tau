@@ -245,46 +245,34 @@
 
 /* The following, will be when the page is loading, 
 it will display a different page where it shows an animation to display loading*/
+.loading-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .loading-container {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  max-width: 100%;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-  gap: 25px;
+  width: 0;
+  overflow: hidden;
+  animation: typing 2s infinite alternate steps(100);
+  animation-delay: 3s;
+  animation-iteration-count: infinite;
 }
 
-.loading-ball {
-  border-radius: 100%;
-  width: 100px;
-  height: 100px;
-  background-color: silver;
+.loading-tribal {
+  display: block;
+  width: 100ch;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-#loading-one {
-  animation: bounceInfinite 1s ease-in-out infinite;
-  animation-delay: 200ms;
-}
-
-#loading-two {
-  animation: bounceInfinite 1s ease-in-out infinite;
-  animation-delay: 500ms;
-}
-
-#loading-three {
-  animation: bounceInfinite 1s ease-in-out infinite;
-  animation-delay: 800ms;
-}
-
-@keyframes bounceInfinite {
-  0%,
-  100% {
-    transform: translateY(0);
+@keyframes typing {
+  0% {
+    width: 0;
   }
-  50% {
-    transform: translateY(-25px);
+  100% {
+    width: 100%;
   }
 }
 
@@ -592,10 +580,10 @@ a.click-button {
   text-align: center;
   width: 100vw;
   max-width: 100%;
-  margin-top: 100px;
-  overflow-y: scroll;
+  min-height: 100vh;
+  padding-top: 100px;
   @media (max-width: 992px) {
-    margin-top: 120px;
+    padding-top: 120px;
   }
 }
 
@@ -928,9 +916,6 @@ a.click-button {
   width: 100%;
 }
 
-@keyframes arc {
-}
-
 .login-form {
   position: fixed;
   display: flex;
@@ -1247,3 +1232,32 @@ a.click-button {
 }
 
 /*            This and below will be for the Meet The bros            */
+
+.mtb-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 100px 0 20px;
+  max-width: 100%;
+  width: 100vw;
+  gap: 50px;
+  min-height: 100vh;
+}
+
+.mtb-image-container {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.executive-image,
+.active-image {
+  width: 200px;
+  border-radius: 15px;
+  @media (max-width: 992px) {
+    width: 100px;
+  }
+}
