@@ -58,6 +58,9 @@ body {
   height: 82vh;
   position: relative;
   z-index: 1;
+  @media (min-width: 1400px) {
+    height: 80vh;
+  }
 }
 
 #AppGrid > #gap {
@@ -79,6 +82,9 @@ body {
   @media (max-width: 992px) {
     flex-direction: column;
     top: -5vh;
+  }
+  @media (min-width: 1400px) {
+    top: 0;
   }
 }
 

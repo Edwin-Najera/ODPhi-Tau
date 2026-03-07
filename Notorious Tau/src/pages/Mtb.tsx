@@ -68,13 +68,16 @@ function Mtb() {
           <h3>Active House</h3>
           <div className="mtb-image-container">
             {actives.map((active, index) => (
-              <Fragment key={index}>
-                <img
-                  src={active.imageURL}
-                  alt="active"
-                  className="active-image"
-                />
-              </Fragment>
+              <div className="flip-container">
+                <div className="flip-photo" key={index}>
+                  <img
+                    src={active.imageURL}
+                    alt="active"
+                    className="active-image front"
+                  />
+                  <div className="back" />
+                </div>
+              </div>
             ))}
           </div>
         </div>

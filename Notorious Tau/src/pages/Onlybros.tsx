@@ -22,17 +22,12 @@ function Onlybros() {
             collectionName="events"
             panelTitle="Events Admin Panel"
             hasItems={true}
-            hasDate={false}
-            onlyPhotos={false}
           />
         </div>
         <div className="col">
           <AdminPanel
             collectionName="brotherhood"
             panelTitle="Brotherhood Event Admin Panel"
-            hasItems={false}
-            hasDate={false}
-            onlyPhotos={false}
           />
         </div>
       </div>
@@ -41,19 +36,11 @@ function Onlybros() {
           <AdminPanel
             collectionName="alumni"
             panelTitle="Alumni Event Admin Panel"
-            hasItems={false}
             hasDate={true}
-            onlyPhotos={false}
           />
         </div>
         <div className="col-xl">
-          <AdminPanel
-            collectionName="campus"
-            panelTitle="Campus Updates"
-            hasItems={false}
-            hasDate={false}
-            onlyPhotos={false}
-          />
+          <AdminPanel collectionName="campus" panelTitle="Campus Updates" />
         </div>
       </div>
       <div className="admin-panels-container">
@@ -61,9 +48,15 @@ function Onlybros() {
           <AdminPanel
             collectionName="photos"
             panelTitle="Gallery Photos"
-            hasItems={false}
-            hasDate={false}
             onlyPhotos={true}
+          />
+        </div>
+        <div className="col-xl">
+          <AdminPanel
+            collectionName="photos"
+            panelTitle="Active and Exec Photos"
+            onlyPhotos={true}
+            activeHouse={true}
           />
         </div>
       </div>

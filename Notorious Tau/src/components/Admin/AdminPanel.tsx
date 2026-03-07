@@ -8,9 +8,10 @@ import Popup from "./Popup";
 type Props = {
   collectionName: string;
   panelTitle: string;
-  hasItems: boolean;
-  hasDate: boolean;
-  onlyPhotos: boolean;
+  hasItems?: boolean;
+  hasDate?: boolean;
+  onlyPhotos?: boolean;
+  activeHouse?: boolean;
 };
 
 function AdminPanel({
@@ -19,6 +20,7 @@ function AdminPanel({
   hasItems = false,
   hasDate = false,
   onlyPhotos = false,
+  activeHouse = false,
 }: Props) {
   const [eventTitle, setEventTitle] = useState(""); //For Title of the Event *REQUIRED*
   const [items, setItems] = useState([{ name: "", price: "" }]); //For items and prices of items
@@ -165,10 +167,18 @@ function AdminPanel({
               onChange={(e) => setEventTitle(e.target.value)}
             >
               <option value="">Choose Gallery</option>
-              <option value="alumni">Alumni Gallery</option>
-              <option value="gallery">Gallery</option>
-              <option value="active">Active</option>
-              <option value="executive">Executive</option>
+              {!activeHouse && (
+                <Fragment>
+                  <option value="alumni">Alumni Gallery</option>
+                  <option value="gallery">Gallery</option>
+                </Fragment>
+              )}
+              {activeHouse && (
+                <Fragment>
+                  <option value="active">Active</option>
+                  <option value="executive">Executive</option>
+                </Fragment>
+              )}
             </select>
           </Fragment>
         )}
@@ -184,19 +194,22 @@ function AdminPanel({
             />
           </Fragment>
         )}
-        {!hasDate && (!onlyPhotos || eventTitle === "gallery") && (
-          // When an event does not have a date or isn't only photos the following will be executed
-          <Fragment>
-            <br />
-            <label className="admin-label">Enter Description</label>
-            <textarea
-              className="description-input"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Fragment>
-        )}
+        {!hasDate &&
+          (!onlyPhotos || eventTitle === "gallery" || activeHouse) && (
+            // When an event does not have a date or isn't only photos the following will be executed
+            <Fragment>
+              <br />
+              <label className="admin-label">
+                {activeHouse ? "Enter Position" : "Enter Description"}
+              </label>
+              <textarea
+                className={activeHouse ? "position-input" : "description-input"}
+                placeholder={activeHouse ? "Position" : "Description"}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Fragment>
+          )}
         {hasDate && (
           //If there is a date, then we will ask for the date of the event
           <Fragment>
