@@ -143,9 +143,6 @@
     animation: fadeInRight 1s forwards;
     animation-delay: 500ms;
   }
-  @media (min-width: 1400px) {
-    background-size: 45%;
-  }
 }
 
 @keyframes fadeInRight {
@@ -496,11 +493,6 @@ a.click-button {
     background-position: -1000px 35px;
     background-size: 140%;
     animation: blazeInMobile 1s forwards;
-  }
-
-  @media (min-width: 1400px) {
-    background-size: 60%;
-    background-position: -1000px -50px;
   }
 }
 
