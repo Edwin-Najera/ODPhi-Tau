@@ -12,7 +12,7 @@ function Mtb() {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const q = query(collection(db, "photos"), orderBy("createdAt", "desc"));
+        const q = query(collection(db, "house"), orderBy("createdAt", "desc"));
 
         const snapshot = await getDocs(q);
 
@@ -48,6 +48,21 @@ function Mtb() {
     <Fragment>
       <div className="mtb-page">
         <h1>Meet The Chapter</h1>
+        <div className="member-requirements">
+          <span className="member-requirement-title">
+            Membership Requirements
+          </span>
+          <ul className="requirement-list">
+            <li className="requirement">Be a full-time student</li>
+            <li className="requirement">Have a cumulative GPA of +2.5</li>
+            <li className="requirement">
+              Not have rushed/pledged another organization
+            </li>
+            <li className="requirement">
+              Have been handed a big by active house
+            </li>
+          </ul>
+        </div>
         <h5>Awarded Brothers</h5>
         <h3>Meet the Bros</h3>
         <div className="executive-active-house">
@@ -68,15 +83,13 @@ function Mtb() {
           <h3>Active House</h3>
           <div className="mtb-image-container">
             {actives.map((active, index) => (
-              <div className="flip-container">
-                <div className="flip-photo" key={index}>
-                  <img
-                    src={active.imageURL}
-                    alt="active"
-                    className="active-image front"
-                  />
-                  <div className="back" />
-                </div>
+              <div key={index} className="active-container">
+                <img
+                  src={active.imageURL}
+                  alt="active"
+                  className="active-image front"
+                />
+                <div className="active-position"></div>
               </div>
             ))}
           </div>

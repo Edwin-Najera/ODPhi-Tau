@@ -53,7 +53,7 @@ function Onlybros() {
         </div>
         <div className="col-xl">
           <AdminPanel
-            collectionName="photos"
+            collectionName="house"
             panelTitle="Active and Exec Photos"
             onlyPhotos={true}
             activeHouse={true}

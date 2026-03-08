@@ -7,6 +7,14 @@ export type EventItem = {
     price: string;
 }
 
+export type KnightPerson = {
+    name: string;
+    position: string;
+    knightName: string;
+    lineNumber: string;
+    lineName: string;
+}
+
 export type Event = {
     id: string;
     eventTitle: string;
@@ -14,6 +22,7 @@ export type Event = {
     imageURL?: string;
     imagePath?: string;
     items?: EventItem[];
+    knights?: KnightPerson;
     date?: Date;
     createdAt: any;
 }
