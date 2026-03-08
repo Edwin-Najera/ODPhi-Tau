@@ -10,7 +10,7 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
-import type { EventItem, Event, KnightPerson } from "../EventsFolder/eventData";
+import type { EventItem, Event, Knights } from "../EventsFolder/eventData";
 import "../global.css";
 
 type PopupProps = {
@@ -39,6 +39,7 @@ function Popup({
   activeHouse = false,
 }: PopupProps) {
   const [events, setEvents] = useState<Event[]>([]);
+  const [knights, setKnights] = useState<Knights[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
@@ -47,7 +48,9 @@ function Popup({
   const [editItems, setEditItems] = useState<{ name: string; price: string }[]>(
     [],
   );
-  const [editKnight, setEditKnight] = useState<KnightPerson | null>(null);
+  const [editName, setEditName] = useState("");
+  const [editPosition, setEditPosition] = useState("");
+  const [editAwards, setEditAwards] = useState<{ award: string }[]>([]);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | null = null;
@@ -59,25 +62,35 @@ function Popup({
         orderBy("createdAt", "desc"),
       );
       unsubscribe = onSnapshot(q, (snapshot) => {
-        const eventList: Event[] = snapshot.docs.map((doc) => {
-          const rawData = doc.data();
-
-          return {
+        if (activeHouse) {
+          const knightList: Knights[] = snapshot.docs.map((doc) => ({
             id: doc.id,
-            ...rawData,
-            date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
-          } as Event;
-        });
+            ...(doc.data() as Omit<Knights, "id">),
+          }));
 
-        //If the active house popup is shown then only those that have the description of each knight should be show
-        if (showGallery) {
-          const descriptionEvents = eventList.filter(
-            (event) =>
-              event.id.startsWith("alumni_") || event.id.startsWith("gallery_"),
-          );
-          setEvents(descriptionEvents);
+          setKnights(knightList);
         } else {
-          setEvents(eventList);
+          const eventList: Event[] = snapshot.docs.map((doc) => {
+            const rawData = doc.data();
+
+            return {
+              id: doc.id,
+              ...rawData,
+              date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
+            } as Event;
+          });
+
+          //If the active house popup is shown then only those that have the description of each knight should be show
+          if (showGallery) {
+            const descriptionEvents = eventList.filter(
+              (event) =>
+                event.id.startsWith("alumni_") ||
+                event.id.startsWith("gallery_"),
+            );
+            setEvents(descriptionEvents);
+          } else {
+            setEvents(eventList);
+          }
         }
       });
     }
@@ -105,64 +118,186 @@ function Popup({
     await deleteDoc(doc(db, collectionName, eventId));
   };
 
-  const handleEdit = async (event: any) => {
-    setEditingId(event.id);
-    setEditTitle(event.eventTitle);
-    setEditDescription(event.description || "");
-    setEditItems(event.items || []);
-    setEditDate(event.date);
-    setEditKnight(event.knights || "");
+  const handleEdit = async (event?: any, knight?: any) => {
+    if (event) {
+      setEditingId(event.id);
+      setEditTitle(event.eventTitle);
+      setEditDescription(event.description || "");
+      setEditItems(event.items || []);
+      setEditDate(event.date);
+      if (event.date) {
+        const dateObj = event.date.toDate()
+          ? event.date.toDate()
+          : new Date(event.date);
 
-    if (event.date) {
-      const dateObj = event.date.toDate()
-        ? event.date.toDate()
-        : new Date(event.date);
+        const formattedDate = dateObj.toISOString().split("T")[0];
+        const formattedTime = dateObj.toTimeString().slice(0, 5);
 
-      const formattedDate = dateObj.toISOString().split("T")[0];
-      const formattedTime = dateObj.toTimeString().slice(0, 5);
-
-      setEditDate(formattedDate);
-      setEditTime(formattedTime);
+        setEditDate(formattedDate);
+        setEditTime(formattedTime);
+      }
+    } else if (knight) {
+      setEditName(knight.name);
+      setEditPosition(knight.position);
+      setEditAwards(knight.awards || []);
     }
   };
 
-  const handleSaveEdit = async (eventId: string) => {
+  const handleSaveEdit = async (eventId?: string, knightId?: string) => {
     try {
-      const updateData: any = {
-        eventTitle: editTitle,
-      };
+      if (eventId) {
+        const updateData: any = {
+          eventTitle: editTitle,
+        };
 
-      if (hasItems) {
-        updateData.items = editItems;
-        updateData.description = editDescription;
-      }
-      if (hasDate) {
-        if (!editDate || !editTime) {
-          alert("Date and Time Required");
-          return;
+        if (hasItems) {
+          updateData.items = editItems;
+          updateData.description = editDescription;
         }
 
-        const combinedDateTime = new Date(`${editDate}T${editTime}`);
+        if (hasDate) {
+          if (!editDate || !editTime) {
+            alert("Date and Time Required");
+            return;
+          }
 
-        if (isNaN(combinedDateTime.getTime())) {
-          alert("Invalid Date/Time");
-          return;
+          const combinedDateTime = new Date(`${editDate}T${editTime}`);
+
+          if (isNaN(combinedDateTime.getTime())) {
+            alert("Invalid Date/Time");
+            return;
+          }
+
+          updateData.date = combinedDateTime;
         }
 
-        updateData.date = combinedDateTime;
-      }
+        await updateDoc(doc(db, collectionName, eventId!), updateData);
+      } else if (knightId) {
+        const updateKnight: any = {
+          name: editName,
+          position: editPosition,
+        };
 
-      if (activeHouse) {
-        updateData.knights = editKnight;
-      }
+        if (editAwards) {
+          updateKnight.awards = editAwards;
+        }
 
-      await updateDoc(doc(db, collectionName, eventId), updateData);
+        await updateDoc(doc(db, collectionName, knightId!), updateKnight);
+      }
 
       setEditingId(null);
     } catch (error) {
       console.error("Error editing: ", error);
     }
   };
+
+  if (activeHouse) {
+    return (
+      <Fragment>
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <div className="event-popup-container">
+              <h3>Active & Executives</h3>
+              {knights.map((knight) => (
+                <Fragment key={knight.id}>
+                  {editingId === knight.id ? (
+                    <div className="edit-container">
+                      <label className="admin-label">Enter Name</label>
+                      <input
+                        className="knight-input"
+                        type="text"
+                        value={knight.name}
+                        placeholder="Name"
+                        onChange={(e) => setEditName(e.target.value)}
+                      />
+                      <label className="admin-label">Enter Position</label>
+                      <input
+                        className="knight-input"
+                        type="text"
+                        value={knight.position}
+                        placeholder="Position"
+                        onChange={(e) => setEditPosition(e.target.value)}
+                      />
+                      <label className="admin-label">Enter Awards</label>
+                      <div className="event-actions">
+                        <button
+                          className="admin-btn edit-btn"
+                          onClick={() => handleSaveEdit(knight.id)}
+                        >
+                          Save
+                        </button>
+                        <button
+                          className="admin-btn cancel-btn"
+                          onClick={() => setEditingId(null)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="view-mode-container active-house">
+                      <div className="knight-description">
+                        <img
+                          className="knight-image-display"
+                          src={knight.imageURL}
+                          alt="Knight"
+                        />
+                        <div className="knight-item-view">
+                          <span>Name:</span>
+                          <span>{knight.name}</span>
+                        </div>
+                        <div className="knight-item-view">
+                          <span>Position:</span>
+                          <span>{knight.position}</span>
+                        </div>
+                        <div className="knight-item-view">
+                          <span>Knight Name:</span>
+                          <span>{knight.knightName}</span>
+                        </div>
+                        <div className="knight-item-view">
+                          <span>Line #:</span>
+                          <span>{knight.lineNumber}</span>
+                        </div>
+                        <div className="knight-item-view">
+                          <span>Line Name:</span>
+                          <span>{knight.lineName}</span>
+                        </div>
+                        <div className="knight-item-view">
+                          <span>Cross Date:</span>
+                          <span>{knight.crossDate}</span>
+                        </div>
+                      </div>
+                      <div className="event-actions">
+                        <button
+                          className="admin-btn edit-btn"
+                          onClick={() => handleEdit(knight)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="admin-btn delete-btn"
+                          onClick={() =>
+                            handleDelete(knight.id, knight.imagePath)
+                          }
+                        >
+                          Delete Event
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </Fragment>
+              ))}
+            </div>
+            {showCloseButton && (
+              <button className="admin-btn close-btn" onClick={onClose}>
+                Close
+              </button>
+            )}
+          </div>
+        </div>
+      </Fragment>
+    );
+  }
 
   return (
     <div className="popup-overlay">
@@ -199,7 +334,7 @@ function Popup({
             {events && (
               <div className="event-popup-container">
                 {/* If displaying active house display different title */}
-                <h3>{activeHouse ? "Active and Execs" : "Existing Events"}</h3>
+                <h3>Existing Events</h3>
                 {events.map((event) => (
                   <div key={event.id}>
                     {editingId === event.id ? (
@@ -212,7 +347,7 @@ function Popup({
                             onChange={(e) => setEditTitle(e.target.value)}
                           />
                         )}
-                        {!event.date && !activeHouse && (
+                        {!event.date && (
                           // For Editing description if there is one
                           // Description for a knight is different than a regular description
                           <Fragment>
@@ -273,93 +408,6 @@ function Popup({
                               </div>
                             </div>
                           ))}
-                        {activeHouse && (
-                          // This popup is dedicated for the active house which includes
-                          // Positions
-                          // Knight Name
-                          // Line Numbers
-                          // Line Names
-                          <Fragment>
-                            <label className="admin-label">Enter Name</label>
-                            <input
-                              className="knight-input"
-                              type="text"
-                              value={editKnight?.name || ""}
-                              placeholder="Name"
-                              onChange={(e) =>
-                                setEditKnight((prev) =>
-                                  prev
-                                    ? { ...prev, name: e.target.value }
-                                    : null,
-                                )
-                              }
-                            />
-                            <label className="admin-label">
-                              Enter Position
-                            </label>
-                            <input
-                              className="knight-input"
-                              type="text"
-                              value={editKnight?.position || ""}
-                              placeholder="Position"
-                              onChange={(e) =>
-                                setEditKnight((prev) =>
-                                  prev
-                                    ? { ...prev, position: e.target.value }
-                                    : null,
-                                )
-                              }
-                            />
-                            <label className="admin-label">
-                              Enter Knight Name
-                            </label>
-                            <input
-                              className="knight-input"
-                              type="text"
-                              value={editKnight?.knightName || ""}
-                              placeholder="Knight Name"
-                              onChange={(e) =>
-                                setEditKnight((prev) =>
-                                  prev
-                                    ? { ...prev, knightName: e.target.value }
-                                    : null,
-                                )
-                              }
-                            />
-                            <label className="admin-label">
-                              Enter Line Number
-                            </label>
-                            <input
-                              className="knight-input"
-                              type="number"
-                              value={editKnight?.lineNumber || ""}
-                              placeholder="Line Number"
-                              onChange={(e) =>
-                                setEditKnight((prev) =>
-                                  prev
-                                    ? { ...prev, lineNumber: e.target.value }
-                                    : null,
-                                )
-                              }
-                            />
-                            <label className="admin-label">
-                              Enter Line Name
-                            </label>
-                            <input
-                              className="knight-input"
-                              type="text"
-                              value={editKnight?.lineName || ""}
-                              placeholder="Line Name"
-                              onChange={(e) =>
-                                setEditKnight((prev) =>
-                                  prev
-                                    ? { ...prev, lineName: e.target.value }
-                                    : null,
-                                )
-                              }
-                            />
-                          </Fragment>
-                        )}
                         <div className="event-actions">
                           <button
                             className="admin-btn edit-btn"
@@ -377,13 +425,7 @@ function Popup({
                       </div>
                     ) : (
                       // The following is whenever the event is in display mode, no editing is being made
-                      <div
-                        className={
-                          activeHouse
-                            ? "view-mode-container active-house"
-                            : "view-mode-container"
-                        }
-                      >
+                      <div className="view-mode-container">
                         <h4>{event.eventTitle}</h4>
                         {/* Display image of the knight instead of description */}
                         {activeHouse ? (
@@ -417,37 +459,6 @@ function Popup({
                               <span>{item.price}</span>
                             </div>
                           ))}
-                        {activeHouse && (
-                          // This popup is dedicated for the active house which includes
-                          // Positions
-                          // Knight Name
-                          // Line Numbers
-                          // Line Names
-                          <Fragment>
-                            <div className="knight-description">
-                              <div className="knight-item-view">
-                                <span>Name:</span>
-                                <span> {event.knights?.name}</span>
-                              </div>
-                              <div className="knight-item-view">
-                                <span>Position:</span>
-                                <span> {event.knights?.position}</span>
-                              </div>
-                              <div className="knight-item-view">
-                                <span>Knight Name:</span>
-                                <span> {event.knights?.knightName}</span>
-                              </div>
-                              <div className="knight-item-view">
-                                <span>Line #:</span>
-                                <span>{event.knights?.lineNumber}</span>
-                              </div>
-                              <div className="knight-item-view">
-                                <span>Line Name:</span>
-                                <span>{event.knights?.lineName}</span>
-                              </div>
-                            </div>
-                          </Fragment>
-                        )}
                         <div className="event-actions">
                           <button
                             className="admin-btn edit-btn"

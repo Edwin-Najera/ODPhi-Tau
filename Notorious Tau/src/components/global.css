@@ -135,21 +135,10 @@
     /* Whenever we are on a bigger screen we will make sure that the left hand will contain a background image */
     height: 100%;
     background-color: black;
-    background-image: url(./Photos/outline.png);
-    background-position: center;
-    background-position: 2000px -125px;
-    background-size: 50%;
+    background-image: url(./Photos/Knights_return.jpg);
+    background-position: 0 -800px;
+    background-size: cover;
     background-repeat: no-repeat;
-    animation: fadeInRight 1s forwards;
-    animation-delay: 500ms;
-  }
-}
-
-@keyframes fadeInRight {
-  to {
-    /* This is for the image, allows the image to have an animation when loading the page */
-    background-color: black;
-    background-position: 50px -125px;
   }
 }
 
@@ -801,6 +790,24 @@ a.click-button {
   margin-left: 5px;
 }
 
+.knight-input {
+  width: 100%;
+}
+
+.knight-row {
+  display: flex;
+}
+
+.awards-input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: left;
+  text-align: center;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
 .edit-btn {
   background-color: #4d79ff;
   color: white;
@@ -846,6 +853,7 @@ a.click-button {
   position: relative;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   width: 1000px;
@@ -853,6 +861,9 @@ a.click-button {
   overflow-y: auto;
   gap: 15px;
   padding-top: 150px;
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .event-popup-container h3 {
@@ -866,7 +877,7 @@ a.click-button {
   display: flex;
   flex-direction: column;
   margin-top: -100px;
-  width: 100%;
+  width: fit-content;
 }
 
 .view-mode-container.active-house {
@@ -893,7 +904,6 @@ a.click-button {
 
 .gallery-image {
   width: 250px;
-  border: solid black;
 }
 
 .knight-image-display {
@@ -906,17 +916,37 @@ a.click-button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: fit-content;
 }
 
 .knight-item-view {
   display: flex;
   flex-direction: row;
+  flex: 1;
   padding: 0;
   font-weight: 600;
   width: 100%;
   justify-content: space-between;
   align-items: center;
+}
+
+.knight-item-view span:first-child {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.knight-item-view span:last-child {
+  white-space: nowrap;
+}
+
+.knight-item-view span:first-child::after {
+  content: "";
+  flex: 1;
+  align-items: center;
+  border-bottom: dashed black;
+  margin: 0 5px;
 }
 
 .date-view-container {
@@ -1262,6 +1292,7 @@ a.click-button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .all-bros-title {
@@ -1271,6 +1302,15 @@ a.click-button {
   white-space: pre-line;
   font-weight: bold;
   font-size: 1.5em;
+}
+
+.all-bros-title::after {
+  flex: 1;
+  content: "";
+  border-bottom: dashed black;
+  margin-left: 5px;
+  margin-right: 5px;
+  align-items: center;
 }
 
 .all-bros-image {
@@ -1286,6 +1326,14 @@ a.click-button {
   }
 }
 
+.brotherhood-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 /*            This and below will be for the Meet The bros            */
 
 .mtb-page {
@@ -1298,6 +1346,9 @@ a.click-button {
   width: 100vw;
   gap: 50px;
   min-height: 100vh;
+  @media (max-width: 992px) {
+    padding-top: 120px;
+  }
 }
 
 .member-requirements {
@@ -1307,7 +1358,10 @@ a.click-button {
   width: 40%;
   justify-content: center;
   align-items: center;
-  border: solid red;
+  @media (max-width: 992px) {
+    width: 100%;
+    padding: 5px;
+  }
 }
 
 .member-requirement-title {
@@ -1319,8 +1373,16 @@ a.click-button {
   align-items: center;
 }
 
+.member-requirement-bottom {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  align-items: center;
+}
+
 .member-requirement-title::before,
-.member-requirement-title::after {
+.member-requirement-title::after,
+.member-requirement-bottom::after {
   flex: 1 0 0;
   content: "";
   height: 10px;

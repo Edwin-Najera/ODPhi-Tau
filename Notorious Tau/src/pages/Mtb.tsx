@@ -62,6 +62,7 @@ function Mtb() {
               Have been handed a big by active house
             </li>
           </ul>
+          <span className="member-requirement-bottom" />
         </div>
         <h5>Awarded Brothers</h5>
         <h3>Meet the Bros</h3>
@@ -72,7 +73,7 @@ function Mtb() {
               <Fragment key={index}>
                 <img
                   src={exec.imageURL}
-                  alt="active"
+                  alt="Executive"
                   className="executive-image"
                 />
               </Fragment>
@@ -86,7 +87,7 @@ function Mtb() {
               <div key={index} className="active-container">
                 <img
                   src={active.imageURL}
-                  alt="active"
+                  alt="Active House"
                   className="active-image front"
                 />
                 <div className="active-position"></div>

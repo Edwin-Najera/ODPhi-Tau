@@ -34,7 +34,10 @@ function AdminPanel({
     knightName: "",
     lineNumber: "",
     lineName: "",
+    crossDate: "",
   });
+  const [awards, setAwards] = useState([{ award: "" }]);
+  const [type, setType] = useState("");
   const [showSavePopup, setShowSavePopup] = useState(false);
   const [showGalleryPopup, setShowGalleryPopup] = useState(false);
   const [showEventsPopup, setShowEventsPopup] = useState(false);
@@ -63,7 +66,14 @@ function AdminPanel({
 
   //Whenever a knight is added to a gallery
   const handleKnightChange = (
-    field: "name" | "position" | "knightName" | "lineNumber" | "lineName",
+    field:
+      | "name"
+      | "position"
+      | "knightName"
+      | "lineNumber"
+      | "lineName"
+      | "crossDate"
+      | "createdAta",
     value: string,
   ) => {
     setKnights((prev) => ({
@@ -72,31 +82,71 @@ function AdminPanel({
     }));
   };
 
+  const handleAwardChange = (index: number, field: "award", value: string) => {
+    const updatedAwards = [...awards];
+    updatedAwards[index][field] = value;
+    setAwards(updatedAwards);
+  };
+
+  const addAwardField = () => {
+    setAwards([...awards, { award: "" }]);
+  };
+
+  const deleteAwardField = (index: number) => {
+    const updateAwards = awards.filter((_, i) => i !== index);
+    setAwards(updateAwards);
+  };
+
   const handleSubmit = async () => {
+    console.log("button clicked");
     let message = "";
-    if (!eventTitle) {
-      message = onlyPhotos ? "Please Choose a Gallery" : "Event Title Required";
+    if (!activeHouse) {
+      console.log("no title");
+      if (!eventTitle) {
+        message = onlyPhotos
+          ? "Please Choose a Gallery"
+          : "Event Title Required";
+
+        setPopupMessage(message);
+        setShowSavePopup(true);
+        return;
+      } else if (
+        !imageFile &&
+        (!hasDate || onlyPhotos) &&
+        collectionName !== "campus"
+      ) {
+        message = "Image File required";
+        setPopupMessage(message);
+        setShowSavePopup(true);
+        return;
+      } else if (hasDate && eventDate === "") {
+        message = "Event date Required";
+        setPopupMessage(message);
+        setShowSavePopup(true);
+        return;
+      }
+    } else if (!type) {
+      message = "Please Choose a Gallery";
 
       setPopupMessage(message);
       setShowSavePopup(true);
       return;
-    }
-    if (!imageFile && (!hasDate || onlyPhotos) && collectionName !== "campus") {
+    } else if (
+      !imageFile &&
+      (!hasDate || onlyPhotos) &&
+      collectionName !== "campus"
+    ) {
       message = "Image File required";
       setPopupMessage(message);
       setShowSavePopup(true);
       return;
     }
-    if (hasDate && eventDate === "") {
-      message = "Event date Required";
-      setPopupMessage(message);
-      setShowSavePopup(true);
-      return;
-    }
+    console.log("checks complete");
 
     let imagePath = "";
     let downloadURL = "";
 
+    console.log("creating Image url");
     if (imageFile) {
       imagePath = onlyPhotos
         ? `gallery/${Date.now()}-${imageFile?.name}`
@@ -115,9 +165,28 @@ function AdminPanel({
         createdAt: new Date(),
       };
 
+      const newKnight: any = {
+        name: knights.name,
+        position: knights.position,
+        knightName: knights.knightName,
+        lineNumber: knights.lineNumber,
+        lineName: knights.lineName,
+        crossDate: knights.crossDate,
+        createdAt: new Date(),
+      };
+
+      if (awards) {
+        newKnight.awards = awards;
+      }
+
       if (imageFile) {
-        newEvent.imageURL = downloadURL;
-        newEvent.imagePath = imagePath;
+        if (activeHouse) {
+          newKnight.imageURL = downloadURL;
+          newKnight.imagePath = imagePath;
+        } else {
+          newEvent.imageURL = downloadURL;
+          newEvent.imagePath = imagePath;
+        }
       }
 
       if (hasItems) {
@@ -143,18 +212,18 @@ function AdminPanel({
         newEvent.date = combinedDateTime;
       }
 
-      if (activeHouse) {
-        newEvent.knights = knights;
-      }
-
-      if (onlyPhotos) {
+      if (onlyPhotos || activeHouse) {
         const collectionPhotos = activeHouse ? "house" : "photos";
         const collectionRef = collection(db, collectionPhotos);
+        const identifier = activeHouse ? type : eventTitle;
 
         const autoId = doc(collectionRef).id;
-        const customId = `${eventTitle}_${autoId}`;
+        const customId = `${identifier}_${autoId}`;
 
-        await setDoc(doc(db, collectionName, customId), newEvent);
+        const newDocument = activeHouse ? newKnight : newEvent;
+        console.log(newDocument);
+
+        await setDoc(doc(db, collectionName, customId), newDocument);
       } else {
         await addDoc(collection(db, collectionName), newEvent);
       }
@@ -172,6 +241,7 @@ function AdminPanel({
         knightName: "",
         lineNumber: "",
         lineName: "",
+        crossDate: "",
       });
       setItems([{ name: "", price: "" }]);
     } catch (error) {
@@ -182,9 +252,134 @@ function AdminPanel({
     }
   };
 
+  if (activeHouse) {
+    return (
+      <div className="row w-100 d-flex justify-content-around">
+        <div className="admin-container">
+          <h2 className="admin-header">{panelTitle}</h2>
+          <label className="admin-label">Choose a Gallery</label>
+          <select value={type} onChange={(e) => setType(e.target.value)}>
+            <option value="">Choose Gallery</option>
+            <option value="active">Active</option>
+            <option value="executive">Executive</option>
+          </select>
+          <label className="admin-label">Enter Name</label>
+          <input
+            className="knight-input"
+            type="text"
+            placeholder="Name"
+            onChange={(e) => handleKnightChange("name", e.target.value)}
+          />
+          <label className="admin-label">Enter Position</label>
+          <input
+            className="knight-input"
+            type="text"
+            placeholder="Position"
+            onChange={(e) => handleKnightChange("position", e.target.value)}
+          />
+          <label className="admin-label">Enter Knight Name</label>
+          <input
+            className="knight-input"
+            type="text"
+            placeholder="Knight Name"
+            onChange={(e) => handleKnightChange("knightName", e.target.value)}
+          />
+          <label className="admin-label">Enter Line Number</label>
+          <input
+            className="knight-input"
+            type="number"
+            placeholder="Line Number"
+            onChange={(e) => handleKnightChange("lineNumber", e.target.value)}
+          />
+          <label className="admin-label">Enter Line Name</label>
+          <input
+            className="knight-input"
+            type="text"
+            placeholder="Line Name"
+            onChange={(e) => handleKnightChange("lineName", e.target.value)}
+          />
+          <label className="admin-label">Enter Cross Date</label>
+          <input
+            className="knight-input"
+            type="text"
+            placeholder="Cross Date Semester-Year"
+            onChange={(e) => handleKnightChange("crossDate", e.target.value)}
+          />
+          <br />
+          <label className="admin-label">Enter Event Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              if (e.target.files) {
+                setImageFile(e.target.files[0]);
+              }
+            }}
+          />
+          <Fragment>
+            <div className="awards-input">
+              <label className="admin-label">Enter awards</label>
+              {awards.map((award, index) => (
+                <div className="knight-row" key={index}>
+                  <input
+                    className="knight-input"
+                    type="text"
+                    placeholder="Award"
+                    value={award.award}
+                    onChange={(e) =>
+                      handleAwardChange(index, "award", e.target.value)
+                    }
+                  />
+                  <button
+                    className="admin-btn delete-btn item-delete"
+                    onClick={() => deleteAwardField(index)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button className="admin-btn" onClick={addAwardField}>
+              + Add Another Award
+            </button>
+          </Fragment>
+          <br />
+          <br />
+          <button className="admin-btn" onClick={() => handleSubmit()}>
+            Save Event
+          </button>
+          <button
+            className="admin-btn mt-2"
+            onClick={() => setShowActivePopup(true)}
+          >
+            Display Gallery
+          </button>
+          {showActivePopup && (
+            <Popup
+              message=""
+              onClose={() => setShowActivePopup(false)}
+              collectionName={collectionName}
+              showCloseButton={true}
+              activeHouse={true}
+            />
+          )}
+          {showSavePopup && (
+            <Popup
+              message={popupMessage}
+              collectionName={""}
+              onClose={() => setShowSavePopup(false)}
+              autoClose={true}
+              duration={1000}
+              showCloseButton={false}
+            />
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     // The following is only whenever inputting events
-
     <div className="row w-100 d-flex justify-content-around">
       <div className="admin-container">
         <h2 className="admin-header">{panelTitle}</h2>
@@ -201,12 +396,6 @@ function AdminPanel({
                 <Fragment>
                   <option value="alumni">Alumni Gallery</option>
                   <option value="gallery">Gallery</option>
-                </Fragment>
-              )}
-              {activeHouse && (
-                <Fragment>
-                  <option value="active">Active</option>
-                  <option value="executive">Executive</option>
                 </Fragment>
               )}
             </select>
@@ -237,45 +426,6 @@ function AdminPanel({
             />
           </Fragment>
         )}
-        {activeHouse && (
-          <Fragment>
-            <label className="admin-label">Enter Name</label>
-            <input
-              className="knight-input"
-              type="text"
-              placeholder="Name"
-              onChange={(e) => handleKnightChange("name", e.target.value)}
-            />
-            <label className="admin-label">Enter Position</label>
-            <input
-              className="knight-input"
-              type="text"
-              placeholder="Position"
-              onChange={(e) => handleKnightChange("position", e.target.value)}
-            />
-            <label className="admin-label">Enter Knight Name</label>
-            <input
-              className="knight-input"
-              type="text"
-              placeholder="Knight Name"
-              onChange={(e) => handleKnightChange("knightName", e.target.value)}
-            />
-            <label className="admin-label">Enter Line Number</label>
-            <input
-              className="knight-input"
-              type="number"
-              placeholder="Line Number"
-              onChange={(e) => handleKnightChange("lineNumber", e.target.value)}
-            />
-            <label className="admin-label">Enter Line Name</label>
-            <input
-              className="knight-input"
-              type="text"
-              placeholder="Line Name"
-              onChange={(e) => handleKnightChange("lineName", e.target.value)}
-            />
-          </Fragment>
-        )}
         {hasDate && (
           //If there is a date, then we will ask for the date of the event
           <Fragment>
@@ -297,22 +447,24 @@ function AdminPanel({
             />
           </Fragment>
         )}
-        {!hasDate && collectionName !== "campus" && (
-          // If the event requires an image, there will be an input for images
-          <Fragment>
-            <br />
-            <label className="admin-label">Enter Event Image</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                if (e.target.files) {
-                  setImageFile(e.target.files[0]);
-                }
-              }}
-            />
-          </Fragment>
-        )}
+        {!hasDate &&
+          collectionName !== "campus" &&
+          collectionName !== "brotherhood" && (
+            // If the event requires an image, there will be an input for images
+            <Fragment>
+              <br />
+              <label className="admin-label">Enter Event Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    setImageFile(e.target.files[0]);
+                  }
+                }}
+              />
+            </Fragment>
+          )}
         {hasItems && (
           // If the event has items to sell there will be an input for it
           <Fragment>
@@ -391,7 +543,7 @@ function AdminPanel({
             hasItems={hasItems}
           />
         )}
-        {onlyPhotos && !activeHouse && (
+        {onlyPhotos && (
           <Fragment>
             <button
               className="admin-btn mt-2"
@@ -406,25 +558,6 @@ function AdminPanel({
                 collectionName={collectionName}
                 showCloseButton={true}
                 showGallery={true}
-              />
-            )}
-          </Fragment>
-        )}
-        {activeHouse && (
-          <Fragment>
-            <button
-              className="admin-btn mt-2"
-              onClick={() => setShowActivePopup(true)}
-            >
-              Display Gallery
-            </button>
-            {showActivePopup && (
-              <Popup
-                message=""
-                onClose={() => setShowActivePopup(false)}
-                collectionName={collectionName}
-                showCloseButton={true}
-                activeHouse={true}
               />
             )}
           </Fragment>

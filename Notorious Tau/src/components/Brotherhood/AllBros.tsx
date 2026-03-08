@@ -6,6 +6,7 @@ import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import type { Event } from "../EventsFolder/eventData";
 import "../global.css";
 import Popup from "../Admin/Popup";
+import Loading from "../Loading";
 
 function AllBros() {
   const [userRole, setUserRole] = useState("");
@@ -96,13 +97,7 @@ function AllBros() {
 
   //If loading is true display the loading page
   if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-ball" id="loading-one" />
-        <div className="loading-ball" id="loading-two" />
-        <div className="loading-ball" id="loading-three" />
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
@@ -148,12 +143,12 @@ function AllBros() {
         <div className="all-bros-events">
           {brotherhoodEvents.map((event, index) => (
             <div className="all-bros-event-container" key={index}>
-              <h2 className="all-bros-title">{event.eventTitle}</h2>
-              <img
-                className="img-fluid all-bros-image"
-                src={event.imageURL}
-                alt="Brotherhood"
-              />
+              <div className="brotherhood-container">
+                <span className="all-bros-title">{event.eventTitle}</span>
+                <span className="brotherhood-description">
+                  {event.description}
+                </span>
+              </div>
             </div>
           ))}
         </div>

@@ -55,7 +55,6 @@ function Onlybros() {
           <AdminPanel
             collectionName="house"
             panelTitle="Active and Exec Photos"
-            onlyPhotos={true}
             activeHouse={true}
           />
         </div>
