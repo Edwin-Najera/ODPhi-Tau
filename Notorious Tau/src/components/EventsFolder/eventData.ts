@@ -7,6 +7,11 @@ export type EventItem = {
     price: string;
 }
 
+export type Awards = {
+    title: string;
+    year: string;
+}
+
 export type Knights = {
     id: string;
     type: string;
@@ -18,7 +23,7 @@ export type Knights = {
     lineNumber: string;
     lineName: string;
     crossDate: string;
-    awards: string[];
+    awards: Awards[];
 }
 
 export type Event = {

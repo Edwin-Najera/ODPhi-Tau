@@ -28,15 +28,13 @@ function AdminPanel({
   const [eventDate, setEventDate] = useState<string>("");
   const [eventTime, setEventTime] = useState<string>("");
   const [imageFile, setImageFile] = useState<File | null>(null); //For the image/flyer of the event *REQUIRED*
-  const [knights, setKnights] = useState({
-    name: "",
-    position: "",
-    knightName: "",
-    lineNumber: "",
-    lineName: "",
-    crossDate: "",
-  });
-  const [awards, setAwards] = useState([{ award: "" }]);
+  const [name, setName] = useState("");
+  const [position, setPosition] = useState("");
+  const [knightName, setKnightName] = useState("");
+  const [lineNumber, setLineNumber] = useState("");
+  const [lineName, setLineName] = useState("");
+  const [crossDate, setCrossDate] = useState("");
+  const [awards, setAwards] = useState([{ award: "", year: "" }]);
   const [type, setType] = useState("");
   const [showSavePopup, setShowSavePopup] = useState(false);
   const [showGalleryPopup, setShowGalleryPopup] = useState(false);
@@ -64,32 +62,18 @@ function AdminPanel({
     setItems(updateItems);
   };
 
-  //Whenever a knight is added to a gallery
-  const handleKnightChange = (
-    field:
-      | "name"
-      | "position"
-      | "knightName"
-      | "lineNumber"
-      | "lineName"
-      | "crossDate"
-      | "createdAta",
+  const handleAwardChange = (
+    index: number,
+    field: "award" | "year",
     value: string,
   ) => {
-    setKnights((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  const handleAwardChange = (index: number, field: "award", value: string) => {
     const updatedAwards = [...awards];
     updatedAwards[index][field] = value;
     setAwards(updatedAwards);
   };
 
   const addAwardField = () => {
-    setAwards([...awards, { award: "" }]);
+    setAwards([...awards, { award: "", year: "" }]);
   };
 
   const deleteAwardField = (index: number) => {
@@ -166,12 +150,12 @@ function AdminPanel({
       };
 
       const newKnight: any = {
-        name: knights.name,
-        position: knights.position,
-        knightName: knights.knightName,
-        lineNumber: knights.lineNumber,
-        lineName: knights.lineName,
-        crossDate: knights.crossDate,
+        name: name,
+        position: position,
+        knightName: knightName,
+        lineNumber: lineNumber,
+        lineName: lineName,
+        crossDate: crossDate,
         createdAt: new Date(),
       };
 
@@ -235,14 +219,12 @@ function AdminPanel({
       setDescription("");
       setEventDate("");
       setEventTime("");
-      setKnights({
-        name: "",
-        position: "",
-        knightName: "",
-        lineNumber: "",
-        lineName: "",
-        crossDate: "",
-      });
+      setName("");
+      setPosition("");
+      setKnightName("");
+      setLineNumber("");
+      setLineName("");
+      setCrossDate("");
       setItems([{ name: "", price: "" }]);
     } catch (error) {
       message = "Error adding event";
@@ -268,42 +250,42 @@ function AdminPanel({
             className="knight-input"
             type="text"
             placeholder="Name"
-            onChange={(e) => handleKnightChange("name", e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
           <label className="admin-label">Enter Position</label>
           <input
             className="knight-input"
             type="text"
             placeholder="Position"
-            onChange={(e) => handleKnightChange("position", e.target.value)}
+            onChange={(e) => setPosition(e.target.value)}
           />
           <label className="admin-label">Enter Knight Name</label>
           <input
             className="knight-input"
             type="text"
             placeholder="Knight Name"
-            onChange={(e) => handleKnightChange("knightName", e.target.value)}
+            onChange={(e) => setKnightName(e.target.value)}
           />
           <label className="admin-label">Enter Line Number</label>
           <input
             className="knight-input"
             type="number"
             placeholder="Line Number"
-            onChange={(e) => handleKnightChange("lineNumber", e.target.value)}
+            onChange={(e) => setLineNumber(e.target.value)}
           />
           <label className="admin-label">Enter Line Name</label>
           <input
             className="knight-input"
             type="text"
             placeholder="Line Name"
-            onChange={(e) => handleKnightChange("lineName", e.target.value)}
+            onChange={(e) => setLineName(e.target.value)}
           />
           <label className="admin-label">Enter Cross Date</label>
           <input
             className="knight-input"
             type="text"
             placeholder="Cross Date Semester-Year"
-            onChange={(e) => handleKnightChange("crossDate", e.target.value)}
+            onChange={(e) => setCrossDate(e.target.value)}
           />
           <br />
           <label className="admin-label">Enter Event Image</label>
@@ -328,6 +310,15 @@ function AdminPanel({
                     value={award.award}
                     onChange={(e) =>
                       handleAwardChange(index, "award", e.target.value)
+                    }
+                  />
+                  <input
+                    className="knight-input award-year"
+                    type="number"
+                    placeholder="Year"
+                    value={award.year}
+                    onChange={(e) =>
+                      handleAwardChange(index, "year", e.target.value)
                     }
                   />
                   <button

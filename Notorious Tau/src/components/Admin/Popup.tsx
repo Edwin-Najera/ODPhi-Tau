@@ -10,7 +10,12 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
-import type { EventItem, Event, Knights } from "../EventsFolder/eventData";
+import type {
+  EventItem,
+  Awards,
+  Event,
+  Knights,
+} from "../EventsFolder/eventData";
 import "../global.css";
 
 type PopupProps = {
@@ -41,6 +46,7 @@ function Popup({
   const [events, setEvents] = useState<Event[]>([]);
   const [knights, setKnights] = useState<Knights[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingKnightId, setEditingKnightId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [editDate, setEditDate] = useState<string>("");
@@ -50,7 +56,9 @@ function Popup({
   );
   const [editName, setEditName] = useState("");
   const [editPosition, setEditPosition] = useState("");
-  const [editAwards, setEditAwards] = useState<{ award: string }[]>([]);
+  const [editAwards, setEditAwards] = useState<
+    { title: string; year: string }[]
+  >([]);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | null = null;
@@ -118,17 +126,23 @@ function Popup({
     await deleteDoc(doc(db, collectionName, eventId));
   };
 
-  const handleEdit = async (event?: any, knight?: any) => {
-    if (event) {
-      setEditingId(event.id);
-      setEditTitle(event.eventTitle);
-      setEditDescription(event.description || "");
-      setEditItems(event.items || []);
-      setEditDate(event.date);
-      if (event.date) {
-        const dateObj = event.date.toDate()
-          ? event.date.toDate()
-          : new Date(event.date);
+  const handleEdit = async (document: any) => {
+    if (activeHouse) {
+      console.log("button clicked");
+      setEditingKnightId(document.id);
+      setEditName(document.name);
+      setEditPosition(document.position);
+      setEditAwards(document.awards || []);
+    } else {
+      setEditTitle(document.documentTitle);
+      setEditingId(document.id);
+      setEditDescription(document.description || "");
+      setEditItems(document.items || []);
+      setEditDate(document.date);
+      if (document.date) {
+        const dateObj = document.date.toDate()
+          ? document.date.toDate()
+          : new Date(document.date);
 
         const formattedDate = dateObj.toISOString().split("T")[0];
         const formattedTime = dateObj.toTimeString().slice(0, 5);
@@ -136,23 +150,19 @@ function Popup({
         setEditDate(formattedDate);
         setEditTime(formattedTime);
       }
-    } else if (knight) {
-      setEditName(knight.name);
-      setEditPosition(knight.position);
-      setEditAwards(knight.awards || []);
     }
   };
 
-  const handleSaveEdit = async (eventId?: string, knightId?: string) => {
+  const handleSaveEdit = async (id: string) => {
     try {
-      if (eventId) {
+      if (!activeHouse) {
         const updateData: any = {
           eventTitle: editTitle,
+          description: editDescription,
         };
 
         if (hasItems) {
           updateData.items = editItems;
-          updateData.description = editDescription;
         }
 
         if (hasDate) {
@@ -171,8 +181,9 @@ function Popup({
           updateData.date = combinedDateTime;
         }
 
-        await updateDoc(doc(db, collectionName, eventId!), updateData);
-      } else if (knightId) {
+        await updateDoc(doc(db, collectionName, id), updateData);
+      } else {
+        console.log("button clicked");
         const updateKnight: any = {
           name: editName,
           position: editPosition,
@@ -182,13 +193,25 @@ function Popup({
           updateKnight.awards = editAwards;
         }
 
-        await updateDoc(doc(db, collectionName, knightId!), updateKnight);
+        console.log(updateKnight);
+
+        await updateDoc(doc(db, collectionName, id), updateKnight);
       }
 
       setEditingId(null);
+      setEditingKnightId(null);
     } catch (error) {
       console.error("Error editing: ", error);
     }
+  };
+
+  const addAwardField = () => {
+    setEditAwards([...editAwards, { title: "", year: "" }]);
+  };
+
+  const deleteAwardField = (index: number) => {
+    const updateAwards = editAwards.filter((_, i) => i !== index);
+    setEditAwards(updateAwards);
   };
 
   if (activeHouse) {
@@ -200,13 +223,13 @@ function Popup({
               <h3>Active & Executives</h3>
               {knights.map((knight) => (
                 <Fragment key={knight.id}>
-                  {editingId === knight.id ? (
+                  {editingKnightId === knight.id ? (
                     <div className="edit-container">
                       <label className="admin-label">Enter Name</label>
                       <input
                         className="knight-input"
                         type="text"
-                        value={knight.name}
+                        value={editName}
                         placeholder="Name"
                         onChange={(e) => setEditName(e.target.value)}
                       />
@@ -214,11 +237,46 @@ function Popup({
                       <input
                         className="knight-input"
                         type="text"
-                        value={knight.position}
+                        value={editPosition}
                         placeholder="Position"
                         onChange={(e) => setEditPosition(e.target.value)}
                       />
                       <label className="admin-label">Enter Awards</label>
+                      {editAwards.map((award, index) => (
+                        <div className="knight-row mb-3" key={index}>
+                          <input
+                            className="knight-input"
+                            type="text"
+                            placeholder="Award"
+                            value={award.title}
+                            onChange={(e) => {
+                              const updatedAwards = [...editAwards];
+                              updatedAwards[index].title = e.target.value;
+                              setEditAwards(updatedAwards);
+                            }}
+                          />
+                          <input
+                            className="knight-input award-year"
+                            type="number"
+                            placeholder="Year"
+                            value={award.year}
+                            onChange={(e) => {
+                              const updatedAwards = [...editAwards];
+                              updatedAwards[index].year = e.target.value;
+                              setEditAwards(updatedAwards);
+                            }}
+                          />
+                          <button
+                            className="admin-btn delete-btn item-delete"
+                            onClick={() => deleteAwardField(index)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      ))}
+                      <button className="admin-btn" onClick={addAwardField}>
+                        + Add Another Award
+                      </button>
                       <div className="event-actions">
                         <button
                           className="admin-btn edit-btn"
@@ -228,7 +286,7 @@ function Popup({
                         </button>
                         <button
                           className="admin-btn cancel-btn"
-                          onClick={() => setEditingId(null)}
+                          onClick={() => setEditingKnightId(null)}
                         >
                           Cancel
                         </button>
@@ -266,6 +324,15 @@ function Popup({
                           <span>Cross Date:</span>
                           <span>{knight.crossDate}</span>
                         </div>
+                        {knight.awards &&
+                          knight.awards?.map(
+                            (awards: Awards, index: number) => (
+                              <div className="item-row" key={index}>
+                                <span>{awards.title}</span>
+                                <span>{awards.year}</span>
+                              </div>
+                            ),
+                          )}
                       </div>
                       <div className="event-actions">
                         <button
