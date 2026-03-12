@@ -1513,27 +1513,31 @@ a.click-button {
 
 .history-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-evenly;
   width: 75%;
-  height: 500px;
-  border: solid blue;
+  gap: 15px;
   @media (max-width: 992px) {
-    flex-direction: column;
     width: 100%;
     padding: 0 10px;
   }
 }
 
-.founders-container {
+.founding-lines {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 50%;
-  height: 100%;
-  border: solid black;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 700px;
+  gap: 25px;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    width: 100%;
+    min-height: 1250px;
+  }
 }
+
+.founders-container,
 .charter-container {
   display: flex;
   flex-direction: column;
@@ -1541,7 +1545,10 @@ a.click-button {
   justify-content: center;
   width: 50%;
   height: 100%;
-  border: solid black;
+  @media (max-width: 992px) {
+    width: 100%;
+    border: solid black;
+  }
 }
 
 .history-container ul {
@@ -1551,9 +1558,9 @@ a.click-button {
   padding: 0;
   width: 100%;
   height: 100%;
+  gap: 15px;
   align-items: center;
   justify-content: space-around;
-  border: solid red;
 }
 
 .history-container li {
@@ -1564,14 +1571,151 @@ a.click-button {
   justify-content: center;
 }
 
-.history-container li::after,
-.history-container li::before {
+.history-container .member-name::after,
+.history-container .member-name::before {
   flex: 1;
   content: "";
   align-items: center;
-  height: 5px;
-  margin: 0 5px;
-  border-bottom: 1px solid black;
-  border-top: 1px solid black;
-  border-bottom-right-radius: 50%;
+  height: 10px;
+  min-width: 50px;
+}
+
+.history-container .member-name::after {
+  background:
+    linear-gradient(
+        to right,
+        /* starts solid at hilt (left) */ black 0%,
+        /* holds solid for most of blade */ black 60%,
+        /* fades out before tip (right) */ transparent 90%
+      )
+      /* 95% width, starts from left */ left center / 95% 2px no-repeat,
+    linear-gradient(
+      to bottom,
+      #808080,
+      /* darker silver above */ #808080,
+      /* lighter silver below */ #d4d4d4,
+      #d4d4d4
+    );
+  clip-path: polygon(
+    /* Top Left x1 y1 */ 0% 0%,
+    /* Top Right x2 y2*/ calc(100% - 10px) 0%,
+    /* Bottom right x3 y3*/ 100% 50%,
+    /* Bottom Right x4 y4*/ calc(100% - 10px) 100%,
+    /* Top Left x5 y5*/ 0% 100%
+  );
+}
+
+.history-container .member-name::before {
+  background:
+    linear-gradient(
+        to left,
+        /* starts solid at hilt (right) */ black 0%,
+        /* holds solid for most of blade */ black 60%,
+        /* fades out before tip (left) */ transparent 90%
+      )
+      /* 95% width, starts from right */ right center / 95% 1.5px no-repeat,
+    linear-gradient(
+      to bottom,
+      #808080,
+      /* darker silver above */ #808080,
+      /* lighter silver below */ #d4d4d4,
+      #d4d4d4
+    );
+  clip-path: polygon(10px 0%, 100% 0%, 100% 100%, 10px 100%, 0% 50%);
+}
+
+.handle-left,
+.handle-right {
+  display: flex;
+  flex: 0.1 0 auto;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.handle-left::after,
+.handle-right::after {
+  flex: 1;
+  content: "";
+  height: 25px;
+  width: 30px;
+  background: black;
+}
+
+.handle-left::after {
+  margin-right: 5px;
+  clip-path: polygon(
+    0% 0%,
+    5px 0%,
+    5px 40%,
+    calc(100% - 5px) 40%,
+    100% 50%,
+    calc(100% - 5px) 60%,
+    5px 60%,
+    5px 100%,
+    0% 100%
+  );
+  transform-origin: left center;
+}
+
+.handle-right::after {
+  margin-left: 5px;
+  clip-path: polygon(
+    0% 50%,
+    5px 40%,
+    calc(100% - 5px) 40%,
+    calc(100% - 5px) 0%,
+    100% 0%,
+    100% 100%,
+    calc(100% - 5px) 100%,
+    calc(100% - 5px) 60%,
+    5px 60%,
+    0% 50%
+  );
+  transform-origin: right center;
+}
+
+@keyframes turnHitLeft {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(165deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes turnHitRight {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-165deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+.history-header {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.history-header .crown {
+  width: 125px;
+}
+
+.tau-history-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: solid black;
+}
+
+.tau-history {
+  width: 75%;
+  border: solid red;
 }

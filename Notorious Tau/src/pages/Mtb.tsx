@@ -5,12 +5,39 @@ import type { Knights } from "../components/EventsFolder/eventData";
 import Loading from "../components/Loading";
 import KnightCards from "../components/AboutFolder/Knights";
 import crown from "../components/Photos/ODP Minimal Crown - Black.png";
+import { useInView } from "react-intersection-observer";
 
 function Mtb() {
   const [actives, setActives] = useState<Knights[]>([]);
   const [executives, setExecutives] = useState<Knights[]>([]);
   const [recognized, setRecognized] = useState<Knights[]>([]);
   const [loading, setLoading] = useState(true);
+  const foundingMembers = [
+    "William Macklin",
+    "Micheal Vega",
+    "Fernando Valenciana",
+    "Arturo Elizondo",
+    "Humberto Carbajal",
+    "Abel Malagon",
+    "Washington Cabrera",
+    "Fredy Ferman",
+    "Alexander Cecenas",
+    "Steven Smith",
+  ];
+  const charterMembers = [
+    "Ricky Esqueda",
+    "Paul Hernandez",
+    "Marc Solis",
+    "Keron Fritz",
+    "Javier Casterllon",
+    "Carlos Diaz",
+    "Detric Kelly",
+    "Jimmy Change",
+    "Micheal Chang",
+    "Joseph Munguia",
+    "Manuel Rojas",
+    "Brandon Smith",
+  ];
 
   useEffect(() => {
     const fetchPhotos = async () => {
@@ -111,40 +138,67 @@ function Mtb() {
             ))}
           </div>
         </div>
+        <div className="line-separate" />
         <div className="history-container">
-          <div className="founders-container">
-            <div className="history-header">
-              <img src={crown} alt="Crown" />
-              <div>Founders</div>
+          <div className="founding-lines">
+            <div className="founders-container">
+              <div className="history-header">
+                <img className="crown" src={crown} alt="Crown" />
+                <div>Founders</div>
+              </div>
+              <ul className="founders-list">
+                {foundingMembers.map((founder, index) => (
+                  <li key={index} className="member-name">
+                    <div className="handle-left" />
+                    {founder}
+                    <div className="handle-right" />
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="founders-list">
-              <li className="founder-name">William Macklin</li>
-              <li className="founder-name">Micheal Vega</li>
-              <li className="founder-name">Fernando Valenciana</li>
-              <li className="founder-name">Arturo Elizondo</li>
-              <li className="founder-name">Humberto Carbajal</li>
-              <li className="founder-name">Abel Malagon</li>
-              <li className="founder-name">Washington Cabrera</li>
-              <li className="founder-name">Fredy Ferman</li>
-              <li className="founder-name">Alexander Cencenas</li>
-              <li className="founder-name">Steven Smith</li>
-            </ul>
+            <div className="charter-container">
+              <div className="history-header">
+                <img className="crown" src={crown} alt="Crown" />
+                <div>Charter Class</div>
+              </div>
+              <ul className="charter-list">
+                {charterMembers.map((charter, index) => (
+                  <li key={index} className="member-name">
+                    <div className="handle-left" />
+                    {charter}
+                    <div className="handle-right" />
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div className="charter-container">
-            <ul className="charter-list">
-              <li className="charter-member">Ricky Esqueda</li>
-              <li className="charter-member">Paul Hernandez</li>
-              <li className="charter-member">Marc Solis</li>
-              <li className="charter-member">Keron Fritz</li>
-              <li className="charter-member">Javier Casterllon</li>
-              <li className="charter-member">Carlos Diaz</li>
-              <li className="charter-member">Detric Kely</li>
-              <li className="charter-member">Jimmy Chang</li>
-              <li className="charter-member">Micheal Chang</li>
-              <li className="charter-member">Joseph Munguia</li>
-              <li className="charter-member">Manuel Rojas</li>
-              <li className="charter-member">Brandon Smith</li>
-            </ul>
+          <div className="tau-history-container">
+            <h3>Tau History</h3>
+            <p className="tau-history">
+              The Tau Chapter of Omega Delta Phi Fraternity, Inc. was
+              established at the University of Texas at Arlington to continue
+              the fraternity’s mission of promoting unity, leadership, academic
+              excellence, and community service. Founded nationally on November
+              25, 1987, at Texas Tech University, Omega Delta Phi was created to
+              provide a brotherhood that celebrates diversity while developing
+              leaders committed to serving their communities.
+              <br />
+              <br />
+              Since its establishment, the Tau Chapter has worked to uphold
+              these founding principles on the UTA campus. The chapter has
+              contributed to the growth of multicultural Greek life by creating
+              opportunities for students to build meaningful connections,
+              develop leadership skills, and give back through service
+              initiatives.
+              <br />
+              <br />
+              Throughout its history, the Tau Chapter has remained committed to
+              fostering strong brotherhood while making a positive impact both
+              on campus and in the surrounding Arlington community. Through
+              philanthropy events, campus involvement, and alumni support, the
+              chapter continues to build upon the legacy of Omega Delta Phi and
+              shape future leaders.
+            </p>
           </div>
         </div>
       </div>

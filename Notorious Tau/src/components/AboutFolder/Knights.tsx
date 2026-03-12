@@ -1,6 +1,6 @@
-import { useState, useEffect, Fragment } from "react";
+import { Fragment } from "react";
 import { useInView } from "react-intersection-observer";
-import type { Knights, Awards } from "../EventsFolder/eventData";
+import type { Knights } from "../EventsFolder/eventData";
 
 type Props = {
   knight: Knights;
