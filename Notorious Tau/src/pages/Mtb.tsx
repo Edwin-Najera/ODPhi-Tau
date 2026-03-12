@@ -5,7 +5,6 @@ import type { Knights } from "../components/EventsFolder/eventData";
 import Loading from "../components/Loading";
 import KnightCards from "../components/AboutFolder/Knights";
 import crown from "../components/Photos/ODP Minimal Crown - Black.png";
-import { useInView } from "react-intersection-observer";
 
 function Mtb() {
   const [actives, setActives] = useState<Knights[]>([]);
@@ -63,11 +62,11 @@ function Mtb() {
           knight.name = joinedName;
         });
 
-        const activeGallery = actives.filter((knight) =>
-          knight.id.startsWith("active_"),
+        const activeGallery = actives.filter(
+          (knight) => knight.type === "active",
         );
-        const executiveGallery = actives.filter((knight) =>
-          knight.id.startsWith("executive_"),
+        const executiveGallery = actives.filter(
+          (knight) => knight.type === "executive",
         );
         const awardedBros = actives.filter(
           (knight) => knight.awards && knight.awards.length > 0,
@@ -195,9 +194,20 @@ function Mtb() {
               Throughout its history, the Tau Chapter has remained committed to
               fostering strong brotherhood while making a positive impact both
               on campus and in the surrounding Arlington community. Through
-              philanthropy events, campus involvement, and alumni support, the
+              philanthropy events, campus involvement, & alumni support, the
               chapter continues to build upon the legacy of Omega Delta Phi and
               shape future leaders.
+            </p>
+          </div>
+          <div className="mission-container">
+            <h3>Purpose of Omega Delta Phi</h3>
+            <p className="purpose">
+              The purpose of this brotherhood, a <strong>Service/Social</strong>{" "}
+              fraternity dedicated to the needs and concerns of the community,
+              shall be to prmote & maintain the traditional values of unity,
+              honesty, integrity & leadership, this brotherhood was founded in
+              order to provide to <strong>ANY man</strong> a diverse fraternal
+              experience which conincides with a higher education.
             </p>
           </div>
         </div>

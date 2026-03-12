@@ -54,6 +54,7 @@ function Popup({
   const [editItems, setEditItems] = useState<{ name: string; price: string }[]>(
     [],
   );
+  const [editType, setEditType] = useState("");
   const [editName, setEditName] = useState("");
   const [editPosition, setEditPosition] = useState("");
   const [editAwards, setEditAwards] = useState<
@@ -185,6 +186,7 @@ function Popup({
       } else {
         console.log("button clicked");
         const updateKnight: any = {
+          type: editType,
           name: editName,
           position: editPosition,
         };
@@ -198,8 +200,9 @@ function Popup({
         await updateDoc(doc(db, collectionName, id), updateKnight);
       }
 
-      setEditingId(null);
-      setEditingKnightId(null);
+      setEditType("");
+      setEditingId("");
+      setEditingKnightId("");
     } catch (error) {
       console.error("Error editing: ", error);
     }
@@ -225,6 +228,17 @@ function Popup({
                 <Fragment key={knight.id}>
                   {editingKnightId === knight.id ? (
                     <div className="edit-container">
+                      <label className="admin-label">
+                        Choose a Exec/Active
+                      </label>
+                      <select
+                        value={editType}
+                        onChange={(e) => setEditType(e.target.value)}
+                      >
+                        <option value="">Choose Gallery</option>
+                        <option value="active">Active</option>
+                        <option value="executive">Executive</option>
+                      </select>
                       <label className="admin-label">Enter Name</label>
                       <input
                         className="knight-input"

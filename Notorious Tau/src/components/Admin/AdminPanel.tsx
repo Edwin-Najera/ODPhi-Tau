@@ -196,7 +196,7 @@ function AdminPanel({
         newEvent.date = combinedDateTime;
       }
 
-      if (onlyPhotos || activeHouse) {
+      if (onlyPhotos) {
         const collectionPhotos = activeHouse ? "house" : "photos";
         const collectionRef = collection(db, collectionPhotos);
         const identifier = activeHouse ? type : eventTitle;
@@ -239,7 +239,7 @@ function AdminPanel({
       <div className="row w-100 d-flex justify-content-around">
         <div className="admin-container">
           <h2 className="admin-header">{panelTitle}</h2>
-          <label className="admin-label">Choose a Gallery</label>
+          <label className="admin-label">Choose a Exec/Active</label>
           <select value={type} onChange={(e) => setType(e.target.value)}>
             <option value="">Choose Gallery</option>
             <option value="active">Active</option>

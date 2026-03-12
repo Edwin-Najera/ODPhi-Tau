@@ -1563,12 +1563,13 @@ a.click-button {
   justify-content: space-around;
 }
 
-.history-container li {
+.history-container .member-name {
   display: flex;
   flex: 1;
   width: 100%;
   align-items: center;
   justify-content: center;
+  font-weight: 900;
 }
 
 .history-container .member-name::after,
@@ -1597,11 +1598,11 @@ a.click-button {
       #d4d4d4
     );
   clip-path: polygon(
-    /* Top Left x1 y1 */ 0% 0%,
-    /* Top Right x2 y2*/ calc(100% - 10px) 0%,
-    /* Bottom right x3 y3*/ 100% 50%,
-    /* Bottom Right x4 y4*/ calc(100% - 10px) 100%,
-    /* Top Left x5 y5*/ 0% 100%
+    0% 0%,
+    calc(100% - 10px) 0%,
+    100% 50%,
+    calc(100% - 10px) 100%,
+    0% 100%
   );
 }
 
@@ -1613,7 +1614,7 @@ a.click-button {
         /* holds solid for most of blade */ black 60%,
         /* fades out before tip (left) */ transparent 90%
       )
-      /* 95% width, starts from right */ right center / 95% 1.5px no-repeat,
+      /* 95% width, starts from right */ right center / 95% 2px no-repeat,
     linear-gradient(
       to bottom,
       #808080,
@@ -1707,15 +1708,19 @@ a.click-button {
   width: 125px;
 }
 
-.tau-history-container {
+.tau-history-container,
+.mission-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: center;
   justify-content: center;
-  border: solid black;
+  width: 100%;
 }
 
-.tau-history {
+.tau-history,
+.purpose {
   width: 75%;
-  border: solid red;
 }
+
+/* Contact.tsx */
