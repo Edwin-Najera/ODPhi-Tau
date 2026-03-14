@@ -15,6 +15,8 @@ import type {
   Awards,
   Event,
   Knights,
+  Countdown,
+  TimeLeft,
 } from "../EventsFolder/eventData";
 import "../global.css";
 
@@ -45,6 +47,7 @@ function Popup({
 }: PopupProps) {
   const [events, setEvents] = useState<Event[]>([]);
   const [knights, setKnights] = useState<Knights[]>([]);
+  const [countdowns, setCountdowns] = useState<Countdown[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingKnightId, setEditingKnightId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
@@ -60,6 +63,7 @@ function Popup({
   const [editAwards, setEditAwards] = useState<
     { title: string; year: string }[]
   >([]);
+  const [timeLeftMap, setTimeLeftMap] = useState<Record<string, TimeLeft>>({});
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | null = null;
@@ -78,6 +82,13 @@ function Popup({
           }));
 
           setKnights(knightList);
+        } else if (collectionName === "countdown") {
+          setCountdowns(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...(doc.data() as any),
+            })),
+          );
         } else {
           const eventList: Event[] = snapshot.docs.map((doc) => {
             const rawData = doc.data();
@@ -115,6 +126,31 @@ function Popup({
       if (timer) clearTimeout(timer);
     };
   }, [autoClose, duration, onClose, collectionName, showGallery]);
+
+  useEffect(() => {
+    if (countdowns.length === 0) return;
+    const interval = setInterval(() => {
+      const updated: Record<string, TimeLeft> = {};
+      countdowns.forEach(({ id, targetDate }) => {
+        const diff = new Date(targetDate).getTime() - Date.now();
+
+        if (diff <= 0) {
+          updated[id] = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+        } else {
+          updated[id] = {
+            days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+            hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+            minutes: Math.floor((diff / (1000 * 60)) % 60),
+            seconds: Math.floor((diff / 1000) % 60),
+          };
+        }
+      });
+      setTimeLeftMap(updated);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [countdowns]);
 
   const handleDelete = async (eventId: string, imagePath?: string) => {
     //Deleting image from database
@@ -379,6 +415,45 @@ function Popup({
           </div>
         </div>
       </Fragment>
+    );
+  }
+
+  if (collectionName === "countdown") {
+    return (
+      <div className="popup-overlay">
+        <div className="popup-box">
+          <div className="event-popup-container">
+            <h3>Existing Countdowns</h3>
+            {countdowns.map((countdown) => (
+              <div
+                key={countdown.id}
+                className="view-mode-container countdown-container"
+              >
+                <h4>{countdown.title}</h4>
+                <div className="countdown-timer">
+                  {(["days", "hours", "minutes", "seconds"] as const).map(
+                    (unit) => (
+                      <div key={unit} className="countdown-block">
+                        <span className="countdown-number">
+                          {timeLeftMap[countdown.id]?.[unit] ?? 0}
+                        </span>
+                        <span className="countdown-label">
+                          {unit.charAt(0).toUpperCase() + unit.slice(1)}
+                        </span>
+                      </div>
+                    ),
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          {showCloseButton && (
+            <button className="admin-btn close-btn" onClick={onClose}>
+              Close
+            </button>
+          )}
+        </div>
+      </div>
     );
   }
 

@@ -235,10 +235,11 @@
 /* The following, will be when the page is loading, 
 it will display a different page where it shows an animation to display loading*/
 .loading-wrapper {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
 }
 
 .loading-container {

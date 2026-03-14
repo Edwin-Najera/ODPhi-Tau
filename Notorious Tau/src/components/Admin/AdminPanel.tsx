@@ -82,10 +82,8 @@ function AdminPanel({
   };
 
   const handleSubmit = async () => {
-    console.log("button clicked");
     let message = "";
     if (!activeHouse) {
-      console.log("no title");
       if (!eventTitle) {
         message = onlyPhotos
           ? "Please Choose a Gallery"
@@ -125,12 +123,10 @@ function AdminPanel({
       setShowSavePopup(true);
       return;
     }
-    console.log("checks complete");
 
     let imagePath = "";
     let downloadURL = "";
 
-    console.log("creating Image url");
     if (imageFile) {
       imagePath = onlyPhotos
         ? `gallery/${Date.now()}-${imageFile?.name}`

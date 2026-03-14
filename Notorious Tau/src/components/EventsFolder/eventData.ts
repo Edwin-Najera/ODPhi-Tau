@@ -37,6 +37,22 @@ export type Event = {
     createdAt: any;
 }
 
+export type Countdown = {
+    id: string;
+    title: string;
+    imageURL: string;
+    imagePath: string;
+    targetDate: Date;
+    createdAt: any;
+}
+
+export type TimeLeft = {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+}
+
 
 export const eventData: Event[] = [{
     id: "1203",
