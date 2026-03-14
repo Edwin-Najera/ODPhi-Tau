@@ -16,9 +16,9 @@ import type {
   Event,
   Knights,
   Countdown,
-  TimeLeft,
 } from "../EventsFolder/eventData";
 import "../global.css";
+import CountdownDisplay from "./CountdownFolder/CountdownDisplay";
 
 type PopupProps = {
   message: string;
@@ -63,7 +63,6 @@ function Popup({
   const [editAwards, setEditAwards] = useState<
     { title: string; year: string }[]
   >([]);
-  const [timeLeftMap, setTimeLeftMap] = useState<Record<string, TimeLeft>>({});
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | null = null;
@@ -126,31 +125,6 @@ function Popup({
       if (timer) clearTimeout(timer);
     };
   }, [autoClose, duration, onClose, collectionName, showGallery]);
-
-  useEffect(() => {
-    if (countdowns.length === 0) return;
-    const interval = setInterval(() => {
-      const updated: Record<string, TimeLeft> = {};
-      countdowns.forEach(({ id, targetDate }) => {
-        const diff = new Date(targetDate).getTime() - Date.now();
-
-        if (diff <= 0) {
-          updated[id] = { days: 0, hours: 0, minutes: 0, seconds: 0 };
-        } else {
-          updated[id] = {
-            days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-            hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-            minutes: Math.floor((diff / (1000 * 60)) % 60),
-            seconds: Math.floor((diff / 1000) % 60),
-          };
-        }
-      });
-      setTimeLeftMap(updated);
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [countdowns]);
 
   const handleDelete = async (eventId: string, imagePath?: string) => {
     //Deleting image from database
@@ -416,9 +390,7 @@ function Popup({
         </div>
       </Fragment>
     );
-  }
-
-  if (collectionName === "countdown") {
+  } else if (collectionName === "countdown") {
     return (
       <div className="popup-overlay">
         <div className="popup-box">
@@ -427,23 +399,10 @@ function Popup({
             {countdowns.map((countdown) => (
               <div
                 key={countdown.id}
-                className="view-mode-container countdown-container"
+                className="view-mode-container container-view"
               >
                 <h4>{countdown.title}</h4>
-                <div className="countdown-timer">
-                  {(["days", "hours", "minutes", "seconds"] as const).map(
-                    (unit) => (
-                      <div key={unit} className="countdown-block">
-                        <span className="countdown-number">
-                          {timeLeftMap[countdown.id]?.[unit] ?? 0}
-                        </span>
-                        <span className="countdown-label">
-                          {unit.charAt(0).toUpperCase() + unit.slice(1)}
-                        </span>
-                      </div>
-                    ),
-                  )}
-                </div>
+                <CountdownDisplay countdown={countdown} />
               </div>
             ))}
           </div>
@@ -455,200 +414,203 @@ function Popup({
         </div>
       </div>
     );
-  }
-
-  return (
-    <div className="popup-overlay">
-      <div className="popup-box">
-        <p>{message}</p>
-        {showGallery && (
-          // This is when displaying the gallery
-          // The gallery is only for photos in the alumni recap section or gallery section
-          <div className="gallery-container">
-            {events.map((event) => (
-              <Fragment key={event.id}>
-                <div className="gallery-image-container">
-                  <div>Gallery: {event.eventTitle}</div>
-                  <img
-                    className="gallery-image"
-                    src={event.imageURL}
-                    alt="Gallery Photo"
-                  />
-                  <button
-                    className="admin-btn delete-btn mt-2"
-                    onClick={() => handleDelete(event.id, event.imagePath)}
-                  >
-                    Delete Photo
-                  </button>
-                </div>
-              </Fragment>
-            ))}
-          </div>
-        )}
-        {!showGallery && message === "" && (
-          // If not displaying gallery display the events depending on which admin panel is being used
-          // If a gallery is displaying no need to edit
-          <Fragment>
-            {events && (
-              <div className="event-popup-container">
-                {/* If displaying active house display different title */}
-                <h3>Existing Events</h3>
-                {events.map((event) => (
-                  <div key={event.id}>
-                    {editingId === event.id ? (
-                      <div className="edit-container">
-                        {!showGallery && !activeHouse && (
-                          // For Editing title
-                          <input
-                            type="text"
-                            value={editTitle}
-                            onChange={(e) => setEditTitle(e.target.value)}
-                          />
-                        )}
-                        {!event.date && (
-                          // For Editing description if there is one
-                          // Description for a knight is different than a regular description
-                          <Fragment>
-                            <br />
-                            <textarea
-                              className="description-input"
-                              value={editDescription}
-                              onChange={(e) =>
-                                setEditDescription(e.target.value)
-                              }
-                            />
-                            <br />
-                          </Fragment>
-                        )}
-                        {event.date && (
-                          // For editing date if there is one
-                          <Fragment>
-                            <br />
+  } else {
+    return (
+      <div className="popup-overlay">
+        <div className="popup-box">
+          <p>{message}</p>
+          {showGallery && (
+            // This is when displaying the gallery
+            // The gallery is only for photos in the alumni recap section or gallery section
+            <div className="gallery-container">
+              {events.map((event) => (
+                <Fragment key={event.id}>
+                  <div className="gallery-image-container">
+                    <div>Gallery: {event.eventTitle}</div>
+                    <img
+                      className="gallery-image"
+                      src={event.imageURL}
+                      alt="Gallery Photo"
+                    />
+                    <button
+                      className="admin-btn delete-btn mt-2"
+                      onClick={() => handleDelete(event.id, event.imagePath)}
+                    >
+                      Delete Photo
+                    </button>
+                  </div>
+                </Fragment>
+              ))}
+            </div>
+          )}
+          {!showGallery && message === "" && (
+            // If not displaying gallery display the events depending on which admin panel is being used
+            // If a gallery is displaying no need to edit
+            <Fragment>
+              {events && (
+                <div className="event-popup-container">
+                  {/* If displaying active house display different title */}
+                  <h3>Existing Events</h3>
+                  {events.map((event) => (
+                    <div key={event.id}>
+                      {editingId === event.id ? (
+                        <div className="edit-container">
+                          {!showGallery && !activeHouse && (
+                            // For Editing title
                             <input
-                              type="date"
-                              value={editDate}
-                              onChange={(e) => setEditDate(e.target.value)}
+                              type="text"
+                              value={editTitle}
+                              onChange={(e) => setEditTitle(e.target.value)}
                             />
-                            <br />
-                            <input
-                              type="time"
-                              value={editTime}
-                              onChange={(e) => setEditTime(e.target.value)}
-                            />
-                          </Fragment>
-                        )}
-                        {event.items &&
-                          // For editing items if there are any
-                          editItems.map((item, index) => (
-                            <div className="item-row" key={index}>
-                              <input
-                                className="input-event"
-                                type="text"
-                                value={item.name}
-                                onChange={(e) => {
-                                  const updatedItems = [...editItems];
-                                  updatedItems[index].name = e.target.value;
-                                  setEditItems(updatedItems);
-                                }}
+                          )}
+                          {!event.date && (
+                            // For Editing description if there is one
+                            // Description for a knight is different than a regular description
+                            <Fragment>
+                              <br />
+                              <textarea
+                                className="description-input"
+                                value={editDescription}
+                                onChange={(e) =>
+                                  setEditDescription(e.target.value)
+                                }
                               />
-                              <div className="price-wrapper">
-                                <span>$</span>
+                              <br />
+                            </Fragment>
+                          )}
+                          {event.date && (
+                            // For editing date if there is one
+                            <Fragment>
+                              <br />
+                              <input
+                                type="date"
+                                value={editDate}
+                                onChange={(e) => setEditDate(e.target.value)}
+                              />
+                              <br />
+                              <input
+                                type="time"
+                                value={editTime}
+                                onChange={(e) => setEditTime(e.target.value)}
+                              />
+                            </Fragment>
+                          )}
+                          {event.items &&
+                            // For editing items if there are any
+                            editItems.map((item, index) => (
+                              <div className="item-row" key={index}>
                                 <input
-                                  className="input-event price-input"
+                                  className="input-event"
                                   type="text"
-                                  value={item.price}
+                                  value={item.name}
                                   onChange={(e) => {
                                     const updatedItems = [...editItems];
-                                    updatedItems[index].price = e.target.value;
+                                    updatedItems[index].name = e.target.value;
                                     setEditItems(updatedItems);
                                   }}
                                 />
+                                <div className="price-wrapper">
+                                  <span>$</span>
+                                  <input
+                                    className="input-event price-input"
+                                    type="text"
+                                    value={item.price}
+                                    onChange={(e) => {
+                                      const updatedItems = [...editItems];
+                                      updatedItems[index].price =
+                                        e.target.value;
+                                      setEditItems(updatedItems);
+                                    }}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                          ))}
-                        <div className="event-actions">
-                          <button
-                            className="admin-btn edit-btn"
-                            onClick={() => handleSaveEdit(event.id)}
-                          >
-                            Save
-                          </button>
-                          <button
-                            className="admin-btn cancel-btn"
-                            onClick={() => setEditingId(null)}
-                          >
-                            Cancel
-                          </button>
+                            ))}
+                          <div className="event-actions">
+                            <button
+                              className="admin-btn edit-btn"
+                              onClick={() => handleSaveEdit(event.id)}
+                            >
+                              Save
+                            </button>
+                            <button
+                              className="admin-btn cancel-btn"
+                              onClick={() => setEditingId(null)}
+                            >
+                              Cancel
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      // The following is whenever the event is in display mode, no editing is being made
-                      <div className="view-mode-container">
-                        <h4>{event.eventTitle}</h4>
-                        {/* Display image of the knight instead of description */}
-                        {activeHouse ? (
-                          <img
-                            className="knight-image-display"
-                            src={event.imageURL}
-                            alt="knight"
-                          />
-                        ) : (
-                          <p>{event.description}</p>
-                        )}
-                        {/* Specifically for event dates */}
-                        {event.date && (
-                          <p className="date-view-container">
-                            <strong>Date</strong>
-                            <br />
-                            {new Date(event.date).toLocaleString("en-US", {
-                              month: "long",
-                              day: "numeric",
-                              year: "numeric",
-                              hour: "numeric",
-                              minute: "2-digit",
-                            })}
-                          </p>
-                        )}
-                        {/* When an event has items display them  */}
-                        {event.items &&
-                          event.items?.map((item: EventItem, index: number) => (
-                            <div className="item-row" key={index}>
-                              <span>{item.name}</span>
-                              <span>{item.price}</span>
-                            </div>
-                          ))}
-                        <div className="event-actions">
-                          <button
-                            className="admin-btn edit-btn"
-                            onClick={() => handleEdit(event)}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="admin-btn delete-btn"
-                            onClick={() =>
-                              handleDelete(event.id, event.imagePath)
-                            }
-                          >
-                            Delete Event
-                          </button>
+                      ) : (
+                        // The following is whenever the event is in display mode, no editing is being made
+                        <div className="view-mode-container">
+                          <h4>{event.eventTitle}</h4>
+                          {/* Display image of the knight instead of description */}
+                          {activeHouse ? (
+                            <img
+                              className="knight-image-display"
+                              src={event.imageURL}
+                              alt="knight"
+                            />
+                          ) : (
+                            <p>{event.description}</p>
+                          )}
+                          {/* Specifically for event dates */}
+                          {event.date && (
+                            <p className="date-view-container">
+                              <strong>Date</strong>
+                              <br />
+                              {new Date(event.date).toLocaleString("en-US", {
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric",
+                                hour: "numeric",
+                                minute: "2-digit",
+                              })}
+                            </p>
+                          )}
+                          {/* When an event has items display them  */}
+                          {event.items &&
+                            event.items?.map(
+                              (item: EventItem, index: number) => (
+                                <div className="item-row" key={index}>
+                                  <span>{item.name}</span>
+                                  <span>{item.price}</span>
+                                </div>
+                              ),
+                            )}
+                          <div className="event-actions">
+                            <button
+                              className="admin-btn edit-btn"
+                              onClick={() => handleEdit(event)}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              className="admin-btn delete-btn"
+                              onClick={() =>
+                                handleDelete(event.id, event.imagePath)
+                              }
+                            >
+                              Delete Event
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </Fragment>
-        )}
-        {showCloseButton && (
-          <button className="admin-btn close-btn" onClick={onClose}>
-            Close
-          </button>
-        )}
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Fragment>
+          )}
+          {showCloseButton && (
+            <button className="admin-btn close-btn" onClick={onClose}>
+              Close
+            </button>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Popup;

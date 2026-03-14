@@ -42,7 +42,7 @@ export type Countdown = {
     title: string;
     imageURL: string;
     imagePath: string;
-    targetDate: Date;
+    targetDate: Date | any;
     createdAt: any;
 }
 

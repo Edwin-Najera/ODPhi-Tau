@@ -1,5 +1,5 @@
 import AdminPanel from "../components/Admin/AdminPanel";
-import CountdownAdmin from "../components/Admin/CountdownAdmin";
+import CountdownAdmin from "../components/Admin/CountdownFolder/CountdownAdmin";
 import AssignRole from "../components/Admin/AssignRole";
 import "../components/global.css";
 import { useNavigate } from "react-router-dom";

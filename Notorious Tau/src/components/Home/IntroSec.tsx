@@ -33,12 +33,12 @@ function IntroSec() {
 
   return (
     <Fragment>
-      <div id="home-grid">
-        <div id="left-half">
+      <div className="home-grid">
+        <div className="left-half">
           <div className="relative-container"></div>
-          <h2 id="text-left" ref={textRefLeft}></h2>
+          <h2 className="text-left" ref={textRefLeft}></h2>
         </div>
-        <div id="right-half">
+        <div className="right-half">
           <img src={tau} alt="TAU" />
         </div>
       </div>

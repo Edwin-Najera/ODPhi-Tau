@@ -12,16 +12,16 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-xl fixed-top" id="navbar">
-      <div className="container" id="navbar-container">
+    <nav className="navbar navbar-expand-xl fixed-top">
+      <div className="container navbar-container">
         <Link to="/" className="navbar-brand">
-          <img src={Logo} alt="Tau" id="logo" />
+          <img src={Logo} alt="Tau" className="logo" />
         </Link>
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbar-open"
+          data-bs-target=".navbar-open"
           aria-controls="navbar-open"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -32,11 +32,8 @@ function Navbar() {
           <div className="ms-auto d-flex">
             <UserInfo />
           </div>
-          <div className="collapse navbar-collapse" id="navbar-open">
-            <div
-              className="d-flex navbar-nav justify-contents-center ms-auto"
-              id="nav-items"
-            >
+          <div className="collapse navbar-collapse navbar-open">
+            <div className="d-flex navbar-nav justify-contents-center ms-auto nav-items">
               <Link to="/Mtb" className="nav-link" onClick={closeNavbar}>
                 About
               </Link>

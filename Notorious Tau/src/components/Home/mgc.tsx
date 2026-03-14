@@ -5,7 +5,7 @@ import "../global.css";
 function MGC() {
   return (
     <Fragment>
-      <div className="container" id="mgc-container">
+      <div className="container mgc-container">
         <h2>Multicultural Greek Council</h2>
         <p>
           Want to learn more about MGC?
@@ -16,10 +16,7 @@ function MGC() {
           target="_blank"
           className="mgc-link"
         >
-          <FaInstagramSquare
-            className="mgc-icon"
-            style={{ fill: "url(#mgcInsta)" }}
-          />
+          <FaInstagramSquare className="mgc-icon" />
         </a>
         <a
           href="https://www.uta.edu/student-affairs/fsl/our-community/multicultural-greek-council"

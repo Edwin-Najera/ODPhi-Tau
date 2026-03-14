@@ -15,7 +15,7 @@ function App() {
         style={{ position: "absolute", pointerEvents: "none" }}
       >
         <defs>
-          <linearGradient id="mgcInsta" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="mgc-insta" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#405DE6" /> {/* Blue */}
             <stop offset="25%" stopColor="#5851DB" /> {/* Purple */}
             <stop offset="50%" stopColor="#C13584" /> {/* Pink */}
@@ -25,27 +25,27 @@ function App() {
         </defs>
       </svg>
       ;
-      <div id="AppGrid">
-        <div id="Welcome">
+      <div className="AppGrid">
+        <div className="Welcome">
           <IntroSec />
         </div>
-        <div id="gap">
+        <div className="gap">
           <div className="chevron" />
         </div>
-        <div id="Events">
+        <div className="Events">
           <Events />
         </div>
-        <div id="About">
+        <div className="About">
           <About />
         </div>
-        <div id="School">
+        <div className="School">
           <School />
         </div>
-        <div id="MGC">
+        <div className="MGC">
           <MGC />
         </div>
-        <div id="Contact"></div>
-        <div id="Footer">
+        <div className="Contact"></div>
+        <div className="Footer">
           <Footer />
         </div>
       </div>

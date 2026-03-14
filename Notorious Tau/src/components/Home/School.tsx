@@ -15,10 +15,10 @@ function School() {
     <Fragment>
       <div ref={myRef} className={blaze}>
         <h1>UTA Resources</h1>
-        <div className="row" id="resources-row">
-          <div className="col" id="help-resources">
+        <div className="row resources-row" id="resources-row">
+          <div className="col help-resources" id="help-resources">
             <h6>Student Help</h6>
-            <ul id="help-list">
+            <ul className="help-list">
               <li className="school-list-item">
                 Counseling
                 <br />
@@ -54,9 +54,9 @@ function School() {
               </li>
             </ul>
           </div>
-          <div className="col" id="study-resources">
+          <div className="col study-resources">
             <h6>Study Tools and Areas</h6>
-            <ul id="study-list">
+            <ul className="study-list">
               <li className="school-list-item">
                 Math Clinic
                 <br />

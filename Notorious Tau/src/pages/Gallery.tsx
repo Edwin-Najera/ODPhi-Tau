@@ -2,7 +2,6 @@ import { useState, useEffect, Fragment } from "react";
 import { collection, query, getDocs, orderBy } from "firebase/firestore";
 import { db } from "../components/Admin/firebase";
 import type { Event } from "../components/EventsFolder/eventData";
-import letters from "../components/Photos/Black_ODP_Letters.png";
 
 function Gallery() {
   const [photos, setPhotos] = useState<Event[]>([]);

@@ -26,7 +26,7 @@ body {
 
 /* App grid to help place all contents in web app */
 
-#AppGrid {
+.AppGrid {
   padding-top: 75px;
   display: grid;
   max-width: 100%;
@@ -53,14 +53,14 @@ body {
   }
 }
 
-#AppGrid > #Welcome {
+.AppGrid > .Welcome {
   grid-area: Welcome;
   height: 82vh;
   position: relative;
   z-index: 1;
 }
 
-#AppGrid > #gap {
+.AppGrid > .gap {
   grid-area: gap;
   position: relative;
   display: flex;
@@ -82,7 +82,7 @@ body {
   }
 }
 
-#AppGrid > #Events {
+.AppGrid > .Events {
   grid-area: Events;
   display: flex;
   flex-direction: column;
@@ -92,13 +92,13 @@ body {
   margin: 3em 0;
 }
 
-#AppGrid > #About {
+.AppGrid > .About {
   grid-area: About;
   width: 100%;
   height: auto;
 }
 
-#AppGrid > #School {
+.AppGrid > .School {
   grid-area: School;
   padding: 1em 0;
   background-color: black;
@@ -109,7 +109,7 @@ body {
   }
 }
 
-#AppGrid > #MGC {
+.AppGrid > .MGC {
   grid-area: MGC;
   padding: 1em 0;
   background-color: black;
@@ -120,13 +120,13 @@ body {
   }
 }
 
-#AppGrid > #Contact {
+.AppGrid > .Contact {
   grid-area: Contact;
   background-color: rgb(148, 91, 254);
   min-height: 35vh;
 }
 
-#AppGrid > #Footer {
+.AppGrid > .Footer {
   grid-area: Footer;
   bottom: 0;
   background-color: rgb(101, 107, 51);

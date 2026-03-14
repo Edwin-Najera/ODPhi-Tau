@@ -2,12 +2,9 @@ import tau from "../Photos/T.png";
 
 function About() {
   return (
-    <div
-      className="d-flex justify-content-center align-items-center"
-      id="about-container"
-    >
+    <div className="d-flex justify-content-center align-items-center about-container">
       <img src={tau} alt="Group Photo" className="me-4 group-photo" />
-      <p id="about-description">
+      <p className="about-description">
         Welcome to the offical website of The Notorious Tau Chapter of Omega
         Delta Phi fraternity Inc. (ΩΔΦ)
         <br /> <br />
