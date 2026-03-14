@@ -172,7 +172,7 @@ function Mtb() {
             </div>
           </div>
           <div className="tau-history-container">
-            <h3>Tau History</h3>
+            <h3>Tau Chapter History</h3>
             <p className="tau-history">
               The Tau Chapter of Omega Delta Phi Fraternity, Inc. was
               established at the University of Texas at Arlington to continue

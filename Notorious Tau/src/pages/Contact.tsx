@@ -1,7 +1,167 @@
-import React from "react";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../components/Admin/firebase";
+import { useState } from "react";
 
 function Contact() {
-  return <div>Contact</div>;
+  const sacraments = ["UNITY", "HONESTY", "INTEGRITY", "LEADERSHIP"];
+  const [showPopup, setShowPopup] = useState(false);
+  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    year: "",
+    phoneNum: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    if (!formData.firstName || !formData.lastName) {
+      setShowPopup(true);
+      setMessage("Enter First & Last name");
+      return;
+    } else if (!formData.email) {
+      setShowPopup(true);
+      setMessage("Enter email");
+      return;
+    } else if (!formData.phoneNum) {
+      setShowPopup(true);
+      setMessage("Enter Phone Number");
+      return;
+    } else if (!formData.year) {
+      setShowPopup(true);
+      setMessage("Enter classification");
+      return;
+    }
+
+    await addDoc(collection(db, "interests"), {
+      name: formData.firstName + " " + formData.lastName,
+      email: formData.email,
+      year: formData.year,
+      phoneNum: formData.phoneNum,
+      submittedAt: new Date(),
+    });
+  };
+
+  return (
+    <div className="contact-page">
+      <h3>Contact Us</h3>
+      <div className="line-separate" />
+      <br />
+      <div className="contact-info">
+        <div className="reach-info">
+          <h5>Recruitment & President</h5>
+          <div className="line-separate" />
+          <div>
+            For any question or concerns reach out to our recruitment chair
+          </div>
+          <div className="reach-email">
+            <span>recruitment.tau@omegadeltaphi.org</span>
+            <span>president.tau@omegadeltaphi.org</span>
+          </div>
+          <div>
+            Follow our{" "}
+            <a href="https://www.instagram.com/tau_knights/">Instagram</a> for
+            more
+          </div>
+        </div>
+        <div className="core-values">
+          <h5>Our Core Values</h5>
+          <div className="line-separate" />
+          <br />
+          <ul className="core-values-list">
+            {sacraments.map((sacrament, index) => (
+              <li
+                className="values"
+                style={{ animationDelay: `${index * 300}ms` }}
+              >
+                {sacrament}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="interest-form mt-4">
+        <h4>Interest Form</h4>
+        <div className="form">
+          <div className="interest-full-name">
+            <div className="col-form">
+              <label>First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                className="interest-name"
+                onChange={handleChange}
+                placeholder="First Name"
+              />
+            </div>
+            <div className="col-form">
+              <label id="last-label">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                id="last"
+                value={formData.lastName}
+                className="interest-name"
+                onChange={handleChange}
+                placeholder="Last Name"
+              />
+            </div>
+          </div>
+          <div className="col-form">
+            <label>Email</label>
+            <input
+              type="text"
+              name="email"
+              value={formData.email}
+              className="interest-email"
+              onChange={handleChange}
+              placeholder="name@email.com"
+            />
+          </div>
+          <div className="year-phone">
+            <div className="col-form year">
+              <label>Classification</label>
+              <select name="year" value={formData.year} onChange={handleChange}>
+                <option value="" disabled>
+                  Select Year
+                </option>
+                <option value="transfer">Transfer Student</option>
+                <option value="freshman">Freshman</option>
+                <option value="sophomore">Sophomore</option>
+                <option value="junior">Junior</option>
+                <option value="senior">Senior</option>
+              </select>
+            </div>
+            <div className="col-form num">
+              <label>Phone Number</label>
+              <input
+                type="tel"
+                name="phoneNum"
+                value={formData.phoneNum}
+                onChange={handleChange}
+                placeholder="(123) 456 - 7890"
+              />
+            </div>
+          </div>
+          <button className="interest-submit" onClick={handleSubmit}>
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Contact;

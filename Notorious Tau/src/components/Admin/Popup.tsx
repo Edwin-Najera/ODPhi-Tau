@@ -235,7 +235,9 @@ function Popup({
                         value={editType}
                         onChange={(e) => setEditType(e.target.value)}
                       >
-                        <option value="">Choose Gallery</option>
+                        <option value="" disabled>
+                          Choose Gallery
+                        </option>
                         <option value="active">Active</option>
                         <option value="executive">Executive</option>
                       </select>

@@ -241,7 +241,9 @@ function AdminPanel({
           <h2 className="admin-header">{panelTitle}</h2>
           <label className="admin-label">Choose a Exec/Active</label>
           <select value={type} onChange={(e) => setType(e.target.value)}>
-            <option value="">Choose Gallery</option>
+            <option value="" disabled>
+              Choose Gallery
+            </option>
             <option value="active">Active</option>
             <option value="executive">Executive</option>
           </select>
@@ -382,7 +384,9 @@ function AdminPanel({
               value={eventTitle}
               onChange={(e) => setEventTitle(e.target.value)}
             >
-              <option value="">Choose Gallery</option>
+              <option value="" disabled>
+                Choose Gallery
+              </option>
               {!activeHouse && (
                 <Fragment>
                   <option value="alumni">Alumni Gallery</option>

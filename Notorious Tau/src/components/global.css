@@ -1516,7 +1516,7 @@ a.click-button {
   flex-direction: column;
   justify-content: space-evenly;
   width: 75%;
-  gap: 15px;
+  gap: 50px;
   @media (max-width: 992px) {
     width: 100%;
     padding: 0 10px;
@@ -1712,6 +1712,11 @@ a.click-button {
 .mission-container {
   display: flex;
   flex-direction: column;
+  border-top: 5px solid black;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.05);
+  color: black;
+  padding: 25px 0;
   align-items: center;
   align-self: center;
   justify-content: center;
@@ -1724,3 +1729,151 @@ a.click-button {
 }
 
 /* Contact.tsx */
+.contact-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  width: 100vw;
+  padding: 100px 0 20px;
+  @media (max-width: 992px) {
+    padding-top: 120px;
+  }
+}
+
+.contact-page h3 {
+  font-size: 4em;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.reach-info {
+  z-index: 1;
+  padding: 0 10px;
+  font-size: 1.25em;
+  background: black;
+  border-radius: 4px;
+  color: white;
+}
+
+.reach-info .line-separate::after {
+  border-bottom-color: white;
+}
+
+.reach-info h5,
+.core-values h5 {
+  font-size: 1.75em;
+}
+
+.reach-email {
+  display: flex;
+  flex-direction: column;
+  padding: 25px 0;
+  font-weight: 900;
+}
+
+.core-values {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  font-size: 1.25em;
+}
+
+.core-values h5,
+.core-values .line-separate {
+  margin-left: 15px;
+}
+
+.core-values-list {
+  display: flex;
+  flex-direction: column;
+  z-index: 0;
+  gap: 10px;
+  list-style-type: none;
+  padding: 0;
+  font-weight: 900;
+}
+
+.core-values-list li {
+  background: rgba(0, 0, 0, 0.1);
+  border-left: 10px solid black;
+  padding: 25px 5px 25px 25px;
+  opacity: 0;
+  transform: translateX(-200px);
+  animation: listItemIn 1s forwards;
+}
+
+@keyframes listItemIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.interest-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  color: black;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 15px;
+  padding: 10px 25px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  gap: 25px;
+  padding: 5px 25px;
+}
+
+.form input,
+.form select {
+  background-color: white;
+  border-color: white;
+  color: gray;
+}
+
+.col-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.interest-full-name {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.interest-name {
+  width: 98%;
+}
+
+#last-label {
+  margin-left: 2%;
+}
+
+#last {
+  align-self: end;
+}
+
+.year-phone {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.year-phone .col-form.year {
+  width: 74%;
+}
+
+.year-phone .col-form.num {
+  width: 24%;
+}
