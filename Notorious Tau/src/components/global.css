@@ -243,26 +243,20 @@ it will display a different page where it shows an animation to display loading*
 }
 
 .loading-container {
-  width: 0;
-  overflow: hidden;
-  animation: typing 2s infinite alternate steps(100);
-  animation-delay: 3s;
-  animation-iteration-count: infinite;
+  animation: reveal 1.5s infinite alternate steps(100);
 }
 
 .loading-tribal {
   display: block;
-  width: 100ch;
-  overflow: hidden;
-  white-space: nowrap;
+  width: 100%; /* whatever size you want */
 }
 
-@keyframes typing {
+@keyframes reveal {
   0% {
-    width: 0;
+    clip-path: inset(0 100% 0 0); /* fully hidden */
   }
   100% {
-    width: 100%;
+    clip-path: inset(0 0% 0 0); /* fully visible */
   }
 }
 

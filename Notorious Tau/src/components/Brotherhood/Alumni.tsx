@@ -6,6 +6,7 @@ import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import type { Event } from "../EventsFolder/eventData";
 import "../global.css";
 import Popup from "../Admin/Popup";
+import Loading from "../Loading";
 
 function Alumni() {
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -97,16 +98,6 @@ function Alumni() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-ball" id="loading-one" />
-        <div className="loading-ball" id="loading-two" />
-        <div className="loading-ball" id="loading-three" />
-      </div>
-    );
-  }
-
   return (
     <div className="alumni-page">
       <div className="top-of-page">
@@ -135,6 +126,7 @@ function Alumni() {
       <div className="alumni-newsletter">
         <div className="alumni-events">
           <h3 className="alumni-header">Important Events & Dates</h3>
+          {loading && <Loading />}
           {events.map((event, index) => (
             <div key={index} className="alumni-event-container">
               <div className="alumni-event-title">{event.eventTitle}</div>
@@ -152,6 +144,7 @@ function Alumni() {
         </div>
         <div className="alumni-events">
           <h3 className="alumni-header">Updates</h3>
+          {loading && <Loading />}
           {updates.map((event, index) => (
             <div key={index} className="alumni-updates-container">
               <div className="alumni-event-title">{event.eventTitle}</div>
@@ -163,6 +156,7 @@ function Alumni() {
         </div>
         <div className="alumni-events">
           <h3 className="alumni-header">Month Recap</h3>
+          {loading && <Loading />}
           {gallery.map((event, index) => (
             <div key={index} className="alumni-image-container">
               <img className="recap-image" src={event.imageURL} alt="Recap" />

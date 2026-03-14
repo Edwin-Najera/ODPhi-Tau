@@ -1,7 +1,7 @@
-import { collection, addDoc, doc, getDocs } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "./firebase";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Popup from "./Popup";
 
 function CountdownAdmin() {

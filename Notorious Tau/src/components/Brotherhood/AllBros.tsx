@@ -95,11 +95,6 @@ function AllBros() {
     }
   };
 
-  //If loading is true display the loading page
-  if (loading) {
-    return <Loading />;
-  }
-
   return (
     <div className="all-bros-page">
       <div className="top-of-page">
@@ -127,6 +122,7 @@ function AllBros() {
       <h1 className="page-header">All Events</h1>
       <div className="all-bros-all-events">
         <h3 className="all-bros-header">Events</h3>
+        {loading && <Loading />}
         <div className="all-bros-events">
           {events.map((event, index) => (
             <div className="all-bros-event-container" key={index}>
@@ -140,6 +136,7 @@ function AllBros() {
           ))}
         </div>
         <h3 className="all-bros-header">Brotherhood Events</h3>
+        {loading && <Loading />}
         <div className="all-bros-events">
           {brotherhoodEvents.map((event, index) => (
             <div className="all-bros-event-container" key={index}>
@@ -153,6 +150,7 @@ function AllBros() {
           ))}
         </div>
         <h3 className="all-bros-header">Important Events and Dates</h3>
+        {loading && <Loading />}
         <div className="all-bros-events important-events">
           {alumniEvents.map((event, index) => (
             <div className="alumni-event-container" key={index}>
