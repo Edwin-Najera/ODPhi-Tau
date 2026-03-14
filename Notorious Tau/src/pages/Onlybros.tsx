@@ -2,9 +2,23 @@ import AdminPanel from "../components/Admin/AdminPanel";
 import AssignRole from "../components/Admin/AssignRole";
 import "../components/global.css";
 import { useNavigate } from "react-router-dom";
+import { act, useState } from "react";
 
 function Onlybros() {
   const navigate = useNavigate();
+  const [activePanels, setActivePanels] = useState<string[]>([]);
+
+  const togglePanel = (panel: string) => {
+    if (activePanels.includes(panel)) {
+      setActivePanels((prev) =>
+        prev.includes(panel)
+          ? prev.filter((p) => p !== panel)
+          : [...prev, panel],
+      );
+    } else {
+      setActivePanels([...activePanels, panel]);
+    }
+  };
 
   return (
     <div className="admin-page">
@@ -16,48 +30,83 @@ function Onlybros() {
           Brotherhood Events
         </div>
       </div>
+      <div className="admin-page-row admin-panel-buttons">
+        <button
+          className={`admin-show-button ${activePanels.includes("events") ? "active" : ""}`}
+          onClick={() => togglePanel("events")}
+        >
+          Events
+        </button>
+        <button
+          className={`admin-show-button ${activePanels.includes("brotherhood") ? "active" : ""}`}
+          onClick={() => togglePanel("brotherhood")}
+        >
+          Brotherhood Events
+        </button>
+        <button
+          className={`admin-show-button ${activePanels.includes("alumni") ? "active" : ""}`}
+          onClick={() => togglePanel("alumni")}
+        >
+          Alumni Page
+        </button>
+        <button
+          className={`admin-show-button ${activePanels.includes("campus") ? "active" : ""}`}
+          onClick={() => togglePanel("campus")}
+        >
+          Campus Updates (for alumn)
+        </button>
+        <button
+          className={`admin-show-button ${activePanels.includes("gallery") ? "active" : ""}`}
+          onClick={() => togglePanel("gallery")}
+        >
+          Gallery Admin
+        </button>
+        <button
+          className={`admin-show-button ${activePanels.includes("house") ? "active" : ""}`}
+          onClick={() => togglePanel("house")}
+        >
+          Active & Execs
+        </button>
+      </div>
       <div className="admin-panels-container">
-        <div className="col">
+        {activePanels.includes("events") && (
           <AdminPanel
             collectionName="events"
             panelTitle="Events Admin Panel"
             hasItems={true}
           />
-        </div>
-        <div className="col">
+        )}
+        {activePanels.includes("brotherhood") && (
           <AdminPanel
             collectionName="brotherhood"
             panelTitle="Brotherhood Event Admin Panel"
           />
-        </div>
-      </div>
-      <div className="admin-panels-container">
-        <div className="col-xl">
+        )}
+        {activePanels.includes("alumni") && (
           <AdminPanel
             collectionName="alumni"
             panelTitle="Alumni Event Admin Panel"
             hasDate={true}
           />
-        </div>
-        <div className="col-xl">
+        )}
+        {activePanels.includes("campus") && (
           <AdminPanel collectionName="campus" panelTitle="Campus Updates" />
-        </div>
-      </div>
-      <div className="admin-panels-container">
-        <div className="col-xl">
+        )}
+        {activePanels.includes("gallery") && (
           <AdminPanel
             collectionName="photos"
             panelTitle="Gallery Photos"
             onlyPhotos={true}
           />
-        </div>
-        <div className="col-xl">
+        )}
+
+        {activePanels.includes("house") && (
           <AdminPanel
             collectionName="house"
             panelTitle="Active and Exec Photos"
             activeHouse={true}
           />
-        </div>
+        )}
       </div>
       <AssignRole />
     </div>

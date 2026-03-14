@@ -500,7 +500,7 @@ function AdminPanel({
                 </div>
               ))}
             </div>
-            <button className="admin-btn col" onClick={addItemField}>
+            <button className="admin-btn" onClick={addItemField}>
               + Add Another Price
             </button>
           </Fragment>

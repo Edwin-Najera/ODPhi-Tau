@@ -1,6 +1,7 @@
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../components/Admin/firebase";
 import { useState } from "react";
+import Popup from "../components/Admin/Popup";
 
 function Contact() {
   const sacraments = ["UNITY", "HONESTY", "INTEGRITY", "LEADERSHIP"];
@@ -51,6 +52,9 @@ function Contact() {
       phoneNum: formData.phoneNum,
       submittedAt: new Date(),
     });
+
+    setMessage("Successfully Submitted");
+    setShowPopup(true);
   };
 
   return (
@@ -160,6 +164,16 @@ function Contact() {
           </button>
         </div>
       </div>
+      {showPopup && (
+        <Popup
+          message={message}
+          collectionName={""}
+          onClose={() => setShowPopup(false)}
+          autoClose={true}
+          duration={1000}
+          showCloseButton={false}
+        />
+      )}
     </div>
   );
 }

@@ -649,6 +649,7 @@ a.click-button {
   flex-direction: column;
   max-width: 100%;
   width: 100vw;
+  min-height: 100vh;
   padding-top: 125px;
   align-items: start;
   @media (max-width: 992px) {
@@ -675,11 +676,23 @@ a.click-button {
   width: fit-content;
 }
 
+.admin-page-row.admin-panel-buttons {
+  gap: 25px;
+  width: 100%;
+  padding: 5px 0;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  @media (max-width: 992px) {
+    padding: 15px 0;
+  }
+}
+
 .admin-panels-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   width: 100%;
-  justify-content: space-around;
+  justify-content: center;
   @media (max-width: 992px) {
     flex-direction: column;
     align-items: center;
@@ -687,6 +700,57 @@ a.click-button {
     margin-bottom: 50px;
   }
 }
+
+.admin-panels-container > * {
+  flex: 0 0 calc(50% - 10px);
+}
+
+.admin-show-button {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  color: black;
+  border: solid black;
+  border-radius: 15px;
+  cursor: pointer;
+  z-index: 0;
+  transition: color 0.3s ease;
+}
+
+.admin-show-button::before,
+.admin-show-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: black;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.admin-show-button::before {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.admin-show-button::after {
+  right: 0;
+  transform: translateX(100%);
+}
+
+.admin-show-button.active::before {
+  transform: translateX(0);
+}
+
+.admin-show-button.active::after {
+  transform: translateX(0);
+}
+
+.admin-show-button.active {
+  color: white;
+}
+
 /*  AdminPanel.tsx   & Popup.tsx */
 
 .admin-container {
