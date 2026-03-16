@@ -243,52 +243,73 @@ function AdminPanel({
             <option value="active">Active</option>
             <option value="executive">Executive</option>
           </select>
-          <label className="admin-label">Enter Name</label>
+          <label htmlFor="name" className="admin-label">
+            Enter Name
+          </label>
           <input
             className="knight-input"
+            id="name"
             type="text"
             placeholder="Name"
             onChange={(e) => setName(e.target.value)}
           />
-          <label className="admin-label">Enter Position</label>
+          <label htmlFor="position" className="admin-label">
+            Enter Position
+          </label>
           <input
             className="knight-input"
+            id="position"
             type="text"
             placeholder="Position"
             onChange={(e) => setPosition(e.target.value)}
           />
-          <label className="admin-label">Enter Knight Name</label>
+          <label htmlFor="knight-name" className="admin-label">
+            Enter Knight Name
+          </label>
           <input
             className="knight-input"
+            id="knight-name"
             type="text"
             placeholder="Knight Name"
             onChange={(e) => setKnightName(e.target.value)}
           />
-          <label className="admin-label">Enter Line Number</label>
+          <label htmlFor="line-num" className="admin-label">
+            Enter Line Number
+          </label>
           <input
             className="knight-input"
+            id="line-num"
             type="number"
             placeholder="Line Number"
             onChange={(e) => setLineNumber(e.target.value)}
           />
-          <label className="admin-label">Enter Line Name</label>
+          <label htmlFor="line-name" className="admin-label">
+            Enter Line Name
+          </label>
           <input
             className="knight-input"
+            id="line-name"
             type="text"
             placeholder="Line Name"
             onChange={(e) => setLineName(e.target.value)}
           />
-          <label className="admin-label">Enter Cross Date</label>
+          <label htmlFor="cross-date" className="admin-label">
+            Enter Cross Date
+          </label>
           <input
             className="knight-input"
+            id="cross-date"
             type="text"
             placeholder="Cross Date Semester-Year"
             onChange={(e) => setCrossDate(e.target.value)}
           />
           <br />
-          <label className="admin-label">Enter Event Image</label>
+          <label htmlFor="event-image" className="admin-label">
+            Enter Event Image
+          </label>
           <input
             type="file"
+            id="event-image"
             accept="image/*"
             onChange={(e) => {
               if (e.target.files) {
@@ -298,9 +319,11 @@ function AdminPanel({
           />
           <Fragment>
             <div className="awards-input">
-              <label className="admin-label">Enter awards</label>
+              <label htmlFor="awards" className="admin-label">
+                Enter awards
+              </label>
               {awards.map((award, index) => (
-                <div className="knight-row" key={index}>
+                <div id="awards" className="knight-row" key={index}>
                   <input
                     className="knight-input"
                     type="text"

@@ -11,11 +11,27 @@ import Contact from "./pages/Contact";
 import Alumni from "./components/Brotherhood/Alumni";
 import AllBros from "./components/Brotherhood/AllBros";
 import ProtectedRoute from "./components/Admin/ProtectedRoute";
+import { useEffect } from "react";
 
 function App() {
+  const ScrollToTop = () => {
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 100);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }, []);
+
+    return null;
+  };
+
   return (
     <Fragment>
       <Navbar />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Mtb" element={<Mtb />} />

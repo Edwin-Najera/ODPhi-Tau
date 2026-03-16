@@ -1,10 +1,16 @@
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../components/Admin/firebase";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Popup from "../components/Admin/Popup";
+import rush from "../components/Photos/Rush ODPhi 2022 Fall shirt Design_Final_For Red Outlines.png";
+import { useInView } from "react-intersection-observer";
 
 function Contact() {
   const sacraments = ["UNITY", "HONESTY", "INTEGRITY", "LEADERSHIP"];
+  const { ref: rushImage, inView: visibleElement } = useInView({
+    triggerOnce: true,
+  });
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
@@ -111,10 +117,10 @@ function Contact() {
               />
             </div>
             <div className="col-form">
-              <label id="last-label">Last Name</label>
+              <label htmlFor="last">Last Name</label>
               <input
                 type="text"
-                name="lastName"
+                name="lastName last"
                 id="last"
                 value={formData.lastName}
                 className="interest-name"
@@ -163,6 +169,29 @@ function Contact() {
             Submit
           </button>
         </div>
+      </div>
+      <div className="campus-activity mt-xl-4 mt-2">
+        <img
+          ref={rushImage}
+          className={`rush-image ${visibleElement ? "rush-effect" : ""}`}
+          src={rush}
+        />
+        <div className="campus-activity-col">
+          <h4>Check out what we're doing on campus</h4>
+          <Link to="/Mtb" className="on-campus">
+            <span>Who's on campus?</span>
+            <span>Check out the bros on campus</span>
+          </Link>
+          <Link to="/" className="on-campus">
+            <span>Events on Campus?</span>
+            <span>Check out our events</span>
+          </Link>
+        </div>
+        <img
+          ref={rushImage}
+          className={`rush-image ${visibleElement ? "rush-effect" : ""}`}
+          src={rush}
+        />
       </div>
       {showPopup && (
         <Popup
