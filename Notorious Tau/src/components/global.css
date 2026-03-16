@@ -49,10 +49,14 @@
   justify-self: start;
   width: 50px;
   height: auto;
+  animation: none;
+  clip-path: none;
 }
 
-/*  This and below is for the Home Page */
-/*  HomePage.tsx  */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* ||||||||| This and below is for the Home Page |||||||| */
+/* |||||||||||||||||||| HomePage.tsx |||||||||||||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
 .home-grid {
   display: grid;
@@ -205,6 +209,7 @@
     left: 5vw;
     animation: fadeIn 1s forwards;
     animation-delay: 800ms;
+    clip-path: none;
   }
   @media (max-width: 991px) {
     width: 100%;
@@ -222,7 +227,10 @@
   }
 }
 
-/*  Events.tsx  */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* ||||||||||||||||||||||||| Events.tsx ||||||||||||||||||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
 .events-container {
   display: flex;
   flex-direction: column;
@@ -408,7 +416,9 @@ it will display a different page where it shows an animation to display loading*
   width: 40%;
 }
 
-/*      MGC     */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* ||||||||||||||||||||||||| MGC.tsx |||||||||||||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 .mgc-container {
   display: flex;
   flex-direction: column;
@@ -444,7 +454,10 @@ it will display a different page where it shows an animation to display loading*
   fill: url(#mgc-insta);
 }
 
-/*  School.tsx  */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* ||||||||||||||||||||||||| School.tsx ||||||||||||||||||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
 a.click-button {
   background-color: black;
   border-radius: 5em;
@@ -558,7 +571,9 @@ a.click-button {
   justify-content: space-between;
 }
 
-/*              This and below will be for the Gallery                */
+/* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* ||||||||||||||||||||||||| Gallery.tsx ||||||||||||||||||||||||| */
+/* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 .odphi-gallery-page {
   display: flex;
   flex-direction: column;
@@ -638,8 +653,63 @@ a.click-button {
     width: 0;
   }
 }
-/*              This and below will be for the OnlyBros               */
-/*  Onlybros.tsx  */
+
+/* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* ||||||||||||||||||||||||| Service.tsx ||||||||||||||||||||||||| */
+/* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
+.service-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  width: 100vw;
+  padding: 100px 0 20px;
+  @media (max-width: 992px) {
+    padding-top: 120px;
+  }
+}
+
+.service-page h2 {
+  padding: 0;
+  font-size: 2em;
+  font-weight: 900;
+}
+
+.service-event-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 95%;
+  padding-top: 2%;
+}
+
+.service-event {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  width: 45%;
+}
+
+.service-title {
+  width: 100%;
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+.service-img {
+  border: solid black;
+  border-radius: 15px;
+  width: 100%;
+}
+
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* |||||||||||| This and below will be for the OnlyBros ||||||||||| */
+/* ||||||||||||||||||||||||| Onlybros.tsx ||||||||||||||||||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
 .admin-page {
   display: flex;
   flex-direction: column;
@@ -747,7 +817,9 @@ a.click-button {
   color: white;
 }
 
-/*  AdminPanel.tsx   & Popup.tsx */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* |||||||||||| AdminPanel.tsx & Popup.tsx |||||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
 .admin-container {
   display: flex;
@@ -1128,7 +1200,10 @@ a.click-button {
   }
 }
 
-/*    Login.tsx   */
+/* ||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* |||||||||||||||||||| Login.tsx |||||||||||||||||||| */
+/* ||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
 .login-page {
   display: flex;
   flex-direction: column;
@@ -1194,7 +1269,10 @@ a.click-button {
   }
 }
 
-/*  AssignRole.tsx  */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* |||||||||||||||||||| AssignRole.tsx |||||||||||||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
 .assign-role-container {
   display: flex;
   flex-direction: column;
@@ -1245,7 +1323,10 @@ a.click-button {
   color: black;
 }
 
-/*    Alumni.tsx   &  AllBros.tsx */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* |||||||||||||||||||| Alumni.tsx & AllBros.tsx |||||||||||||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
 .alumni-page,
 .all-bros-page {
   display: flex;
@@ -1505,7 +1586,9 @@ a.click-button {
   width: 100%;
 }
 
-/*            This and below will be for the Meet The bros            */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* |||||||||| This and below will be for the Meet The bros |||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
 .mtb-page {
   display: flex;
@@ -1619,6 +1702,7 @@ a.click-button {
 .knight-card img {
   width: 200px;
   border-radius: 15px;
+  clip-path: none;
   @media (max-width: 992px) {
     width: 100px;
   }

@@ -40,7 +40,9 @@ function Navbar() {
               <Link to="/Gallery" className="nav-link" onClick={closeNavbar}>
                 Gallery
               </Link>
-              <div className="nav-link">Service</div>
+              <Link to="/Service" className="nav-link">
+                Service
+              </Link>
               <Link to="/AllBros" className="nav-link" onClick={closeNavbar}>
                 Brothers Only
               </Link>

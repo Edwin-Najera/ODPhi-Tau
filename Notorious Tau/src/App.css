@@ -24,6 +24,19 @@ body {
   background: #000;
 }
 
+/* Every image in the app should have the same animation */
+img {
+  aspect-ratio: auto;
+  animation: slideFromTop 1s ease-in forwards;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+}
+
+@keyframes slideFromTop {
+  to {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
+
 /* App grid to help place all contents in web app */
 
 .AppGrid {

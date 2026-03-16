@@ -42,25 +42,31 @@ function Onlybros() {
           className={`admin-show-button ${activePanels.includes("brotherhood") ? "active" : ""}`}
           onClick={() => togglePanel("brotherhood")}
         >
-          Brotherhood Events
+          Brotherhood
+        </button>
+        <button
+          className={`admin-show-button ${activePanels.includes("service") ? "active" : ""}`}
+          onClick={() => togglePanel("service")}
+        >
+          Service
         </button>
         <button
           className={`admin-show-button ${activePanels.includes("alumni") ? "active" : ""}`}
           onClick={() => togglePanel("alumni")}
         >
-          Alumni Page
+          Alumni
         </button>
         <button
           className={`admin-show-button ${activePanels.includes("campus") ? "active" : ""}`}
           onClick={() => togglePanel("campus")}
         >
-          Campus Updates (for alumn)
+          Campus
         </button>
         <button
           className={`admin-show-button ${activePanels.includes("gallery") ? "active" : ""}`}
           onClick={() => togglePanel("gallery")}
         >
-          Gallery Admin
+          Gallery
         </button>
         <button
           className={`admin-show-button ${activePanels.includes("house") ? "active" : ""}`}
@@ -68,28 +74,43 @@ function Onlybros() {
         >
           Active & Execs
         </button>
+        <button
+          className={`admin-show-button ${activePanels.includes("countdown") ? "active" : ""}`}
+          onClick={() => togglePanel("countdown")}
+        >
+          Countdown
+        </button>
+        <button
+          className={`admin-show-button ${activePanels.includes("assign") ? "active" : ""}`}
+          onClick={() => togglePanel("assign")}
+        >
+          Assign Roles
+        </button>
       </div>
       <div className="admin-panels-container">
         {activePanels.includes("events") && (
           <AdminPanel
             collectionName="events"
-            panelTitle="Events Admin Panel"
+            panelTitle="Events Admin"
             hasItems={true}
           />
         )}
+
         {activePanels.includes("brotherhood") && (
           <AdminPanel
             collectionName="brotherhood"
-            panelTitle="Brotherhood Event Admin Panel"
+            panelTitle="Brotherhood Event Admin"
           />
         )}
+
         {activePanels.includes("alumni") && (
           <AdminPanel
             collectionName="alumni"
-            panelTitle="Alumni Event Admin Panel"
+            panelTitle="Alumni Event Admin"
             hasDate={true}
           />
         )}
+
         {activePanels.includes("campus") && (
           <AdminPanel collectionName="campus" panelTitle="Campus Updates" />
         )}
@@ -108,9 +129,15 @@ function Onlybros() {
             activeHouse={true}
           />
         )}
+
+        {activePanels.includes("service") && (
+          <AdminPanel collectionName="service" panelTitle="Service Admin" />
+        )}
+
+        {activePanels.includes("countdwon") && <CountdownAdmin />}
+
+        {activePanels.includes("assign") && <AssignRole />}
       </div>
-      <CountdownAdmin />
-      <AssignRole />
     </div>
   );
 }

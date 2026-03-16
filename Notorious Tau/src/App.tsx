@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Mtb from "./pages/Mtb";
 import Gallery from "./pages/Gallery";
+import Service from "./pages/Service";
 import Login from "./pages/Login";
 import Onlybros from "./pages/Onlybros";
 import Contact from "./pages/Contact";
@@ -36,6 +37,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Mtb" element={<Mtb />} />
         <Route path="/Gallery" element={<Gallery />} />
+        <Route path="/Service" element={<Service />} />
         <Route path="/Login" element={<Login />} />
         <Route
           path="/Onlybros"
