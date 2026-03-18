@@ -5,8 +5,8 @@ function Footer() {
   return (
     <Fragment>
       <div className="footer-container">
-        <div className="footer-right">Developed By Edwin Najera</div>
-        <div className="footer-left">Some words</div>
+        <span className="footer-right">Developed By Edwin Najera</span>
+        <span className="footer-left">Some words</span>
       </div>
     </Fragment>
   );

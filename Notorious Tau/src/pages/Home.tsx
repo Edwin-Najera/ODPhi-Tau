@@ -4,6 +4,7 @@ import Events from "../components/EventsFolder/Events";
 import About from "../components/Home/About";
 import MGC from "../components/Home/mgc";
 import School from "../components/Home/School";
+import Follow from "../components/Home/Follow";
 import Footer from "../components/Home/Footer";
 
 function App() {
@@ -44,7 +45,9 @@ function App() {
         <div className="MGC">
           <MGC />
         </div>
-        <div className="Contact"></div>
+        <div className="Follow">
+          <Follow />
+        </div>
         <div className="Footer">
           <Footer />
         </div>

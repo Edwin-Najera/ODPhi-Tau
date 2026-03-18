@@ -563,17 +563,179 @@ a.click-button {
   -webkit-text-stroke: 2px white;
   paint-order: stroke;
 }
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* ||||||||||||||||||||||||| Follow.tsx ||||||||||||||||||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
-/*  Footer.tsx  */
+.follow-container {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.follow-wrapper {
+  display: flex;
+  position: relative;
+  width: 90%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+}
+
+.active-sword {
+  animation: flyIn 2s forwards;
+  opacity: 1;
+  transform: translateX(100%);
+}
+
+@keyframes flyIn {
+  to {
+    transform: translateX(0);
+  }
+}
+
+.follow-container h2 {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+  padding: 0;
+  margin-left: 50px;
+  font-size: 3em;
+  font-weight: 600;
+}
+
+.follow-sword {
+  display: flex;
+  position: relative;
+  height: 50%;
+  width: 75%;
+  background: black;
+  z-index: 1;
+  background:
+    linear-gradient(
+        to left,
+        /* starts solid at hilt (right) */ rgba(0, 0, 0, 0.4) 0%,
+        /* holds solid for most of blade */ rgba(0, 0, 0, 0.4) 60%,
+        /* fades out before tip (left) */ transparent 90%
+      )
+      /* 95% width, starts from right */ right center / 95% 2px no-repeat,
+    linear-gradient(
+      to bottom,
+      #555555,
+      /* darker silver above */ #555555,
+      /* lighter silver below */ #a4a4a4,
+      #a4a4a4
+    );
+  clip-path: polygon(0% 50%, 5% 45%, 100% 25%, 100% 75%, 5% 55%, 0% 50%);
+}
+
+.follow-hilt {
+  display: flex;
+  position: relative;
+  background-color: #c0c0c0;
+  align-items: center;
+  width: 15%;
+  height: 75%;
+  margin-left: -1%;
+  z-index: 1;
+}
+
+.hilt {
+  position: absolute;
+  width: 7.5%;
+  height: 100%;
+  left: -3.75%;
+  background: black;
+  z-index: 2;
+  clip-path: url(#clip-hilt);
+}
+
+.hilt-start,
+.hilt-end {
+  position: absolute;
+  width: 10%;
+  height: 10%;
+  left: -5%;
+  border-radius: 100%;
+  background: black;
+  z-index: 3;
+}
+
+.hilt-start {
+  top: -6%;
+}
+
+.hilt-end {
+  bottom: -6%;
+}
+
+.follow-handle {
+  position: absolute;
+  background:
+    linear-gradient(135deg, rgba(0, 0, 0, 0) 45%, black 80%),
+    repeating-linear-gradient(
+      110deg,
+      black 0%,
+      rgba(0, 0, 0, 0.3) 5%,
+      black 10%
+    );
+  left: 3.6%;
+  width: 100%;
+  height: 35%;
+  z-index: 3;
+  clip-path: url(#clip-handle);
+}
+
+.icons-wrapper {
+  display: flex;
+  position: absolute;
+  align-items: end;
+  justify-content: center;
+  width: 50%;
+  height: 12%;
+  gap: 5px;
+  bottom: 50%;
+  left: 50%;
+  z-index: 4;
+  background: transparent;
+}
+
+.follow-icon {
+  background: transparent;
+  height: 100%;
+  width: auto;
+}
+
+.follow-rush {
+  opacity: 1;
+  animation-delay: 2s;
+}
+
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* ||||||||||||||||||||||||| Footer.tsx ||||||||||||||||||||||||| */
+/* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
 .footer-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  color: rgba(255, 255, 255, 0.2);
+  background: black;
+  padding: 0 5px;
+}
+
+.footer-container span {
+  font-weight: 700;
 }
 
 /* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* ||||||||||||||||||||||||| Gallery.tsx ||||||||||||||||||||||||| */
 /* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
 .odphi-gallery-page {
   display: flex;
   flex-direction: column;
@@ -793,6 +955,16 @@ a.click-button {
   background: black;
   transition: transform 0.3s ease;
   z-index: -1;
+}
+
+.admin-show-button:hover {
+  background: transparent;
+  border: solid black;
+  box-shadow:
+    0 0 3px white,
+    0 0 9px,
+    0 0 18px,
+    0 0 32px;
 }
 
 .admin-show-button::before {
@@ -2045,13 +2217,17 @@ a.click-button {
 
 .interest-form {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  width: 60%;
-  color: black;
-  background: rgba(0, 0, 0, 0.05);
+  width: 80%;
+  color: white;
+  background: black;
   border-radius: 15px;
   padding: 10px 25px;
+}
+
+.interest-form h4 {
+  align-self: center;
 }
 
 .form {
@@ -2104,23 +2280,32 @@ a.click-button {
   width: 24%;
 }
 
-.campus-activity {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 75%;
-  padding: 25px;
-  color: white;
-  background: black;
-  border-radius: 8px;
-  gap: 25px;
+.interest-submit {
+  color: black;
+  background: white;
+  border-radius: 10px;
 }
 
-.campus-activity-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 25px;
+.interest-submit::after,
+.interest-submit::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: black;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.interest-submit:hover {
+  background: white;
+  border: none;
+  box-shadow:
+    0 0 5px white,
+    0 0 25px white,
+    0 0 50px white,
+    0 0 200px white;
 }
 
 .rush-image {
@@ -2182,11 +2367,32 @@ a.click-button {
   }
 }
 
+.campus-activity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 75%;
+  padding: 25px;
+  color: black;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  gap: 25px;
+}
+
+.campus-activity-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 25px;
+}
+
 .on-campus {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 400px;
+  height: 100px;
   text-align: center;
   border: solid white;
   border-radius: 8px;
@@ -2194,7 +2400,7 @@ a.click-button {
   position: relative;
   overflow: hidden;
   background: transparent;
-  color: white;
+  color: black;
   cursor: pointer;
   z-index: 0;
   transition: color 0.3s ease;
@@ -2212,7 +2418,7 @@ a.click-button {
   top: 0;
   width: 50%;
   height: 100%;
-  background: white;
+  background: black;
   transition: transform 0.3s ease;
   z-index: -1;
 }
@@ -2236,5 +2442,5 @@ a.click-button {
 }
 
 .on-campus:hover {
-  color: black;
+  color: white;
 }

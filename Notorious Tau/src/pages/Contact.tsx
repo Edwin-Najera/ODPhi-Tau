@@ -102,8 +102,13 @@ function Contact() {
         </div>
       </div>
       <div className="interest-form mt-4">
-        <h4>Interest Form</h4>
+        <img
+          ref={rushImage}
+          className={`rush-image ${visibleElement ? "rush-effect" : ""}`}
+          src={rush}
+        />
         <div className="form">
+          <h4>Interest Form</h4>
           <div className="interest-full-name">
             <div className="col-form">
               <label>First Name</label>
@@ -169,29 +174,24 @@ function Contact() {
             Submit
           </button>
         </div>
-      </div>
-      <div className="campus-activity mt-xl-4 mt-2">
         <img
           ref={rushImage}
           className={`rush-image ${visibleElement ? "rush-effect" : ""}`}
           src={rush}
         />
-        <div className="campus-activity-col">
-          <h4>Check out what we're doing on campus</h4>
+      </div>
+      <div className="campus-activity mt-xl-4 mt-2">
+        <h4>Check out what we're doing on campus</h4>
+        <div className="campus-activity-row">
           <Link to="/Mtb" className="on-campus">
             <span>Who's on campus?</span>
-            <span>Check out the bros on campus</span>
+            <span>Bros on campus</span>
           </Link>
           <Link to="/" className="on-campus">
             <span>Events on Campus?</span>
             <span>Check out our events</span>
           </Link>
         </div>
-        <img
-          ref={rushImage}
-          className={`rush-image ${visibleElement ? "rush-effect" : ""}`}
-          src={rush}
-        />
       </div>
       {showPopup && (
         <Popup
