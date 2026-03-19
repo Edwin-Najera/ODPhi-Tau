@@ -134,7 +134,7 @@ function Onlybros() {
           <AdminPanel collectionName="service" panelTitle="Service Admin" />
         )}
 
-        {activePanels.includes("countdwon") && <CountdownAdmin />}
+        {activePanels.includes("countdown") && <CountdownAdmin />}
 
         {activePanels.includes("assign") && <AssignRole />}
       </div>
