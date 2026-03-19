@@ -1,7 +1,8 @@
 import { Fragment } from "react/jsx-runtime";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
 import { FaInstagram, FaTiktok } from "react-icons/fa";
-import { MdOutlineMail } from "react-icons/md";
+import letters from "../Photos/ODP Minimal Letters - White.png";
 
 function Follow() {
   const { ref: followRef, inView: visibleElement } = useInView({
@@ -18,13 +19,6 @@ function Follow() {
           <div className="line-separate" />
           <div className="info-wrapper">
             <div className="founding-date-loc">
-              <div className="follow-dates">
-                <span className="year">1987</span>
-                <span className="spacer" />
-                <span className="school-loc">Texas Tech University</span>
-                <span className="spacer" />
-                <span className="loc">Lubbock, Texas</span>
-              </div>
               <div className="follow-dates">
                 <span className="year">1997</span>
                 <span className="spacer" />
@@ -46,10 +40,40 @@ function Follow() {
               <a target="_blank" rel="noreferrer">
                 <FaTiktok className="follow-icon" />
               </a>
-              <a target="_blank" rel="noreferrer">
-                <MdOutlineMail className="follow-icon" />
-              </a>
             </div>
+          </div>
+          <div className="extension">
+            <div className="get-in-touch">
+              <h6>Get in Touch</h6>
+              <ul className="touch-list">
+                <li className="contact-email">
+                  <a href="mailto:president.tau@omegadeltaphi.org">
+                    president.tau@omegadeltaphi.org
+                  </a>
+                </li>
+                <li className="contact-email">
+                  <a href="mailto:vp.tau@omegadeltaphi.org">
+                    vp.tau@omegadeltaphi.org
+                  </a>
+                </li>
+                <li className="contact-email">
+                  <a href="mailto:recruitment.tau@omegadeltaphi.org">
+                    recruitment.tau@omegadeltaphi.org
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="campus">
+              <h6>Active House</h6>
+              <ul className="house-list">
+                <li className="bros-page">
+                  <Link to="/mtb" className="house-item">
+                    Actives & Executives
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <img src={letters} alt="letters" className="letters" />
           </div>
         </div>
       </div>
