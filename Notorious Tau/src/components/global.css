@@ -437,10 +437,11 @@ it will display a different page where it shows an animation to display loading*
 .about-container {
   display: flex;
   flex-direction: row;
-  width: 75%;
+  width: 85%;
   justify-self: center;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding: 5%;
   @media (max-width: 992px) {
     width: 100%;
     flex-direction: column;
@@ -459,6 +460,7 @@ it will display a different page where it shows an animation to display loading*
 .group-photo {
   object-fit: contain;
   width: 40%;
+  border-radius: 8px;
 }
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||| */
@@ -1355,6 +1357,7 @@ a.click-button {
   flex-direction: row;
   align-items: flex-start;
   gap: 10px;
+  overflow: hidden;
 }
 
 .countdown-block {
@@ -1391,7 +1394,7 @@ a.click-button {
 }
 
 .countdown-number-wrapper.flip {
-  animation: flip 300ms ease forwards;
+  animation: flip 400ms ease forwards;
 }
 
 @keyframes flip {
@@ -1400,13 +1403,12 @@ a.click-button {
     opacity: 1;
   }
   50% {
-    transform: translateY(-20px);
+    transform: translateY(-100px);
     opacity: 1;
   }
   51% {
-    transform: translateY(20px);
+    transform: translateY(100px);
     opacity: 0;
-    z-index: -1;
   }
   100% {
     transform: translateY(0);

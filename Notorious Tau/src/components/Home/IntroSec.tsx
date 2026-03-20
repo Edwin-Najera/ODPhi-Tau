@@ -1,6 +1,6 @@
 import { Fragment } from "react/jsx-runtime";
 import { useRef, useEffect } from "react";
-import tau from "../Photos/Group.JPEG";
+import tau from "../Photos/Tau1.jpeg";
 import "../global.css";
 
 function IntroSec() {
