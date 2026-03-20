@@ -231,6 +231,51 @@
 /* ||||||||||||||||||||||||| Events.tsx ||||||||||||||||||||||||| */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
+/* This is for the countdown that will display on the  */
+.countdown-event-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.countdown-display-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: white;
+  width: 55%;
+  padding: 5% 2%;
+  background: black;
+  border-radius: 15px;
+}
+
+.countdown-image {
+  width: 50%;
+  border-radius: 8px;
+}
+
+.countdown-col {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.countdown-col h2 {
+  font-size: 2em;
+  font-weight: 900;
+}
+
+.countdown-col .countdown-number-wrapper {
+  background: white;
+}
+
+.countdown-col .countdown-number {
+  color: black;
+}
+
 .events-container {
   display: flex;
   flex-direction: column;
@@ -576,7 +621,7 @@ a.click-button {
   width: 90%;
   height: 85%;
   align-items: center;
-  background: red;
+  background: rgb(200, 59, 59);
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
@@ -1361,6 +1406,7 @@ a.click-button {
   51% {
     transform: translateY(20px);
     opacity: 0;
+    z-index: -1;
   }
   100% {
     transform: translateY(0);
