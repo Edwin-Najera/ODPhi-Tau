@@ -15,41 +15,35 @@ function School() {
     <Fragment>
       <div ref={myRef} className={blaze}>
         <h1>UTA Resources</h1>
-        <div className="row resources-row" id="resources-row">
-          <div className="col help-resources" id="help-resources">
+        <div className="row resources-row">
+          <div className="col help-resources">
             <h6>Student Help</h6>
             <ul className="help-list">
               <li className="school-list-item">
-                Counseling
-                <br />
                 <a
                   className="click-button"
                   href="https://www.uta.edu/student-affairs/caps"
                   target="_blank"
                 >
-                  Click Me
+                  Counseling
                 </a>
               </li>
               <li className="school-list-item">
-                Health Services
-                <br />
                 <a
                   className="click-button"
                   href="http://www.uta.edu/healthservices/"
                   target="_blank"
                 >
-                  Click Me
+                  Health Services
                 </a>
               </li>
               <li className="school-list-item">
-                Student Support
-                <br />
                 <a
                   className="click-button"
                   href="https://www.uta.edu/student-affairs/student-support"
                   target="_blank"
                 >
-                  Click Me
+                  Students Support
                 </a>
               </li>
             </ul>
@@ -58,47 +52,39 @@ function School() {
             <h6>Study Tools and Areas</h6>
             <ul className="study-list">
               <li className="school-list-item">
-                Math Clinic
-                <br />
                 <a
                   className="click-button"
                   href="https://www.uta.edu/math/LRC/clinic.php"
                   target="_blank"
                 >
-                  Click Me
+                  Math Clinic
                 </a>
               </li>
               <li className="school-list-item">
-                Writing Center
-                <br />
                 <a
                   className="click-button"
                   href="http://www.uta.edu/owl/"
                   target="_blank"
                 >
-                  Click Me
+                  Writing Center
                 </a>
               </li>
               <li className="school-list-item">
-                Study Rooms
-                <br />
                 <a
                   className="click-button"
                   href="https://libraries.uta.edu/services/study-spaces"
                   target="_blank"
                 >
-                  Click Me
+                  Study Rooms
                 </a>
               </li>
               <li className="school-list-item">
-                Tutoring
-                <br />
                 <a
                   className="click-button"
                   href="https://www.uta.edu/student-success/course-assistance/tutoring"
                   target="_blank"
                 >
-                  Click Me
+                  Tutoring
                 </a>
               </li>
             </ul>

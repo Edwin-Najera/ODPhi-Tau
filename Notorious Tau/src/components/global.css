@@ -516,44 +516,34 @@ a.click-button {
 .resources-row {
   justify-content: space-between;
   width: 80%;
+  height: 100%;
   @media (max-width: 992px) {
     width: 100%;
   }
 }
 
-.help-resources {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 50%;
-  justify-items: center;
-}
-
-.help-list {
-  display: flex;
-  flex-direction: column;
-  list-style-type: none;
-  text-align: center;
-  color: black;
-  --webkit-text-stroke-width: 5px;
-  --webkit-text-stroke-color: white;
-  padding: 0;
-  gap: 5px;
-}
-
+.help-resources,
 .study-resources {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 50%;
   justify-items: center;
+  height: 100%;
 }
 
+.help-list,
 .study-list {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  height: 100%;
+  justify-content: space-around;
   list-style-type: none;
   text-align: center;
+  color: black;
+  --webkit-text-stroke-width: 5px;
+  --webkit-text-stroke-color: white;
   padding: 0;
   gap: 5px;
 }
@@ -592,7 +582,7 @@ a.click-button {
 }
 
 .active-follow {
-  animation: goDown 1.5s ease-out forwards;
+  animation: goDown 1s ease-out forwards;
 }
 
 @keyframes goDown {
@@ -688,20 +678,18 @@ a.click-button {
   padding: 1% 0 0;
 }
 
-.get-in-touch,
-.campus {
+.footer-contact {
   display: flex;
   flex-direction: column;
 }
 
-.touch-list,
-.house-list {
+.touch-list {
   list-style-type: none;
   padding: 0 2%;
 }
 
-.touch-list li a,
-.house-list li .house-item {
+.touch-list li .list-item,
+.touch-list li a {
   text-decoration: none;
   color: white;
   cursor: pointer;
@@ -711,9 +699,16 @@ a.click-button {
 .letters {
   position: absolute;
   bottom: 1%;
-  right: 0;
+  right: 1%;
   height: auto;
   width: 15% !important;
+}
+
+.founding-date {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  color: black;
 }
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */

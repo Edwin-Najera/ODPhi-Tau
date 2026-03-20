@@ -43,36 +43,47 @@ function Follow() {
             </div>
           </div>
           <div className="extension">
-            <div className="get-in-touch">
+            <div className="footer-contact">
               <h6>Get in Touch</h6>
               <ul className="touch-list">
-                <li className="contact-email">
+                <li className="list-item">
                   <a href="mailto:president.tau@omegadeltaphi.org">
                     president.tau@omegadeltaphi.org
                   </a>
                 </li>
-                <li className="contact-email">
+                <li className="list-item">
                   <a href="mailto:vp.tau@omegadeltaphi.org">
                     vp.tau@omegadeltaphi.org
                   </a>
                 </li>
-                <li className="contact-email">
+                <li className="list-item">
                   <a href="mailto:recruitment.tau@omegadeltaphi.org">
                     recruitment.tau@omegadeltaphi.org
                   </a>
                 </li>
               </ul>
             </div>
-            <div className="campus">
+            <div className="footer-contact">
               <h6>Active House</h6>
-              <ul className="house-list">
-                <li className="bros-page">
-                  <Link to="/mtb" className="house-item">
+              <ul className="touch-list">
+                <li>
+                  <Link to="/Mtb" className="list-item">
                     Actives & Executives
                   </Link>
                 </li>
               </ul>
             </div>
+            <div className="footer-contact">
+              <h6>Service Events</h6>
+              <ul className="touch-list">
+                <li>
+                  <Link to="/Service" className="list-item">
+                    Service
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <h3 className="founding-date">Est. 1987</h3>
             <img src={letters} alt="letters" className="letters" />
           </div>
         </div>
