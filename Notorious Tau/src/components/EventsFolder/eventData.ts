@@ -1,3 +1,4 @@
+import type { Timestamp } from "firebase/firestore";
 import fundraiser from "../Photos/ConchasFund.jpeg";
 import somePhoto from "../Photos/T.png";
 
@@ -43,6 +44,7 @@ export type Countdown = {
     imageURL: string;
     imagePath: string;
     targetDate: Date | any;
+    events? : CountdownEvent[];
     createdAt: any;
 }
 
@@ -51,6 +53,13 @@ export type TimeLeft = {
     hours: number;
     minutes: number;
     seconds: number;
+}
+
+export type CountdownEvent = {
+    title: string;
+    date: Date | any;
+    startTime: string;
+    endTime: string;
 }
 
 

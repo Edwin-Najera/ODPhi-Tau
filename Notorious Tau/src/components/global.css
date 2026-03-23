@@ -232,26 +232,21 @@
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
 /* This is for the countdown that will display on the  */
-.countdown-event-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
 .countdown-display-container {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  position: relative;
   color: white;
-  width: 55%;
+  width: 95%;
   padding: 5% 2%;
   background: black;
   border-radius: 15px;
+  border: solid red;
 }
 
 .countdown-image {
-  width: 50%;
+  width: 25%;
   border-radius: 8px;
 }
 
@@ -259,6 +254,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 70%;
   align-items: center;
   justify-content: space-around;
 }
@@ -269,20 +265,86 @@
 }
 
 .countdown-col .countdown-number-wrapper {
-  background: white;
+  background: black;
 }
 
 .countdown-col .countdown-number {
-  color: black;
+  color: white;
 }
 
-.events-container {
+.countdown-col .countdown-fixed {
+  position: absolute;
+  bottom: 5%;
+}
+
+.event-countdown-row {
+  display: flex;
+  width: 40%;
+  align-items: center;
+  gap: 25px;
+  border: solid red;
+}
+
+.events-container,
+.countdown-events-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   gap: 2em;
+}
+
+.events-list-countdown {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  flex: 1;
+  padding: 0 5% 5%;
+  gap: 10px;
+  border: solid red;
+}
+
+.countdown-event-items-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  white-space: pre-line;
+  border: solid blue;
+}
+
+.countdown-event-items-container:horizontal::after {
+  flex: 1;
+  content: "";
+  white-space: nowrap;
+  border-bottom-color: red;
+}
+
+.event-countdown-title {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  white-space: pre-line;
+}
+
+.event-countdown-date {
+  margin: 0;
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.event-countdown-date::after {
+  flex: 1;
+  content: "";
+  margin: 0 1em;
+  border-bottom: dashed red;
+}
+
+hr {
+  margin: 1em 2em;
 }
 
 /* The following, will be when the page is loading, 
@@ -758,9 +820,13 @@ a.click-button {
   color: black;
 }
 
+/* ----------------------------------------------------------------------------------- */
+
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* ||||||||||||||||||||||||| Footer.tsx ||||||||||||||||||||||||| */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
+/* ----------------------------------------------------------------------------------- */
 
 .footer-container {
   display: flex;
@@ -775,9 +841,13 @@ a.click-button {
   font-weight: 700;
 }
 
+/* ----------------------------------------------------------------------------------- */
+
 /* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* ||||||||||||||||||||||||| Gallery.tsx ||||||||||||||||||||||||| */
 /* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
+/* ----------------------------------------------------------------------------------- */
 
 .odphi-gallery-page {
   display: flex;
@@ -859,9 +929,13 @@ a.click-button {
   }
 }
 
+/* ----------------------------------------------------------------------------------- */
+
 /* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* ||||||||||||||||||||||||| Service.tsx ||||||||||||||||||||||||| */
 /* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
+/* ----------------------------------------------------------------------------------- */
 
 .service-page {
   display: flex;
@@ -910,10 +984,14 @@ a.click-button {
   width: 100%;
 }
 
+/* ----------------------------------------------------------------------------------- */
+
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* |||||||||||| This and below will be for the OnlyBros ||||||||||| */
 /* ||||||||||||||||||||||||| Onlybros.tsx ||||||||||||||||||||||||| */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
+/* ----------------------------------------------------------------------------------- */
 
 .admin-page {
   display: flex;
@@ -1032,9 +1110,13 @@ a.click-button {
   color: white;
 }
 
+/* ----------------------------------------------------------------------------------- */
+
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* |||||||||||| AdminPanel.tsx & Popup.tsx |||||||||||| */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
+/* ----------------------------------------------------------------------------------- */
 
 .admin-container {
   display: flex;
@@ -1090,25 +1172,61 @@ a.click-button {
   white-space: pre-wrap;
 }
 
-.item-input {
+.item-input,
+.awards-input,
+.event-countdown-input-container {
   display: flex;
   flex-direction: column;
   width: 100%;
   justify-content: left;
   text-align: center;
+  gap: 5px;
+  margin-bottom: 5px;
 }
 
-.input-event {
+.input-event,
+.knight-input,
+.countdown-event-input {
   width: 100%;
 }
 
-.item-row {
+.countdown-event-input {
+  max-width: 50%;
+}
+
+.countdown-event-input.year,
+.countdown-event-input.date {
+  max-width: 30%;
+}
+
+.item-row,
+.knight-row,
+.countdown-event-row {
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
   margin-bottom: 5px;
   color: black;
+}
+
+.countdown-event-row {
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.countdown-event-input-col {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  gap: 10px;
+}
+
+.countdown-event-input.start,
+.countdown-event-input.end {
+  width: 100%;
 }
 
 .item-row span:first-child {
@@ -1134,19 +1252,20 @@ a.click-button {
 .price-wrapper {
   display: flex;
   align-items: center;
-  gap: 2px;
 }
 
 .price-wrapper span {
   margin-left: 5px;
   font-weight: 600;
   font-size: 16px;
+  margin-right: -5px;
 }
 
 .price-input {
   width: 100px;
 }
 
+/* ----------------------------------------------------------------------------------- */
 .delete-btn {
   background-color: #ff4d4d;
   color: white;
@@ -1157,26 +1276,8 @@ a.click-button {
   margin-left: 5px;
 }
 
-.knight-input {
-  width: 100%;
-}
-
-.knight-row {
-  display: flex;
-}
-
 .knight-input.award-year {
   width: 20%;
-}
-
-.awards-input {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: left;
-  text-align: center;
-  gap: 5px;
-  margin-bottom: 5px;
 }
 
 .edit-btn {
@@ -1340,6 +1441,10 @@ a.click-button {
   margin-top: 0;
 }
 
+/* ----------------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------------- */
+
 .countdown-container {
   display: flex;
   flex-direction: column;
@@ -1365,7 +1470,6 @@ a.click-button {
   flex-direction: column;
   align-items: center;
   padding: 10px 5px;
-  border: solid black;
 }
 
 .countdown-number-wrapper {
@@ -1385,12 +1489,18 @@ a.click-button {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: white;
+  z-index: 1;
 }
 
 .countdown-separator {
   font-size: 2.5em;
   font-weight: 700;
   margin-top: 10px;
+}
+
+.countdown-label {
+  font-size: 1em;
+  font-weight: 900;
 }
 
 .countdown-number-wrapper.flip {

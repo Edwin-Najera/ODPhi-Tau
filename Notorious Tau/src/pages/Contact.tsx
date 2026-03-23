@@ -167,6 +167,7 @@ function Contact() {
                 value={formData.phoneNum}
                 onChange={handleChange}
                 placeholder="(123) 456 - 7890"
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               />
             </div>
           </div>

@@ -397,13 +397,20 @@ function Popup({
           <div className="event-popup-container">
             <h3>Existing Countdowns</h3>
             {countdowns.map((countdown) => (
-              <div
-                key={countdown.id}
-                className="view-mode-container container-view"
-              >
-                <h4>{countdown.title}</h4>
-                <CountdownDisplay countdown={countdown} />
-              </div>
+              <Fragment key={countdown.id}>
+                <div className="view-mode-container container-view">
+                  <h4>{countdown.title}</h4>
+                  <CountdownDisplay countdown={countdown} />
+                </div>
+                <button
+                  className="admin-btn delete-btn"
+                  onClick={() =>
+                    handleDelete(countdown.id, countdown.imagePath)
+                  }
+                >
+                  Delete Event
+                </button>
+              </Fragment>
             ))}
           </div>
           {showCloseButton && (

@@ -1,18 +1,14 @@
 import "../global.css";
 import { Fragment, useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "../Admin/firebase";
 import type { Event, Countdown } from "./eventData";
-import CountdownDisplay from "../Admin/CountdownFolder/CountdownDisplay";
+import CountdownEvent from "./CountdownEvent";
 
 function Events() {
   const [events, setEvents] = useState<Event[]>([]);
-  const [countdown, setCountdown] = useState<Countdown[]>([]);
+  const [countdowns, setCountdowns] = useState<Countdown[]>([]);
   const [loading, setLoading] = useState(true);
-  const { ref: countdownRef, inView: visibleElement } = useInView({
-    triggerOnce: true,
-  });
 
   //Fetch items from firebase
   useEffect(() => {
@@ -43,7 +39,7 @@ function Events() {
         );
 
         setEvents(eventsData);
-        setCountdown(countdownData);
+        setCountdowns(countdownData);
       } catch (error) {
         console.error("Error fetching Events", error);
       } finally {
@@ -66,25 +62,15 @@ function Events() {
 
   return (
     <Fragment>
-      {countdown.length > 0 && (
-        <div ref={countdownRef} className="countdown-event-container">
-          {countdown.map((countdown, index) => (
-            <div
-              key={index}
-              className={`countdown-display-container ${visibleElement ? "animate-countdown" : ""}`}
-            >
-              <img
-                src={countdown.imageURL}
-                alt="Countdown Image"
-                className="countdown-image"
-              />
-              <div className="countdown-col">
-                <h2>{countdown.title}</h2>
-                <CountdownDisplay countdown={countdown} />
-              </div>
-            </div>
+      {countdowns.length > 0 && (
+        <Fragment>
+          {countdowns.map((countdown, index) => (
+            <Fragment key={index}>
+              <CountdownEvent countdown={countdown} />
+              <br />
+            </Fragment>
           ))}
-        </div>
+        </Fragment>
       )}
       <div id="events-container">
         {events.map((event, index) => (
