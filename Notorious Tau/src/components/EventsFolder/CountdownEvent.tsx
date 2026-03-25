@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import type { Countdown } from "./eventData";
 import { useInView } from "react-intersection-observer";
+import { CiCalendar, CiTimer, CiLocationOn } from "react-icons/ci";
 import CountdownDisplay from "../Admin/CountdownFolder/CountdownDisplay";
-import type { Timestamp } from "firebase/firestore";
 
 function CountdownEvent({ countdown }: { countdown: Countdown }) {
   const { ref: countdownRef, inView: visibleElement } = useInView({
@@ -35,6 +35,7 @@ function CountdownEvent({ countdown }: { countdown: Countdown }) {
           />
           <div className="countdown-col">
             <h2>{countdown.title}</h2>
+            <CountdownDisplay countdown={countdown} />
             {countdown.events && countdown.events.length > 0 && (
               <ul className="events-list-countdown">
                 {countdown.events.map((event, index) => (
@@ -42,28 +43,29 @@ function CountdownEvent({ countdown }: { countdown: Countdown }) {
                     <div className="event-countdown-title">{event.title}</div>
                     <hr />
                     <div className="event-countdown-row">
+                      <CiCalendar />
                       <div className="event-countdown-date">
                         {new Date(event.date).toLocaleDateString("en-US", {
-                          month: "numeric",
+                          month: "long",
                           day: "numeric",
                         })}
+                        <span> - </span>
+                        <span className="event-start-end">
+                          <CiTimer />
+                          {formatTime(event.startTime)} -{" "}
+                          {formatTime(event.endTime)}
+                        </span>
+                        <span> - </span>
+                        <span>
+                          <CiLocationOn />
+                          {event.location}
+                        </span>
                       </div>
-
-                      <span className="event-start-end">
-                        {formatTime(event.startTime)}
-                      </span>
-                      <span> - </span>
-                      <span className="event-start-end">
-                        {formatTime(event.endTime)}
-                      </span>
                     </div>
                   </li>
                 ))}
               </ul>
             )}
-            <div className="countdown-fixed">
-              <CountdownDisplay countdown={countdown} />
-            </div>
           </div>
         </div>
       </div>

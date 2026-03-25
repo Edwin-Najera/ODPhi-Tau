@@ -58,6 +58,7 @@ export type TimeLeft = {
 export type CountdownEvent = {
     title: string;
     date: Date | any;
+    location: string;
     startTime: string;
     endTime: string;
 }

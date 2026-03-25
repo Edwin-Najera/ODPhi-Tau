@@ -10,7 +10,7 @@ function CountdownAdmin() {
   const [imageFile, setImageFile] = useState<File | null>(null); //For the image/flyer of the event *REQUIRED*
   const [hasEvents, setHasEvents] = useState(false);
   const [eventList, setEventList] = useState([
-    { title: "", date: "", startTime: "", endTime: "" },
+    { title: "", date: "", location: "", startTime: "", endTime: "" },
   ]);
   const [showPopup, setShowPopup] = useState(false);
   const [showDisplayPopup, setShowDisplayPopup] = useState(false);
@@ -56,7 +56,9 @@ function CountdownAdmin() {
       setMessage("Countdown successfully Added");
       setTitle("");
       setTargetDate("");
-      setEventList([{ title: "", date: "", startTime: "", endTime: "" }]);
+      setEventList([
+        { title: "", date: "", location: "", startTime: "", endTime: "" },
+      ]);
     } catch (error) {
       setMessage("Error adding countdown");
       setShowPopup(true);
@@ -66,7 +68,7 @@ function CountdownAdmin() {
 
   const handleEventChange = (
     index: number,
-    field: "title" | "date" | "startTime" | "endTime",
+    field: "title" | "date" | "location" | "startTime" | "endTime",
     value: string,
   ) => {
     const updatedEvent = [...eventList];
@@ -77,7 +79,7 @@ function CountdownAdmin() {
   const addEventItem = () => {
     setEventList([
       ...eventList,
-      { title: "", date: "", startTime: "", endTime: "" },
+      { title: "", date: "", location: "", startTime: "", endTime: "" },
     ]);
   };
 
@@ -150,6 +152,15 @@ function CountdownAdmin() {
                     value={event.date}
                     onChange={(e) =>
                       handleEventChange(index, "date", e.target.value)
+                    }
+                  />
+                  <input
+                    className="countdown-event-input date"
+                    type="text"
+                    placeholder="Location"
+                    value={event.location}
+                    onChange={(e) =>
+                      handleEventChange(index, "location", e.target.value)
                     }
                   />
                   <div className="countdown-event-input-col">

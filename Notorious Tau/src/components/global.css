@@ -279,10 +279,8 @@
 
 .event-countdown-row {
   display: flex;
-  width: 40%;
   align-items: center;
-  gap: 25px;
-  border: solid red;
+  justify-content: space-evenly;
 }
 
 .events-container,
@@ -298,12 +296,11 @@
 .events-list-countdown {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   width: 100%;
   flex: 1;
   padding: 0 5% 5%;
   gap: 10px;
-  border: solid red;
 }
 
 .countdown-event-items-container {
@@ -312,14 +309,6 @@
   justify-content: center;
   color: white;
   white-space: pre-line;
-  border: solid blue;
-}
-
-.countdown-event-items-container:horizontal::after {
-  flex: 1;
-  content: "";
-  white-space: nowrap;
-  border-bottom-color: red;
 }
 
 .event-countdown-title {
@@ -329,22 +318,30 @@
   white-space: pre-line;
 }
 
+.event-countdown-title::before {
+  content: ">";
+  margin: 0 1em;
+}
+
 .event-countdown-date {
   margin: 0;
   display: flex;
   flex: 1;
   align-items: center;
+  gap: 15px;
 }
 
 .event-countdown-date::after {
-  flex: 1;
   content: "";
   margin: 0 1em;
-  border-bottom: dashed red;
 }
 
 hr {
-  margin: 1em 2em;
+  margin: 0.25em 2em;
+}
+
+.event-start-end {
+  margin: 0;
 }
 
 /* The following, will be when the page is loading, 
