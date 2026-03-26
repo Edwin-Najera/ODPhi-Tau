@@ -8,6 +8,7 @@ import {
   onSnapshot,
   query,
   orderBy,
+  count,
 } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import type {
@@ -49,6 +50,9 @@ function Popup({
   const [knights, setKnights] = useState<Knights[]>([]);
   const [countdowns, setCountdowns] = useState<Countdown[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingCountdownId, setEditingCountdownId] = useState<string | null>(
+    null,
+  );
   const [editingKnightId, setEditingKnightId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
@@ -62,6 +66,15 @@ function Popup({
   const [editPosition, setEditPosition] = useState("");
   const [editAwards, setEditAwards] = useState<
     { title: string; year: string }[]
+  >([]);
+  const [editCountdownEvents, setEditCountdownEvents] = useState<
+    {
+      title: string;
+      date: string;
+      location: string;
+      startTime: string;
+      endTime: string;
+    }[]
   >([]);
 
   useEffect(() => {
@@ -144,6 +157,10 @@ function Popup({
       setEditName(document.name);
       setEditPosition(document.position);
       setEditAwards(document.awards || []);
+    } else if (collectionName === "countdown") {
+      setEditingCountdownId(document.id);
+      setEditTitle(document.title);
+      setEditCountdownEvents(document.events || []);
     } else {
       setEditTitle(document.documentTitle);
       setEditingId(document.id);
@@ -166,7 +183,7 @@ function Popup({
 
   const handleSaveEdit = async (id: string) => {
     try {
-      if (!activeHouse) {
+      if (!activeHouse && collectionName !== "countdown") {
         const updateData: any = {
           eventTitle: editTitle,
           description: editDescription,
@@ -193,6 +210,13 @@ function Popup({
         }
 
         await updateDoc(doc(db, collectionName, id), updateData);
+      } else if (collectionName === "countdown") {
+        const updateData: any = {
+          title: editTitle,
+          events: editCountdownEvents,
+        };
+
+        await updateDoc(doc(db, "countdown", id), updateData);
       } else {
         console.log("button clicked");
         const updateKnight: any = {
@@ -213,6 +237,7 @@ function Popup({
       setEditType("");
       setEditingId("");
       setEditingKnightId("");
+      setEditingCountdownId("");
     } catch (error) {
       console.error("Error editing: ", error);
     }
@@ -222,9 +247,14 @@ function Popup({
     setEditAwards([...editAwards, { title: "", year: "" }]);
   };
 
-  const deleteAwardField = (index: number) => {
-    const updateAwards = editAwards.filter((_, i) => i !== index);
-    setEditAwards(updateAwards);
+  const deleteField = (index: number) => {
+    if (collectionName === "countdown") {
+      const updateEvents = editCountdownEvents.filter((_, i) => i !== index);
+      setEditCountdownEvents(updateEvents);
+    } else {
+      const updateAwards = editAwards.filter((_, i) => i !== index);
+      setEditAwards(updateAwards);
+    }
   };
 
   if (activeHouse) {
@@ -294,7 +324,7 @@ function Popup({
                           />
                           <button
                             className="admin-btn delete-btn item-delete"
-                            onClick={() => deleteAwardField(index)}
+                            onClick={() => deleteField(index)}
                           >
                             Delete
                           </button>
@@ -397,19 +427,153 @@ function Popup({
           <div className="event-popup-container">
             <h3>Existing Countdowns</h3>
             {countdowns.map((countdown) => (
-              <Fragment key={countdown.id}>
-                <div className="view-mode-container container-view">
-                  <h4>{countdown.title}</h4>
-                  <CountdownDisplay countdown={countdown} />
-                </div>
-                <button
-                  className="admin-btn delete-btn"
-                  onClick={() =>
-                    handleDelete(countdown.id, countdown.imagePath)
-                  }
-                >
-                  Delete Event
-                </button>
+              <Fragment>
+                {
+                  <Fragment key={countdown.id}>
+                    {editingCountdownId === countdown.id ? (
+                      <Fragment>
+                        <div className="edit-container countdown">
+                          <label className="admin-label">Countdown Title</label>
+                          <input
+                            type="text"
+                            placeholder="Event Title"
+                            value={countdown.title}
+                            onChange={(e) => setEditTitle(e.target.value)}
+                          />
+                          {countdown.events && countdown.events.length > 0 && (
+                            <Fragment>
+                              {countdown.events.map((event, index) => (
+                                <div
+                                  id="countdown"
+                                  className="countdown-event-row"
+                                  key={index}
+                                >
+                                  <input
+                                    className="countdown-event-input title"
+                                    id="title"
+                                    type="text"
+                                    placeholder="Title"
+                                    value={event.title}
+                                    onChange={(e) => {
+                                      const updatedItems = [
+                                        ...editCountdownEvents,
+                                      ];
+                                      updatedItems[index].title =
+                                        e.target.value;
+                                      setEditCountdownEvents(updatedItems);
+                                    }}
+                                  />
+                                  <input
+                                    className="countdown-event-input date"
+                                    type="date"
+                                    placeholder="Date"
+                                    value={event.date}
+                                    onChange={(e) => {
+                                      const updatedItems = [
+                                        ...editCountdownEvents,
+                                      ];
+                                      updatedItems[index].date = e.target.value;
+                                      setEditCountdownEvents(updatedItems);
+                                    }}
+                                  />
+                                  <input
+                                    className="countdown-event-input date"
+                                    type="text"
+                                    placeholder="Location"
+                                    value={event.location}
+                                    onChange={(e) => {
+                                      const updatedItems = [
+                                        ...editCountdownEvents,
+                                      ];
+                                      updatedItems[index].location =
+                                        e.target.value;
+                                      setEditCountdownEvents(updatedItems);
+                                    }}
+                                  />
+                                  <div className="countdown-event-input-col">
+                                    <label htmlFor="start">Start Time:</label>
+                                    <input
+                                      id="start"
+                                      className="countdown-event-input start"
+                                      type="time"
+                                      placeholder="Start Time"
+                                      value={event.startTime}
+                                      onChange={(e) => {
+                                        const updatedItems = [
+                                          ...editCountdownEvents,
+                                        ];
+                                        updatedItems[index].startTime =
+                                          e.target.value;
+                                        setEditCountdownEvents(updatedItems);
+                                      }}
+                                    />
+                                    <label htmlFor="end">End Time:</label>
+                                    <input
+                                      id="end"
+                                      className="countdown-event-input end"
+                                      type="time"
+                                      placeholder="End Time"
+                                      value={event.endTime}
+                                      onChange={(e) => {
+                                        const updatedItems = [
+                                          ...editCountdownEvents,
+                                        ];
+                                        updatedItems[index].endTime =
+                                          e.target.value;
+                                        setEditCountdownEvents(updatedItems);
+                                      }}
+                                    />
+                                  </div>
+                                  <button
+                                    className="admin-btn delete-btn item-delete"
+                                    onClick={() => deleteField(index)}
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                              ))}
+                              <div className="event-actions">
+                                <button
+                                  className="admin-btn edit-btn"
+                                  onClick={() => handleSaveEdit(countdown.id)}
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  className="admin-btn cancel-btn"
+                                  onClick={() => setEditingCountdownId(null)}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </Fragment>
+                          )}
+                        </div>
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <div className="view-mode-container container-view">
+                          <h4>{countdown.title}</h4>
+                          <CountdownDisplay countdown={countdown} />
+                        </div>
+                        <button
+                          className="admin-btn edit-btn"
+                          onClick={() => handleEdit(countdown)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="admin-btn delete-btn"
+                          onClick={() =>
+                            handleDelete(countdown.id, countdown.imagePath)
+                          }
+                        >
+                          Delete Event
+                        </button>
+                      </Fragment>
+                    )}
+                  </Fragment>
+                }
               </Fragment>
             ))}
           </div>

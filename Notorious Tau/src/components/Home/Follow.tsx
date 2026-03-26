@@ -1,4 +1,4 @@
-import { Fragment } from "react/jsx-runtime";
+import { useEffect, useRef, Fragment } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { FaInstagram, FaTiktok } from "react-icons/fa";
@@ -8,6 +8,38 @@ function Follow() {
   const { ref: followRef, inView: visibleElement } = useInView({
     triggerOnce: true,
   });
+  const uni = useRef<HTMLDivElement | null>(null);
+  const loc = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 992px)");
+
+    function handleScreenChange(event: MediaQueryList | MediaQueryListEvent) {
+      const element = uni.current;
+      const secondElem = loc.current;
+
+      if (!element || !secondElem) {
+        console.error("Element not found");
+        return;
+      }
+      if (event.matches) {
+        element.innerHTML = "UTA";
+        secondElem.innerHTML = "ARL, TX";
+      } else {
+        element.innerHTML = "University of Texas, Arlington";
+        secondElem.innerHTML = "Arlington, Texas";
+      }
+    }
+
+    handleScreenChange(mediaQuery);
+
+    mediaQuery.addEventListener("change", handleScreenChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleScreenChange);
+    };
+  }, []);
+
   return (
     <Fragment>
       <div className="follow-container">
@@ -22,11 +54,9 @@ function Follow() {
               <div className="follow-dates">
                 <span className="year">1997</span>
                 <span className="spacer" />
-                <span className="school-loc">
-                  University of Texas, Arlington
-                </span>
+                <span className="school-loc" ref={uni}></span>
                 <span className="spacer" />
-                <span className="loc">Arlington, Texas</span>
+                <span className="loc" ref={loc}></span>
               </div>
             </div>
             <div className="icons-wrapper">

@@ -43,21 +43,23 @@ function CountdownEvent({ countdown }: { countdown: Countdown }) {
                     <div className="event-countdown-title">{event.title}</div>
                     <hr />
                     <div className="event-countdown-row">
-                      <CiCalendar />
                       <div className="event-countdown-date">
-                        {new Date(event.date).toLocaleDateString("en-US", {
-                          month: "long",
-                          day: "numeric",
-                        })}
+                        <span>
+                          <CiCalendar className="event-logo" />
+                          {new Date(event.date).toLocaleDateString("en-US", {
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </span>
                         <span> - </span>
                         <span className="event-start-end">
-                          <CiTimer />
+                          <CiTimer className="event-logo" />
                           {formatTime(event.startTime)} -{" "}
                           {formatTime(event.endTime)}
                         </span>
                         <span> - </span>
                         <span>
-                          <CiLocationOn />
+                          <CiLocationOn className="event-logo" />
                           {event.location}
                         </span>
                       </div>

@@ -94,6 +94,7 @@
   color: white;
   height: 100%;
   width: 100%;
+
   @media (min-width: 992px) {
     z-index: 1;
   }
@@ -157,17 +158,19 @@
   animation: comeIn 1s forwards;
   animation-delay: 500ms;
   opacity: 0;
-  @media (min-width: 990px) {
+
+  @media (min-width: 992px) {
     -webkit-text-stroke: 10px black;
     paint-order: stroke;
   }
 
-  @media (max-width: 990px) {
+  @media (max-width: 992px) {
     color: white;
     animation: comeUp 1s forwards;
     animation-delay: 500ms;
     opacity: 0;
     transform: translate(0, 15vh);
+    font-size: 2em;
   }
 }
 
@@ -242,12 +245,19 @@
   padding: 5% 2%;
   background: black;
   border-radius: 15px;
-  border: solid red;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 
 .countdown-image {
   width: 25%;
   border-radius: 8px;
+  @media (max-width: 992px) {
+    width: 90%;
+  }
 }
 
 .countdown-col {
@@ -257,6 +267,10 @@
   width: 70%;
   align-items: center;
   justify-content: space-around;
+  @media (max-width: 992px) {
+    margin-top: 5px;
+    width: 100%;
+  }
 }
 
 .countdown-col h2 {
@@ -264,17 +278,41 @@
   font-weight: 900;
 }
 
+.countdown-col .countdown-timer {
+  @media (max-width: 992px) {
+    gap: 4px;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 25px;
+  }
+}
+
 .countdown-col .countdown-number-wrapper {
   background: black;
+  @media (max-width: 992px) {
+    width: 70px;
+    height: 75px;
+  }
 }
 
 .countdown-col .countdown-number {
   color: white;
+  @media (max-width: 992px) {
+    font-size: 1.75em;
+  }
 }
 
-.countdown-col .countdown-fixed {
-  position: absolute;
-  bottom: 5%;
+.countdown-col .countdown-separator {
+  @media (max-width: 992px) {
+    font-size: 1.5em;
+    margin-top: 5px;
+  }
+}
+
+.countdown-col .countdown-label {
+  @media (max-width: 992px) {
+    font-size: 1em;
+  }
 }
 
 .event-countdown-row {
@@ -308,7 +346,9 @@
   flex-direction: column;
   justify-content: center;
   color: white;
-  white-space: pre-line;
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .event-countdown-title {
@@ -334,6 +374,12 @@
 .event-countdown-date::after {
   content: "";
   margin: 0 1em;
+}
+
+.event-logo {
+  display: block;
+  font-size: 1em;
+  flex: 1;
 }
 
 hr {
@@ -520,6 +566,10 @@ it will display a different page where it shows an animation to display loading*
   object-fit: contain;
   width: 40%;
   border-radius: 8px;
+
+  @media (max-width: 992px) {
+    width: 90%;
+  }
 }
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||| */
@@ -594,9 +644,17 @@ a.click-button {
   animation-delay: 500ms;
 
   @media (max-width: 992px) {
-    background-position: -1000px 35px;
+    background-position: -1000px 0px;
     background-size: 140%;
     animation: blazeInMobile 1s forwards;
+    height: 55vh;
+  }
+}
+
+.school-container h1 {
+  font-weight: 900;
+  @media (max-width: 992px) {
+    font-size: 2em;
   }
 }
 
@@ -605,6 +663,10 @@ a.click-button {
   font-weight: bold;
   margin-bottom: 1em;
   text-align: center;
+
+  @media (max-width: 992px) {
+    font-size: 2.25em;
+  }
 }
 
 @keyframes blazeIn {
@@ -615,7 +677,7 @@ a.click-button {
 
 @keyframes blazeInMobile {
   to {
-    background-position: -200px 35px;
+    background-position: -200px 0px;
   }
 }
 
@@ -667,11 +729,14 @@ a.click-button {
   display: flex;
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   align-items: center;
   justify-content: center;
   background: black;
   z-index: 0;
+  @media (max-width: 992px) {
+    height: auto;
+  }
 }
 
 .follow-wrapper {
@@ -685,6 +750,11 @@ a.click-button {
   background: rgb(200, 59, 59);
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
+
+  @media (max-width: 992px) {
+    position: relative;
+    height: 95%;
+  }
 }
 
 .active-follow {
@@ -709,6 +779,9 @@ a.click-button {
   margin: 0;
   width: 90%;
   text-align: left;
+  @media (max-width: 992px) {
+    font-size: 2em;
+  }
 }
 
 .follow-wrapper .line-separate {
@@ -725,6 +798,10 @@ a.click-button {
   margin: 0;
   padding: 5px 0;
   justify-content: space-between;
+  @media (max-width: 992px) {
+    height: 25%;
+    flex-wrap: nowrap;
+  }
 }
 
 .founding-date-loc {
@@ -735,6 +812,9 @@ a.click-button {
   font-weight: 600;
   height: fit-content;
   justify-content: space-evenly;
+  @media (max-width: 992px) {
+    font-size: 1em;
+  }
 }
 
 .follow-dates {
@@ -756,6 +836,10 @@ a.click-button {
   margin: 0;
   padding: 5px 0;
   gap: 0.5%;
+
+  @media (max-width: 992px) {
+    gap: 5px;
+  }
 }
 
 .icons-wrapper a {
@@ -769,6 +853,9 @@ a.click-button {
   height: 100%;
   width: auto;
   color: black;
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .extension {
@@ -777,6 +864,14 @@ a.click-button {
   width: 100%;
   padding: 0 5%;
   gap: 5%;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    padding: 10px 15px;
+    gap: 10px;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 .extension h6 {
@@ -808,6 +903,10 @@ a.click-button {
   right: 1%;
   height: auto;
   width: 15% !important;
+
+  @media (max-width: 992px) {
+    width: 25% !important;
+  }
 }
 
 .founding-date {
@@ -1289,6 +1388,12 @@ a.click-button {
   width: 500px;
 }
 
+.edit-container.countdown {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
 .close-btn {
   background-color: black;
   color: white;
@@ -1467,6 +1572,9 @@ a.click-button {
   flex-direction: column;
   align-items: center;
   padding: 10px 5px;
+  @media (max-width: 992px) {
+    padding: 0;
+  }
 }
 
 .countdown-number-wrapper {
@@ -2028,7 +2136,7 @@ a.click-button {
   border-radius: 15px;
   clip-path: none;
   @media (max-width: 992px) {
-    width: 100px;
+    width: 250px;
   }
 }
 
@@ -2100,7 +2208,6 @@ a.click-button {
   height: 100%;
   @media (max-width: 992px) {
     width: 100%;
-    border: solid black;
   }
 }
 

@@ -1,4 +1,3 @@
-import type { Timestamp } from "firebase/firestore";
 import fundraiser from "../Photos/ConchasFund.jpeg";
 import somePhoto from "../Photos/T.png";
 
