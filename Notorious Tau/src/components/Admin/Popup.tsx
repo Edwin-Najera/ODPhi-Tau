@@ -8,7 +8,6 @@ import {
   onSnapshot,
   query,
   orderBy,
-  count,
 } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import type {

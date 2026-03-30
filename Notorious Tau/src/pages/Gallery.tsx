@@ -55,13 +55,11 @@ function Gallery() {
       <div className="odphi-gallery-container">
         {photos.map((photo, index) => (
           <Fragment key={index}>
-            <div className="image-description-container">
+            <div className="gallery-card">
               <img src={photo.imageURL} className="odphi-gallery-image" />
+              <div className="line-separate" />
               <p className="image-description">{photo.description}</p>
             </div>
-            {index !== photos.length - 1 && index % 2 === 0 && (
-              <div className="part-line"></div>
-            )}
           </Fragment>
         ))}
       </div>
