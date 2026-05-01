@@ -995,6 +995,7 @@ a.click-button {
 }
 
 .gallery-card {
+  position: relative;
   width: 600px;
   min-height: 500px;
   max-height: 600px;
@@ -1009,6 +1010,20 @@ a.click-button {
     min-width: 300px;
     max-height: 400px;
   }
+}
+
+.trash-can-wrapper {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.trash-can {
+  color: black;
+  width: 16px;
+  height: auto;
 }
 
 .gallery-card:hover {

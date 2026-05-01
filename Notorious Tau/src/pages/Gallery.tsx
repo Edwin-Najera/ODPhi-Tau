@@ -1,36 +1,39 @@
 import { useState, useEffect, Fragment } from "react";
-import { collection, query, getDocs, orderBy } from "firebase/firestore";
+import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
+import { getUserRole } from "../utils/auth";
+import { handleDelete } from "../utils/handle";
 import type { Event } from "../components/EventsFolder/eventData";
+import { FaTrash } from "react-icons/fa";
 
 function Gallery() {
   const [photos, setPhotos] = useState<Event[]>([]);
   const [loading, setLoading] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const q = query(collection(db, "photos"), orderBy("createdAt", "asc"));
-        const snapshot = await getDocs(q);
+    const queryPhotos = query(
+      collection(db, "photos"),
+      orderBy("createdAt", "desc"),
+    );
 
-        const gallery = snapshot.docs.map((doc) => ({
+    const unsubscribeSnapshot = onSnapshot(queryPhotos, (snapshot) => {
+      const galleryPhotos = snapshot.docs
+        .map((doc) => ({
           id: doc.id,
           ...(doc.data() as Omit<Event, "id">),
-        }));
+        }))
+        .filter((event) => event.id.startsWith("gallery_"));
+      setPhotos(galleryPhotos);
+      setLoading(false);
+    });
 
-        const odpGallery = gallery.filter((event) =>
-          event.id.startsWith("gallery_"),
-        );
+    const unsubscribeAuth = getUserRole((role) => setUserRole(role));
 
-        setPhotos(odpGallery);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
+    return () => {
+      unsubscribeSnapshot();
+      unsubscribeAuth();
     };
-
-    fetchData();
   }, []);
 
   if (loading) {
@@ -56,6 +59,16 @@ function Gallery() {
         {photos.map((photo, index) => (
           <Fragment key={index}>
             <div className="gallery-card">
+              {userRole === "admin" && (
+                <button
+                  className="btn trash-can-wrapper"
+                  onClick={() =>
+                    handleDelete("photos", photo.id, photo.imagePath)
+                  }
+                >
+                  <FaTrash className="trash-can" />
+                </button>
+              )}
               <img src={photo.imageURL} className="odphi-gallery-image" />
               <div className="line-separate" />
               <p className="image-description">{photo.description}</p>
