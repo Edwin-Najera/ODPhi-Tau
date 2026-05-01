@@ -1,13 +1,12 @@
 import { useState, Fragment } from "react";
-import { db, storage } from "./firebase";
+import { db, storage } from "../../firebase";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import "../global.css";
-import Popup from "./Popup";
+import Popup from "./PopupFolder/Popup";
 
 type Props = {
   collectionName: string;
-  panelTitle: string;
   hasItems?: boolean;
   hasDate?: boolean;
   onlyPhotos?: boolean;
@@ -16,7 +15,6 @@ type Props = {
 
 function AdminPanel({
   collectionName,
-  panelTitle,
   hasItems = false,
   hasDate = false,
   onlyPhotos = false,
@@ -41,6 +39,7 @@ function AdminPanel({
   const [showEventsPopup, setShowEventsPopup] = useState(false);
   const [showActivePopup, setShowActivePopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //Whenever an item is being added to the event
   const handleItemChange = (
@@ -82,6 +81,8 @@ function AdminPanel({
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
+
     let message = "";
     if (!activeHouse) {
       if (!eventTitle) {
@@ -222,11 +223,14 @@ function AdminPanel({
       setLineName("");
       setCrossDate("");
       setItems([{ name: "", price: "" }]);
+      setImageFile(null);
     } catch (error) {
       message = "Error adding event";
       setPopupMessage(message);
       setShowSavePopup(true);
       console.error("Error adding event: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -234,7 +238,6 @@ function AdminPanel({
     return (
       <div className="row w-100 d-flex justify-content-around">
         <div className="admin-container">
-          <h2 className="admin-header">{panelTitle}</h2>
           <label className="admin-label">Choose a Exec/Active</label>
           <select value={type} onChange={(e) => setType(e.target.value)}>
             <option value="" disabled>
@@ -358,13 +361,7 @@ function AdminPanel({
           <br />
           <br />
           <button className="admin-btn" onClick={() => handleSubmit()}>
-            Save Event
-          </button>
-          <button
-            className="admin-btn mt-2"
-            onClick={() => setShowActivePopup(true)}
-          >
-            Display Gallery
+            {loading ? "Saving..." : "Save Event"}
           </button>
           {showActivePopup && (
             <Popup
@@ -394,7 +391,6 @@ function AdminPanel({
     // The following is only whenever inputting events
     <div className="row w-100 d-flex justify-content-around">
       <div className="admin-container">
-        <h2 className="admin-header">{panelTitle}</h2>
         {onlyPhotos && (
           // Specifically for inputting only photos, only a title in which the title is the database, and photo are needed
           <Fragment>
@@ -477,6 +473,11 @@ function AdminPanel({
                   }
                 }}
               />
+              <img
+                src={imageFile ? URL.createObjectURL(imageFile) : ""}
+                alt=""
+                className="preview-image"
+              />
             </Fragment>
           )}
         {hasItems && (
@@ -539,14 +540,6 @@ function AdminPanel({
             showCloseButton={false}
           />
         )}
-        {!onlyPhotos && (
-          <button
-            className="admin-btn show-events-btn mt-2"
-            onClick={() => setShowEventsPopup(true)}
-          >
-            Display Events
-          </button>
-        )}
         {showEventsPopup && (
           <Popup
             message={""}
@@ -559,12 +552,6 @@ function AdminPanel({
         )}
         {onlyPhotos && (
           <Fragment>
-            <button
-              className="admin-btn mt-2"
-              onClick={() => setShowGalleryPopup(true)}
-            >
-              Display Gallery
-            </button>
             {showGalleryPopup && (
               <Popup
                 message="Gallery Photos"

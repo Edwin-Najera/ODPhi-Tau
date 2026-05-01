@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   const closeNavbar = () => {
-    const navbar = document.getElementById("navbar-open");
+    const navbar = document.getElementById("navbar-nav");
     if (navbar?.classList.contains("show")) {
       navbar.classList.remove("show");
     }
@@ -32,7 +32,7 @@ function Navbar() {
           <div className="ms-auto d-flex">
             <UserInfo />
           </div>
-          <div className="collapse navbar-collapse navbar-open">
+          <div className="collapse navbar-collapse navbar-open" id="navbar-nav">
             <div className="d-flex navbar-nav justify-contents-center ms-auto nav-items">
               <Link to="/Mtb" className="nav-link" onClick={closeNavbar}>
                 About

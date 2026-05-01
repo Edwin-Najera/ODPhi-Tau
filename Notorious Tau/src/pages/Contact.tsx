@@ -1,8 +1,8 @@
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../components/Admin/firebase";
+import { db } from "../firebase";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Popup from "../components/Admin/Popup";
+import Popup from "../components/Admin/PopupFolder/Popup";
 import rush from "../components/Photos/Rush ODPhi 2022 Fall shirt Design_Final_For Red Outlines.png";
 import { useInView } from "react-intersection-observer";
 
