@@ -1,8 +1,8 @@
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../firebase";
+import { db, storage } from "../../../firebase";
 import { useState, Fragment } from "react";
-import Popup from "../Popup";
+import Popup from "../PopupFolder/Popup";
 
 function CountdownAdmin() {
   const [title, setTitle] = useState("");

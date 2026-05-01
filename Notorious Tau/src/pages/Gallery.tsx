@@ -1,6 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import { collection, query, getDocs, orderBy } from "firebase/firestore";
-import { db } from "../components/Admin/firebase";
+import { db } from "../firebase";
 import type { Event } from "../components/EventsFolder/eventData";
 
 function Gallery() {

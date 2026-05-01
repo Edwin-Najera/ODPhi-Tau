@@ -1,7 +1,7 @@
 import "../global.css";
 import { Fragment, useEffect, useState } from "react";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
-import { db } from "../Admin/firebase";
+import { db } from "../../firebase";
 import type { Event, Countdown } from "./eventData";
 import CountdownEvent from "./CountdownEvent";
 

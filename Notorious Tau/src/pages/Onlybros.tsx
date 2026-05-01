@@ -1,142 +1,136 @@
-import AdminPanel from "../components/Admin/AdminPanel";
 import CountdownAdmin from "../components/Admin/CountdownFolder/CountdownAdmin";
 import AssignRole from "../components/Admin/AssignRole";
 import "../components/global.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import AdminTabs from "../components/Admin/AdminScreen/AdminTabs";
 
 function Onlybros() {
   const navigate = useNavigate();
-  const [activePanels, setActivePanels] = useState<string[]>([]);
+  const [activePanel, setActivePanel] = useState("");
 
-  const togglePanel = (panel: string) => {
-    if (activePanels.includes(panel)) {
-      setActivePanels((prev) =>
-        prev.includes(panel)
-          ? prev.filter((p) => p !== panel)
-          : [...prev, panel],
-      );
-    } else {
-      setActivePanels([...activePanels, panel]);
-    }
+  const changePanel = (panel: string) => {
+    if (panel !== activePanel) setActivePanel(panel);
+    else setActivePanel("");
   };
 
   return (
     <div className="admin-page">
-      <div className="admin-page-row">
-        <div className="admin-page-swap" onClick={() => navigate("/Alumni")}>
-          Alumni
+      <div className="admin-sidebar">
+        <div className="admin-page-row">
+          <button
+            className="admin-page-swap"
+            type="button"
+            onClick={() => navigate("/Alumni")}
+          >
+            Alumni
+          </button>
+          <button
+            className="admin-page-swap"
+            type="button"
+            onClick={() => navigate("/AllBros")}
+          >
+            Brotherhood Events
+          </button>
         </div>
-        <div className="admin-page-swap" onClick={() => navigate("/AllBros")}>
-          Brotherhood Events
-        </div>
-      </div>
-      <div className="admin-page-row admin-panel-buttons">
         <button
-          className={`admin-show-button ${activePanels.includes("events") ? "active" : ""}`}
-          onClick={() => togglePanel("events")}
+          className={`admin-show-button ${activePanel === "events" ? "active" : ""}`}
+          onClick={() => changePanel("events")}
         >
           Events
         </button>
         <button
-          className={`admin-show-button ${activePanels.includes("brotherhood") ? "active" : ""}`}
-          onClick={() => togglePanel("brotherhood")}
+          className={`admin-show-button ${activePanel === "brotherhood" ? "active" : ""}`}
+          onClick={() => changePanel("brotherhood")}
         >
           Brotherhood
         </button>
         <button
-          className={`admin-show-button ${activePanels.includes("service") ? "active" : ""}`}
-          onClick={() => togglePanel("service")}
+          className={`admin-show-button ${activePanel === "service" ? "active" : ""}`}
+          onClick={() => changePanel("service")}
         >
           Service
         </button>
         <button
-          className={`admin-show-button ${activePanels.includes("alumni") ? "active" : ""}`}
-          onClick={() => togglePanel("alumni")}
+          className={`admin-show-button ${activePanel === "alumni" ? "active" : ""}`}
+          onClick={() => changePanel("alumni")}
         >
           Alumni
         </button>
         <button
-          className={`admin-show-button ${activePanels.includes("campus") ? "active" : ""}`}
-          onClick={() => togglePanel("campus")}
+          className={`admin-show-button ${activePanel === "campus" ? "active" : ""}`}
+          onClick={() => changePanel("campus")}
         >
           Campus
         </button>
         <button
-          className={`admin-show-button ${activePanels.includes("gallery") ? "active" : ""}`}
-          onClick={() => togglePanel("gallery")}
+          className={`admin-show-button ${activePanel === "gallery" ? "active" : ""}`}
+          onClick={() => changePanel("gallery")}
         >
           Gallery
         </button>
         <button
-          className={`admin-show-button ${activePanels.includes("house") ? "active" : ""}`}
-          onClick={() => togglePanel("house")}
+          className={`admin-show-button ${activePanel === "house" ? "active" : ""}`}
+          onClick={() => changePanel("house")}
         >
           Active & Execs
         </button>
         <button
-          className={`admin-show-button ${activePanels.includes("countdown") ? "active" : ""}`}
-          onClick={() => togglePanel("countdown")}
+          className={`admin-show-button ${activePanel === "countdown" ? "active" : ""}`}
+          onClick={() => changePanel("countdown")}
         >
           Countdown
         </button>
         <button
-          className={`admin-show-button ${activePanels.includes("assign") ? "active" : ""}`}
-          onClick={() => togglePanel("assign")}
+          className={`admin-show-button ${activePanel === "assign" ? "active" : ""}`}
+          onClick={() => changePanel("assign")}
         >
           Assign Roles
         </button>
       </div>
       <div className="admin-panels-container">
-        {activePanels.includes("events") && (
-          <AdminPanel
+        {activePanel === "events" && (
+          <AdminTabs
             collectionName="events"
-            panelTitle="Events Admin"
+            tabTitle="Events"
             hasItems={true}
           />
         )}
 
-        {activePanels.includes("brotherhood") && (
-          <AdminPanel
-            collectionName="brotherhood"
-            panelTitle="Brotherhood Event Admin"
-          />
+        {activePanel === "brotherhood" && (
+          <AdminTabs collectionName="brotherhood" tabTitle="Brotherhood" />
         )}
 
-        {activePanels.includes("alumni") && (
-          <AdminPanel
-            collectionName="alumni"
-            panelTitle="Alumni Event Admin"
-            hasDate={true}
-          />
+        {activePanel === "alumni" && (
+          <AdminTabs collectionName="alumni" tabTitle="Alumni" hasDate={true} />
         )}
 
-        {activePanels.includes("campus") && (
-          <AdminPanel collectionName="campus" panelTitle="Campus Updates" />
+        {activePanel === "campus" && (
+          <AdminTabs collectionName="campus" tabTitle="Campus Updates" />
         )}
-        {activePanels.includes("gallery") && (
-          <AdminPanel
+        {activePanel === "gallery" && (
+          <AdminTabs
             collectionName="photos"
-            panelTitle="Gallery Photos"
+            tabTitle="Gallery Photos"
             onlyPhotos={true}
           />
         )}
 
-        {activePanels.includes("house") && (
-          <AdminPanel
+        {activePanel === "house" && (
+          <AdminTabs
             collectionName="house"
-            panelTitle="Active and Exec Photos"
+            tabTitle="House & Execs"
             activeHouse={true}
           />
         )}
 
-        {activePanels.includes("service") && (
-          <AdminPanel collectionName="service" panelTitle="Service Admin" />
+        {activePanel === "service" && (
+          <AdminTabs collectionName="service" tabTitle="Service Admin" />
         )}
 
-        {activePanels.includes("countdown") && <CountdownAdmin />}
+        {activePanel === "countdown" && <CountdownAdmin />}
 
-        {activePanels.includes("assign") && <AssignRole />}
+        {activePanel === "assign" && <AssignRole />}
       </div>
     </div>
   );

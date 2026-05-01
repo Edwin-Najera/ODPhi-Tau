@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
-import { db } from "../components/Admin/firebase";
+import { db } from "../firebase";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import type { Knights } from "../components/EventsFolder/eventData";
 import Loading from "../components/Loading";

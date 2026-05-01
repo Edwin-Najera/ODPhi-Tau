@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Event } from "../components/EventsFolder/eventData";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "../components/Admin/firebase";
+import { db } from "../firebase";
 import Loading from "../components/Loading";
 
 function Service() {

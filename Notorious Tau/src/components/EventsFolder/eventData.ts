@@ -2,6 +2,20 @@ import fundraiser from "../Photos/ConchasFund.jpeg";
 import somePhoto from "../Photos/T.png";
 
 
+export type BaseDocument = {
+    id: string;
+    imageURL?: string;
+    imagePath?: string;
+    createdAt: any;
+    // shared optional fields
+  title?: string;           // Countdown
+  eventTitle?: string;      // Event uses this one
+  name?: string;            // Only knights use this    
+  description?: string;
+  date?: Date | any;
+  items?: EventItem[];
+}
+
 export type EventItem = {
     name: string;
     price: string;
@@ -12,36 +26,25 @@ export type Awards = {
     year: string;
 }
 
-export type Knights = {
-    id: string;
+export type Knights = BaseDocument & {
     type: string;
     name: string;
     position: string;
     knightName: string;
-    imageURL: string;
-    imagePath: string;
     lineNumber: string;
     lineName: string;
     crossDate: string;
     awards: Awards[];
 }
 
-export type Event = {
-    id: string;
-    eventTitle: string;
+export type Event = BaseDocument & {
     description?: string;
-    imageURL?: string;
-    imagePath?: string;
     items?: EventItem[];
     date?: Date;
     createdAt: any;
 }
 
-export type Countdown = {
-    id: string;
-    title: string;
-    imageURL: string;
-    imagePath: string;
+export type Countdown = BaseDocument & {
     targetDate: Date | any;
     events? : CountdownEvent[];
     createdAt: any;
@@ -65,7 +68,7 @@ export type CountdownEvent = {
 
 export const eventData: Event[] = [{
     id: "1203",
-    eventTitle: "Conchas con Cafe",
+    title: "Conchas con Cafe",
     imageURL: fundraiser,
     imagePath: "Something",
     description: "Too cold and need something to warm you up? 🔥 Stop by on Tuesday, February 24, and treat yourself to a concha (or two😏) with some delicious Abuelita hot chocolate☕️! The Notorious Tau Chapter of Omega Delta Phi will be at the UC Mall from 11 AM to 2 PM. We hope to see you there and as always, stay hype! 🔥",
@@ -76,7 +79,7 @@ export const eventData: Event[] = [{
     createdAt: "any"
 }, {
     id: "19394",
-    eventTitle: "Another event",
+    title: "Another event",
     imageURL: somePhoto,
     imagePath: "Something",
     description: "This is a random description. I have to make the description long in order for the title to not be cut",

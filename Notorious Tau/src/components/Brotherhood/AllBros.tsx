@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../Admin/firebase";
+import { auth, db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import type { Event } from "../EventsFolder/eventData";
 import "../global.css";
-import Popup from "../Admin/Popup";
+import Popup from "../Admin/PopupFolder/Popup";
 import Loading from "../Loading";
 
 function AllBros() {

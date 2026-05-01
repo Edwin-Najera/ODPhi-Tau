@@ -1,0 +1,309 @@
+import { useState, useEffect, Fragment } from "react";
+import { db, storage } from "../../../firebase";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  orderBy,
+} from "firebase/firestore";
+import { ref, deleteObject } from "firebase/storage";
+import type {
+  EventItem,
+  Awards,
+  Event,
+  Knights,
+  Countdown,
+  BaseDocument,
+} from "../../EventsFolder/eventData";
+import "../../global.css";
+import CountdownDisplay from "../CountdownFolder/CountdownDisplay";
+import AdminPanel from "../AdminPanel";
+import Popup from "../PopupFolder/Popup";
+import EditPopup from "../PopupFolder/EditPopup";
+
+type Props = {
+  collectionName: string;
+  tabTitle: string;
+  hasItems?: boolean;
+  hasDate?: boolean;
+  onlyPhotos?: boolean;
+  activeHouse?: boolean;
+};
+
+function AdminTabs({
+  collectionName,
+  tabTitle,
+  hasItems = false,
+  hasDate = false,
+  onlyPhotos = false,
+  activeHouse = false,
+}: Props) {
+  const [documents, setDocuments] = useState<BaseDocument[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editPopupOpen, setEditPopupOpen] = useState(false);
+
+  useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+
+    if (collectionName !== "") {
+      const q = query(
+        collection(db, collectionName),
+        orderBy("createdAt", "desc"),
+      );
+      unsubscribe = onSnapshot(q, (snapshot) => {
+        if (activeHouse) {
+          const knightList: Knights[] = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...(doc.data() as Omit<Knights, "id">),
+          }));
+
+          setDocuments(knightList);
+        } else if (collectionName === "countdown") {
+          setDocuments(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...(doc.data() as any),
+            })),
+          );
+        } else {
+          const eventList: Event[] = snapshot.docs.map((doc) => {
+            const rawData = doc.data();
+
+            return {
+              id: doc.id,
+              ...rawData,
+              date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
+            } as Event;
+          });
+
+          //If the active house popup is shown then only those that have the description of each knight should be show
+          if (onlyPhotos) {
+            const descriptionEvents = eventList.filter(
+              (event) =>
+                event.id.startsWith("alumni_") ||
+                event.id.startsWith("gallery_"),
+            );
+            setDocuments(descriptionEvents);
+          } else {
+            setDocuments(eventList);
+          }
+        }
+      });
+    }
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [collectionName]);
+
+  const handleDelete = async (eventId: string, imagePath?: string) => {
+    //Deleting image from database
+    if (!hasDate && collectionName !== "campus") {
+      const imageRef = ref(storage, imagePath);
+      await deleteObject(imageRef);
+    }
+
+    //Deleting Firestore document
+    await deleteDoc(doc(db, collectionName, eventId));
+  };
+
+  const handleEdit = (event: any) => {
+    setEditingId(event.id);
+    setEditPopupOpen(true);
+  };
+
+  if (collectionName === "photos") {
+    return (
+      <div className="tab-container">
+        <h1>{tabTitle}</h1>
+        <div className="admin-tab-panel">
+          <AdminPanel
+            collectionName={collectionName}
+            hasItems={hasItems}
+            hasDate={hasDate}
+            onlyPhotos={onlyPhotos}
+            activeHouse={activeHouse}
+          />
+        </div>
+        <div className="active-events">
+          <h2>Active {tabTitle.toLowerCase()}</h2>
+          {(documents as Event[]).map((document) => (
+            <div key={document.id} className="gallery-image-container">
+              <div>Gallery: {document.eventTitle}</div>
+              <img
+                className="gallery-image"
+                src={document.imageURL}
+                alt="Gallery Photo"
+              />
+              <button
+                className="admin-btn delete-btn"
+                onClick={() => handleDelete(document.id, document.imagePath)}
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  } else if (collectionName === "house") {
+    return (
+      <div className="tab-container">
+        <h1>{tabTitle}</h1>
+        <div className="admin-tab-panel">
+          <AdminPanel
+            collectionName={collectionName}
+            hasItems={hasItems}
+            hasDate={hasDate}
+            onlyPhotos={onlyPhotos}
+            activeHouse={activeHouse}
+          />
+        </div>
+        {editPopupOpen && editingId && (
+          <EditPopup
+            onClose={() => {
+              setEditPopupOpen(false);
+              setEditingId(null);
+            }}
+            collectionName={collectionName}
+            document={
+              documents.find((document) => document.id === editingId) || null
+            }
+            hasDate={hasDate}
+            hasItems={hasItems}
+          />
+        )}
+        <div className="active-events knights">
+          <h2>{tabTitle.toLowerCase()}</h2>
+          {(documents as Knights[]).map((document) => (
+            <div key={document.id}>
+              <img
+                className="gallery-image"
+                src={document.imageURL}
+                alt="knight"
+              />
+              <h6>{document.name}</h6>
+              <div>{document.type}</div>
+              <div>{document.position}</div>
+              <div>{document.crossDate}</div>
+              <div>{document.description}</div>
+              {document.awards &&
+                document.awards?.map((award: Awards, index: number) => (
+                  <div className="item-row" key={index}>
+                    <span>{award.title}</span>
+                    <span>{award.year}</span>
+                  </div>
+                ))}
+              <div className="event-actions">
+                <button
+                  className="admin-btn edit-btn"
+                  onClick={() => handleEdit(document)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="admin-btn delete-btn"
+                  onClick={() => handleDelete(document.id, document.imagePath)}
+                >
+                  Delete Event
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="tab-container">
+        <h1>{tabTitle}</h1>
+        <div className="admin-tab-panel">
+          <AdminPanel
+            collectionName={collectionName}
+            hasItems={hasItems}
+            hasDate={hasDate}
+            onlyPhotos={onlyPhotos}
+            activeHouse={activeHouse}
+          />
+        </div>
+        {/* We will put all the submitted events here, then if they want to edit them, only then will a popup appear to edit that
+      specific event */}
+        {/* Edit popup rendered OUTSIDE the map */}
+        {editPopupOpen && editingId && (
+          <EditPopup
+            onClose={() => {
+              setEditPopupOpen(false);
+              setEditingId(null);
+            }}
+            collectionName={collectionName}
+            document={documents.find((event) => event.id === editingId) || null}
+            hasDate={hasDate}
+            hasItems={hasItems}
+          />
+        )}
+
+        <div className="active-events">
+          <h2>Active {tabTitle.toLowerCase()}</h2>
+          {(documents as Event[]).map((document) => (
+            <div key={document.id}>
+              <div className="view-mode-container">
+                <h4>{document.eventTitle}</h4>
+                {activeHouse ? (
+                  <Fragment>
+                    <img
+                      className="gallery-image"
+                      src={document.imageURL}
+                      alt="knight"
+                    />
+                  </Fragment>
+                ) : (
+                  <p>{document.description}</p>
+                )}
+                {document.date && (
+                  <p className="date-view-container">
+                    <strong>Date: </strong>
+                    <br />
+                    {new Date(document.date).toLocaleString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
+                  </p>
+                )}
+                {document.items &&
+                  document.items?.map((item: EventItem, index: number) => (
+                    <div className="item-row" key={index}>
+                      <span>{item.name}</span>
+                      <span>{item.price}</span>
+                    </div>
+                  ))}
+                <div className="event-actions">
+                  <button
+                    className="admin-btn edit-btn"
+                    onClick={() => handleEdit(document)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="admin-btn delete-btn"
+                    onClick={() =>
+                      handleDelete(document.id, document.imagePath)
+                    }
+                  >
+                    Delete Event
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default AdminTabs;

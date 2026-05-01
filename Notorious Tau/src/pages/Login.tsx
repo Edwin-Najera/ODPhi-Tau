@@ -4,7 +4,7 @@ import {
   browserSessionPersistence,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "../components/Admin/firebase";
+import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import sword from "../components/Photos/sword.png";
 import Sparks from "../components/Admin/Spark";
