@@ -423,12 +423,15 @@ it will display a different page where it shows an animation to display loading*
 
 .card-container {
   display: flex;
+  position: relative;
   flex-direction: row;
-  width: 100%;
+  width: calc(100% - 100px);
   height: 100%;
   padding: 3%;
   align-items: center;
-  justify-content: center;
+  justify-self: center;
+  justify-content: space-evenly;
+  box-shadow: 5px 10px 20px 5px;
   @media (max-width: 992px) {
     display: flex;
     flex-direction: column;

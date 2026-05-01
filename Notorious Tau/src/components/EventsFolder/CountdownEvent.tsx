@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import type { Countdown } from "./eventData";
 import { useInView } from "react-intersection-observer";
 import { getUserRole } from "../../utils/auth";
-import { useDelete } from "../../utils/handle";
+import { handleDelete } from "../../utils/handle";
 import { FaTrash } from "react-icons/fa";
 import { CiCalendar, CiTimer, CiLocationOn } from "react-icons/ci";
 import CountdownDisplay from "../Admin/CountdownFolder/CountdownDisplay";
@@ -49,7 +49,7 @@ function CountdownEvent({ countdown }: { countdown: Countdown }) {
             <button
               className="trash-can-wrapper"
               onClick={() =>
-                useDelete("countdown", countdown.id, countdown.imagePath)
+                handleDelete("countdown", countdown.id, countdown.imagePath)
               }
             >
               <FaTrash className="trash-can countdown" />{" "}

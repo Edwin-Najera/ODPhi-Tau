@@ -8,7 +8,7 @@ import type {
   Knights,
   BaseDocument,
 } from "../../EventsFolder/eventData";
-import { useDelete } from "../../../utils/handle";
+import { handleDelete } from "../../../utils/handle";
 import "../../global.css";
 import AdminPanel from "../AdminPanel";
 import EditPopup from "../PopupFolder/EditPopup";
@@ -119,7 +119,7 @@ function AdminTabs({
               <button
                 className="admin-btn delete-btn"
                 onClick={() =>
-                  useDelete(collectionName, document.id, document.imagePath)
+                  handleDelete(collectionName, document.id, document.imagePath)
                 }
               >
                 Delete
@@ -187,7 +187,11 @@ function AdminTabs({
                 <button
                   className="admin-btn delete-btn"
                   onClick={() =>
-                    useDelete(collectionName, document.id, document.imagePath)
+                    handleDelete(
+                      collectionName,
+                      document.id,
+                      document.imagePath,
+                    )
                   }
                 >
                   Delete Event
@@ -274,7 +278,11 @@ function AdminTabs({
                   <button
                     className="admin-btn delete-btn"
                     onClick={() =>
-                      useDelete(collectionName, document.id, document.imagePath)
+                      handleDelete(
+                        collectionName,
+                        document.id,
+                        document.imagePath,
+                      )
                     }
                   >
                     Delete Event

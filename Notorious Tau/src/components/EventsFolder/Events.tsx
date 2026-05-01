@@ -2,6 +2,9 @@ import "../global.css";
 import { Fragment, useEffect, useState } from "react";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
+import { getUserRole } from "../../utils/auth";
+import { handleDelete } from "../../utils/handle";
+import { FaTrash } from "react-icons/fa";
 import type { Event, Countdown } from "./eventData";
 import CountdownEvent from "./CountdownEvent";
 
@@ -9,6 +12,7 @@ function Events() {
   const [events, setEvents] = useState<Event[]>([]);
   const [countdowns, setCountdowns] = useState<Countdown[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   //Fetch items from firebase
   useEffect(() => {
@@ -47,8 +51,16 @@ function Events() {
       }
     };
 
+    const unsubscribeAuth = () => getUserRole((role) => setUserRole(role));
+
     fetchEvents();
+
+    return () => {
+      unsubscribeAuth();
+    };
   }, []);
+
+  console.log("UserRole: ", userRole);
 
   if (loading) {
     return (
@@ -78,6 +90,16 @@ function Events() {
             key={index}
             className={`card-container ${index % 2 !== 0 ? "reverse" : null}`}
           >
+            {userRole === "admin" && (
+              <button
+                className="trash-can-wrapper"
+                onClick={() =>
+                  handleDelete("events", event.id, event.imagePath)
+                }
+              >
+                <FaTrash className="trash-can" />
+              </button>
+            )}
             <img
               src={event.imageURL}
               className="img-fluid card-event"
