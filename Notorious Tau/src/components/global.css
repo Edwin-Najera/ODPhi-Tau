@@ -1018,12 +1018,22 @@ a.click-button {
   right: 10px;
   z-index: 10;
   cursor: pointer;
+  background: transparent;
 }
 
 .trash-can {
   color: black;
   width: 16px;
   height: auto;
+}
+
+.trash-can.countdown {
+  color: white;
+}
+
+.trash-can-wrapper:focus,
+.trash-can-wrapper:focus-visible {
+  outline: none;
 }
 
 .gallery-card:hover {

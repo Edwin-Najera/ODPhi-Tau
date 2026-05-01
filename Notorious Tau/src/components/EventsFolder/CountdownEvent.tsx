@@ -1,6 +1,9 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import type { Countdown } from "./eventData";
 import { useInView } from "react-intersection-observer";
+import { getUserRole } from "../../utils/auth";
+import { useDelete } from "../../utils/handle";
+import { FaTrash } from "react-icons/fa";
 import { CiCalendar, CiTimer, CiLocationOn } from "react-icons/ci";
 import CountdownDisplay from "../Admin/CountdownFolder/CountdownDisplay";
 
@@ -8,6 +11,15 @@ function CountdownEvent({ countdown }: { countdown: Countdown }) {
   const { ref: countdownRef, inView: visibleElement } = useInView({
     triggerOnce: true,
   });
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const unsubscribeAuth = getUserRole((role) => setUserRole(role));
+
+    return () => {
+      unsubscribeAuth();
+    };
+  }, []);
 
   const formatTime = (time: string) => {
     if (!time) return "";
@@ -33,6 +45,16 @@ function CountdownEvent({ countdown }: { countdown: Countdown }) {
             alt="Countdown Image"
             className="countdown-image"
           />
+          {userRole === "admin" && (
+            <button
+              className="trash-can-wrapper"
+              onClick={() =>
+                useDelete("countdown", countdown.id, countdown.imagePath)
+              }
+            >
+              <FaTrash className="trash-can countdown" />{" "}
+            </button>
+          )}
           <div className="countdown-col">
             <h2>{countdown.title}</h2>
             <CountdownDisplay countdown={countdown} />

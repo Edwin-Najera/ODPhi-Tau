@@ -1,38 +1,9 @@
-import { useEffect, useState } from "react";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../../firebase";
+import { useAuthRole, useLogout } from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 
 function UserInfo() {
-  const [userEmail, setEmail] = useState<string | null>(null);
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const { userRole, email: userEmail } = useAuthRole();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        setEmail(null);
-        setUserRole(null);
-        return;
-      }
-
-      setEmail(user.email);
-
-      const tokenResult = await user.getIdTokenResult();
-      setUserRole((tokenResult.claims.role as string) || "none");
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout Error:", error);
-    }
-  };
 
   let username = userEmail?.split("0")[0];
   username = username?.split(".")[0];
@@ -43,7 +14,7 @@ function UserInfo() {
   return (
     <div className="user-info-container">
       {username?.toUpperCase()} | {userRole?.toUpperCase()} |
-      <button className="logout-btn" onClick={handleLogout}>
+      <button className="logout-btn" onClick={() => useLogout(navigate)}>
         Logout
       </button>
     </div>

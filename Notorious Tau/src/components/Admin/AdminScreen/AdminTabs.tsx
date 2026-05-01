@@ -1,26 +1,16 @@
 import { useState, useEffect, Fragment } from "react";
-import { db, storage } from "../../../firebase";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  query,
-  orderBy,
-} from "firebase/firestore";
-import { ref, deleteObject } from "firebase/storage";
+import { db } from "../../../firebase";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import type {
   EventItem,
   Awards,
   Event,
   Knights,
-  Countdown,
   BaseDocument,
 } from "../../EventsFolder/eventData";
+import { useDelete } from "../../../utils/handle";
 import "../../global.css";
-import CountdownDisplay from "../CountdownFolder/CountdownDisplay";
 import AdminPanel from "../AdminPanel";
-import Popup from "../PopupFolder/Popup";
 import EditPopup from "../PopupFolder/EditPopup";
 
 type Props = {
@@ -98,17 +88,6 @@ function AdminTabs({
     };
   }, [collectionName]);
 
-  const handleDelete = async (eventId: string, imagePath?: string) => {
-    //Deleting image from database
-    if (!hasDate && collectionName !== "campus") {
-      const imageRef = ref(storage, imagePath);
-      await deleteObject(imageRef);
-    }
-
-    //Deleting Firestore document
-    await deleteDoc(doc(db, collectionName, eventId));
-  };
-
   const handleEdit = (event: any) => {
     setEditingId(event.id);
     setEditPopupOpen(true);
@@ -139,7 +118,9 @@ function AdminTabs({
               />
               <button
                 className="admin-btn delete-btn"
-                onClick={() => handleDelete(document.id, document.imagePath)}
+                onClick={() =>
+                  useDelete(collectionName, document.id, document.imagePath)
+                }
               >
                 Delete
               </button>
@@ -205,7 +186,9 @@ function AdminTabs({
                 </button>
                 <button
                   className="admin-btn delete-btn"
-                  onClick={() => handleDelete(document.id, document.imagePath)}
+                  onClick={() =>
+                    useDelete(collectionName, document.id, document.imagePath)
+                  }
                 >
                   Delete Event
                 </button>
@@ -291,7 +274,7 @@ function AdminTabs({
                   <button
                     className="admin-btn delete-btn"
                     onClick={() =>
-                      handleDelete(document.id, document.imagePath)
+                      useDelete(collectionName, document.id, document.imagePath)
                     }
                   >
                     Delete Event

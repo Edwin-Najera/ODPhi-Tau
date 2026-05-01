@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment } from "react";
 import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
 import { getUserRole } from "../utils/auth";
-import { handleDelete } from "../utils/handle";
+import { useDelete } from "../utils/handle";
 import type { Event } from "../components/EventsFolder/eventData";
 import { FaTrash } from "react-icons/fa";
 
@@ -62,9 +62,7 @@ function Gallery() {
               {userRole === "admin" && (
                 <button
                   className="btn trash-can-wrapper"
-                  onClick={() =>
-                    handleDelete("photos", photo.id, photo.imagePath)
-                  }
+                  onClick={() => useDelete("photos", photo.id, photo.imagePath)}
                 >
                   <FaTrash className="trash-can" />
                 </button>
