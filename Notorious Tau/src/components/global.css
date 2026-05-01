@@ -1019,7 +1019,7 @@ a.click-button {
 .odphi-gallery-image {
   width: 100%;
   max-height: 400px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   padding: 5px 5px 0;
   border-radius: 15px 15px 0 0;
@@ -1373,6 +1373,13 @@ a.click-button {
 
 .price-input {
   width: 100px;
+}
+
+.preview-image {
+  width: 250px;
+  height: auto;
+  border-radius: 8px;
+  align-self: center;
 }
 
 /* ----------------------------------------------------------------------------------- */

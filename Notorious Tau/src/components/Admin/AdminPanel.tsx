@@ -39,6 +39,7 @@ function AdminPanel({
   const [showEventsPopup, setShowEventsPopup] = useState(false);
   const [showActivePopup, setShowActivePopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //Whenever an item is being added to the event
   const handleItemChange = (
@@ -80,6 +81,8 @@ function AdminPanel({
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
+
     let message = "";
     if (!activeHouse) {
       if (!eventTitle) {
@@ -220,11 +223,14 @@ function AdminPanel({
       setLineName("");
       setCrossDate("");
       setItems([{ name: "", price: "" }]);
+      setImageFile(null);
     } catch (error) {
       message = "Error adding event";
       setPopupMessage(message);
       setShowSavePopup(true);
       console.error("Error adding event: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -355,7 +361,7 @@ function AdminPanel({
           <br />
           <br />
           <button className="admin-btn" onClick={() => handleSubmit()}>
-            Save Event
+            {loading ? "Saving..." : "Save Event"}
           </button>
           {showActivePopup && (
             <Popup
@@ -466,6 +472,11 @@ function AdminPanel({
                     setImageFile(e.target.files[0]);
                   }
                 }}
+              />
+              <img
+                src={imageFile ? URL.createObjectURL(imageFile) : ""}
+                alt=""
+                className="preview-image"
               />
             </Fragment>
           )}
