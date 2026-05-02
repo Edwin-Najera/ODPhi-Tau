@@ -1,76 +1,23 @@
 import "../global.css";
-import { Fragment, useEffect, useState } from "react";
-import { collection, query, orderBy, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
-import { getUserRole } from "../../utils/auth";
+import { Fragment } from "react";
+import { useAuthRole, useCollection } from "../../utils/auth";
 import { handleDelete } from "../../utils/handle";
 import { FaTrash } from "react-icons/fa";
-import type { Event, Countdown } from "./eventData";
+import type { EventItem } from "./eventData";
 import CountdownEvent from "./CountdownEvent";
 
 function Events() {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [countdowns, setCountdowns] = useState<Countdown[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [userRole, setUserRole] = useState<string | null>(null);
-
-  //Fetch items from firebase
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const eventQuery = query(
-          collection(db, "events"),
-          orderBy("createdAt", "desc"),
-        );
-        const countdownQuery = query(
-          collection(db, "countdown"),
-          orderBy("createdAt", "desc"),
-        );
-
-        const snapshotEvents = await getDocs(eventQuery);
-        const snapshotCountdown = await getDocs(countdownQuery);
-
-        const eventsData: Event[] = snapshotEvents.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<Event, "id">),
-        }));
-
-        const countdownData: Countdown[] = snapshotCountdown.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...(doc.data() as Omit<Countdown, "id">),
-          }),
-        );
-
-        setEvents(eventsData);
-        setCountdowns(countdownData);
-      } catch (error) {
-        console.error("Error fetching Events", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const unsubscribeAuth = () => getUserRole((role) => setUserRole(role));
-
-    fetchEvents();
-
-    return () => {
-      unsubscribeAuth();
-    };
-  }, []);
-
-  console.log("UserRole: ", userRole);
-
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-ball" id="loading-one" />
-        <div className="loading-ball" id="loading-two" />
-        <div className="loading-ball" id="loading-three" />
-      </div>
-    );
-  }
+  const events = useCollection({
+    collectionName: "events",
+    activeHouse: false,
+    onlyPhotos: false,
+  });
+  const countdowns = useCollection({
+    collectionName: "countdown",
+    activeHouse: false,
+    onlyPhotos: false,
+  });
+  const { userRole } = useAuthRole();
 
   return (
     <Fragment>
@@ -116,8 +63,8 @@ function Events() {
                 This will update as the user adds it */}
                   <div className="event-prices">
                     <ul className="sell-items">
-                      {event.items?.map((item, i) => (
-                        <li key={i}>
+                      {event.items?.map((item: EventItem, index: number) => (
+                        <li key={index}>
                           <span className="item-name">{item.name}</span>
                           <span className="item-price">${item.price}</span>
                         </li>

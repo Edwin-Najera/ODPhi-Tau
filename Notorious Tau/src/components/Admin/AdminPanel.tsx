@@ -473,11 +473,13 @@ function AdminPanel({
                   }
                 }}
               />
-              <img
-                src={imageFile ? URL.createObjectURL(imageFile) : ""}
-                alt=""
-                className="preview-image"
-              />
+              {imageFile && (
+                <img
+                  src={URL.createObjectURL(imageFile)}
+                  alt=""
+                  className="preview-image"
+                />
+              )}
             </Fragment>
           )}
         {hasItems && (

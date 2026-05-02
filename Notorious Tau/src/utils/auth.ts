@@ -1,10 +1,19 @@
 import  { useEffect, useState } from "react";
+import { query, collection, orderBy, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import type { NavigateFunction } from "react-router-dom";
+import type { Knights, Event, Countdown} from "../components/EventsFolder/eventData";
+
+interface CollectionOptions {
+    collectionName: string;
+    activeHouse?: boolean;
+    onlyPhotos?: boolean;
+}
 
 
-export const getUserRole = (callback: (role: string | null) => void) => {
+const getUserRole = (callback: (role: string | null) => void) => {
     return auth.onAuthStateChanged(async (user) =>  {
         if (!user) {
             callback(null);
@@ -46,4 +55,52 @@ export const useLogout = async (navigate: NavigateFunction) => {
         } catch (error) {
           console.error("Logout Error:", error);
         }
+}
+
+export const useCollection = ({ collectionName, activeHouse, onlyPhotos } : CollectionOptions ) => {
+    const [documents, setDocuments] = useState<any[]> ([]);
+
+    useEffect(() => {
+        let unsubscribe: (() => void) | undefined;
+
+        if (!collectionName) return;
+
+        const q = query(collection(db, collectionName), orderBy("createdAt", "desc"));
+
+        unsubscribe = onSnapshot(q, (snapshot) => {
+            if (activeHouse) {
+                setDocuments(snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...(doc.data() as Omit<Knights, "id">),
+                })))
+            } else if (collectionName === "countdown") {
+                setDocuments(snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...(doc.data() as Omit<Countdown, "id">)
+                })))
+            } else {
+                const eventsList : Event [] = snapshot.docs.map((doc) => {
+                    const rawData = doc.data();
+
+                    return {
+                        id: doc.id,
+                        ...rawData,
+                        date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
+                    } as Event;
+                });
+
+                if (onlyPhotos) {
+                    setDocuments(eventsList.filter((event) => event.id.startsWith("alumni_") || event.id.startsWith("gallery_")));
+                } else {
+                    setDocuments(eventsList);
+                }
+            }
+        })
+
+        return () => {
+            unsubscribe();
+        }
+    }, [collectionName])
+
+    return documents;
 }

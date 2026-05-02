@@ -1,42 +1,14 @@
-import { useState, useEffect } from "react";
-import type { Event } from "../components/EventsFolder/eventData";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "../firebase";
-import Loading from "../components/Loading";
+import { useAuthRole, useCollection } from "../utils/auth";
+import { handleDelete } from "../utils/handle";
+import { FaTrash } from "react-icons/fa";
 
 function Service() {
-  const [loading, setLoading] = useState(true);
-  const [serviceEvents, setServiceEvents] = useState<Event[]>([]);
-
-  useEffect(() => {
-    const fetchServiceEvents = async () => {
-      try {
-        const q = query(
-          collection(db, "service"),
-          orderBy("createdAt", "desc"),
-        );
-
-        const snapshot = await getDocs(q);
-
-        const eventsData: Event[] = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<Event, "id">),
-        }));
-
-        setServiceEvents(eventsData);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServiceEvents();
-  }, []);
-
-  if (loading) {
-    return <Loading />;
-  }
+  const serviceEvents = useCollection({
+    collectionName: "service",
+    activeHouse: false,
+    onlyPhotos: false,
+  });
+  const { userRole } = useAuthRole();
 
   return (
     <div className="service-page">
@@ -45,6 +17,16 @@ function Service() {
       <div className="service-event-wrapper">
         {serviceEvents.map((service) => (
           <div key={service.id} className="service-event">
+            {userRole === "admin" && (
+              <button
+                className="trash-can-wrapper"
+                onClick={() =>
+                  handleDelete("service", service.id, service.imagePath)
+                }
+              >
+                <FaTrash className="trash-can" />{" "}
+              </button>
+            )}
             <h3 className="service-title">{service.eventTitle}</h3>
             <img
               src={service.imageURL}

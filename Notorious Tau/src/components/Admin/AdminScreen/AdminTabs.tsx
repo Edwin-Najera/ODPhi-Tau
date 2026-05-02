@@ -6,9 +6,9 @@ import type {
   Awards,
   Event,
   Knights,
-  BaseDocument,
 } from "../../EventsFolder/eventData";
 import { handleDelete } from "../../../utils/handle";
+import { useCollection } from "../../../utils/auth";
 import "../../global.css";
 import AdminPanel from "../AdminPanel";
 import EditPopup from "../PopupFolder/EditPopup";
@@ -30,63 +30,9 @@ function AdminTabs({
   onlyPhotos = false,
   activeHouse = false,
 }: Props) {
-  const [documents, setDocuments] = useState<BaseDocument[]>([]);
+  const documents = useCollection({ collectionName, activeHouse, onlyPhotos });
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editPopupOpen, setEditPopupOpen] = useState(false);
-
-  useEffect(() => {
-    let unsubscribe: (() => void) | undefined;
-
-    if (collectionName !== "") {
-      const q = query(
-        collection(db, collectionName),
-        orderBy("createdAt", "desc"),
-      );
-      unsubscribe = onSnapshot(q, (snapshot) => {
-        if (activeHouse) {
-          const knightList: Knights[] = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...(doc.data() as Omit<Knights, "id">),
-          }));
-
-          setDocuments(knightList);
-        } else if (collectionName === "countdown") {
-          setDocuments(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...(doc.data() as any),
-            })),
-          );
-        } else {
-          const eventList: Event[] = snapshot.docs.map((doc) => {
-            const rawData = doc.data();
-
-            return {
-              id: doc.id,
-              ...rawData,
-              date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
-            } as Event;
-          });
-
-          //If the active house popup is shown then only those that have the description of each knight should be show
-          if (onlyPhotos) {
-            const descriptionEvents = eventList.filter(
-              (event) =>
-                event.id.startsWith("alumni_") ||
-                event.id.startsWith("gallery_"),
-            );
-            setDocuments(descriptionEvents);
-          } else {
-            setDocuments(eventList);
-          }
-        }
-      });
-    }
-
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
-  }, [collectionName]);
 
   const handleEdit = (event: any) => {
     setEditingId(event.id);
@@ -160,11 +106,13 @@ function AdminTabs({
           <h2>{tabTitle.toLowerCase()}</h2>
           {(documents as Knights[]).map((document) => (
             <div key={document.id}>
-              <img
-                className="gallery-image"
-                src={document.imageURL}
-                alt="knight"
-              />
+              {document.imageURL && (
+                <img
+                  className="gallery-image"
+                  src={document.imageURL}
+                  alt="knight"
+                />
+              )}
               <h6>{document.name}</h6>
               <div>{document.type}</div>
               <div>{document.position}</div>

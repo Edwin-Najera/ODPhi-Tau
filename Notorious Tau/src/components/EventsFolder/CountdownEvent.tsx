@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import type { Countdown } from "./eventData";
 import { useInView } from "react-intersection-observer";
-import { getUserRole } from "../../utils/auth";
+import { useAuthRole } from "../../utils/auth";
 import { handleDelete } from "../../utils/handle";
 import { FaTrash } from "react-icons/fa";
 import { CiCalendar, CiTimer, CiLocationOn } from "react-icons/ci";
@@ -11,15 +11,7 @@ function CountdownEvent({ countdown }: { countdown: Countdown }) {
   const { ref: countdownRef, inView: visibleElement } = useInView({
     triggerOnce: true,
   });
-  const [userRole, setUserRole] = useState<string | null>(null);
-
-  useEffect(() => {
-    const unsubscribeAuth = getUserRole((role) => setUserRole(role));
-
-    return () => {
-      unsubscribeAuth();
-    };
-  }, []);
+  const { userRole } = useAuthRole();
 
   const formatTime = (time: string) => {
     if (!time) return "";

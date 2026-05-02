@@ -1,16 +1,19 @@
-import { useState, useEffect, Fragment } from "react";
-import { db } from "../firebase";
-import { collection, query, orderBy, getDocs } from "firebase/firestore";
-import type { Knights } from "../components/EventsFolder/eventData";
-import Loading from "../components/Loading";
+import { Fragment } from "react";
+import { useCollection } from "../utils/auth";
 import KnightCards from "../components/AboutFolder/Knights";
 import crown from "../components/Photos/ODP Minimal Crown - Black.png";
 
 function Mtb() {
-  const [actives, setActives] = useState<Knights[]>([]);
-  const [executives, setExecutives] = useState<Knights[]>([]);
-  const [recognized, setRecognized] = useState<Knights[]>([]);
-  const [loading, setLoading] = useState(true);
+  const allKnights = useCollection({
+    collectionName: "house",
+    activeHouse: true,
+    onlyPhotos: false,
+  });
+  const executives = allKnights.filter((knight) => knight.type === "executive");
+  const actives = allKnights.filter((knight) => knight.type === "active");
+  const recognized = allKnights.filter(
+    (knight) => knight.awards && knight.awards.length > 0,
+  );
   const foundingMembers = [
     "William Macklin",
     "Micheal Vega",
@@ -37,56 +40,6 @@ function Mtb() {
     "Manuel Rojas",
     "Brandon Smith",
   ];
-
-  useEffect(() => {
-    const fetchPhotos = async () => {
-      try {
-        const q = query(collection(db, "house"), orderBy("lineNumber", "asc"));
-
-        const snapshot = await getDocs(q);
-
-        const actives: Knights[] = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<Knights, "id">),
-        }));
-
-        actives.forEach((knight) => {
-          const splitName = knight.name.split(" ");
-          const greekName = [
-            ...splitName.slice(0, 1),
-            `"${knight.knightName}"`,
-            ...splitName.slice(1),
-          ];
-          const joinedName = greekName.join(" ");
-
-          knight.name = joinedName;
-        });
-
-        const activeGallery = actives.filter(
-          (knight) => knight.type === "active",
-        );
-        const executiveGallery = actives.filter(
-          (knight) => knight.type === "executive",
-        );
-        const awardedBros = actives.filter(
-          (knight) => knight.awards && knight.awards.length > 0,
-        );
-
-        console.log(awardedBros);
-        setRecognized(awardedBros);
-        setActives(activeGallery);
-        setExecutives(executiveGallery);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPhotos();
-  }, []);
-
-  if (loading) return <Loading />;
 
   return (
     <Fragment>

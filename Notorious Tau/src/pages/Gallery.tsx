@@ -1,50 +1,15 @@
-import { useState, useEffect, Fragment } from "react";
-import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
-import { db } from "../firebase";
-import { getUserRole } from "../utils/auth";
+import { Fragment } from "react";
+import { useAuthRole, useCollection } from "../utils/auth";
 import { handleDelete } from "../utils/handle";
-import type { Event } from "../components/EventsFolder/eventData";
 import { FaTrash } from "react-icons/fa";
 
 function Gallery() {
-  const [photos, setPhotos] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [userRole, setUserRole] = useState<string | null>(null);
-
-  useEffect(() => {
-    const queryPhotos = query(
-      collection(db, "photos"),
-      orderBy("createdAt", "desc"),
-    );
-
-    const unsubscribeSnapshot = onSnapshot(queryPhotos, (snapshot) => {
-      const galleryPhotos = snapshot.docs
-        .map((doc) => ({
-          id: doc.id,
-          ...(doc.data() as Omit<Event, "id">),
-        }))
-        .filter((event) => event.id.startsWith("gallery_"));
-      setPhotos(galleryPhotos);
-      setLoading(false);
-    });
-
-    const unsubscribeAuth = getUserRole((role) => setUserRole(role));
-
-    return () => {
-      unsubscribeSnapshot();
-      unsubscribeAuth();
-    };
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-ball" id="loading-one" />
-        <div className="loading-ball" id="loading-two" />
-        <div className="loading-ball" id="loading-three" />
-      </div>
-    );
-  }
+  const photos = useCollection({
+    collectionName: "photos",
+    onlyPhotos: true,
+    activeHouse: false,
+  });
+  const { userRole } = useAuthRole();
 
   return (
     <div className="odphi-gallery-page">

@@ -1108,6 +1108,7 @@ a.click-button {
 
 .service-event {
   display: flex;
+  position: relative;
   flex-direction: column;
   align-items: center;
   text-align: left;
@@ -1123,7 +1124,7 @@ a.click-button {
 .service-img {
   border: solid black;
   border-radius: 15px;
-  width: 100%;
+  width: 75%;
 }
 
 /* ----------------------------------------------------------------------------------- */
