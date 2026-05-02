@@ -2,6 +2,11 @@ import { useState, Fragment } from "react";
 import { db, storage } from "../../firebase";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  handleArrayChange,
+  handleAddArrayItem,
+  handleDeleteArrayItem,
+} from "../../utils/handle";
 import "../global.css";
 import Popup from "./PopupFolder/Popup";
 
@@ -40,45 +45,6 @@ function AdminPanel({
   const [showActivePopup, setShowActivePopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
-  //Whenever an item is being added to the event
-  const handleItemChange = (
-    index: number,
-    field: "name" | "price",
-    value: string,
-  ) => {
-    const updatedItems = [...items];
-    updatedItems[index][field] = value;
-    setItems(updatedItems);
-  };
-
-  const addItemField = () => {
-    setItems([...items, { name: "", price: "" }]);
-  };
-
-  const deleteItemField = (index: number) => {
-    const updateItems = items.filter((_, i) => i !== index);
-    setItems(updateItems);
-  };
-
-  const handleAwardChange = (
-    index: number,
-    field: "award" | "year",
-    value: string,
-  ) => {
-    const updatedAwards = [...awards];
-    updatedAwards[index][field] = value;
-    setAwards(updatedAwards);
-  };
-
-  const addAwardField = () => {
-    setAwards([...awards, { award: "", year: "" }]);
-  };
-
-  const deleteAwardField = (index: number) => {
-    const updateAwards = awards.filter((_, i) => i !== index);
-    setAwards(updateAwards);
-  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -333,7 +299,13 @@ function AdminPanel({
                     placeholder="Award"
                     value={award.award}
                     onChange={(e) =>
-                      handleAwardChange(index, "award", e.target.value)
+                      handleArrayChange(
+                        index,
+                        "award",
+                        e.target.value,
+                        awards,
+                        setAwards,
+                      )
                     }
                   />
                   <input
@@ -342,19 +314,32 @@ function AdminPanel({
                     placeholder="Year"
                     value={award.year}
                     onChange={(e) =>
-                      handleAwardChange(index, "year", e.target.value)
+                      handleArrayChange(
+                        index,
+                        "year",
+                        e.target.value,
+                        awards,
+                        setAwards,
+                      )
                     }
                   />
                   <button
                     className="admin-btn delete-btn item-delete"
-                    onClick={() => deleteAwardField(index)}
+                    onClick={() =>
+                      handleDeleteArrayItem(index, awards, setAwards)
+                    }
                   >
                     Delete
                   </button>
                 </div>
               ))}
             </div>
-            <button className="admin-btn" onClick={addAwardField}>
+            <button
+              className="admin-btn"
+              onClick={() =>
+                handleAddArrayItem({ award: "", year: "" }, awards, setAwards)
+              }
+            >
               + Add Another Award
             </button>
           </Fragment>
@@ -496,7 +481,13 @@ function AdminPanel({
                     placeholder="Item Title"
                     value={item.name}
                     onChange={(e) =>
-                      handleItemChange(index, "name", e.target.value)
+                      handleArrayChange(
+                        index,
+                        "name",
+                        e.target.value,
+                        items,
+                        setItems,
+                      )
                     }
                   />
                   <div className="price-wrapper">
@@ -509,20 +500,33 @@ function AdminPanel({
                       placeholder="Price 0.00"
                       value={item.price}
                       onChange={(e) =>
-                        handleItemChange(index, "price", e.target.value)
+                        handleArrayChange(
+                          index,
+                          "price",
+                          e.target.value,
+                          items,
+                          setItems,
+                        )
                       }
                     />
                   </div>
                   <button
                     className="admin-btn delete-btn item-delete"
-                    onClick={() => deleteItemField(index)}
+                    onClick={() =>
+                      handleDeleteArrayItem(index, items, setItems)
+                    }
                   >
                     Delete
                   </button>
                 </div>
               ))}
             </div>
-            <button className="admin-btn" onClick={addItemField}>
+            <button
+              className="admin-btn"
+              onClick={() =>
+                handleAddArrayItem({ name: "", price: "" }, items, setItems)
+              }
+            >
               + Add Another Price
             </button>
           </Fragment>

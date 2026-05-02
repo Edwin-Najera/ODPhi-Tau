@@ -12,3 +12,35 @@ export const handleDelete = async (collectionName: string, eventId: string, imag
     await deleteDoc(doc(db, collectionName, eventId));
 }
 
+export const handleArrayChange = <T,>(
+    index: number,
+    field: keyof T,
+    value: string,
+    array: T[],
+    setArray: React.Dispatch<React.SetStateAction<T[]>>
+) => {
+    const updatedArray = [...array];
+    updatedArray[index] = {
+        ...updatedArray[index],
+        [field]: value,
+    };
+    setArray(updatedArray);
+}
+
+export const handleAddArrayItem = <T,>(
+  newItem: T,
+  array: T[],
+  setArray: React.Dispatch<React.SetStateAction<T[]>>
+) => {
+  setArray([...array, newItem]);
+};
+
+export const handleDeleteArrayItem = <T,>(
+    index: number, 
+    array: T[], 
+    setArray: React.Dispatch<React.SetStateAction<T[]>>
+) => {
+    const updatedArray = array.filter((_, i) => i !== index);
+    setArray(updatedArray);
+}
+

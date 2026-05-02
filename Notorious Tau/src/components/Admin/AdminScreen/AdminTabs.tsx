@@ -1,6 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
-import { db } from "../../../firebase";
-import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { useState, Fragment } from "react";
 import type {
   EventItem,
   Awards,
