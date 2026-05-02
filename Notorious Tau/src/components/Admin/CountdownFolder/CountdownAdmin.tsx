@@ -2,6 +2,11 @@ import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../../firebase";
 import { useState, Fragment } from "react";
+import {
+  handleArrayChange,
+  handleAddArrayItem,
+  handleDeleteArrayItem,
+} from "../../../utils/handle";
 import Popup from "../PopupFolder/Popup";
 
 function CountdownAdmin() {
@@ -66,28 +71,6 @@ function CountdownAdmin() {
     }
   };
 
-  const handleEventChange = (
-    index: number,
-    field: "title" | "date" | "location" | "startTime" | "endTime",
-    value: string,
-  ) => {
-    const updatedEvent = [...eventList];
-    updatedEvent[index][field] = value;
-    setEventList(updatedEvent);
-  };
-
-  const addEventItem = () => {
-    setEventList([
-      ...eventList,
-      { title: "", date: "", location: "", startTime: "", endTime: "" },
-    ]);
-  };
-
-  const deleteEventItem = (index: number) => {
-    const updateItems = eventList.filter((_, i) => i !== index);
-    setEventList(updateItems);
-  };
-
   return (
     <div className="row w-100 d-flex justify-content-around">
       <div className="admin-container">
@@ -142,7 +125,13 @@ function CountdownAdmin() {
                     placeholder="Title"
                     value={event.title}
                     onChange={(e) =>
-                      handleEventChange(index, "title", e.target.value)
+                      handleArrayChange(
+                        index,
+                        "title",
+                        e.target.value,
+                        eventList,
+                        setEventList,
+                      )
                     }
                   />
                   <input
@@ -151,7 +140,13 @@ function CountdownAdmin() {
                     placeholder="Date"
                     value={event.date}
                     onChange={(e) =>
-                      handleEventChange(index, "date", e.target.value)
+                      handleArrayChange(
+                        index,
+                        "date",
+                        e.target.value,
+                        eventList,
+                        setEventList,
+                      )
                     }
                   />
                   <input
@@ -160,7 +155,13 @@ function CountdownAdmin() {
                     placeholder="Location"
                     value={event.location}
                     onChange={(e) =>
-                      handleEventChange(index, "location", e.target.value)
+                      handleArrayChange(
+                        index,
+                        "location",
+                        e.target.value,
+                        eventList,
+                        setEventList,
+                      )
                     }
                   />
                   <div className="countdown-event-input-col">
@@ -172,7 +173,13 @@ function CountdownAdmin() {
                       placeholder="Start Time"
                       value={event.startTime}
                       onChange={(e) =>
-                        handleEventChange(index, "startTime", e.target.value)
+                        handleArrayChange(
+                          index,
+                          "startTime",
+                          e.target.value,
+                          eventList,
+                          setEventList,
+                        )
                       }
                     />
                   </div>
@@ -185,20 +192,43 @@ function CountdownAdmin() {
                       placeholder="End Time"
                       value={event.endTime}
                       onChange={(e) =>
-                        handleEventChange(index, "endTime", e.target.value)
+                        handleArrayChange(
+                          index,
+                          "endTime",
+                          e.target.value,
+                          eventList,
+                          setEventList,
+                        )
                       }
                     />
                   </div>
                   <button
                     className="admin-btn delete-btn item-delete"
-                    onClick={() => deleteEventItem(index)}
+                    onClick={() =>
+                      handleDeleteArrayItem(index, eventList, setEventList)
+                    }
                   >
                     Delete
                   </button>
                 </div>
               ))}
             </div>
-            <button className="admin-btn mb-4" onClick={addEventItem}>
+            <button
+              className="admin-btn mb-4"
+              onClick={() =>
+                handleAddArrayItem(
+                  {
+                    title: "",
+                    date: "",
+                    location: "",
+                    startTime: "",
+                    endTime: "",
+                  },
+                  eventList,
+                  setEventList,
+                )
+              }
+            >
               + Add Another Award
             </button>
           </Fragment>

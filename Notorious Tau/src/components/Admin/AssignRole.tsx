@@ -25,7 +25,8 @@ function AssignRole() {
 
   const handleList = async () => {
     const result = await listUser();
-    console.log(result.data);
+
+    return result;
   };
 
   return (

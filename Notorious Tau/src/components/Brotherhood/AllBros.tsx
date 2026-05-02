@@ -1,85 +1,31 @@
-import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../../firebase";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { collection, query, orderBy, getDocs } from "firebase/firestore";
-import type { Event } from "../EventsFolder/eventData";
+import { useCollection, useAuthRole } from "../../utils/auth";
+
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
-import Loading from "../Loading";
 
 function AllBros() {
-  const [userRole, setUserRole] = useState("");
-  const [events, setEvents] = useState<Event[]>([]);
-  const [brotherhoodEvents, setBrotherhoodEvents] = useState<Event[]>([]);
-  const [alumniEvents, setAlumniEvents] = useState<Event[]>([]);
+  const { userRole } = useAuthRole();
+  const events = useCollection({
+    collectionName: "events",
+    activeHouse: false,
+    onlyPhotos: false,
+  });
+  const brotherhoodEvents = useCollection({
+    collectionName: "brotherhood",
+    activeHouse: false,
+    onlyPhotos: false,
+  });
+  const alumniEvents = useCollection({
+    collectionName: "alumni",
+    activeHouse: false,
+    onlyPhotos: false,
+  });
+
   const [showPopup, setShowPopup] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        //to fetch all events in the collection "events"
-        const eventsSnap = await getDocs(
-          query(collection(db, "events"), orderBy("createdAt", "desc")),
-        );
-
-        //to fetch all events in the collection brotherhood
-        const brotherhoodSnap = await getDocs(
-          query(collection(db, "brotherhood"), orderBy("createdAt", "desc")),
-        );
-
-        //to fetch all events in the collection alumni, this also includes important events
-        const alumniSnap = await getDocs(
-          query(collection(db, "alumni"), orderBy("date", "asc")),
-        );
-
-        setEvents(
-          eventsSnap.docs.map((doc) => ({
-            id: doc.id,
-            ...(doc.data() as Omit<Event, "id">),
-          })),
-        );
-
-        setBrotherhoodEvents(
-          brotherhoodSnap.docs.map((doc) => ({
-            id: doc.id,
-            ...(doc.data() as Omit<Event, "id">),
-          })),
-        );
-
-        setAlumniEvents(
-          alumniSnap.docs.map((doc) => {
-            const rawData = doc.data();
-
-            return {
-              id: doc.id,
-              ...rawData,
-              date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
-              createdAt: rawData.createdAt?.toDate
-                ? rawData.createdAt.toDate()
-                : rawData.createdAt,
-            } as Event;
-          }),
-        );
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      const tokenResult = await user?.getIdTokenResult();
-      setUserRole(tokenResult?.claims.role as string);
-    });
-
-    fetchData();
-
-    return () => unsubscribe();
-  }, []);
 
   const handleNavigate = async (location: string) => {
     if (
@@ -122,7 +68,6 @@ function AllBros() {
       <h1 className="page-header">All Events</h1>
       <div className="all-bros-all-events">
         <h3 className="all-bros-header">Events</h3>
-        {loading && <Loading />}
         <div className="all-bros-events">
           {events.map((event, index) => (
             <div className="all-bros-event-container" key={index}>
@@ -136,7 +81,6 @@ function AllBros() {
           ))}
         </div>
         <h3 className="all-bros-header">Brotherhood Events</h3>
-        {loading && <Loading />}
         <div className="all-bros-events">
           {brotherhoodEvents.map((event, index) => (
             <div className="all-bros-event-container" key={index}>
@@ -150,7 +94,6 @@ function AllBros() {
           ))}
         </div>
         <h3 className="all-bros-header">Important Events and Dates</h3>
-        {loading && <Loading />}
         <div className="all-bros-events important-events">
           {alumniEvents.map((event, index) => (
             <div className="alumni-event-container" key={index}>
