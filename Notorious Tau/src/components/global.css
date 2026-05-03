@@ -1261,7 +1261,7 @@ a.click-button {
   padding: 10px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   @media (max-width: 992px) {
     max-width: 350px;
     width: 400px;
@@ -1508,7 +1508,6 @@ a.click-button {
 .view-mode-container {
   display: flex;
   flex-direction: column;
-  margin-top: -100px;
   width: 400px;
   align-items: center;
 }
@@ -1608,9 +1607,10 @@ a.click-button {
   grid-template-areas:
     "Title Title"
     "AdminPanel ActiveContent";
-  grid-template-rows: 1fr 9fr;
+  grid-template-rows: auto 1fr;
   grid-template-columns: 1fr 1fr;
   height: calc(100vh - 100px);
+  overflow: hidden;
 }
 
 .tab-container > h1 {
@@ -1627,11 +1627,15 @@ a.click-button {
   display: flex;
   justify-content: center;
   padding: 10px;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .tab-container > .active-events {
   grid-area: ActiveContent;
   width: 100%;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .admin-tab-panel {
