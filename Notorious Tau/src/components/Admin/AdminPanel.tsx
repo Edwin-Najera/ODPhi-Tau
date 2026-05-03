@@ -62,7 +62,8 @@ function AdminPanel({
       } else if (
         !imageFile &&
         (!hasDate || onlyPhotos) &&
-        collectionName !== "campus"
+        collectionName !== "campus" &&
+        collectionName !== "brotherhood"
       ) {
         message = "Image File required";
         setPopupMessage(message);
@@ -83,7 +84,8 @@ function AdminPanel({
     } else if (
       !imageFile &&
       (!hasDate || onlyPhotos) &&
-      collectionName !== "campus"
+      collectionName !== "campus" &&
+      collectionName !== "brotherhood"
     ) {
       message = "Image File required";
       setPopupMessage(message);
@@ -408,19 +410,20 @@ function AdminPanel({
             />
           </Fragment>
         )}
-        {!hasDate && (!onlyPhotos || eventTitle === "gallery") && (
-          // When an event does not have a date or isn't only photos the following will be executed
-          <Fragment>
-            <br />
-            <label className="admin-label">Enter Description</label>
-            <textarea
-              className="description-input"
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Fragment>
-        )}
+        {collectionName !== "alumni" &&
+          (!onlyPhotos || eventTitle === "gallery") && (
+            // When an event does not have a date or isn't only photos the following will be executed
+            <Fragment>
+              <br />
+              <label className="admin-label">Enter Description</label>
+              <textarea
+                className="description-input"
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Fragment>
+          )}
         {hasDate && (
           //If there is a date, then we will ask for the date of the event
           <Fragment>

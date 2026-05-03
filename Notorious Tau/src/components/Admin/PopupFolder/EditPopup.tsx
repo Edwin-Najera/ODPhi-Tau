@@ -169,8 +169,8 @@ function EditPopup({
   };
 
   return (
-    <div className="popup-overlay">
-      <div className="popup-box">
+    <div className="popup-overlay" onClick={onClose}>
+      <div className="popup-box" onClick={(e) => e.stopPropagation()}>
         <h2>Edit {collectionName === "countdown" ? "Countdown" : "Event"}</h2>
         <Fragment>
           {collectionName === "countdown" ? (
