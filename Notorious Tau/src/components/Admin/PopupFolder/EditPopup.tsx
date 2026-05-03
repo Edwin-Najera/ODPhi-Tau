@@ -1,25 +1,13 @@
 import { useState, useEffect, Fragment } from "react";
-import { db, storage } from "../../../firebase";
-import {
-  collection,
-  deleteDoc,
-  updateDoc,
-  doc,
-  onSnapshot,
-  query,
-  orderBy,
-} from "firebase/firestore";
-import { ref, deleteObject } from "firebase/storage";
+import { db } from "../../../firebase";
+import { updateDoc, doc } from "firebase/firestore";
 import type {
   BaseDocument,
-  EventItem,
-  Awards,
   Event,
   Knights,
   Countdown,
 } from "../../EventsFolder/eventData";
 import "../../global.css";
-import CountdownDisplay from "../CountdownFolder/CountdownDisplay";
 
 type EditPopupProps = {
   collectionName: string;
@@ -35,7 +23,6 @@ function EditPopup({
   collectionName,
   document,
   onClose,
-  showGallery = false,
   hasDate = false,
   hasItems = false,
   activeHouse = false,

@@ -1018,20 +1018,16 @@ a.click-button {
 .trash-can-wrapper {
   position: absolute;
   top: 0;
-  right: 10px;
+  right: 5px;
   z-index: 10;
   cursor: pointer;
   background: transparent;
 }
 
 .trash-can {
-  color: black;
+  color: rgba(0, 0, 0, 0.25);
   width: 16px;
   height: auto;
-}
-
-.trash-can.countdown {
-  color: white;
 }
 
 .trash-can-wrapper:focus,
@@ -1937,35 +1933,120 @@ a.click-button {
   }
 }
 
-.brotherhood-events-container {
+.all-events {
+  display: grid;
+  grid-template-areas:
+    "brother events events bar"
+    "brother events events bar"
+    "alumni events events bar"
+    "alumni events events bar";
+  grid-template-columns: 2fr 2fr 2fr 1fr;
+  grid-template-rows: 1fr 1fr 3fr 1fr;
+  width: 100%;
+  height: calc(100vh - 8.5em);
+  padding-top: 8%;
+  gap: 1px;
+  overflow-y: hidden;
+}
+
+.all-events > .brotherhood-events-container,
+.all-events > .regular-events,
+.all-events > .alumni-events,
+.all-events > .side-bar {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.all-events > .brotherhood-events {
+  grid-area: brother;
   display: flex;
-  position: fixed;
-  top: 25%;
-  left: 0;
-  margin: 10px 25px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 35%;
-  height: fit-content;
   @media (max-width: 992px) {
-    width: 100%;
     padding: 0 10px;
   }
 }
 
-.brotherhood-events.card {
+.all-events > .regular-events {
+  grid-area: events;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.all-events > .alumni-events {
+  grid-area: alumni;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 992px) {
+    padding: 0 10px;
+  }
+}
+
+.all-events > .side-bar {
+  grid-area: bar;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1.5em;
+  border-left: solid rgba(0, 0, 0, 0.4);
+  padding-left: 15px;
+}
+
+.connect-options {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 10px;
+  align-items: start;
+  justify-content: space-around;
+}
+
+.connect-options li {
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+}
+
+.connect-options li:before {
+  content: "";
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.connect-options li:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.75);
+  transition: width 0.3s ease;
+}
+
+.connect-options li:hover::after {
   width: 100%;
 }
 
-.brotherhood-events .card-text {
+.all-events .card {
+  width: 100%;
+}
+
+.all-events .card-text {
   gap: 25px;
 }
 
-.brotherhood-event-wrapper {
+.all-event-wrapper {
   display: flex;
   position: relative;
   flex-direction: column;
@@ -1974,12 +2055,45 @@ a.click-button {
   cursor: pointer;
 }
 
-.brotherhood-event-wrapper h4::before {
-  content: ">";
-  margin-right: 15px;
+.all-event-wrapper.regular {
+  width: 90%;
+  cursor: default;
 }
 
-.brotherhood-event-wrapper p {
+.regular .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: start;
+  flex: 1;
+  height: 100%;
+}
+
+.regular .card-title {
+  align-self: start;
+}
+
+.regular .event-prices {
+  flex: 1;
+}
+
+.price-title {
+  align-self: start;
+}
+
+.regular .sell-items {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-around;
+}
+
+.all-event-wrapper h4::before {
+  content: ">";
+  margin: 0 15px 0 5px;
+}
+
+.all-event-wrapper p {
   color: grey;
   text-decoration-style: grey underline solid;
 }

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCollection, useAuthRole } from "../../utils/auth";
+import { handleDelete } from "../../utils/handle";
+import { FaTrash } from "react-icons/fa";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
-import type { BaseDocument } from "../EventsFolder/eventData";
+import type { BaseDocument, EventItem } from "../EventsFolder/eventData";
 
 type EventInfoProps = {
   event: BaseDocument | null;
@@ -79,35 +81,166 @@ function AllBros() {
         />
       )}
       <h1 className="page-header">Tau Events</h1>
-      <div className="brotherhood-events-container">
-        <div className="brotherhood-events card">
-          <div className="card-body">
-            <h2 className="card-title">Brotherhood Events</h2>
-            {brotherhood.length === 0 && (
-              <p className="card-text">
-                No Events Published...
-                <br />
-                Check Back Later!
-              </p>
-            )}
-            {brotherhood.length > 0 && (
-              <div className="card-text">
-                {brotherhood.map((event) => (
-                  <div
-                    key={event.id}
-                    className="brotherhood-event-wrapper card"
+      <div className="all-events">
+        <div className="brotherhood-events">
+          <div className="card">
+            <div className="card-body">
+              <h2 className="card-title">Brotherhood Events</h2>
+              {brotherhood.length === 0 && (
+                <p className="card-text">
+                  No Events Published...
+                  <br />
+                  Check Back Later!
+                </p>
+              )}
+              {brotherhood.length > 0 && (
+                <div className="card-text">
+                  {brotherhood.map((event) => (
+                    <div key={event.id} className="all-event-wrapper card">
+                      <div
+                        className="event-clickable"
+                        onClick={() => {
+                          setShowEventInfo(true);
+                          setSelectedEvent(event);
+                        }}
+                      >
+                        <h4>{event.eventTitle}</h4>
+                        <p>Click for more info</p>
+                      </div>
+                      {userRole === "admin" && (
+                        <button
+                          className="trash-can-wrapper"
+                          onClick={() =>
+                            handleDelete(
+                              "brotherhood",
+                              event.id,
+                              event.imagePath,
+                            )
+                          }
+                        >
+                          <FaTrash className="trash-can" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="alumni-events">
+          <div className="card">
+            <div className="card-body">
+              <h2 className="card-title">Alumni Events</h2>
+              {alumniEvents.length === 0 && (
+                <p className="card-text">
+                  No Events Published...
+                  <br />
+                  Check Back Later!
+                </p>
+              )}
+              {alumniEvents.length > 0 && (
+                <div className="card-text">
+                  {alumniEvents.map((event) => (
+                    <div key={event.id} className="all-event-wrapper card">
+                      <div
+                        className="event-clickable"
+                        onClick={() => {
+                          setShowEventInfo(true);
+                          setSelectedEvent(event);
+                        }}
+                      >
+                        <h4>{event.eventTitle}</h4>
+                        <p>Click for more info</p>
+                      </div>
+                      {userRole === "admin" && (
+                        <button
+                          className="trash-can-wrapper"
+                          onClick={() => {
+                            handleDelete("alumni", event.id, event.imagePath);
+                          }}
+                        >
+                          <FaTrash className="trash-can" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="regular-events">
+          <h2>Events Happening</h2>
+          {events.length === 0 && (
+            <p className="card-text">
+              No Events Published...
+              <br />
+              Check Back Later!
+            </p>
+          )}
+          {events.length > 0 &&
+            events.map((event) => (
+              <div key={event.id} className="all-event-wrapper card regular">
+                <div className="row g-0">
+                  <div className="col-md-4">
+                    <img
+                      src={event.imageURL}
+                      className="img-fluid rounded-start"
+                      alt="event-image"
+                    />
+                  </div>
+                  <div className="col-md-8">
+                    <div className="card-body">
+                      <h4 className="card-title">{event.eventTitle}</h4>
+                      <p>{event.description}</p>
+                      {event.items.length > 0 && (
+                        <Fragment>
+                          <h6 className="price-title">Event Prices: </h6>
+                          <div className="event-prices">
+                            <ul className="sell-items">
+                              {event.items.map(
+                                (item: EventItem, index: number) => (
+                                  <li key={index}>
+                                    <span className="item-name">
+                                      {item.name}
+                                    </span>
+                                    <span className="item-price">
+                                      ${item.price}
+                                    </span>
+                                  </li>
+                                ),
+                              )}
+                            </ul>
+                          </div>
+                        </Fragment>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                {userRole === "admin" && (
+                  <button
+                    className="trash-can-wrapper"
                     onClick={() => {
-                      setShowEventInfo(true);
-                      setSelectedEvent(event);
+                      handleDelete("events", event.id, event.imagePath);
                     }}
                   >
-                    <h4>{event.eventTitle}</h4>
-                    <p>Click for more info</p>
-                  </div>
-                ))}
+                    <FaTrash className="trash-can" />
+                  </button>
+                )}
               </div>
-            )}
-          </div>
+            ))}
+        </div>
+        <div className="side-bar">
+          <h3>Connect</h3>
+          <ul className="connect-options">
+            <li onClick={() => navigate("/Mtb")}>Active Brothers</li>
+            <li onClick={() => navigate("/")}>Events</li>
+            <li onClick={() => navigate("/Service")}>Service</li>
+            <li>MGC Related</li>
+            <li>Rush Week</li>
+            <li>Collaborate?</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -139,8 +272,15 @@ function EventInfoPopup({ event, onClose }: EventInfoProps) {
             onClick={onClose}
           />
         </div>
-        <p>{event.date}</p>
-        <p>{event.description}</p>
+        {event.date && (
+          <p>
+            {new Date(event.date).toLocaleDateString("en-US", {
+              month: "long",
+              day: "2-digit",
+            })}
+          </p>
+        )}
+        {event.description && <p>{event.description}</p>}
       </div>
     </div>
   );
