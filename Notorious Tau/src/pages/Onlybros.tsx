@@ -98,7 +98,11 @@ function Onlybros() {
         )}
 
         {activePanel === "brotherhood" && (
-          <AdminTabs collectionName="brotherhood" tabTitle="Brotherhood" />
+          <AdminTabs
+            collectionName="brotherhood"
+            tabTitle="Brotherhood"
+            hasDate={true}
+          />
         )}
 
         {activePanel === "alumni" && (
@@ -125,7 +129,7 @@ function Onlybros() {
         )}
 
         {activePanel === "service" && (
-          <AdminTabs collectionName="service" tabTitle="Service Admin" />
+          <AdminTabs collectionName="service" tabTitle="Service Events" />
         )}
 
         {activePanel === "countdown" && <CountdownAdmin />}
