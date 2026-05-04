@@ -264,7 +264,7 @@ function EventInfoPopup({ event, onClose }: EventInfoProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="popup-title">
-          <h4>{event.eventTitle}</h4>
+          <h4>{event.title}</h4>
           <button
             type="button"
             className="btn btn-close"

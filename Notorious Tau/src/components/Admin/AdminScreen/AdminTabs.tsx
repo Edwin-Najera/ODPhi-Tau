@@ -54,7 +54,7 @@ function AdminTabs({
           <h2>Active {tabTitle.toLowerCase()}</h2>
           {(documents as BaseDocument[]).map((document) => (
             <div key={document.id} className="gallery-image-container">
-              <div>Gallery: {document.eventTitle}</div>
+              <div>Gallery: {document.title}</div>
               <img
                 className="gallery-image"
                 src={document.imageURL}
@@ -182,7 +182,7 @@ function AdminTabs({
           {(documents as BaseDocument[]).map((document) => (
             <div key={document.id}>
               <div className="view-mode-container">
-                <h4>{document.eventTitle}</h4>
+                <h4>{document.title}</h4>
                 {activeHouse ? (
                   <Fragment>
                     <img

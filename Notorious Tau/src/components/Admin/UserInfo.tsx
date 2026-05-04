@@ -1,4 +1,5 @@
-import { useAuthRole, useLogout } from "../../utils/auth";
+import { useAuthRole } from "../../utils/auth";
+import { handleLogout } from "../../utils/handle";
 import { useNavigate } from "react-router-dom";
 
 function UserInfo() {
@@ -14,7 +15,7 @@ function UserInfo() {
   return (
     <div className="user-info-container">
       {username?.toUpperCase()} | {userRole?.toUpperCase()} |
-      <button className="logout-btn" onClick={() => useLogout(navigate)}>
+      <button className="logout-btn" onClick={() => handleLogout(navigate)}>
         Logout
       </button>
     </div>

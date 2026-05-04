@@ -9,25 +9,31 @@ import {
   showMessage,
 } from "../../../utils/handle";
 import Popup from "../PopupFolder/Popup";
+import type { Countdown, CountdownEvent } from "../../EventsFolder/eventData";
 
 function CountdownAdmin() {
-  const [title, setTitle] = useState("");
-  const [targetDate, setTargetDate] = useState("");
+  const [countdownForm, setCountdownForm] = useState<Partial<Countdown>>({
+    title: "",
+    targetDate: "",
+    events: [],
+  });
   const [imageFile, setImageFile] = useState<File | null>(null); //For the image/flyer of the event *REQUIRED*
   const [hasEvents, setHasEvents] = useState(false);
-  const [eventList, setEventList] = useState([
+  const [eventList, setEventList] = useState<CountdownEvent[]>([
     { title: "", date: "", location: "", startTime: "", endTime: "" },
   ]);
-  const [showPopup, setShowPopup] = useState(false);
-  const [showDisplayPopup, setShowDisplayPopup] = useState(false);
-  const [message, setMessage] = useState("");
+  const [popup, setPopup] = useState<{
+    show: boolean;
+    message: string;
+    type: "save" | "active" | null;
+  }>({ show: false, message: "", type: null });
 
   const handleSubmit = async () => {
-    if (!title || !targetDate) {
-      showMessage("Title and Date required", setMessage, setShowPopup);
+    if (!countdownForm.title || !countdownForm.targetDate) {
+      showMessage("Title and Date required", "save", setPopup);
       return;
     } else if (!imageFile) {
-      showMessage("Image required", setMessage, setShowPopup);
+      showMessage("Image required", "save", setPopup);
     }
 
     let imagePath = "";
@@ -41,8 +47,7 @@ function CountdownAdmin() {
 
     try {
       const newCountdown: any = {
-        title,
-        targetDate,
+        ...countdownForm,
         imageURL: downloadURL,
         imagePath: imagePath,
         createdAt: new Date(),
@@ -53,16 +58,23 @@ function CountdownAdmin() {
       }
 
       await addDoc(collection(db, "countdown"), newCountdown);
-      showMessage("Countdown successfully Added", setMessage, setShowPopup);
-      setTitle("");
-      setTargetDate("");
+      showMessage("Countdown successfully Added", "save", setPopup);
+      setCountdownForm({
+        title: "",
+        targetDate: "",
+        events: [],
+      });
       setEventList([
         { title: "", date: "", location: "", startTime: "", endTime: "" },
       ]);
     } catch (error) {
-      showMessage("Error adding countdown", setMessage, setShowPopup);
+      showMessage("Error adding countdown", "save", setPopup);
       console.error(error);
     }
+  };
+
+  const handleCountdownChanges = (field: keyof Countdown, value: string) => {
+    setCountdownForm((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -73,15 +85,15 @@ function CountdownAdmin() {
         <input
           type="text"
           placeholder="Event Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={countdownForm.title}
+          onChange={(e) => handleCountdownChanges("title", e.target.value)}
         />
         <label className="admin-label">Event Start Date</label>
         <input
           type="datetime-local"
           placeholder="Event Date"
-          value={targetDate}
-          onChange={(e) => setTargetDate(e.target.value)}
+          value={countdownForm.targetDate}
+          onChange={(e) => handleCountdownChanges("date", e.target.value)}
         />
         <label className="admin-label">Event Image</label>
         <input
@@ -230,11 +242,11 @@ function CountdownAdmin() {
         <button className="admin-btn" onClick={() => handleSubmit()}>
           Save Event
         </button>
-        {showPopup && (
+        {popup.show && (
           <Popup
-            message={message}
+            message={popup.message}
             collectionName={""}
-            onClose={() => setShowPopup(false)}
+            onClose={() => setPopup({ show: true, message: "", type: "save" })}
             autoClose={true}
             duration={1000}
             showCloseButton={false}
@@ -243,15 +255,15 @@ function CountdownAdmin() {
 
         <button
           className="admin-btn show-events-btn mt-2"
-          onClick={() => setShowDisplayPopup(true)}
+          onClick={() => setPopup({ show: true, message: "", type: "active" })}
         >
           Display Events
         </button>
-        {showDisplayPopup && (
+        {popup.show && popup.type === "active" && (
           <Popup
             message=""
             collectionName="countdown"
-            onClose={() => setShowDisplayPopup(false)}
+            onClose={() => setPopup({ show: false, message: "", type: null })}
             showCloseButton={true}
           />
         )}

@@ -9,6 +9,13 @@ import {
   showMessage,
 } from "../../utils/handle";
 import "../global.css";
+import type {
+  BaseDocument,
+  EventItem,
+  Knights,
+  Awards,
+  Alumni,
+} from "../EventsFolder/eventData";
 import Popup from "./PopupFolder/Popup";
 
 type Props = {
@@ -26,24 +33,38 @@ function AdminPanel({
   onlyPhotos = false,
   activeHouse = false,
 }: Props) {
-  const [eventTitle, setEventTitle] = useState(""); //For Title of the Event *REQUIRED*
-  const [items, setItems] = useState([{ name: "", price: "" }]); //For items and prices of items
-  const [description, setDescription] = useState(""); //For description of the event
-  const [eventDate, setEventDate] = useState<string>("");
+  const [eventForm, setEventForm] = useState<Partial<BaseDocument>>({
+    title: "", //For Title of the Event *REQUIRED*
+    description: "",
+    date: "",
+    items: [],
+  });
+
+  const [knightForm, setKnightForm] = useState<Partial<Knights>>({
+    name: "",
+    position: "",
+    knightName: "",
+    lineNumber: "",
+    lineName: "",
+    crossDate: "",
+    awards: [],
+    type: "",
+    graduating: false,
+  });
+
+  const [alumniForm, setAlumniForm] = useState<Partial<Alumni>>({
+    title: "",
+    onlyAlumn: false,
+    important: false,
+  });
+  const [items, setItems] = useState<EventItem[]>([{ name: "", price: "" }]); //For items and prices of items
   const [imageFile, setImageFile] = useState<File | null>(null); //For the image/flyer of the event *REQUIRED*
-  const [name, setName] = useState("");
-  const [position, setPosition] = useState("");
-  const [knightName, setKnightName] = useState("");
-  const [lineNumber, setLineNumber] = useState("");
-  const [lineName, setLineName] = useState("");
-  const [crossDate, setCrossDate] = useState("");
-  const [awards, setAwards] = useState([{ award: "", year: "" }]);
-  const [type, setType] = useState("");
-  const [showSavePopup, setShowSavePopup] = useState(false);
-  const [showGalleryPopup, setShowGalleryPopup] = useState(false);
-  const [showEventsPopup, setShowEventsPopup] = useState(false);
-  const [showActivePopup, setShowActivePopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
+  const [awards, setAwards] = useState<Awards[]>([{ title: "", year: "" }]);
+  const [popup, setPopup] = useState<{
+    show: boolean;
+    message: string;
+    type: "save" | "active" | null;
+  }>({ show: false, message: "", type: null });
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
@@ -51,12 +72,10 @@ function AdminPanel({
 
     let message = "";
     if (!activeHouse) {
-      if (!eventTitle) {
-        message = onlyPhotos
-          ? "Please Choose a Gallery"
-          : "Event Title Required";
+      if (!eventForm.title) {
+        message = onlyPhotos ? "Please Choose a Gallery" : "Title Required";
 
-        showMessage(message, setPopupMessage, setShowSavePopup);
+        showMessage(message, "save", setPopup);
         return;
       } else if (
         !imageFile &&
@@ -65,17 +84,17 @@ function AdminPanel({
         collectionName !== "brotherhood"
       ) {
         message = "Image File required";
-        showMessage(message, setPopupMessage, setShowSavePopup);
+        showMessage(message, "save", setPopup);
         return;
-      } else if (hasDate && eventDate === "") {
+      } else if (hasDate && eventForm.date === "") {
         message = "Event date Required";
-        showMessage(message, setPopupMessage, setShowSavePopup);
+        showMessage(message, "save", setPopup);
         return;
       }
-    } else if (!type) {
+    } else if (!knightForm.type) {
       message = "Please Choose a Gallery";
 
-      showMessage(message, setPopupMessage, setShowSavePopup);
+      showMessage(message, "save", setPopup);
       return;
     } else if (
       !imageFile &&
@@ -84,7 +103,7 @@ function AdminPanel({
       collectionName !== "brotherhood"
     ) {
       message = "Image File required";
-      showMessage(message, setPopupMessage, setShowSavePopup);
+      showMessage(message, "save", setPopup);
       return;
     }
 
@@ -101,19 +120,19 @@ function AdminPanel({
     }
 
     try {
-      const newEvent: any = {
-        eventTitle,
-        description,
+      const newEvent: Partial<BaseDocument> = {
+        ...eventForm,
         createdAt: new Date(),
       };
 
-      const newKnight: any = {
-        name: name,
-        position: position,
-        knightName: knightName,
-        lineNumber: lineNumber,
-        lineName: lineName,
-        crossDate: crossDate,
+      const newKnight: Partial<Knights> = {
+        ...knightForm,
+        createdAt: new Date(),
+        awards,
+      };
+
+      const alumniEvent: Partial<Alumni> = {
+        ...alumniForm,
         createdAt: new Date(),
       };
 
@@ -135,19 +154,19 @@ function AdminPanel({
         newEvent.items = items;
       }
       if (hasDate) {
-        if (!eventDate) {
+        if (!eventForm.date) {
           message = "Date Required";
-          showMessage(message, setPopupMessage, setShowSavePopup);
+          showMessage(message, "save", setPopup);
           return;
         }
 
-        newEvent.date = new Date(eventDate);
+        newEvent.date = new Date(eventForm.date);
       }
 
       if (onlyPhotos) {
         const collectionPhotos = activeHouse ? "house" : "photos";
         const collectionRef = collection(db, collectionPhotos);
-        const identifier = activeHouse ? type : eventTitle;
+        const identifier = activeHouse ? knightForm.type : eventForm.title;
 
         const autoId = doc(collectionRef).id;
         const customId = `${identifier}_${autoId}`;
@@ -161,25 +180,47 @@ function AdminPanel({
       }
 
       message = "Event added Successfully";
-      showMessage(message, setPopupMessage, setShowSavePopup);
-      setEventTitle("");
-      setDescription("");
-      setEventDate("");
-      setName("");
-      setPosition("");
-      setKnightName("");
-      setLineNumber("");
-      setLineName("");
-      setCrossDate("");
+      showMessage(message, "save", setPopup);
+
+      setEventForm({
+        title: "",
+        description: "",
+        date: "",
+        items: [],
+      });
+      setKnightForm({
+        name: "",
+        position: "",
+        knightName: "",
+        lineNumber: "",
+        lineName: "",
+        crossDate: "",
+        awards: [],
+        type: "",
+        graduating: false,
+      });
+      setAlumniForm({
+        title: "",
+        onlyAlumn: false,
+        important: false,
+      });
       setItems([{ name: "", price: "" }]);
       setImageFile(null);
     } catch (error) {
       message = "Error adding event";
-      showMessage(message, setPopupMessage, setShowSavePopup);
+      showMessage(message, "save", setPopup);
       console.error(error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEventChange = (field: keyof BaseDocument, value: string) => {
+    setEventForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleKnightChange = (field: keyof Knights, value: string) => {
+    setKnightForm((prev) => ({ ...prev, [field]: value }));
   };
 
   if (activeHouse) {
@@ -187,7 +228,10 @@ function AdminPanel({
       <div className="row w-100 d-flex justify-content-around">
         <div className="admin-container">
           <label className="admin-label">Choose a Exec/Active</label>
-          <select value={type} onChange={(e) => setType(e.target.value)}>
+          <select
+            value={knightForm.type ?? ""}
+            onChange={(e) => handleKnightChange("type", e.target.value)}
+          >
             <option value="" disabled>
               Choose Gallery
             </option>
@@ -202,7 +246,7 @@ function AdminPanel({
             id="name"
             type="text"
             placeholder="Name"
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => handleKnightChange("name", e.target.value)}
           />
           <label htmlFor="position" className="admin-label">
             Enter Position
@@ -212,7 +256,7 @@ function AdminPanel({
             id="position"
             type="text"
             placeholder="Position"
-            onChange={(e) => setPosition(e.target.value)}
+            onChange={(e) => handleKnightChange("position", e.target.value)}
           />
           <label htmlFor="knight-name" className="admin-label">
             Enter Knight Name
@@ -222,7 +266,7 @@ function AdminPanel({
             id="knight-name"
             type="text"
             placeholder="Knight Name"
-            onChange={(e) => setKnightName(e.target.value)}
+            onChange={(e) => handleKnightChange("knightName", e.target.value)}
           />
           <label htmlFor="line-num" className="admin-label">
             Enter Line Number
@@ -232,7 +276,7 @@ function AdminPanel({
             id="line-num"
             type="number"
             placeholder="Line Number"
-            onChange={(e) => setLineNumber(e.target.value)}
+            onChange={(e) => handleKnightChange("lineNumber", e.target.value)}
           />
           <label htmlFor="line-name" className="admin-label">
             Enter Line Name
@@ -242,7 +286,7 @@ function AdminPanel({
             id="line-name"
             type="text"
             placeholder="Line Name"
-            onChange={(e) => setLineName(e.target.value)}
+            onChange={(e) => handleKnightChange("lineName", e.target.value)}
           />
           <label htmlFor="cross-date" className="admin-label">
             Enter Cross Date
@@ -252,7 +296,7 @@ function AdminPanel({
             id="cross-date"
             type="text"
             placeholder="Cross Date Semester-Year"
-            onChange={(e) => setCrossDate(e.target.value)}
+            onChange={(e) => handleKnightChange("crossDate", e.target.value)}
           />
           <br />
           <label htmlFor="event-image" className="admin-label">
@@ -279,11 +323,11 @@ function AdminPanel({
                     className="knight-input"
                     type="text"
                     placeholder="Award"
-                    value={award.award}
+                    value={award.title}
                     onChange={(e) =>
                       handleArrayChange(
                         index,
-                        "award",
+                        "title",
                         e.target.value,
                         awards,
                         setAwards,
@@ -319,7 +363,7 @@ function AdminPanel({
             <button
               className="admin-btn"
               onClick={() =>
-                handleAddArrayItem({ award: "", year: "" }, awards, setAwards)
+                handleAddArrayItem({ title: "", year: "" }, awards, setAwards)
               }
             >
               + Add Another Award
@@ -330,20 +374,24 @@ function AdminPanel({
           <button className="admin-btn" onClick={() => handleSubmit()}>
             {loading ? "Saving..." : "Save Event"}
           </button>
-          {showActivePopup && (
+          {popup.show && popup.type === "active" && (
             <Popup
               message=""
-              onClose={() => setShowActivePopup(false)}
+              onClose={() =>
+                setPopup({ show: false, type: "active", message: "" })
+              }
               collectionName={collectionName}
               showCloseButton={true}
               activeHouse={true}
             />
           )}
-          {showSavePopup && (
+          {popup.show && (
             <Popup
-              message={popupMessage}
+              message={popup.message}
               collectionName={""}
-              onClose={() => setShowSavePopup(false)}
+              onClose={() =>
+                setPopup({ show: false, type: "save", message: "" })
+              }
               autoClose={true}
               duration={1000}
               showCloseButton={false}
@@ -363,8 +411,8 @@ function AdminPanel({
           <Fragment>
             <label className="admin-label">Choose a Gallery</label>
             <select
-              value={eventTitle}
-              onChange={(e) => setEventTitle(e.target.value)}
+              value={eventForm.title}
+              onChange={(e) => handleEventChange("title", e.target.value)}
             >
               <option value="" disabled>
                 Choose Gallery
@@ -385,13 +433,13 @@ function AdminPanel({
             <input
               type="text"
               placeholder="Event Title"
-              value={eventTitle}
-              onChange={(e) => setEventTitle(e.target.value)}
+              value={eventForm.title}
+              onChange={(e) => handleEventChange("title", e.target.value)}
             />
           </Fragment>
         )}
         {collectionName !== "alumni" &&
-          (!onlyPhotos || eventTitle === "gallery") && (
+          (!onlyPhotos || eventForm.title === "gallery") && (
             // When an event does not have a date or isn't only photos the following will be executed
             <Fragment>
               <br />
@@ -399,8 +447,10 @@ function AdminPanel({
               <textarea
                 className="description-input"
                 placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={eventForm.description}
+                onChange={(e) =>
+                  handleEventChange("description", e.target.value)
+                }
               />
             </Fragment>
           )}
@@ -411,10 +461,8 @@ function AdminPanel({
             <label className="admin-label">Enter Date</label>
             <input
               type="datetime-local"
-              value={eventDate}
-              onChange={(e) => {
-                setEventDate(e.target.value);
-              }}
+              value={eventForm.date}
+              onChange={(e) => handleEventChange("date", e.target.value)}
             />
           </Fragment>
         )}
@@ -512,38 +560,15 @@ function AdminPanel({
         <button className="admin-btn" onClick={() => handleSubmit()}>
           Save Event
         </button>
-        {showSavePopup && (
+        {popup.show && (
           <Popup
-            message={popupMessage}
+            message={popup.message}
             collectionName={""}
-            onClose={() => setShowSavePopup(false)}
+            onClose={() => setPopup({ show: false, type: "save", message: "" })}
             autoClose={true}
             duration={1000}
             showCloseButton={false}
           />
-        )}
-        {showEventsPopup && (
-          <Popup
-            message={""}
-            onClose={() => setShowEventsPopup(false)}
-            collectionName={collectionName}
-            showCloseButton={true}
-            hasDate={hasDate}
-            hasItems={hasItems}
-          />
-        )}
-        {onlyPhotos && (
-          <Fragment>
-            {showGalleryPopup && (
-              <Popup
-                message="Gallery Photos"
-                onClose={() => setShowGalleryPopup(false)}
-                collectionName={collectionName}
-                showCloseButton={true}
-                showGallery={true}
-              />
-            )}
-          </Fragment>
         )}
       </div>
     </div>

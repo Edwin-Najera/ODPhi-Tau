@@ -63,7 +63,7 @@ function EditPopup({
       setEditCountdownEvents(countdownDoc.events || []);
     } else {
       const eventDoc = document as BaseDocument;
-      setEditTitle(eventDoc.eventTitle || "");
+      setEditTitle(eventDoc.title || "");
       setEditDescription(eventDoc.description || "");
       setEditItems(eventDoc.items || []);
       if (eventDoc.date) {
@@ -174,7 +174,7 @@ function EditPopup({
             <Fragment>
               {collectionName === "house" ? (
                 <div className="edit-container">
-                  <h4>{document?.name}</h4>
+                  <h4>{(document as Knights).name}</h4>
                   <label className="admin-label">Choose a Exec/Active</label>
                   <select
                     value={editType}
@@ -252,7 +252,7 @@ function EditPopup({
                     type="text"
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
-                    placeholder={document?.eventTitle}
+                    placeholder={document?.title}
                   />
                   <label htmlFor="documentDescription">Description: </label>
                   {document?.description && (
