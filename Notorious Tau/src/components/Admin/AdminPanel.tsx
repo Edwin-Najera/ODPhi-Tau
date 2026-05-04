@@ -1,11 +1,12 @@
 import { useState, Fragment } from "react";
-import { db, storage } from "../../firebase";
+import { db } from "../../firebase";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   handleArrayChange,
   handleAddArrayItem,
   handleDeleteArrayItem,
+  uploadImage,
+  showMessage,
 } from "../../utils/handle";
 import "../global.css";
 import Popup from "./PopupFolder/Popup";
@@ -29,7 +30,6 @@ function AdminPanel({
   const [items, setItems] = useState([{ name: "", price: "" }]); //For items and prices of items
   const [description, setDescription] = useState(""); //For description of the event
   const [eventDate, setEventDate] = useState<string>("");
-  const [eventTime, setEventTime] = useState<string>("");
   const [imageFile, setImageFile] = useState<File | null>(null); //For the image/flyer of the event *REQUIRED*
   const [name, setName] = useState("");
   const [position, setPosition] = useState("");
@@ -56,8 +56,7 @@ function AdminPanel({
           ? "Please Choose a Gallery"
           : "Event Title Required";
 
-        setPopupMessage(message);
-        setShowSavePopup(true);
+        showMessage(message, setPopupMessage, setShowSavePopup);
         return;
       } else if (
         !imageFile &&
@@ -66,20 +65,17 @@ function AdminPanel({
         collectionName !== "brotherhood"
       ) {
         message = "Image File required";
-        setPopupMessage(message);
-        setShowSavePopup(true);
+        showMessage(message, setPopupMessage, setShowSavePopup);
         return;
       } else if (hasDate && eventDate === "") {
         message = "Event date Required";
-        setPopupMessage(message);
-        setShowSavePopup(true);
+        showMessage(message, setPopupMessage, setShowSavePopup);
         return;
       }
     } else if (!type) {
       message = "Please Choose a Gallery";
 
-      setPopupMessage(message);
-      setShowSavePopup(true);
+      showMessage(message, setPopupMessage, setShowSavePopup);
       return;
     } else if (
       !imageFile &&
@@ -88,8 +84,7 @@ function AdminPanel({
       collectionName !== "brotherhood"
     ) {
       message = "Image File required";
-      setPopupMessage(message);
-      setShowSavePopup(true);
+      showMessage(message, setPopupMessage, setShowSavePopup);
       return;
     }
 
@@ -97,14 +92,12 @@ function AdminPanel({
     let downloadURL = "";
 
     if (imageFile) {
-      imagePath = onlyPhotos
-        ? `gallery/${Date.now()}-${imageFile?.name}`
-        : `events/${Date.now()}-${imageFile?.name}`;
-      const imageRef = ref(storage, imagePath);
-
-      await uploadBytes(imageRef, imageFile);
-
-      downloadURL = await getDownloadURL(imageRef);
+      const result = await uploadImage(
+        imageFile,
+        onlyPhotos ? "gallery" : "events",
+      );
+      imagePath = result.imagePath;
+      downloadURL = result.downloadURL;
     }
 
     try {
@@ -142,23 +135,13 @@ function AdminPanel({
         newEvent.items = items;
       }
       if (hasDate) {
-        if (!eventDate || !eventTime) {
-          message = "Date and Time Required";
-          setPopupMessage(message);
-          setShowSavePopup(true);
+        if (!eventDate) {
+          message = "Date Required";
+          showMessage(message, setPopupMessage, setShowSavePopup);
           return;
         }
 
-        const combinedDateTime = new Date(`${eventDate}T${eventTime}`);
-
-        if (isNaN(combinedDateTime.getTime())) {
-          message = "Invalid Date/Time";
-          setPopupMessage(message);
-          setShowSavePopup(true);
-          return;
-        }
-
-        newEvent.date = combinedDateTime;
+        newEvent.date = new Date(eventDate);
       }
 
       if (onlyPhotos) {
@@ -178,12 +161,10 @@ function AdminPanel({
       }
 
       message = "Event added Successfully";
-      setPopupMessage(message);
-      setShowSavePopup(true);
+      showMessage(message, setPopupMessage, setShowSavePopup);
       setEventTitle("");
       setDescription("");
       setEventDate("");
-      setEventTime("");
       setName("");
       setPosition("");
       setKnightName("");
@@ -194,9 +175,8 @@ function AdminPanel({
       setImageFile(null);
     } catch (error) {
       message = "Error adding event";
-      setPopupMessage(message);
-      setShowSavePopup(true);
-      console.error("Error adding event: ", error);
+      showMessage(message, setPopupMessage, setShowSavePopup);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -430,18 +410,11 @@ function AdminPanel({
             <br />
             <label className="admin-label">Enter Date</label>
             <input
-              type="date"
+              type="datetime-local"
               value={eventDate}
               onChange={(e) => {
                 setEventDate(e.target.value);
               }}
-            />
-            <br />
-            <label className="admin-label">Enter Time</label>
-            <input
-              type="time"
-              value={eventTime}
-              onChange={(e) => setEventTime(e.target.value)}
             />
           </Fragment>
         )}

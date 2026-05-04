@@ -1,11 +1,12 @@
 import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../../../firebase";
+import { db } from "../../../firebase";
 import { useState, Fragment } from "react";
 import {
   handleArrayChange,
   handleAddArrayItem,
   handleDeleteArrayItem,
+  uploadImage,
+  showMessage,
 } from "../../../utils/handle";
 import Popup from "../PopupFolder/Popup";
 
@@ -23,24 +24,19 @@ function CountdownAdmin() {
 
   const handleSubmit = async () => {
     if (!title || !targetDate) {
-      setShowPopup(true);
-      setMessage("Title and Date required");
+      showMessage("Title and Date required", setMessage, setShowPopup);
       return;
     } else if (!imageFile) {
-      setShowPopup(true);
-      setMessage("Image required");
+      showMessage("Image required", setMessage, setShowPopup);
     }
 
     let imagePath = "";
     let downloadURL = "";
 
     if (imageFile) {
-      imagePath = `${Date.now()}-${imageFile?.name}`;
-      const imageRef = ref(storage, imagePath);
-
-      await uploadBytes(imageRef, imageFile);
-
-      downloadURL = await getDownloadURL(imageRef);
+      const result = await uploadImage(imageFile, "");
+      imagePath = result.imagePath;
+      downloadURL = result.downloadURL;
     }
 
     try {
@@ -57,16 +53,14 @@ function CountdownAdmin() {
       }
 
       await addDoc(collection(db, "countdown"), newCountdown);
-      setShowPopup(true);
-      setMessage("Countdown successfully Added");
+      showMessage("Countdown successfully Added", setMessage, setShowPopup);
       setTitle("");
       setTargetDate("");
       setEventList([
         { title: "", date: "", location: "", startTime: "", endTime: "" },
       ]);
     } catch (error) {
-      setMessage("Error adding countdown");
-      setShowPopup(true);
+      showMessage("Error adding countdown", setMessage, setShowPopup);
       console.error(error);
     }
   };

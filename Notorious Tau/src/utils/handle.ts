@@ -1,5 +1,5 @@
 import { deleteDoc, doc } from "firebase/firestore";
-import { ref, deleteObject } from "firebase/storage";
+import { ref, deleteObject, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../firebase";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
@@ -12,6 +12,23 @@ export const handleLogout = async (navigate: NavigateFunction) => {
         } catch (error) {
           console.error("Logout Error:", error);
         }
+}
+
+export const uploadImage = async(imageFile: File, path: string) => {
+    const imagePath = `${path}/${Date.now()}-${imageFile?.name}`;
+    const imageRef = ref(storage, imagePath);
+    await uploadBytes(imageRef, imageFile);
+    const downloadURL = await getDownloadURL(imageRef);
+    return { imagePath, downloadURL };
+}
+
+export const showMessage = (
+    message: string, 
+    setMessage: (msg: string) => void, 
+    setShowPopup: (show: boolean) => void
+) => {
+    setMessage(message);
+    setShowPopup(true);
 }
 
 export const handleDelete = async (collectionName: string, eventId: string, imagePath?: string) => {
