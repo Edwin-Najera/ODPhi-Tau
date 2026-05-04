@@ -426,7 +426,7 @@ it will display a different page where it shows an animation to display loading*
   position: relative;
   flex-direction: row;
   width: calc(100% - 100px);
-  height: 100%;
+  height: min-content;
   padding: 3%;
   align-items: center;
   justify-self: center;
@@ -437,6 +437,14 @@ it will display a different page where it shows an animation to display loading*
     flex-direction: column;
     align-items: center;
   }
+}
+
+.card-container .img-fluid {
+  width: 25%;
+}
+
+.event-card-info {
+  width: 75%;
 }
 
 .card-event {
@@ -1015,13 +1023,23 @@ a.click-button {
   }
 }
 
-.trash-can-wrapper {
+.trash-can-wrapper,
+.edit-btn-wrapper {
   position: absolute;
-  top: 0;
-  right: 5px;
   z-index: 10;
   cursor: pointer;
   background: transparent;
+}
+
+.trash-can-wrapper {
+  top: 0;
+  right: 1%;
+}
+
+.edit-btn-wrapper {
+  top: 0;
+  right: 10%;
+  color: rgba(0, 0, 0, 0.25);
 }
 
 .trash-can {

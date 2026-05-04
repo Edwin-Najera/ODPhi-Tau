@@ -19,6 +19,14 @@ export const handleLogout = async (navigate: NavigateFunction) => {
   }
 };
 
+export const handleNavigate = async (
+  navigate: NavigateFunction,
+  location: string,
+  panel?: string,
+) => {
+  navigate(`/${location}${panel ? `?panel=${panel}` : ""}`);
+};
+
 export const uploadImage = async (imageFile: File, path: string) => {
   const imagePath = `${path}/${Date.now()}-${imageFile?.name}`;
   const imageRef = ref(storage, imagePath);

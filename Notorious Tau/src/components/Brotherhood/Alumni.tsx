@@ -64,7 +64,13 @@ function Alumni() {
         />
       )}
       <h1 className="page-header">Alumni Newsletter</h1>
-      <div className="alumni-events"></div>
+      <div className="alumni-events">
+        {/* Contact form for Alumni */}
+        {/* Important Events */}
+        {/* Events happening related to chapter */}
+        {/* Brotherhood events */}
+        {/* Recents */}
+      </div>
     </div>
   );
 }

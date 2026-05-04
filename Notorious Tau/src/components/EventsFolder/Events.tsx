@@ -1,7 +1,8 @@
 import "../global.css";
 import { Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthRole, useCollection } from "../../utils/auth";
-import { handleDelete } from "../../utils/handle";
+import { handleDelete, handleNavigate } from "../../utils/handle";
 import { FaTrash } from "react-icons/fa";
 import type { EventItem } from "./eventData";
 import CountdownEvent from "./CountdownEvent";
@@ -18,6 +19,7 @@ function Events() {
     onlyPhotos: false,
   });
   const { userRole } = useAuthRole();
+  const navigate = useNavigate();
 
   return (
     <Fragment>
@@ -31,31 +33,39 @@ function Events() {
           ))}
         </Fragment>
       )}
-      <div id="events-container">
+      <div className="events-container">
         {events.map((event, index) => (
           <div
             key={index}
-            className={`card-container ${index % 2 !== 0 ? "reverse" : null}`}
+            className={`card card-container ${index % 2 !== 0 ? "reverse" : null}`}
           >
             {userRole === "admin" && (
-              <button
-                className="trash-can-wrapper"
-                onClick={() =>
-                  handleDelete("events", event.id, event.imagePath)
-                }
-              >
-                <FaTrash className="trash-can" />
-              </button>
+              <Fragment>
+                <button
+                  className="trash-can-wrapper"
+                  onClick={() =>
+                    handleDelete("events", event.id, event.imagePath)
+                  }
+                >
+                  <FaTrash className="trash-can" />
+                </button>
+                <button
+                  className="edit-btn-wrapper"
+                  onClick={() => handleNavigate(navigate, "Onlybros", "events")}
+                >
+                  Edit
+                </button>
+              </Fragment>
             )}
             <img
               src={event.imageURL}
               className="img-fluid card-event"
               alt="Event"
             />
-            <div>
+            <div className="event-card-info">
               {/* We will ask the user the event title and the description such that it will be displayed here */}
               <div className="card-text">
-                <h1 className="event-title">{event.eventTitle}</h1>
+                <h1 className="event-title">{event.title}</h1>
                 <div>
                   <p>{event.description}</p>
                   <h5>Prices below</h5>

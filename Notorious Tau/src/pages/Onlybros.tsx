@@ -1,13 +1,16 @@
 import CountdownAdmin from "../components/Admin/CountdownFolder/CountdownAdmin";
 import AssignRole from "../components/Admin/AssignRole";
 import "../components/global.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import AdminTabs from "../components/Admin/AdminScreen/AdminTabs";
 
 function Onlybros() {
   const navigate = useNavigate();
-  const [activePanel, setActivePanel] = useState("");
+  const [searchParams] = useSearchParams();
+  const [activePanel, setActivePanel] = useState(
+    searchParams.get("panel") ?? "",
+  );
 
   const changePanel = (panel: string) => {
     if (panel !== activePanel) setActivePanel(panel);

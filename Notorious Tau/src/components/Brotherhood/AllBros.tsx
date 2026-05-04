@@ -1,7 +1,7 @@
 import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCollection, useAuthRole } from "../../utils/auth";
-import { handleDelete } from "../../utils/handle";
+import { handleDelete, handleNavigate } from "../../utils/handle";
 import { FaTrash } from "react-icons/fa";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
@@ -36,7 +36,7 @@ function AllBros() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleNavigate = async (location: string) => {
+  const handlePageNavigate = async (location: string) => {
     if (
       (userRole === "admin" || userRole === "active") &&
       location == "onlybros"
@@ -55,13 +55,13 @@ function AllBros() {
       <div className="top-of-page">
         <button
           className="return-admin"
-          onClick={() => handleNavigate("onlybros")}
+          onClick={() => handlePageNavigate("onlybros")}
         >
           Admin Page
         </button>
         <button
           className="return-admin return-previous"
-          onClick={() => handleNavigate("alumni")}
+          onClick={() => handlePageNavigate("alumni")}
         >
           Alumni Page
         </button>
@@ -108,18 +108,32 @@ function AllBros() {
                         <p>Click for more info</p>
                       </div>
                       {userRole === "admin" && (
-                        <button
-                          className="trash-can-wrapper"
-                          onClick={() =>
-                            handleDelete(
-                              "brotherhood",
-                              event.id,
-                              event.imagePath,
-                            )
-                          }
-                        >
-                          <FaTrash className="trash-can" />
-                        </button>
+                        <Fragment>
+                          <button
+                            className="trash-can-wrapper"
+                            onClick={() =>
+                              handleDelete(
+                                "brotherhood",
+                                event.id,
+                                event.imagePath,
+                              )
+                            }
+                          >
+                            <FaTrash className="trash-can" />
+                          </button>
+                          <button
+                            className="edit-btn-wrapper"
+                            onClick={() =>
+                              handleNavigate(
+                                navigate,
+                                "Onlybros",
+                                "brotherhood",
+                              )
+                            }
+                          >
+                            Edit
+                          </button>
+                        </Fragment>
                       )}
                     </div>
                   ))}
@@ -154,14 +168,24 @@ function AllBros() {
                         <p>Click for more info</p>
                       </div>
                       {userRole === "admin" && (
-                        <button
-                          className="trash-can-wrapper"
-                          onClick={() => {
-                            handleDelete("alumni", event.id, event.imagePath);
-                          }}
-                        >
-                          <FaTrash className="trash-can" />
-                        </button>
+                        <Fragment>
+                          <button
+                            className="trash-can-wrapper"
+                            onClick={() => {
+                              handleDelete("alumni", event.id, event.imagePath);
+                            }}
+                          >
+                            <FaTrash className="trash-can" />
+                          </button>
+                          <button
+                            className="edit-btn-wrapper"
+                            onClick={() =>
+                              handleNavigate(navigate, "Onlybros", "alumni")
+                            }
+                          >
+                            Edit
+                          </button>
+                        </Fragment>
                       )}
                     </div>
                   ))}
@@ -219,14 +243,24 @@ function AllBros() {
                   </div>
                 </div>
                 {userRole === "admin" && (
-                  <button
-                    className="trash-can-wrapper"
-                    onClick={() => {
-                      handleDelete("events", event.id, event.imagePath);
-                    }}
-                  >
-                    <FaTrash className="trash-can" />
-                  </button>
+                  <Fragment>
+                    <button
+                      className="trash-can-wrapper"
+                      onClick={() => {
+                        handleDelete("events", event.id, event.imagePath);
+                      }}
+                    >
+                      <FaTrash className="trash-can" />
+                    </button>
+                    <button
+                      className="edit-btn-wrapper"
+                      onClick={() =>
+                        handleNavigate(navigate, "Onlybros", "events")
+                      }
+                    >
+                      Edit
+                    </button>
+                  </Fragment>
                 )}
               </div>
             ))}
