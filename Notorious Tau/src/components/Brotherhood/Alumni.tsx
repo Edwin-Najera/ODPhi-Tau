@@ -63,6 +63,7 @@ function Alumni() {
           autoClose={true}
         />
       )}
+      <h1 className="page-header">Alumni Newsletter</h1>
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { db } from "../../../firebase";
 import { updateDoc, doc } from "firebase/firestore";
 import type {
   BaseDocument,
-  Event,
   Knights,
   Countdown,
 } from "../../EventsFolder/eventData";
@@ -63,7 +62,7 @@ function EditPopup({
       setEditTitle(countdownDoc.title ?? "");
       setEditCountdownEvents(countdownDoc.events || []);
     } else {
-      const eventDoc = document as Event;
+      const eventDoc = document as BaseDocument;
       setEditTitle(eventDoc.eventTitle || "");
       setEditDescription(eventDoc.description || "");
       setEditItems(eventDoc.items || []);

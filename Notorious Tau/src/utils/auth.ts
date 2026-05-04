@@ -1,10 +1,9 @@
 import  { useEffect, useState } from "react";
 import { query, collection, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
-import type { NavigateFunction } from "react-router-dom";
-import type { Knights, Event, Countdown} from "../components/EventsFolder/eventData";
+import type { Knights, BaseDocument, Countdown} from "../components/EventsFolder/eventData";
 
 interface CollectionOptions {
     collectionName: string;
@@ -48,15 +47,6 @@ export const useAuthRole = () => {
     return {userRole, email};
 }
 
-export const useLogout = async (navigate: NavigateFunction) => {
-    try {
-          await signOut(auth);
-          navigate("/login");
-        } catch (error) {
-          console.error("Logout Error:", error);
-        }
-}
-
 export const useCollection = ({ collectionName, activeHouse, onlyPhotos } : CollectionOptions ) => {
     const [documents, setDocuments] = useState<any[]> ([]);
 
@@ -79,14 +69,14 @@ export const useCollection = ({ collectionName, activeHouse, onlyPhotos } : Coll
                     ...(doc.data() as Omit<Countdown, "id">)
                 })))
             } else {
-                const eventsList : Event [] = snapshot.docs.map((doc) => {
+                const eventsList : BaseDocument [] = snapshot.docs.map((doc) => {
                     const rawData = doc.data();
 
                     return {
                         id: doc.id,
                         ...rawData,
                         date: rawData.date?.toDate ? rawData.date.toDate() : rawData.date,
-                    } as Event;
+                    } as BaseDocument;
                 });
 
                 if (onlyPhotos) {

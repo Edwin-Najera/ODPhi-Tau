@@ -1,8 +1,8 @@
 import { useState, Fragment } from "react";
 import type {
+  BaseDocument,
   EventItem,
   Awards,
-  Event,
   Knights,
 } from "../../EventsFolder/eventData";
 import { handleDelete } from "../../../utils/handle";
@@ -52,7 +52,7 @@ function AdminTabs({
         </div>
         <div className="active-events">
           <h2>Active {tabTitle.toLowerCase()}</h2>
-          {(documents as Event[]).map((document) => (
+          {(documents as BaseDocument[]).map((document) => (
             <div key={document.id} className="gallery-image-container">
               <div>Gallery: {document.eventTitle}</div>
               <img
@@ -179,7 +179,7 @@ function AdminTabs({
 
         <div className="active-events">
           <h2>Active {tabTitle.toLowerCase()}</h2>
-          {(documents as Event[]).map((document) => (
+          {(documents as BaseDocument[]).map((document) => (
             <div key={document.id}>
               <div className="view-mode-container">
                 <h4>{document.eventTitle}</h4>

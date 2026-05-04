@@ -1,6 +1,18 @@
 import { deleteDoc, doc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import { db, storage } from "../firebase";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
+import type { NavigateFunction } from "react-router-dom";
+
+export const handleLogout = async (navigate: NavigateFunction) => {
+    try {
+          await signOut(auth);
+          navigate("/login");
+        } catch (error) {
+          console.error("Logout Error:", error);
+        }
+}
 
 export const handleDelete = async (collectionName: string, eventId: string, imagePath?: string) => {
     //Deleteing images from database
