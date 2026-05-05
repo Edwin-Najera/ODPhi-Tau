@@ -5,7 +5,9 @@ import type {
   BaseDocument,
   Knights,
   Countdown,
+  Alumni,
 } from "../../EventsFolder/eventData";
+import { showMessage } from "../../../utils/handle";
 import "../../global.css";
 
 type EditPopupProps = {
@@ -30,6 +32,7 @@ function EditPopup({
   const [editDescription, setEditDescription] = useState("");
   const [editDate, setEditDate] = useState<string>("");
   const [editTime, setEditTime] = useState<string>("");
+  const [editLocation, setEditLocation] = useState<string>("");
   const [editItems, setEditItems] = useState<{ name: string; price: string }[]>(
     [],
   );
@@ -47,12 +50,16 @@ function EditPopup({
       endTime: string;
     }[]
   >([]);
+  const [popup, setPopup] = useState<{
+    show: boolean;
+    message: string;
+    type: "save" | "active" | null;
+  }>({ show: false, message: "", type: null });
 
   useEffect(() => {
     if (!document) return;
 
     if (activeHouse) {
-      console.log("button clicked");
       const knightDoc = document as Knights;
       setEditType(knightDoc.type);
       setEditPosition(knightDoc.position);
@@ -61,22 +68,18 @@ function EditPopup({
       const countdownDoc = document as Countdown;
       setEditTitle(countdownDoc.title ?? "");
       setEditCountdownEvents(countdownDoc.events || []);
+    } else if (collectionName === "alumni") {
+      const alumniDoc = document as Alumni;
+      setEditTitle(alumniDoc.title || "");
+      setEditDate(alumniDoc.date || "");
+      setEditLocation(alumniDoc.location || "");
     } else {
       const eventDoc = document as BaseDocument;
       setEditTitle(eventDoc.title || "");
       setEditDescription(eventDoc.description || "");
       setEditItems(eventDoc.items || []);
       if (eventDoc.date) {
-        const dateObj =
-          typeof eventDoc.date.toDate === "function"
-            ? eventDoc.date.toDate()
-            : new Date(eventDoc.date);
-
-        const formattedDate = dateObj.toISOString().split("T")[0];
-        const formattedTime = dateObj.toTimeString().slice(0, 5);
-
-        setEditDate(formattedDate);
-        setEditTime(formattedTime);
+        setEditDate(eventDoc.date || "");
       }
     }
   }, [document]);
@@ -93,20 +96,18 @@ function EditPopup({
           updateData.items = editItems;
         }
 
-        if (hasDate) {
-          if (!editDate || !editTime) {
-            alert("Date and Time Required");
+        if (collectionName === "alumni") {
+          updateData.location = editLocation;
+          updateData.date = editDate;
+        }
+
+        if (hasDate && collectionName !== "alumni") {
+          if (!editDate) {
+            showMessage("Date and Time Required", "save", setPopup);
             return;
           }
 
-          const combinedDateTime = new Date(`${editDate}T${editTime}`);
-
-          if (isNaN(combinedDateTime.getTime())) {
-            alert("Invalid Date/Time");
-            return;
-          }
-
-          updateData.date = combinedDateTime;
+          updateData.date = editDate;
         }
 
         await updateDoc(doc(db, collectionName, id), updateData);
@@ -118,7 +119,6 @@ function EditPopup({
 
         await updateDoc(doc(db, "countdown", id), updateData);
       } else {
-        console.log("button clicked");
         const updateKnight: any = {
           type: editType,
           name: editTitle,
@@ -254,31 +254,37 @@ function EditPopup({
                     onChange={(e) => setEditTitle(e.target.value)}
                     placeholder={document?.title}
                   />
-                  <label htmlFor="documentDescription">Description: </label>
                   {document?.description && (
-                    <input
-                      id="documentDescription"
-                      type="text"
-                      value={editDescription}
-                      onChange={(e) => setEditDescription(e.target.value)}
-                      placeholder={document?.description}
-                    />
+                    <Fragment>
+                      <label htmlFor="documentDescription">Description: </label>
+                      <input
+                        id="documentDescription"
+                        type="text"
+                        value={editDescription}
+                        onChange={(e) => setEditDescription(e.target.value)}
+                        placeholder={document?.description}
+                      />
+                    </Fragment>
                   )}
                   {hasDate && (
                     <Fragment>
                       <label htmlFor="documentDate">Date: </label>
                       <input
                         id="documentDate"
-                        type="date"
+                        type="datetime-local"
                         value={editDate}
                         onChange={(e) => setEditDate(e.target.value)}
                       />
-                      <label htmlFor="documentTime">Time: </label>
+                    </Fragment>
+                  )}
+                  {editLocation && (
+                    <Fragment>
+                      <label htmlFor="eventLocation">Location: </label>
                       <input
-                        id="documentTime"
-                        type="time"
-                        value={editTime}
-                        onChange={(e) => setEditTime(e.target.value)}
+                        id="eventLocation"
+                        type="text"
+                        value={editLocation}
+                        onChange={(e) => setEditLocation(e.target.value)}
                       />
                     </Fragment>
                   )}

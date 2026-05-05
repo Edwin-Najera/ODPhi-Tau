@@ -8,7 +8,7 @@ function Gallery() {
     collectionName: "photos",
     onlyPhotos: true,
     activeHouse: false,
-  });
+  }).filter((photo) => photo.id.startWith("gallery_"));
   const { userRole } = useAuthRole();
 
   return (

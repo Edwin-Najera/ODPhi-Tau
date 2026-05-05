@@ -32,13 +32,19 @@ function EventInfoPopup({ event, onClose }: EventInfoProps) {
         </div>
         {event.date && (
           <p>
+            Date:{" "}
             {new Date(event.date).toLocaleDateString("en-US", {
               month: "long",
               day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
             })}
           </p>
         )}
         {event.description && <p>{event.description}</p>}
+        {(event as Alumni).location && (
+          <p>Location: {(event as Alumni).location}</p>
+        )}
       </div>
     </div>
   );

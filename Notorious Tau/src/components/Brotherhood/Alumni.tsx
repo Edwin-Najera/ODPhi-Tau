@@ -39,11 +39,10 @@ function Alumni() {
     onlyPhotos: false,
   });
   const gallery = useCollection({
-    collectionName: "gallery",
+    collectionName: "photos",
     activeHouse: false,
     onlyPhotos: true,
-  });
-  const [message, setMessage] = useState("");
+  }).filter((photo) => photo.id.startsWith("alumni_"));
   const navigate = useNavigate();
 
   const handlePageNavigate = async (location: string) => {
@@ -355,10 +354,24 @@ function Alumni() {
           )}
         </div>
         {/* Recents */}
-        <div className="recent-side-bar">
+        <div className="photos-side-bar">
           <div className="card">
             <div className="card-body">
-              <h2 className="card-title">Recents</h2>
+              <h2 className="card-title">Highlight</h2>
+              <div className="continous-loop">
+                <div className="loop-track">
+                  {/* render twice for seamless loop */}
+                  {[...gallery, ...gallery].map((photo, index) => (
+                    <div key={index} className="alumni-image-wrapper">
+                      <img
+                        src={photo.imageURL}
+                        alt="Alumni Image"
+                        className="img-fluid"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
