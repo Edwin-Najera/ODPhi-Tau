@@ -33,6 +33,7 @@ export type Knights = BaseDocument & {
 
 export type Alumni = BaseDocument & {
   important: boolean;
+  location: string;
 };
 
 export type Countdown = BaseDocument & {

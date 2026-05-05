@@ -1313,6 +1313,16 @@ a.click-button {
   font-weight: 500;
 }
 
+.checkbox-form {
+  display: flex;
+  align-items: center;
+}
+
+.admin-checkbox {
+  width: 100px;
+  height: auto;
+}
+
 .description-input {
   width: 100%;
   min-height: 80px;
@@ -1974,7 +1984,7 @@ a.click-button {
   grid-template-areas:
     "form events recent"
     "important brotherhood recent";
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 3fr 5fr 1fr;
   grid-template-rows: 1fr 1fr;
   width: 100%;
   height: calc(100vh - 8.5em);
@@ -2157,6 +2167,7 @@ a.click-button {
 }
 .alumni-all-events > .important-events {
   grid-area: important;
+  width: 100%;
 }
 
 .alumni-all-events > .recent-side-bar {
@@ -2172,6 +2183,10 @@ a.click-button {
 .tau-events h2,
 .tau-brotherhood h2 {
   align-self: center;
+}
+
+.important-events .card {
+  align-items: stretch !important;
 }
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */

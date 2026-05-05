@@ -6,6 +6,7 @@ import type { BaseDocument } from "../EventsFolder/eventData";
 import { FaTrash } from "react-icons/fa";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
+import EventInfoPopup from "./EventInfoPopup";
 
 function Alumni() {
   const [popup, setPopup] = useState<{
@@ -100,6 +101,12 @@ function Alumni() {
           Brotherhood Page
         </button>
       </div>
+      {showEventInfo && (
+        <EventInfoPopup
+          event={selectedEvent}
+          onClose={() => setShowEventInfo(false)}
+        />
+      )}
       {popup.show && (
         <Popup
           message={popup.message}

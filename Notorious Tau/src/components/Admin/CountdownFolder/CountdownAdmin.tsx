@@ -105,16 +105,16 @@ function CountdownAdmin() {
             }
           }}
         />
-        <form>
+        <form className="checkbox-form">
+          <label className="admin-label" htmlFor="has-events">
+            Has Events
+          </label>
           <input
             className="admin-checkbox"
             type="checkbox"
             id="has-events"
             onChange={() => setHasEvents(!hasEvents)}
           />
-          <label className="admin-label" htmlFor="has-events">
-            Has Events
-          </label>
         </form>
         {hasEvents && (
           <Fragment>

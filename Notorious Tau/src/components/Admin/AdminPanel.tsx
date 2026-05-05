@@ -55,6 +55,7 @@ function AdminPanel({
   const [alumniForm, setAlumniForm] = useState<Partial<Alumni>>({
     title: "",
     important: false,
+    location: "",
   });
   const [items, setItems] = useState<EventItem[]>([{ name: "", price: "" }]); //For items and prices of items
   const [imageFile, setImageFile] = useState<File | null>(null); //For the image/flyer of the event *REQUIRED*
@@ -65,6 +66,7 @@ function AdminPanel({
     type: "save" | "active" | null;
   }>({ show: false, message: "", type: null });
   const [loading, setLoading] = useState(false);
+  const [displayEvents, setDisplayEvents] = useState(false);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -174,6 +176,8 @@ function AdminPanel({
         console.log(newDocument);
 
         await setDoc(doc(db, collectionName, customId), newDocument);
+      } else if (collectionName === "alumni") {
+        await addDoc(collection(db, "alumni"), alumniEvent);
       } else {
         await addDoc(collection(db, collectionName), newEvent);
       }
@@ -219,6 +223,10 @@ function AdminPanel({
 
   const handleKnightChange = (field: keyof Knights, value: string) => {
     setKnightForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleAlumniChange = (field: keyof Alumni, value: string | boolean) => {
+    setAlumniForm((prev) => ({ ...prev, [field]: value }));
   };
 
   if (activeHouse) {
@@ -431,14 +439,19 @@ function AdminPanel({
             <input
               type="text"
               placeholder="Event Title"
-              value={eventForm.title}
-              onChange={(e) => handleEventChange("title", e.target.value)}
+              value={
+                collectionName === "alumni" ? alumniForm.title : eventForm.title
+              }
+              onChange={(e) => {
+                handleEventChange("title", e.target.value); // This is for events
+                handleAlumniChange("title", e.target.value); // This is for alumni events
+              }}
             />
           </Fragment>
         )}
         {collectionName !== "alumni" &&
           (!onlyPhotos || eventForm.title === "gallery") && (
-            // When an event does not have a date or isn't only photos the following will be executed
+            // When an event does not have a date or isn't `onlyPhotos=true` the following will be executed
             <Fragment>
               <br />
               <label className="admin-label">Enter Description</label>
@@ -459,9 +472,61 @@ function AdminPanel({
             <label className="admin-label">Enter Date</label>
             <input
               type="datetime-local"
-              value={eventForm.date}
-              onChange={(e) => handleEventChange("date", e.target.value)}
+              value={
+                collectionName === "alumni" ? alumniForm.date : eventForm.date
+              }
+              onChange={(e) => {
+                handleEventChange("date", e.target.value);
+                handleAlumniChange("date", e.target.value);
+              }}
             />
+          </Fragment>
+        )}
+        {collectionName === "alumni" && (
+          <Fragment>
+            <br />
+            <label htmlFor="eventLocation" className="admin-label">
+              Location
+            </label>
+            <input
+              type="text"
+              placeholder="123 ABC Ave."
+              value={alumniForm.location}
+              onChange={(e) => handleAlumniChange("location", e.target.value)}
+            />
+            <form className="mt-3">
+              <div className="row">
+                <label
+                  className="admin-label ms-3 col"
+                  htmlFor="importantCheck"
+                >
+                  Important?
+                </label>
+                <input
+                  type="checkbox"
+                  className="admin-checkbox col"
+                  id="importantCheck"
+                  checked={alumniForm.important}
+                  onChange={(e) => {
+                    handleAlumniChange("important", e.target.checked);
+                    setDisplayEvents(e.target.checked);
+                  }}
+                />
+              </div>
+              {displayEvents && (
+                <div className="row ms-3">
+                  <div className="col">Important is for following events</div>
+                  <ul>
+                    <li>Initiation</li>
+                    <li>Mid-Review</li>
+                    <li>Activation</li>
+                    <li>PM Social</li>
+                    <li>PM Fundraisers</li>
+                    <li>Probate Dates</li>
+                  </ul>
+                </div>
+              )}
+            </form>
           </Fragment>
         )}
         {!hasDate &&

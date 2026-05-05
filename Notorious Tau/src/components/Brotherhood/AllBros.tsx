@@ -5,12 +5,8 @@ import { handleDelete, handleNavigate } from "../../utils/handle";
 import { FaTrash } from "react-icons/fa";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
+import EventInfoPopup from "./EventInfoPopup";
 import type { BaseDocument, EventItem } from "../EventsFolder/eventData";
-
-type EventInfoProps = {
-  event: BaseDocument | null;
-  onClose: () => void;
-};
 
 function AllBros() {
   const { userRole } = useAuthRole();
@@ -104,7 +100,7 @@ function AllBros() {
                           setSelectedEvent(event);
                         }}
                       >
-                        <h4>{event.eventTitle}</h4>
+                        <h4>{event.title}</h4>
                         <p>Click for more info</p>
                       </div>
                       {userRole === "admin" && (
@@ -164,7 +160,7 @@ function AllBros() {
                           setSelectedEvent(event);
                         }}
                       >
-                        <h4>{event.eventTitle}</h4>
+                        <h4>{event.title}</h4>
                         <p>Click for more info</p>
                       </div>
                       {userRole === "admin" && (
@@ -276,45 +272,6 @@ function AllBros() {
             <li>Collaborate?</li>
           </ul>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function EventInfoPopup({ event, onClose }: EventInfoProps) {
-  if (!event)
-    return (
-      <div className="popup-overlay">
-        <div className="popup-box event-info">
-          Could not load... <br />
-          Try Again
-        </div>
-      </div>
-    );
-  return (
-    <div className="popup-overlay" onClick={onClose}>
-      <div
-        className="popup-box event-info"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="popup-title">
-          <h4>{event.title}</h4>
-          <button
-            type="button"
-            className="btn btn-close"
-            aria-label="Close"
-            onClick={onClose}
-          />
-        </div>
-        {event.date && (
-          <p>
-            {new Date(event.date).toLocaleDateString("en-US", {
-              month: "long",
-              day: "2-digit",
-            })}
-          </p>
-        )}
-        {event.description && <p>{event.description}</p>}
       </div>
     </div>
   );
