@@ -529,31 +529,29 @@ function AdminPanel({
             </form>
           </Fragment>
         )}
-        {!hasDate &&
-          collectionName !== "campus" &&
-          collectionName !== "brotherhood" && (
-            // If the event requires an image, there will be an input for images
-            <Fragment>
-              <br />
-              <label className="admin-label">Enter Event Image</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  if (e.target.files) {
-                    setImageFile(e.target.files[0]);
-                  }
-                }}
+        {!hasDate && collectionName !== "brotherhood" && (
+          // If the event requires an image, there will be an input for images
+          <Fragment>
+            <br />
+            <label className="admin-label">Enter Event Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files) {
+                  setImageFile(e.target.files[0]);
+                }
+              }}
+            />
+            {imageFile && (
+              <img
+                src={URL.createObjectURL(imageFile)}
+                alt=""
+                className="preview-image"
               />
-              {imageFile && (
-                <img
-                  src={URL.createObjectURL(imageFile)}
-                  alt=""
-                  className="preview-image"
-                />
-              )}
-            </Fragment>
-          )}
+            )}
+          </Fragment>
+        )}
         {hasItems && (
           // If the event has items to sell there will be an input for it
           <Fragment>

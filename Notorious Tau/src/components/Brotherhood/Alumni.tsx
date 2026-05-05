@@ -84,6 +84,13 @@ function Alumni() {
     }
   };
 
+  const formatPhone = (value: string) => {
+    const digits = value.replace(/\D/g, "").slice(0, 10);
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+  };
+
   return (
     <div className="alumni-page">
       <div className="top-of-page">
@@ -128,6 +135,8 @@ function Alumni() {
                   className="form-control"
                   id="alumniName"
                   placeholder="Joe Cereceres"
+                  value={contactInfo.name}
+                  required
                   onChange={(e) => handleContactChange("name", e.target.value)}
                 />
                 <label htmlFor="alumniName">Name</label>
@@ -138,6 +147,7 @@ function Alumni() {
                   className="form-control"
                   id="knightName"
                   placeholder="Hype Knight"
+                  value={contactInfo.knightName}
                   onChange={(e) =>
                     handleContactChange("knightName", e.target.value)
                   }
@@ -151,6 +161,7 @@ function Alumni() {
                     className="form-control"
                     id="lineNumber"
                     placeholder="87"
+                    value={contactInfo.lineNumber}
                     onChange={(e) =>
                       handleContactChange("lineNumber", e.target.value)
                     }
@@ -161,12 +172,15 @@ function Alumni() {
                 </div>
                 <div className="form-floating col">
                   <input
-                    type="phone"
+                    type="tel"
                     className="form-control"
                     id="phoneNumber"
                     placeholder="(123)-456-1987"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    required
+                    value={contactInfo.number}
                     onChange={(e) =>
-                      handleContactChange("number", e.target.value)
+                      handleContactChange("number", formatPhone(e.target.value))
                     }
                   />
                   <label htmlFor="phoneNumber" className="ms-2">

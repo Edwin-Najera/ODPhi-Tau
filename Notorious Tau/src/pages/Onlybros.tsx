@@ -61,12 +61,6 @@ function Onlybros() {
           Alumni
         </button>
         <button
-          className={`admin-show-button ${activePanel === "campus" ? "active" : ""}`}
-          onClick={() => changePanel("campus")}
-        >
-          Campus
-        </button>
-        <button
           className={`admin-show-button ${activePanel === "gallery" ? "active" : ""}`}
           onClick={() => changePanel("gallery")}
         >
@@ -110,10 +104,6 @@ function Onlybros() {
 
         {activePanel === "alumni" && (
           <AdminTabs collectionName="alumni" tabTitle="Alumni" hasDate={true} />
-        )}
-
-        {activePanel === "campus" && (
-          <AdminTabs collectionName="campus" tabTitle="Campus Updates" />
         )}
         {activePanel === "gallery" && (
           <AdminTabs
