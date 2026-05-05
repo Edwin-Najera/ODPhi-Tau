@@ -54,7 +54,6 @@ function AdminPanel({
 
   const [alumniForm, setAlumniForm] = useState<Partial<Alumni>>({
     title: "",
-    onlyAlumn: false,
     important: false,
   });
   const [items, setItems] = useState<EventItem[]>([{ name: "", price: "" }]); //For items and prices of items
@@ -201,7 +200,6 @@ function AdminPanel({
       });
       setAlumniForm({
         title: "",
-        onlyAlumn: false,
         important: false,
       });
       setItems([{ name: "", price: "" }]);

@@ -1958,12 +1958,10 @@ a.click-button {
 .all-events {
   display: grid;
   grid-template-areas:
-    "brother events events bar"
-    "brother events events bar"
-    "alumni events events bar"
+    "brotherhood events events bar"
     "alumni events events bar";
   grid-template-columns: 2fr 2fr 2fr 1fr;
-  grid-template-rows: 1fr 1fr 3fr 1fr;
+  grid-template-rows: 1fr 3fr;
   width: 100%;
   height: calc(100vh - 8.5em);
   padding-top: 8%;
@@ -1971,38 +1969,61 @@ a.click-button {
   overflow-y: hidden;
 }
 
+.alumni-all-events {
+  display: grid;
+  grid-template-areas:
+    "form events recent"
+    "important brotherhood recent";
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  height: calc(100vh - 8.5em);
+  padding-top: 8%;
+  gap: 1px;
+  overflow-y: hidden;
+}
+
+.alumni-all-events > .alumni-contact,
+.alumni-all-events > .tau-events,
+.alumni-all-events > .tau-brotherhood,
+.alumni-all-events > .important-events,
+.alumni-all-events > .recent-side-bar {
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* This is for a Allbros.tsx */
+
 .all-events > .brotherhood-events-container,
 .all-events > .regular-events,
 .all-events > .alumni-events,
 .all-events > .side-bar {
   overflow-y: auto;
   height: 100%;
-}
-
-.all-events > .brotherhood-events {
-  grid-area: brother;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+}
+
+.all-events > .brotherhood-events,
+.alumni-all-events > .tau-brotherhood {
+  grid-area: brotherhood;
   @media (max-width: 992px) {
     padding: 0 10px;
   }
 }
 
-.all-events > .regular-events {
+.all-events > .regular-events,
+.alumni-all-events > .tau-events {
   grid-area: events;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 15px;
 }
 
 .all-events > .alumni-events {
   grid-area: alumni;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
   @media (max-width: 992px) {
     padding: 0 10px;
@@ -2011,8 +2032,6 @@ a.click-button {
 
 .all-events > .side-bar {
   grid-area: bar;
-  display: flex;
-  flex-direction: column;
   gap: 10px;
   font-size: 1.5em;
   border-left: solid rgba(0, 0, 0, 0.4);
@@ -2060,7 +2079,8 @@ a.click-button {
   width: 100%;
 }
 
-.all-events .card {
+.all-events .card,
+.alumni-all-events .card {
   width: 100%;
 }
 
@@ -2091,16 +2111,13 @@ a.click-button {
   height: 100%;
 }
 
-.regular .card-title {
+.regular .card-title,
+.price-title {
   align-self: start;
 }
 
 .regular .event-prices {
   flex: 1;
-}
-
-.price-title {
-  align-self: start;
 }
 
 .regular .sell-items {
@@ -2118,6 +2135,43 @@ a.click-button {
 .all-event-wrapper p {
   color: grey;
   text-decoration-style: grey underline solid;
+}
+
+/* This is for Alumni.tsx */
+.alumni-all-events > .alumni-contact {
+  grid-area: form;
+  position: relative;
+}
+
+.alumni-submit {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 3%;
+  right: 3%;
+  border-radius: 15px;
+  height: 25px;
+  width: max-content;
+  background: rgba(0, 0, 0, 0.4);
+}
+.alumni-all-events > .important-events {
+  grid-area: important;
+}
+
+.alumni-all-events > .recent-side-bar {
+  grid-area: recent;
+}
+
+.alumni-all-events .card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tau-events h2,
+.tau-brotherhood h2 {
+  align-self: center;
 }
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */

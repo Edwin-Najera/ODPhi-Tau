@@ -28,7 +28,7 @@ function AllBros() {
     collectionName: "alumni",
     activeHouse: false,
     onlyPhotos: false,
-  });
+  }).filter((event) => !event.important);
 
   const [showPopup, setShowPopup] = useState(false);
   const [showEventInfo, setShowEventInfo] = useState(false);

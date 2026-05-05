@@ -32,7 +32,6 @@ export type Knights = BaseDocument & {
 };
 
 export type Alumni = BaseDocument & {
-  onlyAlumn: boolean;
   important: boolean;
 };
 
