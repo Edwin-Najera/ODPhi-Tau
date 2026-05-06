@@ -1173,12 +1173,32 @@ a.click-button {
   border-right: solid rgba(0, 0, 0, 0.4);
   padding: 0 5px;
   padding-bottom: 0;
+
+  @media (max-width: 992px) {
+    flex-direction: row;
+    bottom: 0;
+    top: unset;
+    left: unset;
+    height: 125px;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+  }
 }
 
 .admin-page-row {
   display: flex;
   flex-direction: row;
   width: 100%;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    width: auto;
+    flex-shrink: 0;
+    align-items: center;
+  }
 }
 
 .admin-page-swap {
@@ -1192,6 +1212,10 @@ a.click-button {
   cursor: pointer;
   margin-bottom: 10px;
   width: fit-content;
+  @media (max-width: 992px) {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 }
 
 .admin-page-row.admin-panel-buttons {
@@ -1211,10 +1235,9 @@ a.click-button {
   justify-content: center;
   margin-left: 300px;
   @media (max-width: 992px) {
-    flex-direction: column;
-    align-items: center;
-    gap: 50px;
-    margin-bottom: 50px;
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 125px;
   }
 }
 
@@ -1227,6 +1250,8 @@ a.click-button {
   cursor: pointer;
   z-index: 0;
   transition: color 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .admin-show-button::before {
@@ -1461,6 +1486,9 @@ a.click-button {
   flex-direction: column;
   width: 500px;
   text-align: start;
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .edit-container.countdown {
@@ -1496,6 +1524,12 @@ a.click-button {
   border-radius: 12px;
   text-align: center;
   align-items: center;
+  @media (max-width: 992px) {
+    width: 90%;
+    padding: 1rem;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
 }
 
 .popup-box.event-info {
@@ -1523,6 +1557,7 @@ a.click-button {
   padding-top: 150px;
   @media (max-width: 992px) {
     width: 100%;
+    padding-top: 50px;
   }
 }
 
@@ -1538,6 +1573,9 @@ a.click-button {
   flex-direction: column;
   width: 400px;
   align-items: center;
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .view-mode-container.active-house {
@@ -1554,6 +1592,9 @@ a.click-button {
   max-height: 400px;
   overflow-y: auto;
   gap: 15px;
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .gallery-image-container {
@@ -1639,6 +1680,16 @@ a.click-button {
   grid-template-columns: 1fr 1fr;
   height: calc(100vh - 100px);
   overflow: hidden;
+
+  @media (max-width: 992px) {
+    grid-template-areas:
+      "Title"
+      "AdminPanel"
+      "ActiveContent";
+    overflow: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
 }
 
 .tab-container > h1 {
@@ -1657,6 +1708,10 @@ a.click-button {
   padding: 10px;
   overflow-y: auto;
   height: 100%;
+  @media (max-width: 992px) {
+    overflow-y: visible;
+    height: auto;
+  }
 }
 
 .tab-container > .active-events {
@@ -1664,6 +1719,12 @@ a.click-button {
   width: 100%;
   overflow-y: auto;
   height: 100%;
+
+  @media (max-width: 992px) {
+    height: auto;
+    max-width: 750px;
+    overflow-y: visible;
+  }
 }
 
 .admin-tab-panel {
@@ -1795,15 +1856,52 @@ a.click-button {
   background-color: rgba(111, 105, 105, 0.51);
 }
 
+.password-wrapper {
+  position: relative;
+  width: 30%;
+  margin: 25px 0;
+  background: transparent;
+  @media (max-width: 992px) {
+    width: 75%;
+  }
+}
+
+.password-wrapper input {
+  width: 100% !important;
+  margin: 0 !important;
+  text-align: center;
+  @media (max-width: 992px) {
+    width: 100% !important;
+  }
+}
+
+.show-password {
+  position: absolute;
+  right: 1%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: gray;
+  font-size: 0.85em;
+}
+
 .sword {
   position: fixed;
   justify-self: center;
-  z-index: 2;
+  z-index: 1;
   width: 650px;
   top: -125vh;
   clip-path: none;
   animation: comeDown 100ms forwards;
   animation-delay: 400ms;
+  background: transparent;
+  @media (max-width: 992px) {
+    width: 400px;
+    animation: comeDownMobile 100ms forwards;
+    animation-delay: 400ms;
+  }
 }
 
 @keyframes comeDown {
@@ -1812,16 +1910,30 @@ a.click-button {
   }
 }
 
+@keyframes comeDownMobile {
+  to {
+    top: 30vh;
+  }
+}
+
 .spark-container {
-  position: relative;
-  padding-top: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
   background-color: black;
+  z-index: 1;
 }
 
 .spark {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
+  height: 100vh;
+  z-index: 100;
 }
 
 .login-form {
@@ -1833,7 +1945,15 @@ a.click-button {
   height: 100%;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  z-index: 2;
+  background: transparent;
+  pointer-events: none;
+}
+
+.login-form input,
+.login-form button,
+.login-form .password-wrapper {
+  pointer-events: auto;
 }
 
 .login-form input {
@@ -1915,7 +2035,7 @@ a.click-button {
   align-items: center;
   margin: 30px 0;
   @media (max-width: 992px) {
-    margin-top: 50px;
+    margin-top: 90px;
   }
 }
 
@@ -1977,6 +2097,18 @@ a.click-button {
   padding-top: 8%;
   gap: 1px;
   overflow-y: hidden;
+  @media (max-width: 992px) {
+    grid-template-areas:
+      "events"
+      "brotherhood"
+      "alumni"
+      "bar";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    overflow-y: auto;
+    padding-top: 15%;
+  }
 }
 
 .alumni-all-events {
@@ -1991,6 +2123,19 @@ a.click-button {
   padding-top: 8%;
   gap: 1px;
   overflow-y: hidden;
+  @media (max-width: 992px) {
+    grid-template-areas:
+      "important"
+      "events"
+      "brotherhood"
+      "photos"
+      "form";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    overflow-y: auto;
+    padding-top: 15%;
+  }
 }
 
 .alumni-all-events > .alumni-contact,
@@ -2003,6 +2148,11 @@ a.click-button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 992px) {
+    height: auto;
+    overflow-y: visible;
+    width: 100%;
+  }
 }
 
 /* This is for a Allbros.tsx */
@@ -2016,6 +2166,11 @@ a.click-button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 992px) {
+    height: auto;
+    overflow-y: visible;
+    width: 100%;
+  }
 }
 
 .all-events > .brotherhood-events,
@@ -2176,6 +2331,10 @@ a.click-button {
   align-items: center;
   overflow: hidden;
   height: 100%;
+  @media (max-width: 992px) {
+    grid-row: auto; /* remove the span */
+    height: 250px; /* fixed height for the image loop */
+  }
 }
 
 .photos-side-bar .card {
@@ -2183,6 +2342,11 @@ a.click-button {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 992px) {
+    height: 100%;
+    flex-direction: row;
+  }
 }
 
 .photos-side-bar .card-body {
@@ -2200,6 +2364,10 @@ a.click-button {
   margin: 0 auto;
   overflow: hidden;
   border-radius: 8px;
+
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .alumni-image-wrapper img {
@@ -2217,6 +2385,9 @@ a.click-button {
   flex: 1;
   width: 100%;
   align-items: center;
+  @media (max-width: 992px) {
+    flex-direction: row;
+  }
 }
 
 .loop-track {
@@ -2225,15 +2396,28 @@ a.click-button {
   gap: 10px;
   width: 100%;
   align-items: center;
-  animation: scrollLoop 10s linear infinite;
+  animation: scrollLoopY 10s linear infinite;
+  @media (max-width: 992px) {
+    flex-direction: row;
+    animation: scrollLoopX 10s linear infinite;
+  }
 }
 
-@keyframes scrollLoop {
+@keyframes scrollLoopY {
   0% {
     transform: translateY(0);
   }
   100% {
     transform: translateY(-50%);
+  }
+}
+
+@keyframes scrollLoopX {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 

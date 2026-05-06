@@ -6,12 +6,14 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 import sword from "../components/Photos/sword.png";
 import Sparks from "../components/Admin/Spark";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -42,9 +44,9 @@ function Login() {
 
   return (
     <Fragment>
+      <Sparks />
       <div className="login-page">
         <img className="sword" src={sword} alt="sword" />
-        <Sparks />
         <div className="login-form">
           <h2>Admin Login</h2>
           <input
@@ -52,11 +54,19 @@ function Login() {
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
           />
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="password-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+              className="show-password"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </button>
+          </div>
           <br />
           <br />
           <button onClick={handleLogin}>Login</button>

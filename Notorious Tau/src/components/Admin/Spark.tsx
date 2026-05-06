@@ -17,6 +17,9 @@ function Spark() {
       return;
     }
 
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
     const ctx = canvas.getContext("2d")! as CanvasRenderingContext2D;
     if (!ctx) {
       return;
@@ -36,9 +39,9 @@ function Spark() {
 
       sparks.push({
         x: width / 2,
-        y: height - 20,
+        y: height,
         vx: Math.cos(angle) * speed,
-        vy: (-Math.sin(angle) * speed) / 2,
+        vy: -Math.sin(angle) * speed,
         life: 1,
       });
     }
