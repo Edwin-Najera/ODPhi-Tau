@@ -2928,7 +2928,7 @@ a.click-button {
   width: 100%;
 }
 
-.interest-full-name {
+.row-form {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -2941,20 +2941,6 @@ a.click-button {
 
 .last {
   align-self: end;
-}
-
-.year-phone {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.year-phone .col-form.year {
-  width: 74%;
-}
-
-.year-phone .col-form.num {
-  width: 24%;
 }
 
 .interest-submit {

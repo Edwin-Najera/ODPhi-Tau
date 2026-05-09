@@ -1,23 +1,26 @@
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebase";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Popup from "../components/Admin/PopupFolder/Popup";
 import rush from "../components/Photos/Rush ODPhi 2022 Fall shirt Design_Final_For Red Outlines.png";
 import { useInView } from "react-intersection-observer";
+import { showMessage, formatPhone } from "../utils/handle";
 
 function Contact() {
   const sacraments = ["UNITY", "HONESTY", "INTEGRITY", "LEADERSHIP"];
   const { ref: rushImage, inView: visibleElement } = useInView({
     triggerOnce: true,
   });
-  const [showPopup, setShowPopup] = useState(false);
-  const [message, setMessage] = useState("");
+  const [popup, setPopup] = useState<{
+    show: boolean;
+    message: string;
+    type: "save" | "active" | null;
+  }>({ show: false, message: "", type: null });
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     year: "",
+    instagram: "",
     phoneNum: "",
   });
 
@@ -34,33 +37,41 @@ function Contact() {
 
   const handleSubmit = async () => {
     if (!formData.firstName || !formData.lastName) {
-      setShowPopup(true);
-      setMessage("Enter First & Last name");
+      showMessage("Enter First & Last Name", "save", setPopup);
       return;
     } else if (!formData.email) {
-      setShowPopup(true);
-      setMessage("Enter email");
+      showMessage("Enter Email", "save", setPopup);
       return;
     } else if (!formData.phoneNum) {
-      setShowPopup(true);
-      setMessage("Enter Phone Number");
+      showMessage("Enter Phone Number", "save", setPopup);
       return;
     } else if (!formData.year) {
-      setShowPopup(true);
-      setMessage("Enter classification");
+      showMessage("Enter classification", "save", setPopup);
       return;
     }
 
-    await addDoc(collection(db, "interests"), {
-      name: formData.firstName + " " + formData.lastName,
-      email: formData.email,
-      year: formData.year,
-      phoneNum: formData.phoneNum,
-      submittedAt: new Date(),
-    });
-
-    setMessage("Successfully Submitted");
-    setShowPopup(true);
+    try {
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbzLGD9-Pwr4HewV6s1424p-ptbegsWqfqXLIWqTNhwZ3h-5VyJZq9zlMrn45vw5ePttAg/exec",
+        {
+          method: "POST",
+          mode: "no-cors",
+          body: JSON.stringify({ ...formData, formType: "interest" }),
+        },
+      );
+      showMessage("Submitted successfully", "save", setPopup);
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        year: "",
+        instagram: "",
+        phoneNum: "",
+      });
+    } catch (error) {
+      console.error(error);
+      showMessage("Unable to submit. Try again Later", "save", setPopup);
+    }
   };
 
   return (
@@ -109,7 +120,7 @@ function Contact() {
         />
         <div className="form">
           <h4>Interest Form</h4>
-          <div className="interest-full-name">
+          <div className="row-form">
             <div className="col-form">
               <label>First Name</label>
               <input
@@ -125,7 +136,7 @@ function Contact() {
               <label htmlFor="last">Last Name</label>
               <input
                 type="text"
-                name="lastName last"
+                name="lastName"
                 id="last"
                 value={formData.lastName}
                 className="interest-name"
@@ -145,7 +156,7 @@ function Contact() {
               placeholder="name@email.com"
             />
           </div>
-          <div className="year-phone">
+          <div className="row-form">
             <div className="col-form year">
               <label>Classification</label>
               <select name="year" value={formData.year} onChange={handleChange}>
@@ -159,13 +170,28 @@ function Contact() {
                 <option value="senior">Senior</option>
               </select>
             </div>
+            <div className="col-form">
+              <label>Instagram</label>
+              <input
+                type="text"
+                name="instagram"
+                value={formData.instagram}
+                placeholder="@tau_knights"
+                onChange={handleChange}
+              />
+            </div>
             <div className="col-form num">
               <label>Phone Number</label>
               <input
                 type="tel"
                 name="phoneNum"
                 value={formData.phoneNum}
-                onChange={handleChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    phoneNum: formatPhone(e.target.value),
+                  })
+                }
                 placeholder="(123) 456 - 7890"
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               />
@@ -194,11 +220,11 @@ function Contact() {
           </Link>
         </div>
       </div>
-      {showPopup && (
+      {popup.show && (
         <Popup
-          message={message}
+          message={popup.message}
           collectionName={""}
-          onClose={() => setShowPopup(false)}
+          onClose={() => setPopup({ show: false, message: "", type: null })}
           autoClose={true}
           duration={1000}
           showCloseButton={false}

@@ -1,7 +1,12 @@
 import { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCollection, useAuthRole } from "../../utils/auth";
-import { handleDelete, handleNavigate, showMessage } from "../../utils/handle";
+import {
+  handleDelete,
+  handleNavigate,
+  showMessage,
+  formatPhone,
+} from "../../utils/handle";
 import type { BaseDocument } from "../EventsFolder/eventData";
 import { FaTrash } from "react-icons/fa";
 import "../global.css";
@@ -70,10 +75,11 @@ function Alumni() {
 
     try {
       await fetch(
-        "https://script.google.com/macros/s/AKfycbxzvMpZAUSxahGIOfKRFa-DTxWaIzmScXeDA0sWSbrtq41P8aFbsGlYjNcYHGeUEb6y7Q/exec",
+        "https://script.google.com/macros/s/AKfycbzLGD9-Pwr4HewV6s1424p-ptbegsWqfqXLIWqTNhwZ3h-5VyJZq9zlMrn45vw5ePttAg/exec",
         {
           method: "POST",
-          body: JSON.stringify(contactInfo),
+          mode: "no-cors",
+          body: JSON.stringify({ ...contactInfo, formType: "alumni" }),
         },
       );
       showMessage("Submitted successfully", "save", setPopup);
@@ -82,13 +88,6 @@ function Alumni() {
       console.error(error);
       showMessage("Unable to submit. Try again Later", "save", setPopup);
     }
-  };
-
-  const formatPhone = (value: string) => {
-    const digits = value.replace(/\D/g, "").slice(0, 10);
-    if (digits.length <= 3) return digits;
-    if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
-    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
   };
 
   return (
