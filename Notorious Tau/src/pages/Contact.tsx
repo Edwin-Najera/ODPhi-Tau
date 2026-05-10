@@ -52,7 +52,7 @@ function Contact() {
 
     try {
       await fetch(
-        "https://script.google.com/macros/s/AKfycbzLGD9-Pwr4HewV6s1424p-ptbegsWqfqXLIWqTNhwZ3h-5VyJZq9zlMrn45vw5ePttAg/exec",
+        "https://script.google.com/macros/s/AKfycbx8sG6o7MEagboijrR3adKjmk7T95LwZfukH5LF5p5dNazhCK4pERogOpHFyAZMwgQsUA/exec",
         {
           method: "POST",
           mode: "no-cors",
@@ -103,6 +103,7 @@ function Contact() {
           <ul className="core-values-list">
             {sacraments.map((sacrament, index) => (
               <li
+                key={index}
                 className="values"
                 style={{ animationDelay: `${index * 300}ms` }}
               >

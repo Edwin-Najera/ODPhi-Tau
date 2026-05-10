@@ -151,6 +151,7 @@ function Mtb() {
               chapter continues to build upon the legacy of Omega Delta Phi and
               shape future leaders.
             </p>
+            <img />
           </div>
           <div className="mission-container">
             <h3>Purpose of Omega Delta Phi</h3>

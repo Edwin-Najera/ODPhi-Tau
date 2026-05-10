@@ -1013,13 +1013,14 @@ a.click-button {
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 5px 10px 20px 5px;
+  gap: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   @media (max-width: 992px) {
     width: 350px;
-    min-width: 300px;
-    max-height: 400px;
+    min-height: 350px;
+    max-height: 500px;
   }
 }
 
@@ -1061,13 +1062,13 @@ a.click-button {
 .odphi-gallery-image {
   width: 100%;
   max-height: 400px;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   padding: 5px 5px 0;
   border-radius: 15px 15px 0 0;
   @media (max-width: 992px) {
     width: 100%;
-    max-height: 200px;
+    max-height: 300px;
   }
 }
 
@@ -1076,12 +1077,19 @@ a.click-button {
   flex: 1;
   border-radius: 0 0 15px 15px;
   padding: 0;
-  margin: 0;
-  margin-left: 5%;
-  text-align: left;
+  text-align: center;
+  font-size: 0.9em;
+  line-height: 1.5;
+  background: white;
+  border-radius: 0 0 15px 15px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* limit to 4 lines */
+  -webkit-box-orient: vertical;
 
   @media (max-width: 992px) {
-    margin-left: 2%;
+    margin: 0;
+    text-align: center;
   }
 }
 
@@ -1304,11 +1312,11 @@ a.click-button {
   padding: 10px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.25);
   @media (max-width: 992px) {
     max-width: 350px;
     width: 400px;
-    overflow: hidden;
+    overflow-x: hidden;
     margin: 0;
     padding: 10px;
   }
@@ -2806,6 +2814,13 @@ a.click-button {
   width: 75%;
 }
 
+.memories {
+  width: 15%;
+  object-fit: cover;
+  border-radius: 8px;
+  border: solid red;
+}
+
 /* Contact.tsx */
 .contact-page {
   display: flex;
@@ -2815,18 +2830,32 @@ a.click-button {
   max-width: 100%;
   width: 100vw;
   padding: 100px 0 20px;
+  overflow-x: hidden;
   @media (max-width: 992px) {
     padding-top: 120px;
+    box-sizing: border-box;
   }
 }
 
 .contact-page h3 {
   font-size: 4em;
+
+  @media (max-width: 992px) {
+    font-size: 2em;
+  }
 }
 
 .contact-info {
   display: flex;
   flex-direction: row;
+  width: 75%;
+  overflow-x: hidden;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    width: 100%;
+    padding: 0 10px;
+    overflow-x: hidden;
+  }
 }
 
 .reach-info {
@@ -2836,6 +2865,8 @@ a.click-button {
   background: black;
   border-radius: 8px;
   color: white;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .reach-info .line-separate::after {
@@ -2852,6 +2883,10 @@ a.click-button {
   flex-direction: column;
   padding: 25px 0;
   font-weight: 900;
+
+  @media (max-width: 992px) {
+    font-size: 0.75em;
+  }
 }
 
 .core-values {
@@ -2859,6 +2894,10 @@ a.click-button {
   flex-direction: column;
   width: 500px;
   font-size: 1.25em;
+  @media (max-width: 992px) {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 .core-values h5,
@@ -2874,6 +2913,7 @@ a.click-button {
   list-style-type: none;
   padding: 0;
   font-weight: 900;
+  overflow-x: hidden;
 }
 
 .core-values-list li {
@@ -2901,6 +2941,12 @@ a.click-button {
   background: black;
   border-radius: 15px;
   padding: 10px 25px;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    width: 95%;
+    padding: 10px;
+  }
 }
 
 .interest-form h4 {
@@ -2913,6 +2959,11 @@ a.click-button {
   width: 80%;
   gap: 25px;
   padding: 5px 25px;
+
+  @media (max-width: 992px) {
+    gap: 5px;
+    width: 100%;
+  }
 }
 
 .form input,
@@ -2933,6 +2984,10 @@ a.click-button {
   width: 100%;
   justify-content: space-between;
   gap: 10px;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
 }
 
 .interest-name {
@@ -2947,18 +3002,8 @@ a.click-button {
   color: black;
   background: white;
   border-radius: 10px;
-}
-
-.interest-submit::after,
-.interest-submit::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background: black;
-  transition: transform 0.3s ease;
-  z-index: -1;
+  position: relative;
+  overflow: hidden;
 }
 
 .interest-submit:hover {
@@ -3041,6 +3086,10 @@ a.click-button {
   background: rgba(0, 0, 0, 0.05);
   border-radius: 8px;
   gap: 25px;
+
+  @media (max-width: 992px) {
+    width: 90%;
+  }
 }
 
 .campus-activity-row {
@@ -3048,6 +3097,10 @@ a.click-button {
   flex-direction: row;
   align-items: center;
   gap: 25px;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    width: 100%;
+  }
 }
 
 .on-campus {
@@ -3067,6 +3120,10 @@ a.click-button {
   cursor: pointer;
   z-index: 0;
   transition: color 0.3s ease;
+
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .on-campus span {

@@ -306,7 +306,7 @@ function AdminPanel({
           />
           <br />
           <label htmlFor="event-image" className="admin-label">
-            Enter Event Image
+            Enter Knight Image
           </label>
           <input
             type="file"

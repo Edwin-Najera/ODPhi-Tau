@@ -11,7 +11,7 @@ import type { BaseDocument } from "../EventsFolder/eventData";
 import { FaTrash } from "react-icons/fa";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
-import EventInfoPopup from "./EventInfoPopup";
+import EventInfoPopup from "../Admin/PopupFolder/EventInfoPopup";
 
 function Alumni() {
   const [popup, setPopup] = useState<{
@@ -75,7 +75,7 @@ function Alumni() {
 
     try {
       await fetch(
-        "https://script.google.com/macros/s/AKfycbzLGD9-Pwr4HewV6s1424p-ptbegsWqfqXLIWqTNhwZ3h-5VyJZq9zlMrn45vw5ePttAg/exec",
+        "https://script.google.com/macros/s/AKfycbx8sG6o7MEagboijrR3adKjmk7T95LwZfukH5LF5p5dNazhCK4pERogOpHFyAZMwgQsUA/exec",
         {
           method: "POST",
           mode: "no-cors",

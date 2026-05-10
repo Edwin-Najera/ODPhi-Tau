@@ -1,4 +1,4 @@
-import type { BaseDocument, Alumni } from "../EventsFolder/eventData";
+import type { BaseDocument, Alumni } from "../../EventsFolder/eventData";
 
 type EventInfoProps = {
   event: BaseDocument | Alumni | null;

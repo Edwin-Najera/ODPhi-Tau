@@ -5,7 +5,7 @@ import { handleDelete, handleNavigate } from "../../utils/handle";
 import { FaTrash } from "react-icons/fa";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
-import EventInfoPopup from "./EventInfoPopup";
+import EventInfoPopup from "../Admin/PopupFolder/EventInfoPopup";
 import type { BaseDocument, EventItem } from "../EventsFolder/eventData";
 
 function AllBros() {
