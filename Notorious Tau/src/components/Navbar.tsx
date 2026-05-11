@@ -50,11 +50,7 @@ function Navbar() {
               >
                 Brothers Only
               </Link>
-              <Link
-                to="/Onlybros/Contact"
-                className="nav-link"
-                onClick={closeNavbar}
-              >
+              <Link to="/Contact" className="nav-link" onClick={closeNavbar}>
                 Contact
               </Link>
             </div>
