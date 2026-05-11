@@ -9,6 +9,7 @@ import {
   showMessage,
 } from "../../../utils/handle";
 import Popup from "../PopupFolder/Popup";
+import CountdownPopup from "./CountdownPopup";
 import type { Countdown, CountdownEvent } from "../../EventsFolder/eventData";
 
 function CountdownAdmin() {
@@ -243,14 +244,11 @@ function CountdownAdmin() {
         <button className="admin-btn" onClick={() => handleSubmit()}>
           Save Countdown Event
         </button>
-        {popup.show && (
+        {popup.show && popup.type === "save" && (
           <Popup
             message={popup.message}
-            collectionName={""}
             onClose={() => setPopup({ show: false, message: "", type: "save" })}
-            autoClose={true}
             duration={1000}
-            showCloseButton={false}
           />
         )}
 
@@ -261,8 +259,7 @@ function CountdownAdmin() {
           Display Events
         </button>
         {popup.show && popup.type === "active" && (
-          <Popup
-            message=""
+          <CountdownPopup
             onClose={() =>
               setPopup({ show: false, message: "", type: "active" })
             }
