@@ -69,12 +69,7 @@ function AllBros() {
         />
       )}
       {showPopup && (
-        <Popup
-          message={message}
-          onClose={() => setShowPopup(false)}
-          collectionName=""
-          autoClose={true}
-        />
+        <Popup message={message} onClose={() => setShowPopup(false)} />
       )}
       <h1 className="page-header">Tau Events</h1>
       <div className="all-events">

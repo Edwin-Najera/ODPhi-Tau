@@ -224,11 +224,8 @@ function Contact() {
       {popup.show && (
         <Popup
           message={popup.message}
-          collectionName={""}
           onClose={() => setPopup({ show: false, message: "", type: null })}
-          autoClose={true}
           duration={1000}
-          showCloseButton={false}
         />
       )}
     </div>

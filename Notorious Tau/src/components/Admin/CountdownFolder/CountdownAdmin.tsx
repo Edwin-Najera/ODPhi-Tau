@@ -263,10 +263,9 @@ function CountdownAdmin() {
         {popup.show && popup.type === "active" && (
           <Popup
             message=""
-            collectionName="countdown"
-            onClose={() => setPopup({ show: false, message: "", type: null })}
-            autoClose={false}
-            showCloseButton={true}
+            onClose={() =>
+              setPopup({ show: false, message: "", type: "active" })
+            }
           />
         )}
       </div>

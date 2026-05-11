@@ -386,21 +386,15 @@ function AdminPanel({
               onClose={() =>
                 setPopup({ show: false, type: "active", message: "" })
               }
-              collectionName={collectionName}
-              showCloseButton={true}
-              activeHouse={true}
             />
           )}
           {popup.show && (
             <Popup
               message={popup.message}
-              collectionName={""}
               onClose={() =>
                 setPopup({ show: false, type: "save", message: "" })
               }
-              autoClose={true}
               duration={1000}
-              showCloseButton={false}
             />
           )}
         </div>
@@ -624,11 +618,8 @@ function AdminPanel({
         {popup.show && (
           <Popup
             message={popup.message}
-            collectionName={""}
             onClose={() => setPopup({ show: false, type: "save", message: "" })}
-            autoClose={true}
             duration={1000}
-            showCloseButton={false}
           />
         )}
       </div>

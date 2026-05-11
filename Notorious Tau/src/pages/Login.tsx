@@ -89,10 +89,7 @@ function Login() {
         <Popup
           message={popup.message}
           onClose={() => setPopup({ show: false, message: "", type: null })}
-          collectionName=""
-          autoClose={true}
           duration={1000}
-          showCloseButton={false}
         />
       )}
     </Fragment>

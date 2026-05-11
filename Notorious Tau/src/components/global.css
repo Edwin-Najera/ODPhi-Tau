@@ -2598,6 +2598,7 @@ a.click-button {
   @media (max-width: 992px) {
     width: 100%;
     padding: 0 10px;
+    align-items: center;
   }
 }
 
@@ -2797,6 +2798,9 @@ a.click-button {
   align-items: center;
   gap: 10px;
   width: 100%;
+
+  @media (max-width: 992px) {
+  }
 }
 
 .tau-history-container h3 {

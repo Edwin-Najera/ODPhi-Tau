@@ -116,8 +116,6 @@ function Alumni() {
         <Popup
           message={popup.message}
           onClose={() => setPopup({ show: false, message: "", type: "save" })}
-          collectionName=""
-          autoClose={true}
         />
       )}
       <h1 className="page-header">Alumni Newsletter</h1>
