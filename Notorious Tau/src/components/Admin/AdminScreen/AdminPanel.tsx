@@ -1,5 +1,5 @@
 import { useState, Fragment } from "react";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import {
   handleArrayChange,
@@ -7,16 +7,16 @@ import {
   handleDeleteArrayItem,
   uploadImage,
   showMessage,
-} from "../../utils/handle";
-import "../global.css";
+} from "../../../utils/handle";
+import "../../global.css";
 import type {
   BaseDocument,
   EventItem,
   Knights,
   Awards,
   Alumni,
-} from "../EventsFolder/eventData";
-import Popup from "./PopupFolder/Popup";
+} from "../../EventsFolder/eventData";
+import Popup from "../PopupFolder/Popup";
 
 type Props = {
   collectionName: string;

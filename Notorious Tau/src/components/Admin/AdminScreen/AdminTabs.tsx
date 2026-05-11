@@ -8,7 +8,7 @@ import type {
 import { handleDelete } from "../../../utils/handle";
 import { useCollection } from "../../../utils/auth";
 import "../../global.css";
-import AdminPanel from "../AdminPanel";
+import AdminPanel from "./AdminPanel";
 import EditPopup from "../PopupFolder/EditPopup";
 
 type Props = {

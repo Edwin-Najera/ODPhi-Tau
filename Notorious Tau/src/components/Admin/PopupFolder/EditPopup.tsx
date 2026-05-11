@@ -9,6 +9,7 @@ import type {
 } from "../../EventsFolder/eventData";
 import { showMessage } from "../../../utils/handle";
 import "../../global.css";
+import Popup from "./Popup";
 
 type EditPopupProps = {
   collectionName: string;
@@ -31,7 +32,6 @@ function EditPopup({
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [editDate, setEditDate] = useState<string>("");
-  const [editTime, setEditTime] = useState<string>("");
   const [editLocation, setEditLocation] = useState<string>("");
   const [editItems, setEditItems] = useState<{ name: string; price: string }[]>(
     [],
@@ -348,6 +348,16 @@ function EditPopup({
         <button className="admin-btn cancel-btn" onClick={onClose}>
           Cancel
         </button>
+        {popup.show && (
+          <Popup
+            message={popup.message}
+            onClose={() => setPopup({ show: false, message: "", type: null })}
+            collectionName=""
+            autoClose={true}
+            duration={1000}
+            showCloseButton={false}
+          />
+        )}
       </div>
     </div>
   );

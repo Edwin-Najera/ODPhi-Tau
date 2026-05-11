@@ -2794,31 +2794,45 @@ a.click-button {
   width: 125px;
 }
 
-.tau-history-container,
-.mission-container {
+.tau-history-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   border-top: 5px solid black;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.05);
   color: black;
   padding: 25px 0;
-  align-items: center;
-  align-self: center;
   justify-content: center;
+  align-items: center;
+  gap: 10px;
   width: 100%;
+}
+
+.tau-history-container h3 {
+  display: block;
+}
+
+.text-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75%;
 }
 
 .tau-history,
 .purpose {
-  width: 75%;
+  width: 100%;
 }
 
 .memories {
   width: 15%;
+  height: 8%;
   object-fit: cover;
   border-radius: 8px;
-  border: solid red;
+
+  @media (max-width: 992px) {
+    display: none;
+  }
 }
 
 /* Contact.tsx */

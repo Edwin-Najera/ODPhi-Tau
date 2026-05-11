@@ -1,5 +1,5 @@
 import CountdownAdmin from "../components/Admin/CountdownFolder/CountdownAdmin";
-import AssignRole from "../components/Admin/AssignRole";
+import AssignRole from "../components/Admin/AdminScreen/AssignRole";
 import "../components/global.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
