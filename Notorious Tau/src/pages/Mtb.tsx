@@ -65,7 +65,7 @@ function Mtb() {
         </div>
         {recognized.length > 0 && (
           <div className="recognition">
-            <h5>Awarded Bros</h5>
+            <h5>Spotlight</h5>
             {recognized.map((knight, index) => (
               <KnightCards knight={knight} index={index} hasAwards={true} />
             ))}

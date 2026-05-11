@@ -1084,6 +1084,7 @@ a.click-button {
   border-radius: 0 0 15px 15px;
   overflow: hidden;
   display: -webkit-box;
+  line-clamp: 4;
   -webkit-line-clamp: 4; /* limit to 4 lines */
   -webkit-box-orient: vertical;
 

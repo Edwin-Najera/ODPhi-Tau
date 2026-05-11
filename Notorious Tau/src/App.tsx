@@ -13,6 +13,7 @@ import Alumni from "./components/Brotherhood/Alumni";
 import AllBros from "./components/Brotherhood/AllBros";
 import ProtectedRoute from "./components/Admin/ProtectedRoute";
 import { useEffect } from "react";
+import Mgc from "./pages/Mgc";
 
 function App() {
   const ScrollToTop = () => {
@@ -35,9 +36,10 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Mtb" element={<Mtb />} />
+        <Route path="/MTB" element={<Mtb />} />
         <Route path="/Gallery" element={<Gallery />} />
         <Route path="/Service" element={<Service />} />
+        <Route path="/MGC" element={<Mgc />} />
         <Route path="/Login" element={<Login />} />
         <Route
           path="/Onlybros"
@@ -48,7 +50,7 @@ function App() {
           }
         />
         <Route
-          path="/Alumni"
+          path="/Onlybros/Alumni"
           element={
             <ProtectedRoute>
               <Alumni />
@@ -56,7 +58,7 @@ function App() {
           }
         />
         <Route
-          path="/AllBros"
+          path="/Onlybros/AllBros"
           element={
             <ProtectedRoute>
               <AllBros />
