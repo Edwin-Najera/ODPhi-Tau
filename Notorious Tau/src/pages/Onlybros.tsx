@@ -24,14 +24,14 @@ function Onlybros() {
           <button
             className="admin-page-swap"
             type="button"
-            onClick={() => navigate("/Alumni")}
+            onClick={() => navigate("/Onlybros/Alumni")}
           >
             Alumni
           </button>
           <button
             className="admin-page-swap"
             type="button"
-            onClick={() => navigate("/AllBros")}
+            onClick={() => navigate("/Onlybros/AllBros")}
           >
             Brotherhood Events
           </button>

@@ -34,6 +34,7 @@ function CountdownAdmin() {
       return;
     } else if (!imageFile) {
       showMessage("Image required", "save", setPopup);
+      return;
     }
 
     let imagePath = "";
@@ -88,12 +89,12 @@ function CountdownAdmin() {
           value={countdownForm.title}
           onChange={(e) => handleCountdownChanges("title", e.target.value)}
         />
-        <label className="admin-label">Event Start Date</label>
+        <label className="admin-label">Event Target Date</label>
         <input
           type="datetime-local"
           placeholder="Event Date"
           value={countdownForm.targetDate}
-          onChange={(e) => handleCountdownChanges("date", e.target.value)}
+          onChange={(e) => handleCountdownChanges("targetDate", e.target.value)}
         />
         <label className="admin-label">Event Image</label>
         <input
@@ -235,18 +236,18 @@ function CountdownAdmin() {
                 )
               }
             >
-              + Add Another Award
+              + Add Another Event
             </button>
           </Fragment>
         )}
         <button className="admin-btn" onClick={() => handleSubmit()}>
-          Save Event
+          Save Countdown Event
         </button>
         {popup.show && (
           <Popup
             message={popup.message}
             collectionName={""}
-            onClose={() => setPopup({ show: true, message: "", type: "save" })}
+            onClose={() => setPopup({ show: false, message: "", type: "save" })}
             autoClose={true}
             duration={1000}
             showCloseButton={false}
@@ -264,6 +265,7 @@ function CountdownAdmin() {
             message=""
             collectionName="countdown"
             onClose={() => setPopup({ show: false, message: "", type: null })}
+            autoClose={false}
             showCloseButton={true}
           />
         )}

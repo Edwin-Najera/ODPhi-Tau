@@ -43,9 +43,9 @@ function Login() {
       const role = tokenResult.claims.role;
 
       if (role === "active" || role === "admin" || role === "bro") {
-        navigate("/AllBros");
+        navigate("/Onlybros/AllBros");
       } else if (role === "alumni") {
-        navigate("/Alumni");
+        navigate("/Onlybros/Alumni");
       } else {
         showMessage("No Role Assigned. Contact Admin", "save", setPopup);
       }

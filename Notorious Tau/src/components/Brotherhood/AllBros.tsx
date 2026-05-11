@@ -39,7 +39,7 @@ function AllBros() {
     ) {
       navigate("/Onlybros");
     } else if (location === "alumni") {
-      navigate("/Alumni");
+      navigate("/Onlybros/Alumni");
     } else {
       setMessage("Only Admin and Actives allowed");
       setShowPopup(true);

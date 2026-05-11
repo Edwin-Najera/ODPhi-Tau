@@ -43,10 +43,18 @@ function Navbar() {
               <Link to="/Service" className="nav-link" onClick={closeNavbar}>
                 Service
               </Link>
-              <Link to="/AllBros" className="nav-link" onClick={closeNavbar}>
+              <Link
+                to="/Onlybros/AllBros"
+                className="nav-link"
+                onClick={closeNavbar}
+              >
                 Brothers Only
               </Link>
-              <Link to="/Contact" className="nav-link" onClick={closeNavbar}>
+              <Link
+                to="/Onlybros/Contact"
+                className="nav-link"
+                onClick={closeNavbar}
+              >
                 Contact
               </Link>
             </div>

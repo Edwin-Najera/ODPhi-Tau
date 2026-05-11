@@ -57,7 +57,7 @@ function Alumni() {
     ) {
       navigate("/Onlybros");
     } else if (location === "alumni") {
-      navigate("/AllBros");
+      navigate("/Onlybros/AllBros");
     } else {
       showMessage("Only Admin and Actives allowed", "save", setPopup);
     }
