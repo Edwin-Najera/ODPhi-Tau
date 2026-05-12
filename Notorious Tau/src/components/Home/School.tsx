@@ -1,4 +1,4 @@
-import { Fragment } from "react/jsx-runtime";
+import {} from "react/jsx-runtime";
 import { useInView } from "react-intersection-observer";
 import "../global.css";
 
@@ -12,7 +12,7 @@ function School() {
     blaze = "school-container";
   }
   return (
-    <Fragment>
+    <>
       <div ref={myRef} className={blaze}>
         <h1>UTA Resources</h1>
         <div className="row resources-row">
@@ -91,7 +91,7 @@ function School() {
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 

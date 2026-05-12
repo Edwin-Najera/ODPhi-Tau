@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import {} from "react";
 import type { Countdown } from "./eventData";
 import { useInView } from "react-intersection-observer";
 import { useAuthRole } from "../../utils/auth";
@@ -27,7 +27,7 @@ function CountdownEvent({ countdown }: { countdown: Countdown }) {
   };
 
   return (
-    <Fragment>
+    <>
       <div ref={countdownRef} className="countdown-events-container">
         <div
           className={`countdown-display-container ${visibleElement ? "animate-countdown" : ""}`}
@@ -85,7 +85,7 @@ function CountdownEvent({ countdown }: { countdown: Countdown }) {
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 

@@ -976,10 +976,6 @@ a.click-button {
   z-index: 1000;
 }
 
-.letters {
-  width: 500px;
-}
-
 .odphi-gallery-container {
   display: flex;
   flex-direction: row;
@@ -1327,9 +1323,6 @@ a.click-button {
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
-  @media (max-width: 992px) {
-    padding: 8px 14px;
-  }
 }
 
 .admin-label {
@@ -1882,9 +1875,6 @@ a.click-button {
   width: 100% !important;
   margin: 0 !important;
   text-align: center;
-  @media (max-width: 992px) {
-    width: 100% !important;
-  }
 }
 
 .show-password {
@@ -1998,14 +1988,10 @@ a.click-button {
   text-align: center;
 }
 
-.uid-input {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
+.uid-input,
 .role-input {
-  border-radius: 5px;
   border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 /*  UserInfo.tsx   */
@@ -2154,21 +2140,7 @@ a.click-button {
 .alumni-all-events > .tau-events,
 .alumni-all-events > .tau-brotherhood,
 .alumni-all-events > .important-events,
-.alumni-all-events > .photos-side-bar {
-  overflow-y: auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  @media (max-width: 992px) {
-    height: auto;
-    overflow-y: visible;
-    width: 100%;
-  }
-}
-
-/* This is for a Allbros.tsx */
-
+.alumni-all-events > .photos-side-bar,
 .all-events > .brotherhood-events-container,
 .all-events > .regular-events,
 .all-events > .alumni-events,
@@ -2184,6 +2156,8 @@ a.click-button {
     width: 100%;
   }
 }
+
+/* This is for a Allbros.tsx */
 
 .all-events > .brotherhood-events,
 .alumni-all-events > .tau-brotherhood {
@@ -2816,9 +2790,6 @@ a.click-button {
   align-items: center;
   gap: 10px;
   width: 100%;
-
-  @media (max-width: 992px) {
-  }
 }
 
 .tau-history-container h3 {

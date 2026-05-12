@@ -44,7 +44,7 @@ function Mtb() {
   ];
 
   return (
-    <Fragment>
+    <>
       <div className="mtb-page">
         <h1>Meet The Chapter</h1>
         <div className="member-requirements">
@@ -184,7 +184,7 @@ function Mtb() {
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 

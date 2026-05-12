@@ -1,4 +1,4 @@
-import { Fragment } from "react/jsx-runtime";
+import {} from "react/jsx-runtime";
 import { useRef, useEffect } from "react";
 import tau from "../Photos/Tau1.jpeg";
 import "../global.css";
@@ -32,7 +32,7 @@ function IntroSec() {
   }, []);
 
   return (
-    <Fragment>
+    <>
       <div className="home-grid">
         <div className="left-half">
           <div className="relative-container"></div>
@@ -42,7 +42,7 @@ function IntroSec() {
           <img src={tau} alt="TAU" />
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 

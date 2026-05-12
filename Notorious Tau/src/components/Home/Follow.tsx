@@ -1,4 +1,4 @@
-import { useEffect, useRef, Fragment } from "react";
+import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { FaInstagram, FaTiktok } from "react-icons/fa";
@@ -41,7 +41,7 @@ function Follow() {
   }, []);
 
   return (
-    <Fragment>
+    <>
       <div className="follow-container">
         <div
           ref={followRef}
@@ -118,7 +118,7 @@ function Follow() {
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 

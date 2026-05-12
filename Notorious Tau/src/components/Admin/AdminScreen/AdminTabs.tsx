@@ -1,4 +1,4 @@
-import { useState, Fragment, useEffect } from "react";
+import { useState, useEffect } from "react";
 import type {
   BaseDocument,
   EventItem,
@@ -197,13 +197,13 @@ function AdminTabs({
               <div className="view-mode-container">
                 <h4>{document.title}</h4>
                 {activeHouse ? (
-                  <Fragment>
+                  <>
                     <img
                       className="gallery-image"
                       src={document.imageURL}
                       alt="knight"
                     />
-                  </Fragment>
+                  </>
                 ) : (
                   <p>{document.description}</p>
                 )}

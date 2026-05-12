@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import { db } from "../../../firebase";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import {
@@ -318,7 +318,7 @@ function AdminPanel({
               }
             }}
           />
-          <Fragment>
+          <>
             <div className="awards-input">
               <label htmlFor="awards" className="admin-label">
                 Enter awards
@@ -374,7 +374,7 @@ function AdminPanel({
             >
               + Add Another Award
             </button>
-          </Fragment>
+          </>
           <br />
           <br />
           <button className="admin-btn" onClick={() => handleSubmit()}>
@@ -408,7 +408,7 @@ function AdminPanel({
       <div className="admin-container">
         {onlyPhotos && (
           // Specifically for inputting only photos, only a title in which the title is the database, and photo are needed
-          <Fragment>
+          <>
             <label className="admin-label">Choose a Gallery</label>
             <select
               value={eventForm.title}
@@ -418,17 +418,17 @@ function AdminPanel({
                 Choose Gallery
               </option>
               {!activeHouse && (
-                <Fragment>
+                <>
                   <option value="alumni">Alumni Gallery</option>
                   <option value="gallery">Gallery</option>
-                </Fragment>
+                </>
               )}
             </select>
-          </Fragment>
+          </>
         )}
         {!onlyPhotos && (
           // If its not for a gallery, the title can be anything
-          <Fragment>
+          <>
             <label className="admin-label">Enter Title</label>
             <input
               type="text"
@@ -441,12 +441,12 @@ function AdminPanel({
                 handleAlumniChange("title", e.target.value); // This is for alumni events
               }}
             />
-          </Fragment>
+          </>
         )}
         {collectionName !== "alumni" &&
           (!onlyPhotos || eventForm.title === "gallery") && (
             // When an event does not have a date or isn't `onlyPhotos=true` the following will be executed
-            <Fragment>
+            <>
               <br />
               <label className="admin-label">Enter Description</label>
               <textarea
@@ -457,11 +457,11 @@ function AdminPanel({
                   handleEventChange("description", e.target.value)
                 }
               />
-            </Fragment>
+            </>
           )}
         {hasDate && (
           //If there is a date, then we will ask for the date of the event
-          <Fragment>
+          <>
             <br />
             <label className="admin-label">Enter Date</label>
             <input
@@ -474,10 +474,10 @@ function AdminPanel({
                 handleAlumniChange("date", e.target.value);
               }}
             />
-          </Fragment>
+          </>
         )}
         {collectionName === "alumni" && (
-          <Fragment>
+          <>
             <br />
             <label htmlFor="eventLocation" className="admin-label">
               Location
@@ -521,11 +521,11 @@ function AdminPanel({
                 </div>
               )}
             </form>
-          </Fragment>
+          </>
         )}
         {!hasDate && collectionName !== "brotherhood" && (
           // If the event requires an image, there will be an input for images
-          <Fragment>
+          <>
             <br />
             <label className="admin-label">Enter Event Image</label>
             <input
@@ -544,11 +544,11 @@ function AdminPanel({
                 className="preview-image"
               />
             )}
-          </Fragment>
+          </>
         )}
         {hasItems && (
           // If the event has items to sell there will be an input for it
-          <Fragment>
+          <>
             <h3>Price Options</h3>
             <div className="item-input">
               <label className="admin-label">Enter Items and Prices</label>
@@ -608,7 +608,7 @@ function AdminPanel({
             >
               + Add Another Price
             </button>
-          </Fragment>
+          </>
         )}
         <br />
         {!hasDate && <br />}

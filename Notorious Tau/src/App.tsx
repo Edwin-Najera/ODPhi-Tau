@@ -1,5 +1,4 @@
 import "./App.css";
-import { Fragment } from "react/jsx-runtime";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -31,7 +30,7 @@ function App() {
   };
 
   return (
-    <Fragment>
+    <>
       <Navbar />
       <ScrollToTop />
       <Routes>
@@ -67,7 +66,7 @@ function App() {
         />
         <Route path="/Contact" element={<Contact />} />
       </Routes>
-    </Fragment>
+    </>
   );
 }
 

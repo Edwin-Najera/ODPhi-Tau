@@ -20,7 +20,7 @@ function KnightCards({ knight, index, hasAwards = false }: Props) {
 
   if (hasAwards) {
     return (
-      <Fragment>
+      <>
         <div ref={myRef} className={card}>
           <div>
             <span>{knight.name}</span>
@@ -32,11 +32,11 @@ function KnightCards({ knight, index, hasAwards = false }: Props) {
             ))}
           </div>
         </div>
-      </Fragment>
+      </>
     );
   }
   return (
-    <Fragment>
+    <>
       <div
         ref={myRef}
         className={card}
@@ -52,7 +52,7 @@ function KnightCards({ knight, index, hasAwards = false }: Props) {
           </span>
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 

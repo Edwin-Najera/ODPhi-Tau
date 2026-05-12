@@ -1,4 +1,4 @@
-import { Fragment } from "react/jsx-runtime";
+import {} from "react/jsx-runtime";
 import IntroSec from "../components/Home/IntroSec";
 import Events from "../components/EventsFolder/Events";
 import About from "../components/Home/About";
@@ -9,7 +9,7 @@ import Footer from "../components/Home/Footer";
 
 function App() {
   return (
-    <Fragment>
+    <>
       <svg
         width="0"
         height="0"
@@ -52,7 +52,7 @@ function App() {
           <Footer />
         </div>
       </div>
-    </Fragment>
+    </>
   );
 }
 

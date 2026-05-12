@@ -24,14 +24,14 @@ function Events() {
   return (
     <div className="events-container">
       {countdowns.length > 0 && (
-        <Fragment>
+        <>
           {countdowns.map((countdown, index) => (
             <Fragment key={index}>
               <CountdownEvent countdown={countdown} />
               <br />
             </Fragment>
           ))}
-        </Fragment>
+        </>
       )}
       {events.map((event, index) => (
         <div
@@ -39,7 +39,7 @@ function Events() {
           className={`card card-container ${index % 2 !== 0 ? "reverse" : null}`}
         >
           {userRole === "admin" && (
-            <Fragment>
+            <>
               <button
                 className="trash-can-wrapper"
                 onClick={() =>
@@ -59,7 +59,7 @@ function Events() {
               >
                 Edit
               </button>
-            </Fragment>
+            </>
           )}
           <img
             src={event.imageURL}

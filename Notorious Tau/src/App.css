@@ -112,8 +112,8 @@ img {
   height: auto;
 }
 
-.AppGrid > .School {
-  grid-area: School;
+.AppGrid > .School,
+.AppGrid > .MGC {
   padding: 1em 0;
   background-color: black;
   min-height: 35vh;
@@ -124,16 +124,11 @@ img {
   }
 }
 
+.AppGrid > .School {
+  grid-area: School;
+}
 .AppGrid > .MGC {
   grid-area: MGC;
-  padding: 1em 0;
-  background-color: black;
-  min-height: 35vh;
-  z-index: 1;
-  @media (max-width: 992px) {
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
 }
 
 .AppGrid > .Follow {

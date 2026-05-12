@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCollection, useAuthRole } from "../../utils/auth";
 import {
@@ -221,7 +221,7 @@ function Alumni() {
                           <p>Click for more info</p>
                         </div>
                         {userRole === "admin" && (
-                          <Fragment>
+                          <>
                             <button
                               className="trash-can-wrapper"
                               onClick={() => {
@@ -245,7 +245,7 @@ function Alumni() {
                             >
                               Edit
                             </button>
-                          </Fragment>
+                          </>
                         )}
                       </div>
                     ))}
@@ -294,7 +294,7 @@ function Alumni() {
                     <p>Click for more info</p>
                   </div>
                   {userRole === "admin" && (
-                    <Fragment>
+                    <>
                       <button
                         className="trash-can-wrapper"
                         onClick={() => {
@@ -314,7 +314,7 @@ function Alumni() {
                       >
                         Edit
                       </button>
-                    </Fragment>
+                    </>
                   )}
                 </div>
               ))}
@@ -346,7 +346,7 @@ function Alumni() {
                     <p>Click for more info</p>
                   </div>
                   {userRole === "admin" && (
-                    <Fragment>
+                    <>
                       <button
                         className="trash-can-wrapper"
                         onClick={() => {
@@ -366,7 +366,7 @@ function Alumni() {
                       >
                         Edit
                       </button>
-                    </Fragment>
+                    </>
                   )}
                 </div>
               ))}

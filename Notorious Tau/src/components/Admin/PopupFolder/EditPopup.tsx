@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../../../firebase";
 import { updateDoc, doc } from "firebase/firestore";
 import type {
@@ -158,7 +158,7 @@ function EditPopup({
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-box" onClick={(e) => e.stopPropagation()}>
         <h2>Edit {collectionName === "countdown" ? "Countdown" : "Event"}</h2>
-        <Fragment>
+        <>
           {collectionName === "countdown" ? (
             <div className="edit-container countdown">
               <label htmlFor="documentTitle">Title: </label>
@@ -171,7 +171,7 @@ function EditPopup({
               />
             </div>
           ) : (
-            <Fragment>
+            <>
               {collectionName === "house" ? (
                 <div className="edit-container">
                   <h4>{(document as Knights).name}</h4>
@@ -255,7 +255,7 @@ function EditPopup({
                     placeholder={document?.title}
                   />
                   {document?.description && (
-                    <Fragment>
+                    <>
                       <label htmlFor="documentDescription">Description: </label>
                       <input
                         id="documentDescription"
@@ -264,10 +264,10 @@ function EditPopup({
                         onChange={(e) => setEditDescription(e.target.value)}
                         placeholder={document?.description}
                       />
-                    </Fragment>
+                    </>
                   )}
                   {hasDate && (
-                    <Fragment>
+                    <>
                       <label htmlFor="documentDate">Date: </label>
                       <input
                         id="documentDate"
@@ -275,10 +275,10 @@ function EditPopup({
                         value={editDate}
                         onChange={(e) => setEditDate(e.target.value)}
                       />
-                    </Fragment>
+                    </>
                   )}
                   {editLocation && (
-                    <Fragment>
+                    <>
                       <label htmlFor="eventLocation">Location: </label>
                       <input
                         id="eventLocation"
@@ -286,10 +286,10 @@ function EditPopup({
                         value={editLocation}
                         onChange={(e) => setEditLocation(e.target.value)}
                       />
-                    </Fragment>
+                    </>
                   )}
                   {hasItems && (
-                    <Fragment>
+                    <>
                       <label>Items: </label>
                       <div className="item-input">
                         {document?.items?.map((item, index) => (
@@ -328,13 +328,13 @@ function EditPopup({
                           </div>
                         ))}
                       </div>
-                    </Fragment>
+                    </>
                   )}
                 </div>
               )}
-            </Fragment>
+            </>
           )}
-        </Fragment>
+        </>
 
         <button
           className="admin-btn save-btn"

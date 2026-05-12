@@ -1,6 +1,6 @@
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import {
   handleArrayChange,
   handleAddArrayItem,
@@ -119,7 +119,7 @@ function CountdownAdmin() {
           />
         </form>
         {hasEvents && (
-          <Fragment>
+          <>
             <div className="event-countdown-input-container">
               <label htmlFor="countdown" className="admin-label">
                 Enter Events
@@ -239,7 +239,7 @@ function CountdownAdmin() {
             >
               + Add Another Event
             </button>
-          </Fragment>
+          </>
         )}
         <button className="admin-btn" onClick={() => handleSubmit()}>
           Save Countdown Event

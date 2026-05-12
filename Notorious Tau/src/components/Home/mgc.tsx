@@ -1,10 +1,10 @@
-import { Fragment } from "react/jsx-runtime";
+import {} from "react/jsx-runtime";
 import { FaInstagramSquare } from "react-icons/fa";
 import "../global.css";
 
 function MGC() {
   return (
-    <Fragment>
+    <>
       <div className="container mgc-container">
         <h2>Multicultural Greek Council</h2>
         <p>
@@ -26,7 +26,7 @@ function MGC() {
           More!
         </a>
       </div>
-    </Fragment>
+    </>
   );
 }
 

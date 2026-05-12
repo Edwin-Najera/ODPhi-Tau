@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCollection, useAuthRole } from "../../utils/auth";
 import { handleDelete, handleNavigate } from "../../utils/handle";
@@ -99,7 +99,7 @@ function AllBros() {
                         <p>Click for more info</p>
                       </div>
                       {userRole === "admin" && (
-                        <Fragment>
+                        <>
                           <button
                             className="trash-can-wrapper"
                             onClick={() =>
@@ -123,7 +123,7 @@ function AllBros() {
                           >
                             Edit
                           </button>
-                        </Fragment>
+                        </>
                       )}
                     </div>
                   ))}
@@ -158,7 +158,7 @@ function AllBros() {
                         <p>Click for more info</p>
                       </div>
                       {userRole === "admin" && (
-                        <Fragment>
+                        <>
                           <button
                             className="trash-can-wrapper"
                             onClick={() => {
@@ -178,7 +178,7 @@ function AllBros() {
                           >
                             Edit
                           </button>
-                        </Fragment>
+                        </>
                       )}
                     </div>
                   ))}
@@ -212,7 +212,7 @@ function AllBros() {
                       <h4 className="card-title">{event.eventTitle}</h4>
                       <p>{event.description}</p>
                       {event.items.length > 0 && (
-                        <Fragment>
+                        <>
                           <h6 className="price-title">Event Prices: </h6>
                           <div className="event-prices">
                             <ul className="sell-items">
@@ -230,13 +230,13 @@ function AllBros() {
                               )}
                             </ul>
                           </div>
-                        </Fragment>
+                        </>
                       )}
                     </div>
                   </div>
                 </div>
                 {userRole === "admin" && (
-                  <Fragment>
+                  <>
                     <button
                       className="trash-can-wrapper"
                       onClick={() => {
@@ -256,7 +256,7 @@ function AllBros() {
                     >
                       Edit
                     </button>
-                  </Fragment>
+                  </>
                 )}
               </div>
             ))}

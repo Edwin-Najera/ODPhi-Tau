@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import {
   setPersistence,
   browserSessionPersistence,
@@ -56,7 +56,7 @@ function Login() {
   };
 
   return (
-    <Fragment>
+    <>
       <Sparks />
       <div className="login-page">
         <img className="sword" src={sword} alt="sword" />
@@ -92,7 +92,7 @@ function Login() {
           duration={1000}
         />
       )}
-    </Fragment>
+    </>
   );
 }
 
