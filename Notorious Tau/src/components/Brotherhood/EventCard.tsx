@@ -1,8 +1,5 @@
-import { useState } from "react";
 import type { BaseDocument } from "../EventsFolder/eventData";
 import type { NavigateFunction } from "react-router-dom";
-import { handleDelete, handleNavigate } from "../../utils/handle";
-import { FaTrash } from "react-icons/fa";
 import UserControls from "../Admin/AdminScreen/UserControls";
 
 type EventCardProps = {

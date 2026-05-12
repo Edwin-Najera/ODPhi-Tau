@@ -2,10 +2,9 @@ import "../global.css";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthRole, useCollection } from "../../utils/auth";
-import { handleDelete, handleNavigate } from "../../utils/handle";
-import { FaTrash } from "react-icons/fa";
 import type { EventItem } from "./eventData";
 import CountdownEvent from "./CountdownEvent";
+import UserControls from "../Admin/AdminScreen/UserControls";
 
 function Events() {
   const events = useCollection({
@@ -38,29 +37,12 @@ function Events() {
           key={event.id}
           className={`card card-container ${index % 2 !== 0 ? "reverse" : null}`}
         >
-          {userRole === "admin" && (
-            <>
-              <button
-                className="trash-can-wrapper"
-                onClick={() =>
-                  handleDelete("events", event.id, event.imagePath)
-                }
-              >
-                <FaTrash className="trash-can" />
-              </button>
-              <button
-                className="edit-btn-wrapper"
-                onClick={() =>
-                  handleNavigate(navigate, "Onlybros", {
-                    panel: "events",
-                    editId: event.id,
-                  })
-                }
-              >
-                Edit
-              </button>
-            </>
-          )}
+          <UserControls
+            userRole={userRole}
+            collectionName="events"
+            event={event}
+            navigate={navigate}
+          />
           <img
             src={event.imageURL}
             className="img-fluid card-event"

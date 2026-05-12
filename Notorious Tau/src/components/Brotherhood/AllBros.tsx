@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCollection, useAuthRole } from "../../utils/auth";
-import { handleDelete, handleNavigate } from "../../utils/handle";
-import { FaTrash } from "react-icons/fa";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
 import EventInfoPopup from "../Admin/PopupFolder/EventInfoPopup";
 import EventCard from "./EventCard";
 import NoEvents from "./NoEvents";
+import UserControls from "../Admin/AdminScreen/UserControls";
 import type { BaseDocument, EventItem } from "../EventsFolder/eventData";
 
 function AllBros() {
@@ -160,29 +159,12 @@ function AllBros() {
                     </div>
                   </div>
                 </div>
-                {userRole === "admin" && (
-                  <>
-                    <button
-                      className="trash-can-wrapper"
-                      onClick={() => {
-                        handleDelete("events", event.id, event.imagePath);
-                      }}
-                    >
-                      <FaTrash className="trash-can" />
-                    </button>
-                    <button
-                      className="edit-btn-wrapper"
-                      onClick={() =>
-                        handleNavigate(navigate, "Onlybros", {
-                          panel: "events",
-                          editId: event.id,
-                        })
-                      }
-                    >
-                      Edit
-                    </button>
-                  </>
-                )}
+                <UserControls
+                  userRole={userRole}
+                  collectionName="events"
+                  event={event}
+                  navigate={navigate}
+                />
               </div>
             ))}
         </div>
