@@ -6,6 +6,8 @@ import { FaTrash } from "react-icons/fa";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
 import EventInfoPopup from "../Admin/PopupFolder/EventInfoPopup";
+import EventCard from "./EventCard";
+import NoEvents from "./NoEvents";
 import type { BaseDocument, EventItem } from "../EventsFolder/eventData";
 
 function AllBros() {
@@ -27,7 +29,6 @@ function AllBros() {
   }).filter((event) => !event.important);
 
   const [showPopup, setShowPopup] = useState(false);
-  const [showEventInfo, setShowEventInfo] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<BaseDocument | null>(null);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ function AllBros() {
   const handlePageNavigate = async (location: string) => {
     if (
       (userRole === "admin" || userRole === "active") &&
-      location == "onlybros"
+      location === "onlybros"
     ) {
       navigate("/Onlybros");
     } else if (location === "alumni") {
@@ -62,10 +63,10 @@ function AllBros() {
           Alumni Page
         </button>
       </div>
-      {showEventInfo && (
+      {selectedEvent && (
         <EventInfoPopup
           event={selectedEvent}
-          onClose={() => setShowEventInfo(false)}
+          onClose={() => setSelectedEvent(null)}
         />
       )}
       {showPopup && (
@@ -77,55 +78,18 @@ function AllBros() {
           <div className="card">
             <div className="card-body">
               <h2 className="card-title">Brotherhood Events</h2>
-              {brotherhood.length === 0 && (
-                <p className="card-text">
-                  No Events Published...
-                  <br />
-                  Check Back Later!
-                </p>
-              )}
+              {brotherhood.length === 0 && <NoEvents />}
               {brotherhood.length > 0 && (
                 <div className="card-text">
                   {brotherhood.map((event) => (
-                    <div key={event.id} className="all-event-wrapper card">
-                      <div
-                        className="event-clickable"
-                        onClick={() => {
-                          setShowEventInfo(true);
-                          setSelectedEvent(event);
-                        }}
-                      >
-                        <h4>{event.title}</h4>
-                        <p>Click for more info</p>
-                      </div>
-                      {userRole === "admin" && (
-                        <>
-                          <button
-                            className="trash-can-wrapper"
-                            onClick={() =>
-                              handleDelete(
-                                "brotherhood",
-                                event.id,
-                                event.imagePath,
-                              )
-                            }
-                          >
-                            <FaTrash className="trash-can" />
-                          </button>
-                          <button
-                            className="edit-btn-wrapper"
-                            onClick={() =>
-                              handleNavigate(navigate, "Onlybros", {
-                                panel: "brotherhood",
-                                editId: event.id,
-                              })
-                            }
-                          >
-                            Edit
-                          </button>
-                        </>
-                      )}
-                    </div>
+                    <EventCard
+                      key={event.id}
+                      event={event}
+                      collectionName="brotherhood"
+                      userRole={userRole}
+                      navigate={navigate}
+                      onEventClick={setSelectedEvent}
+                    />
                   ))}
                 </div>
               )}
@@ -136,51 +100,18 @@ function AllBros() {
           <div className="card">
             <div className="card-body">
               <h2 className="card-title">Alumni Events</h2>
-              {alumniEvents.length === 0 && (
-                <p className="card-text">
-                  No Events Published...
-                  <br />
-                  Check Back Later!
-                </p>
-              )}
+              {alumniEvents.length === 0 && <NoEvents />}
               {alumniEvents.length > 0 && (
                 <div className="card-text">
                   {alumniEvents.map((event) => (
-                    <div key={event.id} className="all-event-wrapper card">
-                      <div
-                        className="event-clickable"
-                        onClick={() => {
-                          setShowEventInfo(true);
-                          setSelectedEvent(event);
-                        }}
-                      >
-                        <h4>{event.title}</h4>
-                        <p>Click for more info</p>
-                      </div>
-                      {userRole === "admin" && (
-                        <>
-                          <button
-                            className="trash-can-wrapper"
-                            onClick={() => {
-                              handleDelete("alumni", event.id, event.imagePath);
-                            }}
-                          >
-                            <FaTrash className="trash-can" />
-                          </button>
-                          <button
-                            className="edit-btn-wrapper"
-                            onClick={() =>
-                              handleNavigate(navigate, "Onlybros", {
-                                panel: "alumni",
-                                editId: event.id,
-                              })
-                            }
-                          >
-                            Edit
-                          </button>
-                        </>
-                      )}
-                    </div>
+                    <EventCard
+                      key={event.id}
+                      event={event}
+                      collectionName="alumni"
+                      userRole={userRole}
+                      navigate={navigate}
+                      onEventClick={setSelectedEvent}
+                    />
                   ))}
                 </div>
               )}
@@ -189,13 +120,7 @@ function AllBros() {
         </div>
         <div className="regular-events">
           <h2>Events Happening</h2>
-          {events.length === 0 && (
-            <p className="card-text">
-              No Events Published...
-              <br />
-              Check Back Later!
-            </p>
-          )}
+          {events.length === 0 && <NoEvents />}
           {events.length > 0 &&
             events.map((event) => (
               <div key={event.id} className="all-event-wrapper card regular">

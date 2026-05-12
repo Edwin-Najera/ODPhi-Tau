@@ -14,9 +14,7 @@ function Popup({ message, onClose, duration = 1000 }: PopupProps) {
       onClose();
     }, duration);
 
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [duration, onClose]);
 
   return (

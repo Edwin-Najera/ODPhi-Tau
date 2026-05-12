@@ -7,7 +7,7 @@ import type {
   Countdown,
   Alumni,
 } from "../../EventsFolder/eventData";
-import { showMessage } from "../../../utils/handle";
+import { showMessage, handleArrayChange } from "../../../utils/handle";
 import "../../global.css";
 import Popup from "./Popup";
 
@@ -15,7 +15,6 @@ type EditPopupProps = {
   collectionName: string;
   document: BaseDocument | null;
   onClose: () => void;
-  showGallery?: boolean;
   hasDate?: boolean;
   hasItems?: boolean;
   activeHouse?: boolean;
@@ -87,7 +86,7 @@ function EditPopup({
   const handleSaveEdit = async (id: string) => {
     try {
       if (!activeHouse && collectionName !== "countdown") {
-        const updateData: any = {
+        const updateData: Partial<BaseDocument> = {
           title: editTitle,
           description: editDescription,
         };
@@ -97,7 +96,7 @@ function EditPopup({
         }
 
         if (collectionName === "alumni") {
-          updateData.location = editLocation;
+          (updateData as Partial<Alumni>).location = editLocation;
           updateData.date = editDate;
         }
 
@@ -119,22 +118,16 @@ function EditPopup({
 
         await updateDoc(doc(db, "countdown", id), updateData);
       } else {
-        const updateKnight: any = {
+        const updateKnight: Partial<Knights> = {
           type: editType,
           name: editTitle,
           position: editPosition,
         };
 
-        if (editAwards) {
-          updateKnight.awards = editAwards;
-        }
-
-        console.log(updateKnight);
+        updateKnight.awards = editAwards;
 
         await updateDoc(doc(db, collectionName, id), updateKnight);
       }
-
-      setEditType("");
     } catch (error) {
       console.error("Error editing: ", error);
     }
@@ -158,183 +151,183 @@ function EditPopup({
     <div className="popup-overlay" onClick={onClose}>
       <div className="popup-box" onClick={(e) => e.stopPropagation()}>
         <h2>Edit {collectionName === "countdown" ? "Countdown" : "Event"}</h2>
-        <>
-          {collectionName === "countdown" ? (
-            <div className="edit-container countdown">
-              <label htmlFor="documentTitle">Title: </label>
-              <input
-                id="documentTitle"
-                type="text"
-                value={editTitle}
-                onChange={(e) => setEditTitle(e.target.value)}
-                placeholder={document?.title}
-              />
-            </div>
-          ) : (
-            <>
-              {collectionName === "house" ? (
-                <div className="edit-container">
-                  <h4>{(document as Knights).name}</h4>
-                  <label className="admin-label">Choose a Exec/Active</label>
-                  <select
-                    value={editType}
-                    onChange={(e) => setEditType(e.target.value)}
-                  >
-                    <option value="" disabled>
-                      Choose Gallery
-                    </option>
-                    <option value="active">Active</option>
-                    <option value="executive">Executive</option>
-                  </select>
-                  <label htmlFor="knightPosition">Position: </label>
-                  <input
-                    id="knightPosition"
-                    type="text"
-                    value={editPosition}
-                    onChange={(e) => setEditPosition(e.target.value)}
-                    placeholder={(document as Knights).position}
-                  />
-                  <div className="awards-input">
-                    <label htmlFor="awards" className="admin-label">
-                      Enter awards
-                    </label>
-                    {editAwards.map((award, index) => (
-                      <div id="awards" className="knight-row" key={index}>
-                        <input
-                          className="knight-input"
-                          type="text"
-                          value={award.title}
-                          onChange={(e) => {
-                            const updatedAwards = [...editAwards];
-                            ((updatedAwards[index] = {
-                              ...updatedAwards[index],
-                              title: e.target.value,
-                            }),
-                              setEditAwards(updatedAwards));
-                          }}
-                          placeholder={award.title || "Award Title"}
-                        />
-                        <input
-                          className="knight-input award-year"
-                          type="number"
-                          value={award.year}
-                          onChange={(e) => {
-                            const updatedAwards = [...editAwards];
-                            ((updatedAwards[index] = {
-                              ...updatedAwards[index],
-                              year: e.target.value,
-                            }),
-                              setEditAwards(updatedAwards));
-                          }}
-                          placeholder={award.year || "Year"}
-                        />
-                        <button
-                          className="admin-btn delete-btn item-delete"
-                          onClick={() => deleteField(index)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    ))}
-                    <button
-                      className="admin-btn add-btn"
-                      onClick={addAwardField}
-                    >
-                      Add Award
-                    </button>
-                  </div>
+
+        {collectionName === "countdown" ? (
+          <div className="edit-container countdown">
+            <label htmlFor="documentTitle">Title: </label>
+            <input
+              id="documentTitle"
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              placeholder={document?.title}
+            />
+          </div>
+        ) : (
+          <>
+            {collectionName === "house" ? (
+              <div className="edit-container">
+                <h4>{(document as Knights).name}</h4>
+                <label className="admin-label">Choose a Exec/Active</label>
+                <select
+                  value={editType}
+                  onChange={(e) => setEditType(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Choose Gallery
+                  </option>
+                  <option value="active">Active</option>
+                  <option value="executive">Executive</option>
+                </select>
+                <label htmlFor="knightPosition">Position: </label>
+                <input
+                  id="knightPosition"
+                  type="text"
+                  value={editPosition}
+                  onChange={(e) => setEditPosition(e.target.value)}
+                  placeholder={(document as Knights).position}
+                />
+                <div className="awards-input">
+                  <label htmlFor="awards" className="admin-label">
+                    Enter awards
+                  </label>
+                  {editAwards.map((award, index) => (
+                    <div id="awards" className="knight-row" key={index}>
+                      <input
+                        className="knight-input"
+                        type="text"
+                        value={award.title}
+                        onChange={(e) =>
+                          handleArrayChange(
+                            index,
+                            "title",
+                            e.target.value,
+                            editAwards,
+                            setEditAwards,
+                          )
+                        }
+                        placeholder={award.title || "Award Title"}
+                      />
+                      <input
+                        className="knight-input award-year"
+                        type="number"
+                        value={award.year}
+                        onChange={(e) =>
+                          handleArrayChange(
+                            index,
+                            "year",
+                            e.target.value,
+                            editAwards,
+                            setEditAwards,
+                          )
+                        }
+                        placeholder={award.year || "Year"}
+                      />
+                      <button
+                        className="admin-btn delete-btn item-delete"
+                        onClick={() => deleteField(index)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                  <button className="admin-btn add-btn" onClick={addAwardField}>
+                    Add Award
+                  </button>
                 </div>
-              ) : (
-                <div className="edit-container">
-                  <label htmlFor="documentTitle">Title: </label>
-                  <input
-                    id="documentTitle"
-                    type="text"
-                    value={editTitle}
-                    onChange={(e) => setEditTitle(e.target.value)}
-                    placeholder={document?.title}
-                  />
-                  {document?.description && (
-                    <>
-                      <label htmlFor="documentDescription">Description: </label>
-                      <input
-                        id="documentDescription"
-                        type="text"
-                        value={editDescription}
-                        onChange={(e) => setEditDescription(e.target.value)}
-                        placeholder={document?.description}
-                      />
-                    </>
-                  )}
-                  {hasDate && (
-                    <>
-                      <label htmlFor="documentDate">Date: </label>
-                      <input
-                        id="documentDate"
-                        type="datetime-local"
-                        value={editDate}
-                        onChange={(e) => setEditDate(e.target.value)}
-                      />
-                    </>
-                  )}
-                  {editLocation && (
-                    <>
-                      <label htmlFor="eventLocation">Location: </label>
-                      <input
-                        id="eventLocation"
-                        type="text"
-                        value={editLocation}
-                        onChange={(e) => setEditLocation(e.target.value)}
-                      />
-                    </>
-                  )}
-                  {hasItems && (
-                    <>
-                      <label>Items: </label>
-                      <div className="item-input">
-                        {document?.items?.map((item, index) => (
-                          <div key={index} className="item-row">
+              </div>
+            ) : (
+              <div className="edit-container">
+                <label htmlFor="documentTitle">Title: </label>
+                <input
+                  id="documentTitle"
+                  type="text"
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  placeholder={document?.title}
+                />
+                {document?.description && (
+                  <>
+                    <label htmlFor="documentDescription">Description: </label>
+                    <input
+                      id="documentDescription"
+                      type="text"
+                      value={editDescription}
+                      onChange={(e) => setEditDescription(e.target.value)}
+                      placeholder={document?.description}
+                    />
+                  </>
+                )}
+                {hasDate && (
+                  <>
+                    <label htmlFor="documentDate">Date: </label>
+                    <input
+                      id="documentDate"
+                      type="datetime-local"
+                      value={editDate}
+                      onChange={(e) => setEditDate(e.target.value)}
+                    />
+                  </>
+                )}
+                {editLocation && (
+                  <>
+                    <label htmlFor="eventLocation">Location: </label>
+                    <input
+                      id="eventLocation"
+                      type="text"
+                      value={editLocation}
+                      onChange={(e) => setEditLocation(e.target.value)}
+                    />
+                  </>
+                )}
+                {hasItems && (
+                  <>
+                    <label>Items: </label>
+                    <div className="item-input">
+                      {document?.items?.map((item, index) => (
+                        <div key={index} className="item-row">
+                          <input
+                            className="input-event"
+                            type="text"
+                            value={editItems[index]?.name || ""}
+                            onChange={(e) =>
+                              handleArrayChange(
+                                index,
+                                "name",
+                                e.target.value,
+                                editItems,
+                                setEditItems,
+                              )
+                            }
+                            placeholder={item.name}
+                          />
+                          <div className="price-wrapper">
+                            <span>$</span>
                             <input
-                              className="input-event"
+                              className="input-event price-input"
                               type="text"
-                              value={editItems[index]?.name || ""}
-                              onChange={(e) => {
-                                const updatedItems = [...editItems];
-                                ((updatedItems[index] = {
-                                  ...updatedItems[index],
-                                  name: e.target.value,
-                                }),
-                                  setEditItems(updatedItems));
-                              }}
-                              placeholder={item.name}
+                              value={editItems[index]?.price || ""}
+                              onChange={(e) =>
+                                handleArrayChange(
+                                  index,
+                                  "price",
+                                  e.target.value,
+                                  editItems,
+                                  setEditItems,
+                                )
+                              }
+                              placeholder={item.price}
                             />
-                            <div className="price-wrapper">
-                              <span>$</span>
-                              <input
-                                className="input-event price-input"
-                                type="text"
-                                value={editItems[index]?.price || ""}
-                                onChange={(e) => {
-                                  const updatedItems = [...editItems];
-                                  ((updatedItems[index] = {
-                                    ...updatedItems[index],
-                                    price: e.target.value,
-                                  }),
-                                    setEditItems(updatedItems));
-                                }}
-                                placeholder={item.price}
-                              />
-                            </div>
                           </div>
-                        ))}
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-            </>
-          )}
-        </>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </>
+        )}
 
         <button
           className="admin-btn save-btn"

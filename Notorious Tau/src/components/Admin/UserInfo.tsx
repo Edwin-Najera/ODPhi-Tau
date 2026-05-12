@@ -6,15 +6,13 @@ function UserInfo() {
   const { userRole, email: userEmail } = useAuthRole();
   const navigate = useNavigate();
 
-  let username = userEmail?.split("0")[0];
-  username = username?.split(".")[0];
-  if (!userEmail) {
-    return null;
-  }
+  if (!userEmail) return null;
+
+  const username = userEmail?.split("0")[0].split(".")[0].toUpperCase();
 
   return (
     <div className="user-info-container">
-      {username?.toUpperCase()} | {userRole?.toUpperCase()} |
+      {username} | {userRole?.toUpperCase()} |
       <button className="logout-btn" onClick={() => handleLogout(navigate)}>
         Logout
       </button>

@@ -1,32 +1,39 @@
 import { httpsCallable } from "firebase/functions";
 import { functions } from "../../../firebase";
 import { useState } from "react";
+import { showMessage } from "../../../utils/handle";
+import Popup from "../PopupFolder/Popup";
 import "../../global.css";
+
+const setUserRole = httpsCallable(functions, "setUserRole");
+const listUser = httpsCallable(functions, "listUser");
+
+type Role = "admin" | "alumni" | "bro" | "active";
 
 function AssignRole() {
   const [uid, setUid] = useState("");
-  const [role, setRole] = useState<"admin" | "alumni" | "bro" | "active">(
-    "bro",
-  );
-
-  const setUserRole = httpsCallable(functions, "setUserRole");
-  const listUser = httpsCallable(functions, "listUser");
+  const [role, setRole] = useState<Role>("bro");
+  const [popup, setPopup] = useState<{
+    show: boolean;
+    message: string;
+    type: "save" | "active" | null;
+  }>({ show: false, message: "", type: null });
 
   //Assigns the roles
   const handleAssignRole = async () => {
     try {
       await setUserRole({ uid, role });
-      alert("Role assigned successfully");
+      showMessage("Role assigned successfully", "save", setPopup);
     } catch (error) {
       console.error(error);
-      alert("Unable to assign role");
+      showMessage("Unable to assign role", "save", setPopup);
     }
   };
 
   const handleList = async () => {
     const result = await listUser();
 
-    return result;
+    console.log(result);
   };
 
   return (
@@ -44,9 +51,7 @@ function AssignRole() {
       <select
         className="role-input"
         value={role}
-        onChange={(e) =>
-          setRole(e.target.value as "admin" | "alumni" | "bro" | "active")
-        }
+        onChange={(e) => setRole(e.target.value as Role)}
       >
         <option value="admin">Administrator Active</option>
         <option value="active">Actives Only</option>
@@ -57,6 +62,12 @@ function AssignRole() {
 
       <button onClick={handleAssignRole}>Assign Role</button>
       <button onClick={handleList}>List Users in console</button>
+      {popup.show && (
+        <Popup
+          message={popup.message}
+          onClose={() => setPopup({ show: false, message: "", type: null })}
+        />
+      )}
     </div>
   );
 }

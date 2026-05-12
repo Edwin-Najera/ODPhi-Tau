@@ -1,10 +1,11 @@
-import { useState, useEffect, type JSX } from "react";
+import { useState, useEffect } from "react";
+import type { ReactElement } from "react";
 import { auth } from "../../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, type User } from "firebase/auth";
 import { Navigate } from "react-router-dom";
 
-function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const [user, setUser] = useState<any>(null);
+function ProtectedRoute({ children }: { children: ReactElement }) {
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

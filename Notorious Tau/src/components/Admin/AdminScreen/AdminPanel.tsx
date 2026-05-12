@@ -1,4 +1,4 @@
-import { useState, type JSX, type JSXElementConstructor } from "react";
+import { useState } from "react";
 import { db } from "../../../firebase";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import {
