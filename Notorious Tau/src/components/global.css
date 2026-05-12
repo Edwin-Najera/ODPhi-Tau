@@ -561,6 +561,7 @@ hr {
 .about-description {
   width: 50%;
   text-align: start;
+  gap: 10px;
   @media (max-width: 992px) {
     width: 100%;
     text-align: center;
@@ -2806,6 +2807,7 @@ a.click-button {
 .tau-history,
 .purpose {
   width: 100%;
+  gap: 15px;
 }
 
 .memories {

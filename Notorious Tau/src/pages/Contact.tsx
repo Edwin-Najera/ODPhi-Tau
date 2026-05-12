@@ -77,8 +77,7 @@ function Contact() {
   return (
     <div className="contact-page">
       <h3>Contact Us</h3>
-      <div className="line-separate" />
-      <br />
+      <div className="line-separate mb-3" />
       <div className="contact-info">
         <div className="reach-info">
           <h5>Recruitment & President</h5>
@@ -98,8 +97,7 @@ function Contact() {
         </div>
         <div className="core-values">
           <h5>Our Core Values</h5>
-          <div className="line-separate" />
-          <br />
+          <div className="line-separate mb-4" />
           <ul className="core-values-list">
             {sacraments.map((sacrament, index) => (
               <li

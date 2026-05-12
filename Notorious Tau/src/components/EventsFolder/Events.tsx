@@ -1,5 +1,4 @@
 import "../global.css";
-import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthRole, useCollection } from "../../utils/auth";
 import type { EventItem } from "./eventData";
@@ -22,20 +21,13 @@ function Events() {
 
   return (
     <div className="events-container">
-      {countdowns.length > 0 && (
-        <>
-          {countdowns.map((countdown, index) => (
-            <Fragment key={index}>
-              <CountdownEvent countdown={countdown} />
-              <br />
-            </Fragment>
-          ))}
-        </>
-      )}
+      {countdowns.map((countdown) => (
+        <CountdownEvent key={countdown.id} countdown={countdown} />
+      ))}
       {events.map((event, index) => (
         <div
           key={event.id}
-          className={`card card-container ${index % 2 !== 0 ? "reverse" : null}`}
+          className={`card card-container ${index % 2 !== 0 ? "reverse" : ""}`}
         >
           <UserControls
             userRole={userRole}
@@ -49,25 +41,24 @@ function Events() {
             alt="Event"
           />
           <div className="event-card-info">
-            {/* We will ask the user the event title and the description such that it will be displayed here */}
             <div className="card-text">
               <h1 className="event-title">{event.title}</h1>
-              <div>
-                <p>{event.description}</p>
-                <h5>Prices below</h5>
-                {/* We will ask the user which items will be sold and the prices at which they are sold
-                This will update as the user adds it */}
-                <div className="event-prices">
-                  <ul className="sell-items">
-                    {event.items?.map((item: EventItem, index: number) => (
-                      <li key={index}>
-                        <span className="item-name">{item.name}</span>
-                        <span className="item-price">${item.price}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+              <p>{event.description}</p>
+              {event.items?.length > 0 && (
+                <>
+                  <h5>Prices below</h5>
+                  <div className="event-prices">
+                    <ul className="sell-items">
+                      {event.items?.map((item: EventItem, index: number) => (
+                        <li key={index}>
+                          <span className="item-name">{item.name}</span>
+                          <span className="item-price">${item.price}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

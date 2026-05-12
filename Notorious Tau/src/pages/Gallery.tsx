@@ -15,9 +15,8 @@ function Gallery() {
     <div className="odphi-gallery-page">
       <div className="odphi-gallery-title">
         <h1>
-          Omega Delta Phi
-          <br />
-          Year Highlights
+          <p>Omega Delta Phi</p>
+          <p>Year Highlights</p>
         </h1>
       </div>
       <div className="odphi-gallery-container">

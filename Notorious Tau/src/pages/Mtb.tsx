@@ -130,52 +130,58 @@ function Mtb() {
             <h3 className="row">Tau Chapter History</h3>
             <img className="col img-fluid memories" src={memories} />
             <div className="col text-col">
-              <p className="tau-history">
-                The Tau Chapter of Omega Delta Phi Fraternity, Inc. was
-                established at the University of Texas at Arlington to continue
-                the fraternity’s mission of promoting unity, leadership,
-                academic excellence, and community service. Founded nationally
-                on November 25, 1987, at Texas Tech University, Omega Delta Phi
-                was created to provide a brotherhood that celebrates diversity
-                while developing leaders committed to serving their communities.
-                <br />
-                <br />
-                Since its establishment, the Tau Chapter has worked to uphold
-                these founding principles on the UTA campus. The chapter has
-                contributed to the growth of multicultural Greek life by
-                creating opportunities for students to build meaningful
-                connections, develop leadership skills, and give back through
-                service initiatives.
-                <br />
-                <br />
-                Throughout its history, the Tau Chapter has remained committed
-                to fostering strong brotherhood while making a positive impact
-                both on campus and in the surrounding Arlington community.
-                Through philanthropy events, campus involvement, & alumni
-                support, the chapter continues to build upon the legacy of Omega
-                Delta Phi and shape future leaders.
-              </p>
+              <div className="tau-history">
+                <p>
+                  The Tau Chapter of Omega Delta Phi Fraternity, Inc. was
+                  established at the University of Texas at Arlington to
+                  continue the fraternity’s mission of promoting unity,
+                  leadership, academic excellence, and community service.
+                  Founded nationally on November 25, 1987, at Texas Tech
+                  University, Omega Delta Phi was created to provide a
+                  brotherhood that celebrates diversity while developing leaders
+                  committed to serving their communities.
+                </p>
+                <p>
+                  Since its establishment, the Tau Chapter has worked to uphold
+                  these founding principles on the UTA campus. The chapter has
+                  contributed to the growth of multicultural Greek life by
+                  creating opportunities for students to build meaningful
+                  connections, develop leadership skills, and give back through
+                  service initiatives.
+                </p>
+                <p>
+                  Throughout its history, the Tau Chapter has remained committed
+                  to fostering strong brotherhood while making a positive impact
+                  both on campus and in the surrounding Arlington community.
+                  Through philanthropy events, campus involvement, & alumni
+                  support, the chapter continues to build upon the legacy of
+                  Omega Delta Phi and shape future leaders.
+                </p>
+              </div>
             </div>
           </div>
           <div className="tau-history-container row">
             <h3 className="row">Purpose & Founders</h3>
-            <p className="purpose col">
-              The purpose of this brotherhood, a <strong>Service/Social</strong>{" "}
-              fraternity dedicated to the needs and concerns of the community,
-              shall be to promote & maintain the traditional values of unity,
-              honesty, integrity & leadership. This brotherhood was founded in
-              order to provide to <strong>ANY man</strong> a diverse fraternal
-              experience which coincides with a higher education.
-              <br />
-              <br />
-              Our <strong>Seven Founders</strong> sought to make change through
-              the fraternity. Regardless of background, Omega Delta Phi welcomes
-              all. Founded on <strong>November 25th, 1987</strong> at Texas Tech
-              University, what began as a single idea on one campus has grown
-              into a national brotherhood that continues to shape leaders,
-              strengthen communities, and provide every man a home away from
-              home.
-            </p>
+            <div className="purpose col">
+              <p>
+                The purpose of this brotherhood, a{" "}
+                <strong>Service/Social</strong> fraternity dedicated to the
+                needs and concerns of the community, shall be to promote &
+                maintain the traditional values of unity, honesty, integrity &
+                leadership. This brotherhood was founded in order to provide to{" "}
+                <strong>ANY man</strong> a diverse fraternal experience which
+                coincides with a higher education.
+              </p>
+              <p>
+                Our <strong>Seven Founders</strong> sought to make change
+                through the fraternity. Regardless of background, Omega Delta
+                Phi welcomes all. Founded on{" "}
+                <strong>November 25th, 1987</strong> at Texas Tech University,
+                what began as a single idea on one campus has grown into a
+                national brotherhood that continues to shape leaders, strengthen
+                communities, and provide every man a home away from home.
+              </p>
+            </div>
             <img
               className="col img-fluid memories"
               src={founders}

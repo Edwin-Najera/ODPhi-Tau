@@ -373,9 +373,7 @@ function AdminPanel({
               + Add Another Award
             </button>
           </>
-          <br />
-          <br />
-          <button className="admin-btn" onClick={handleSubmit}>
+          <button className="admin-btn mt-4" onClick={handleSubmit}>
             {loading ? "Saving..." : "Save Event"}
           </button>
           {popup.show && (
@@ -437,8 +435,7 @@ function AdminPanel({
           (!onlyPhotos || eventForm.title === "gallery") && (
             // When an event does not have a date or isn't `onlyPhotos=true` the following will be executed
             <>
-              <br />
-              <label className="admin-label">Enter Description</label>
+              <label className="admin-label mt-2">Enter Description</label>
               <textarea
                 className="description-input"
                 placeholder="Description"
@@ -452,8 +449,7 @@ function AdminPanel({
         {hasDate && (
           //If there is a date, then we will ask for the date of the event
           <>
-            <br />
-            <label className="admin-label">Enter Date</label>
+            <label className="admin-label mt-2">Enter Date</label>
             <input
               type="datetime-local"
               value={
@@ -468,8 +464,7 @@ function AdminPanel({
         )}
         {collectionName === "alumni" && (
           <>
-            <br />
-            <label htmlFor="eventLocation" className="admin-label">
+            <label htmlFor="eventLocation" className="admin-label mt-2">
               Location
             </label>
             <input
@@ -582,9 +577,7 @@ function AdminPanel({
             </button>
           </>
         )}
-        <br />
-        {!hasDate && <br />}
-        <button className="admin-btn" onClick={handleSubmit}>
+        <button className="admin-btn mt-4" onClick={handleSubmit}>
           Save Event
         </button>
         {popup.show && (

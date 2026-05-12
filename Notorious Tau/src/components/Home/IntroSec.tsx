@@ -32,17 +32,15 @@ function IntroSec() {
   }, []);
 
   return (
-    <>
-      <div className="home-grid">
-        <div className="left-half">
-          <div className="relative-container"></div>
-          <h2 className="text-left" ref={textRefLeft}></h2>
-        </div>
-        <div className="right-half">
-          <img src={tau} alt="TAU" />
-        </div>
+    <div className="home-grid">
+      <div className="left-half">
+        <div className="relative-container"></div>
+        <h2 className="text-left" ref={textRefLeft}></h2>
       </div>
-    </>
+      <div className="right-half">
+        <img src={tau} alt="TAU" />
+      </div>
+    </div>
   );
 }
 

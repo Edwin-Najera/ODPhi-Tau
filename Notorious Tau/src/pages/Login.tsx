@@ -67,7 +67,7 @@ function Login() {
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
           />
-          <div className="password-wrapper">
+          <div className="password-wrapper mb-4">
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
@@ -80,8 +80,6 @@ function Login() {
               {showPassword ? <FaEye /> : <FaEyeSlash />}
             </button>
           </div>
-          <br />
-          <br />
           <button onClick={handleLogin}>Login</button>
         </div>
       </div>
