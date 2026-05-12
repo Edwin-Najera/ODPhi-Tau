@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useCollection } from "../../../utils/auth";
 import CountdownEvent from "../../EventsFolder/CountdownEvent";
 

@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import type {
   BaseDocument,
   EventItem,
@@ -18,6 +18,7 @@ type Props = {
   hasDate?: boolean;
   onlyPhotos?: boolean;
   activeHouse?: boolean;
+  editId?: string | null;
 };
 
 function AdminTabs({
@@ -27,10 +28,22 @@ function AdminTabs({
   hasDate = false,
   onlyPhotos = false,
   activeHouse = false,
+  editId = null,
 }: Props) {
   const documents = useCollection({ collectionName, activeHouse, onlyPhotos });
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editPopupOpen, setEditPopupOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(editId);
+  const [editPopupOpen, setEditPopupOpen] = useState(!!editId);
+
+  useEffect(() => {
+    setEditingId(editId ?? null);
+    setEditPopupOpen(false);
+  }, [editId]);
+
+  useEffect(() => {
+    if (editingId && documents.length > 0) {
+      setEditPopupOpen(true);
+    }
+  }, [editingId, documents]);
 
   const handleEdit = (event: any) => {
     setEditingId(event.id);

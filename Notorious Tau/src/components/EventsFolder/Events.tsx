@@ -35,7 +35,7 @@ function Events() {
       )}
       {events.map((event, index) => (
         <div
-          key={index}
+          key={event.id}
           className={`card card-container ${index % 2 !== 0 ? "reverse" : null}`}
         >
           {userRole === "admin" && (
@@ -50,7 +50,12 @@ function Events() {
               </button>
               <button
                 className="edit-btn-wrapper"
-                onClick={() => handleNavigate(navigate, "Onlybros", "events")}
+                onClick={() =>
+                  handleNavigate(navigate, "Onlybros", {
+                    panel: "events",
+                    editId: event.id,
+                  })
+                }
               >
                 Edit
               </button>

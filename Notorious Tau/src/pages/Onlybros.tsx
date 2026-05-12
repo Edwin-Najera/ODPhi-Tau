@@ -11,10 +11,16 @@ function Onlybros() {
   const [activePanel, setActivePanel] = useState(
     searchParams.get("panel") ?? "",
   );
+  const editId = searchParams.get("editId") ?? null;
 
   const changePanel = (panel: string) => {
-    if (panel !== activePanel) setActivePanel(panel);
-    else setActivePanel("");
+    if (panel !== activePanel) {
+      setActivePanel(panel);
+      navigate(`/Onlybros?panel=${panel}`);
+    } else {
+      setActivePanel("");
+      navigate("/Onlybros");
+    }
   };
 
   return (
@@ -91,6 +97,7 @@ function Onlybros() {
             collectionName="events"
             tabTitle="Events"
             hasItems={true}
+            editId={editId}
           />
         )}
 
@@ -99,17 +106,24 @@ function Onlybros() {
             collectionName="brotherhood"
             tabTitle="Brotherhood"
             hasDate={true}
+            editId={editId}
           />
         )}
 
         {activePanel === "alumni" && (
-          <AdminTabs collectionName="alumni" tabTitle="Alumni" hasDate={true} />
+          <AdminTabs
+            collectionName="alumni"
+            tabTitle="Alumni"
+            hasDate={true}
+            editId={editId}
+          />
         )}
         {activePanel === "gallery" && (
           <AdminTabs
             collectionName="photos"
             tabTitle="Gallery Photos"
             onlyPhotos={true}
+            editId={editId}
           />
         )}
 
@@ -118,6 +132,7 @@ function Onlybros() {
             collectionName="house"
             tabTitle="House & Execs"
             activeHouse={true}
+            editId={editId}
           />
         )}
 

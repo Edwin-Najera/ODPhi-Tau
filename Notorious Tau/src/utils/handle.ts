@@ -22,9 +22,10 @@ export const handleLogout = async (navigate: NavigateFunction) => {
 export const handleNavigate = async (
   navigate: NavigateFunction,
   location: string,
-  panel?: string,
+  params?: Record<string, string>,
 ) => {
-  navigate(`/${location}${panel ? `?panel=${panel}` : ""}`);
+  const query = params ? `?${new URLSearchParams(params).toString()}` : "";
+  navigate(`/${location}${query}`);
 };
 
 export const uploadImage = async (imageFile: File, path: string) => {

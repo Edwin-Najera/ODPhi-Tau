@@ -115,11 +115,10 @@ function AllBros() {
                           <button
                             className="edit-btn-wrapper"
                             onClick={() =>
-                              handleNavigate(
-                                navigate,
-                                "Onlybros",
-                                "brotherhood",
-                              )
+                              handleNavigate(navigate, "Onlybros", {
+                                panel: "brotherhood",
+                                editId: event.id,
+                              })
                             }
                           >
                             Edit
@@ -171,7 +170,10 @@ function AllBros() {
                           <button
                             className="edit-btn-wrapper"
                             onClick={() =>
-                              handleNavigate(navigate, "Onlybros", "alumni")
+                              handleNavigate(navigate, "Onlybros", {
+                                panel: "alumni",
+                                editId: event.id,
+                              })
                             }
                           >
                             Edit
@@ -246,7 +248,10 @@ function AllBros() {
                     <button
                       className="edit-btn-wrapper"
                       onClick={() =>
-                        handleNavigate(navigate, "Onlybros", "events")
+                        handleNavigate(navigate, "Onlybros", {
+                          panel: "events",
+                          editId: event.id,
+                        })
                       }
                     >
                       Edit

@@ -237,7 +237,10 @@ function Alumni() {
                             <button
                               className="edit-btn-wrapper"
                               onClick={() =>
-                                handleNavigate(navigate, "Onlybros", "alumni")
+                                handleNavigate(navigate, "Onlybros", {
+                                  panel: "alumni",
+                                  editId: event.id,
+                                })
                               }
                             >
                               Edit
@@ -303,7 +306,10 @@ function Alumni() {
                       <button
                         className="edit-btn-wrapper"
                         onClick={() =>
-                          handleNavigate(navigate, "Onlybros", "alumni")
+                          handleNavigate(navigate, "Onlybros", {
+                            panel: "events",
+                            editId: event.id,
+                          })
                         }
                       >
                         Edit
@@ -352,7 +358,10 @@ function Alumni() {
                       <button
                         className="edit-btn-wrapper"
                         onClick={() =>
-                          handleNavigate(navigate, "Onlybros", "alumni")
+                          handleNavigate(navigate, "Onlybros", {
+                            panel: "brotherhood",
+                            editId: event.id,
+                          })
                         }
                       >
                         Edit
