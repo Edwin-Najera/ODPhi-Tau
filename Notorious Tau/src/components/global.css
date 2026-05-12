@@ -2349,6 +2349,11 @@ a.click-button {
   }
 }
 
+.tau-brotherhood .card-text,
+.tau-events .card-text {
+  gap: 10px;
+}
+
 .photos-side-bar .card {
   height: 100%;
   overflow: hidden;
