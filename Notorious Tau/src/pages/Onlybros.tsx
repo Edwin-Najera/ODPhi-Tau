@@ -13,6 +13,17 @@ function Onlybros() {
   );
   const editId = searchParams.get("editId") ?? null;
 
+  const panels = [
+    { id: "events", label: "Events" },
+    { id: "brotherhood", label: "Brotherhood" },
+    { id: "service", label: "Service" },
+    { id: "alumni", label: "Alumni" },
+    { id: "gallery", label: "Gallery" },
+    { id: "house", label: "Active & Execs" },
+    { id: "countdown", label: "Countdown" },
+    { id: "assign", label: "Assign Roles" },
+  ];
+
   const changePanel = (panel: string) => {
     if (panel !== activePanel) {
       setActivePanel(panel);
@@ -42,54 +53,15 @@ function Onlybros() {
             Brotherhood Events
           </button>
         </div>
-        <button
-          className={`admin-show-button ${activePanel === "events" ? "active" : ""}`}
-          onClick={() => changePanel("events")}
-        >
-          Events
-        </button>
-        <button
-          className={`admin-show-button ${activePanel === "brotherhood" ? "active" : ""}`}
-          onClick={() => changePanel("brotherhood")}
-        >
-          Brotherhood
-        </button>
-        <button
-          className={`admin-show-button ${activePanel === "service" ? "active" : ""}`}
-          onClick={() => changePanel("service")}
-        >
-          Service
-        </button>
-        <button
-          className={`admin-show-button ${activePanel === "alumni" ? "active" : ""}`}
-          onClick={() => changePanel("alumni")}
-        >
-          Alumni
-        </button>
-        <button
-          className={`admin-show-button ${activePanel === "gallery" ? "active" : ""}`}
-          onClick={() => changePanel("gallery")}
-        >
-          Gallery
-        </button>
-        <button
-          className={`admin-show-button ${activePanel === "house" ? "active" : ""}`}
-          onClick={() => changePanel("house")}
-        >
-          Active & Execs
-        </button>
-        <button
-          className={`admin-show-button ${activePanel === "countdown" ? "active" : ""}`}
-          onClick={() => changePanel("countdown")}
-        >
-          Countdown
-        </button>
-        <button
-          className={`admin-show-button ${activePanel === "assign" ? "active" : ""}`}
-          onClick={() => changePanel("assign")}
-        >
-          Assign Roles
-        </button>
+        {panels.map(({ id, label }) => (
+          <button
+            key={id}
+            className={`admin-show-button ${activePanel === id ? "active" : ""}`}
+            onClick={() => changePanel(id)}
+          >
+            {label}
+          </button>
+        ))}
       </div>
       <div className="admin-panels-container">
         {activePanel === "events" && (
