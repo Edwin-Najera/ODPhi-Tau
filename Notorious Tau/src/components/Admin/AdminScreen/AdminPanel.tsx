@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type JSX, type JSXElementConstructor } from "react";
 import { db } from "../../../firebase";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import {
@@ -24,6 +24,13 @@ type Props = {
   hasDate?: boolean;
   onlyPhotos?: boolean;
   activeHouse?: boolean;
+};
+
+type ImageProps = {
+  label?: string;
+  showPreview?: boolean;
+  imageFile: File | null;
+  onChange: (file: File) => void;
 };
 
 function AdminPanel({
@@ -68,15 +75,25 @@ function AdminPanel({
   const [loading, setLoading] = useState(false);
   const [displayEvents, setDisplayEvents] = useState(false);
 
+  const IMPORTANT_EVENTS = [
+    "Initiation",
+    "Mid-Review",
+    "Activation",
+    "PM Social",
+    "PM Fundraisers",
+    "Probate Dates",
+  ];
+
   const handleSubmit = async () => {
     setLoading(true);
 
-    let message = "";
     if (!activeHouse) {
       if (!eventForm.title) {
-        message = onlyPhotos ? "Please Choose a Gallery" : "Title Required";
-
-        showMessage(message, "save", setPopup);
+        showMessage(
+          onlyPhotos ? "Please Choose a Gallery" : "Title Required",
+          "save",
+          setPopup,
+        );
         return;
       } else if (
         !imageFile &&
@@ -84,18 +101,14 @@ function AdminPanel({
         collectionName !== "campus" &&
         collectionName !== "brotherhood"
       ) {
-        message = "Image File required";
-        showMessage(message, "save", setPopup);
+        showMessage("Image File required", "save", setPopup);
         return;
       } else if (hasDate && eventForm.date === "") {
-        message = "Event date Required";
-        showMessage(message, "save", setPopup);
+        showMessage("Event date Required", "save", setPopup);
         return;
       }
     } else if (!knightForm.type) {
-      message = "Please Choose a Gallery";
-
-      showMessage(message, "save", setPopup);
+      showMessage("Please Choose a Gallery", "save", setPopup);
       return;
     } else if (
       !imageFile &&
@@ -103,8 +116,7 @@ function AdminPanel({
       collectionName !== "campus" &&
       collectionName !== "brotherhood"
     ) {
-      message = "Image File required";
-      showMessage(message, "save", setPopup);
+      showMessage("Image File required", "save", setPopup);
       return;
     }
 
@@ -137,9 +149,7 @@ function AdminPanel({
         createdAt: new Date(),
       };
 
-      if (awards) {
-        newKnight.awards = awards;
-      }
+      newKnight.awards = awards;
 
       if (imageFile) {
         if (activeHouse) {
@@ -156,8 +166,7 @@ function AdminPanel({
       }
       if (hasDate) {
         if (!eventForm.date) {
-          message = "Date Required";
-          showMessage(message, "save", setPopup);
+          showMessage("Date Required", "save", setPopup);
           return;
         }
 
@@ -173,7 +182,6 @@ function AdminPanel({
         const customId = `${identifier}_${autoId}`;
 
         const newDocument = activeHouse ? newKnight : newEvent;
-        console.log(newDocument);
 
         await setDoc(doc(db, collectionName, customId), newDocument);
       } else if (collectionName === "alumni") {
@@ -182,8 +190,7 @@ function AdminPanel({
         await addDoc(collection(db, collectionName), newEvent);
       }
 
-      message = "Event added Successfully";
-      showMessage(message, "save", setPopup);
+      showMessage("Event added Successfully", "save", setPopup);
 
       setEventForm({
         title: "",
@@ -205,12 +212,12 @@ function AdminPanel({
       setAlumniForm({
         title: "",
         important: false,
+        location: "",
       });
       setItems([{ name: "", price: "" }]);
       setImageFile(null);
     } catch (error) {
-      message = "Error adding event";
-      showMessage(message, "save", setPopup);
+      showMessage("Error adding event", "save", setPopup);
       console.error(error);
     } finally {
       setLoading(false);
@@ -304,19 +311,10 @@ function AdminPanel({
             placeholder="Cross Date Semester-Year"
             onChange={(e) => handleKnightChange("crossDate", e.target.value)}
           />
-          <br />
-          <label htmlFor="event-image" className="admin-label">
-            Enter Knight Image
-          </label>
-          <input
-            type="file"
-            id="event-image"
-            accept="image/*"
-            onChange={(e) => {
-              if (e.target.files) {
-                setImageFile(e.target.files[0]);
-              }
-            }}
+          <ImageInput
+            label="Enter Knight Image"
+            imageFile={imageFile}
+            onChange={(file) => setImageFile(file)}
           />
           <>
             <div className="awards-input">
@@ -377,17 +375,9 @@ function AdminPanel({
           </>
           <br />
           <br />
-          <button className="admin-btn" onClick={() => handleSubmit()}>
+          <button className="admin-btn" onClick={handleSubmit}>
             {loading ? "Saving..." : "Save Event"}
           </button>
-          {popup.show && popup.type === "active" && (
-            <Popup
-              message=""
-              onClose={() =>
-                setPopup({ show: false, type: "active", message: "" })
-              }
-            />
-          )}
           {popup.show && (
             <Popup
               message={popup.message}
@@ -511,12 +501,9 @@ function AdminPanel({
                 <div className="row ms-3">
                   <div className="col">Important is for following events</div>
                   <ul>
-                    <li>Initiation</li>
-                    <li>Mid-Review</li>
-                    <li>Activation</li>
-                    <li>PM Social</li>
-                    <li>PM Fundraisers</li>
-                    <li>Probate Dates</li>
+                    {IMPORTANT_EVENTS.map((event) => (
+                      <li key={event}>{event}</li>
+                    ))}
                   </ul>
                 </div>
               )}
@@ -525,26 +512,11 @@ function AdminPanel({
         )}
         {!hasDate && collectionName !== "brotherhood" && (
           // If the event requires an image, there will be an input for images
-          <>
-            <br />
-            <label className="admin-label">Enter Event Image</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                if (e.target.files) {
-                  setImageFile(e.target.files[0]);
-                }
-              }}
-            />
-            {imageFile && (
-              <img
-                src={URL.createObjectURL(imageFile)}
-                alt=""
-                className="preview-image"
-              />
-            )}
-          </>
+          <ImageInput
+            imageFile={imageFile}
+            showPreview={true}
+            onChange={(file) => setImageFile(file)}
+          />
         )}
         {hasItems && (
           // If the event has items to sell there will be an input for it
@@ -612,7 +584,7 @@ function AdminPanel({
         )}
         <br />
         {!hasDate && <br />}
-        <button className="admin-btn" onClick={() => handleSubmit()}>
+        <button className="admin-btn" onClick={handleSubmit}>
           Save Event
         </button>
         {popup.show && (
@@ -626,5 +598,31 @@ function AdminPanel({
     </div>
   );
 }
+
+const ImageInput = ({
+  label = "Enter Event Image",
+  showPreview = false,
+  imageFile,
+  onChange,
+}: ImageProps) => (
+  <>
+    <br />
+    <label className="admin-label">{label}</label>
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => {
+        if (e.target.files) onChange(e.target.files[0]);
+      }}
+    />
+    {showPreview && imageFile && (
+      <img
+        src={URL.createObjectURL(imageFile)}
+        alt=""
+        className="preview-image"
+      />
+    )}
+  </>
+);
 
 export default AdminPanel;

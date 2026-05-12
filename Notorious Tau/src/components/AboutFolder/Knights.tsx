@@ -12,47 +12,38 @@ function KnightCards({ knight, index, hasAwards = false }: Props) {
   const { ref: myRef, inView: visibleElement } = useInView({
     triggerOnce: true,
   });
-  let card = "knight-card";
 
-  if (visibleElement) {
-    card = "knight-card show";
-  }
+  const cardClass = `knight-card${visibleElement ? "show" : ""}`;
 
   if (hasAwards) {
     return (
-      <>
-        <div ref={myRef} className={card}>
-          <div>
-            <span>{knight.name}</span>
-            {knight.awards.map((award, index) => (
-              <Fragment key={index}>
-                <span>{award.title}</span>
-                <span>{award.year}</span>
-              </Fragment>
-            ))}
-          </div>
+      <div ref={myRef} className={cardClass}>
+        <div>
+          <span>{knight.name}</span>
+          {knight.awards.map((award, index) => (
+            <Fragment key={index}>
+              <span>{award.title}</span>
+              <span>{award.year}</span>
+            </Fragment>
+          ))}
         </div>
-      </>
+      </div>
     );
   }
   return (
-    <>
-      <div
-        ref={myRef}
-        className={card}
-        style={{ animationDelay: `${index * 250}ms` }}
-      >
-        <div className="image-wrapper">
-          <img src={knight.imageURL} alt="knightutive" />
-        </div>
-        <div className="mtb-knight">
-          <span className="knight-name">{knight.name}</span>
-          <span className="knight-line-number">
-            Knight #{knight.lineNumber}
-          </span>
-        </div>
+    <div
+      ref={myRef}
+      className={cardClass}
+      style={{ animationDelay: `${index * 250}ms` }}
+    >
+      <div className="image-wrapper">
+        <img src={knight.imageURL} alt="knight image" />
       </div>
-    </>
+      <div className="mtb-knight">
+        <span className="knight-name">{knight.name}</span>
+        <span className="knight-line-number">Knight #{knight.lineNumber}</span>
+      </div>
+    </div>
   );
 }
 

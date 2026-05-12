@@ -103,7 +103,7 @@ function Contact() {
           <ul className="core-values-list">
             {sacraments.map((sacrament, index) => (
               <li
-                key={index}
+                key={sacrament}
                 className="values"
                 style={{ animationDelay: `${index * 300}ms` }}
               >
