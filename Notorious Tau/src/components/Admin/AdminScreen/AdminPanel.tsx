@@ -7,6 +7,7 @@ import {
   handleDeleteArrayItem,
   uploadImage,
   showMessage,
+  formatPrice,
 } from "../../../utils/handle";
 import "../../global.css";
 import type {
@@ -540,16 +541,14 @@ function AdminPanel({
                     <span>$</span>
                     <input
                       className="input-event price-input"
-                      type="number"
-                      min="0"
-                      step="0.01"
+                      type="text"
                       placeholder="Price 0.00"
                       value={item.price}
                       onChange={(e) =>
                         handleArrayChange(
                           index,
                           "price",
-                          e.target.value,
+                          formatPrice(e.target.value) as string,
                           items,
                           setItems,
                         )

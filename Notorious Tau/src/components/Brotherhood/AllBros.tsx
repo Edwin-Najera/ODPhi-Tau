@@ -133,7 +133,7 @@ function AllBros() {
                   </div>
                   <div className="col-md-8">
                     <div className="card-body">
-                      <h4 className="card-title">{event.eventTitle}</h4>
+                      <h4 className="card-title">{event.title}</h4>
                       <p>{event.description}</p>
                       {event.items.length > 0 && (
                         <>

@@ -128,7 +128,7 @@ function Mtb() {
           </div>
           <div className="tau-history-container row">
             <h3 className="row">Tau Chapter History</h3>
-            <img className="col img-fluid memories" src={memories} />
+            <img className="col img-fluid memories ms-3 p-3" src={memories} />
             <div className="col text-col">
               <div className="tau-history">
                 <p>
@@ -183,7 +183,7 @@ function Mtb() {
               </p>
             </div>
             <img
-              className="col img-fluid memories"
+              className="col img-fluid memories me-3"
               src={founders}
               alt="Founder"
             />

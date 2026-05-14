@@ -320,6 +320,10 @@
   justify-content: space-evenly;
 }
 
+.events-container {
+  padding: 3em 0;
+}
+
 .events-container,
 .countdown-events-container {
   display: grid;
@@ -2815,6 +2819,7 @@ a.click-button {
   height: 8%;
   object-fit: cover;
   border-radius: 8px;
+  background: white;
 
   @media (max-width: 992px) {
     display: none;

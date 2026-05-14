@@ -20,7 +20,12 @@ function Events() {
   const navigate = useNavigate();
 
   return (
-    <div className="events-container">
+    <div
+      className="events-container"
+      style={
+        events.length <= 0 && countdowns.length <= 0 ? { display: "none" } : {}
+      }
+    >
       {countdowns.map((countdown) => (
         <CountdownEvent key={countdown.id} countdown={countdown} />
       ))}

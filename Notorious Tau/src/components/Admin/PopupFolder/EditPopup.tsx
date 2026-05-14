@@ -7,7 +7,11 @@ import type {
   Countdown,
   Alumni,
 } from "../../EventsFolder/eventData";
-import { showMessage, handleArrayChange } from "../../../utils/handle";
+import {
+  showMessage,
+  handleArrayChange,
+  formatPrice,
+} from "../../../utils/handle";
 import "../../global.css";
 import Popup from "./Popup";
 
@@ -311,7 +315,7 @@ function EditPopup({
                                 handleArrayChange(
                                   index,
                                   "price",
-                                  e.target.value,
+                                  formatPrice(e.target.value) as string,
                                   editItems,
                                   setEditItems,
                                 )

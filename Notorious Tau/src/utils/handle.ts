@@ -102,3 +102,13 @@ export const formatPhone = (value: string) => {
   if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
   return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
 };
+
+export const formatPrice = (value: string | undefined) => {
+  if (!value) return "0.00";
+  const digits = value.replace(/\D/g, "").replace(/^0+/, "");
+  const length = digits.length;
+  if (length === 0) return "0.00";
+  if (length <= 2) return `0.${digits.padStart(2, "0")}`;
+  if (length > 2)
+    return `${digits.slice(0, length - 2)}.${digits.slice(length - 2)}`;
+};
