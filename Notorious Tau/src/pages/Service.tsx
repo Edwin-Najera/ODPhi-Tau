@@ -12,8 +12,10 @@ function Service() {
 
   return (
     <div className="service-page">
-      <h2>Service Highlights</h2>
-      <div className="line-separate" style={{ padding: 0 }} />
+      <div className="service-title">
+        <h1>Service Highlights</h1>
+        <div className="line-separate" style={{ padding: 0 }} />
+      </div>
       <div className="service-event-wrapper">
         {serviceEvents.map((service) => (
           <div key={service.id} className="service-event">

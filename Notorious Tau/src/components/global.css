@@ -971,14 +971,16 @@ a.click-button {
 
 .odphi-gallery-title {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   padding: 10px 25px;
-  top: 110px;
-  font-weight: 800;
   text-align: center;
+  width: 100%;
   justify-self: start;
-  z-index: 1000;
+}
+
+.odphi-gallery-title h1 {
+  font-weight: 900;
 }
 
 .odphi-gallery-container {
@@ -1097,18 +1099,22 @@ a.click-button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   max-width: 100%;
   width: 100vw;
   padding: 100px 0 20px;
+  min-height: 100vh;
   @media (max-width: 992px) {
     padding-top: 120px;
   }
 }
 
-.service-page h2 {
-  padding: 0;
-  font-size: 2em;
+.service-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.service-title h1 {
   font-weight: 900;
 }
 

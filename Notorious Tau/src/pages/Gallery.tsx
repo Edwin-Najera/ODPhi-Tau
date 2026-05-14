@@ -14,10 +14,8 @@ function Gallery() {
   return (
     <div className="odphi-gallery-page">
       <div className="odphi-gallery-title">
-        <h1>
-          <p>Omega Delta Phi</p>
-          <p>Year Highlights</p>
-        </h1>
+        <h1>Highlights</h1>
+        <div className="line-separate" style={{ padding: 0 }} />
       </div>
       <div className="odphi-gallery-container">
         {photos.map((photo, index) => (
