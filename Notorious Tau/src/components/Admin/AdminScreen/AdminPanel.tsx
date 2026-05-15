@@ -174,7 +174,7 @@ function AdminPanel({
         newEvent.date = new Date(eventForm.date);
       }
 
-      if (onlyPhotos) {
+      if (onlyPhotos || activeHouse) {
         const collectionPhotos = activeHouse ? "house" : "photos";
         const collectionRef = collection(db, collectionPhotos);
         const identifier = activeHouse ? knightForm.type : eventForm.title;
@@ -259,6 +259,7 @@ function AdminPanel({
             className="knight-input"
             id="name"
             type="text"
+            value={knightForm.name}
             placeholder="Name"
             onChange={(e) => handleKnightChange("name", e.target.value)}
           />
@@ -269,6 +270,7 @@ function AdminPanel({
             className="knight-input"
             id="position"
             type="text"
+            value={knightForm.position}
             placeholder="Position"
             onChange={(e) => handleKnightChange("position", e.target.value)}
           />
@@ -279,6 +281,7 @@ function AdminPanel({
             className="knight-input"
             id="knight-name"
             type="text"
+            value={knightForm.knightName}
             placeholder="Knight Name"
             onChange={(e) => handleKnightChange("knightName", e.target.value)}
           />
@@ -289,6 +292,7 @@ function AdminPanel({
             className="knight-input"
             id="line-num"
             type="number"
+            value={knightForm.lineNumber}
             placeholder="Line Number"
             onChange={(e) => handleKnightChange("lineNumber", e.target.value)}
           />
@@ -299,6 +303,7 @@ function AdminPanel({
             className="knight-input"
             id="line-name"
             type="text"
+            value={knightForm.lineName}
             placeholder="Line Name"
             onChange={(e) => handleKnightChange("lineName", e.target.value)}
           />
@@ -309,6 +314,7 @@ function AdminPanel({
             className="knight-input"
             id="cross-date"
             type="text"
+            value={knightForm.crossDate}
             placeholder="Cross Date Semester-Year"
             onChange={(e) => handleKnightChange("crossDate", e.target.value)}
           />

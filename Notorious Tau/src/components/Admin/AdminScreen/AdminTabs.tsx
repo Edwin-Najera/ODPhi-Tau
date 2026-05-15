@@ -71,6 +71,7 @@ function AdminTabs({
           document={documents.find((event) => event.id === editingId) || null}
           hasDate={hasDate}
           hasItems={hasItems}
+          activeHouse={activeHouse}
         />
       )}
 
@@ -79,7 +80,7 @@ function AdminTabs({
           <>
             <h2>Active {tabTitle.toLowerCase()}</h2>
             {(documents as BaseDocument[]).map((document) => (
-              <div key={document.id} className="gallery-image-container">
+              <div key={document.id} className="gallery-image-container card">
                 <div>Gallery: {document.title}</div>
                 <img
                   className="gallery-image"
@@ -106,7 +107,7 @@ function AdminTabs({
           <>
             <h2>{tabTitle.toLowerCase()}</h2>
             {(documents as Knights[]).map((document) => (
-              <div key={document.id}>
+              <div key={document.id} className="gallery-image-container card">
                 {document.imageURL && (
                   <img
                     className="gallery-image"
@@ -153,7 +154,7 @@ function AdminTabs({
           <>
             <h2>Active {tabTitle.toLowerCase()}</h2>
             {(documents as BaseDocument[]).map((document) => (
-              <div key={document.id} className="view-mode-container">
+              <div key={document.id} className="view-mode-container card">
                 <h4>{document.title}</h4>
                 <p>{document.description}</p>
                 {document.date && (

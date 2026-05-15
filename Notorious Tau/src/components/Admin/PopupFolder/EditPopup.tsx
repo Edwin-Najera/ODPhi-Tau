@@ -89,7 +89,22 @@ function EditPopup({
 
   const handleSaveEdit = async (id: string) => {
     try {
-      if (!activeHouse && collectionName !== "countdown") {
+      if (activeHouse) {
+        const updateKnight: Partial<Knights> = {
+          type: editType,
+          position: editPosition,
+          awards: editAwards,
+        };
+
+        await updateDoc(doc(db, "house", id), updateKnight);
+      } else if (collectionName === "countdown") {
+        const updateData: any = {
+          title: editTitle,
+          events: editCountdownEvents,
+        };
+
+        await updateDoc(doc(db, "countdown", id), updateData);
+      } else {
         const updateData: Partial<BaseDocument> = {
           title: editTitle,
           description: editDescription,
@@ -114,23 +129,6 @@ function EditPopup({
         }
 
         await updateDoc(doc(db, collectionName, id), updateData);
-      } else if (collectionName === "countdown") {
-        const updateData: any = {
-          title: editTitle,
-          events: editCountdownEvents,
-        };
-
-        await updateDoc(doc(db, "countdown", id), updateData);
-      } else {
-        const updateKnight: Partial<Knights> = {
-          type: editType,
-          name: editTitle,
-          position: editPosition,
-        };
-
-        updateKnight.awards = editAwards;
-
-        await updateDoc(doc(db, collectionName, id), updateKnight);
       }
     } catch (error) {
       console.error("Error editing: ", error);
