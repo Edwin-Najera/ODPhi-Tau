@@ -36,14 +36,14 @@ function KnightCard({ knight, index, hasAwards = false }: Props) {
       className={cardClass}
       style={{ animationDelay: `${index * 250}ms` }}
     >
-      <span className="knight-info">{knight.position}</span>
       <div className="image-wrapper">
         <img src={knight.imageURL} alt="knight image" />
       </div>
       <div className="mtb-knight">
         <span className="knight-info name">{knight.name}</span>
-        <span className="knight-info">Knight #{knight.lineNumber}</span>
+        <span className="knight-info">{knight.position}</span>
       </div>
+      <span className="knight-info number">Knight #{knight.lineNumber}</span>
     </div>
   );
 }

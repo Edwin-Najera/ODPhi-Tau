@@ -1,11 +1,21 @@
 import { Fragment } from "react";
+import { useInView } from "react-intersection-observer";
 import { useCollection } from "../utils/auth";
+import {
+  FaHandshake,
+  FaScaleUnbalanced,
+  FaShield,
+  FaChessKing,
+} from "react-icons/fa6";
 import KnightCard from "../components/AboutFolder/KnightCard";
 import crown from "../components/Photos/ODP Minimal Crown - Black.png";
 import memories from "../components/Photos/memories.jpeg";
 import founders from "../components/Photos/founders.jpeg";
 
 function Mtb() {
+  const { ref: sacramentRef, inView: visible } = useInView({
+    triggerOnce: true,
+  });
   const allKnights = useCollection({
     collectionName: "house",
     activeHouse: true,
@@ -43,10 +53,29 @@ function Mtb() {
     "Brandon Smith",
   ];
 
+  const sacraments = [
+    { label: "UNITY", icon: <FaHandshake /> },
+    { label: "HONESTY", icon: <FaScaleUnbalanced /> },
+    { label: "INTEGRITY", icon: <FaShield /> },
+    { label: "LEADERSHIP", icon: <FaChessKing /> },
+  ];
+
   return (
     <>
       <div className="page mtb-page">
         <h1>Meet The Chapter</h1>
+        <div className="mtb-sacraments" ref={sacramentRef}>
+          {sacraments.map(({ label, icon }, index) => (
+            <div
+              key={index}
+              className={`card ${index % 2 === 0 ? "right" : "left"} ${visible ? "show" : ""}`}
+              style={{ "--delay": `${index * 300}ms` } as React.CSSProperties}
+            >
+              <div>{icon}</div> <div>{label}</div>{" "}
+              <div className="icon">{icon}</div>
+            </div>
+          ))}
+        </div>
         <div className="member-requirements">
           <span className="member-requirement-title">
             Membership Requirements
@@ -71,7 +100,7 @@ function Mtb() {
             ))}
           </div>
         )}
-        <h3 className="knights-header">Meet the Bros</h3>
+        <h3 className="knights-header">Active House</h3>
         <div className="mtb-active-house">
           <h3 className="mtb-knights-header">Executives</h3>
           <div className="mtb-knights-container">
@@ -128,7 +157,10 @@ function Mtb() {
           </div>
           <div className="tau-history-container row">
             <h3 className="row">Tau Chapter History</h3>
-            <img className="col img-fluid memories ms-3 p-3" src={memories} />
+            <img
+              className="col img-fluid memories ms-3 p-3 card"
+              src={memories}
+            />
             <div className="col text-col">
               <div className="tau-history">
                 <p>
@@ -161,7 +193,7 @@ function Mtb() {
             </div>
           </div>
           <div className="tau-history-container row">
-            <h3 className="row">Purpose & Founders</h3>
+            <h3 className="row">Our Mission Statement</h3>
             <div className="purpose col">
               <p>
                 The purpose of this brotherhood, a{" "}
@@ -172,18 +204,21 @@ function Mtb() {
                 <strong>ANY man</strong> a diverse fraternal experience which
                 coincides with a higher education.
               </p>
-              <p>
-                Our <strong>Seven Founders</strong> sought to make change
-                through the fraternity. Regardless of background, Omega Delta
-                Phi welcomes all. Founded on{" "}
-                <strong>November 25th, 1987</strong> at Texas Tech University,
-                what began as a single idea on one campus has grown into a
-                national brotherhood that continues to shape leaders, strengthen
-                communities, and provide every man a home away from home.
-              </p>
+              <div className="card">
+                <p className="card-body">
+                  Our <strong>Seven Founders</strong> sought to make change
+                  through the fraternity. Regardless of background, Omega Delta
+                  Phi welcomes all. Founded on{" "}
+                  <strong>November 25th, 1987</strong> at Texas Tech University,
+                  what began as a single idea on one campus has grown into a
+                  national brotherhood that continues to shape leaders,
+                  strengthen communities, and provide every man a home away from
+                  home.
+                </p>
+              </div>
             </div>
             <img
-              className="col img-fluid memories me-3"
+              className="col img-fluid memories me-3 card"
               src={founders}
               alt="Founder"
             />

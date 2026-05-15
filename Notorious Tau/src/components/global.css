@@ -2046,7 +2046,7 @@ a.click-button {
   width: 90%;
   height: fit-content;
   background-color: red;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .all-events {
@@ -2456,7 +2456,6 @@ a.click-button {
 
 .knight-card {
   display: flex;
-  position: relative;
   flex-direction: column;
   align-items: center;
   width: 275px;
@@ -2503,6 +2502,7 @@ a.click-button {
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+  flex: 1;
 }
 
 .knight-info {
@@ -2511,6 +2511,11 @@ a.click-button {
 
 .knight-info.name {
   font-weight: 800;
+}
+
+.knight-info.number {
+  margin-top: auto;
+  justify-self: end;
 }
 
 .line-separate {
@@ -2726,7 +2731,6 @@ a.click-button {
 .tau-history-container {
   display: flex;
   flex-direction: row;
-  border-top: 5px solid black;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.05);
   color: black;
@@ -2766,6 +2770,57 @@ a.click-button {
   }
 }
 
+.mtb-sacraments {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 75%;
+  gap: 15px;
+}
+
+.mtb-sacraments .card {
+  display: flex;
+  flex-direction: row;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  font-size: 2em;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.05);
+  color: white;
+  opacity: 0;
+}
+
+.card.left.show {
+  background: red;
+  animation: fromLeft 1s forwards var(--delay);
+  transform: translateX(-50%);
+}
+
+.card.right.show {
+  background: black;
+  animation: fromRight 1s forwards var(--delay);
+  transform: translateX(50%);
+}
+
+@keyframes fromLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fromRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mtb-sacraments .icon {
+  transform: scaleX(-1);
+}
 /* Contact.tsx */
 .contact-page {
   display: flex;

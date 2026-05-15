@@ -1,4 +1,8 @@
-import type { BaseDocument, Alumni } from "../../EventsFolder/eventData";
+import type {
+  BaseDocument,
+  Alumni,
+  EventItem,
+} from "../../EventsFolder/eventData";
 
 type EventInfoProps = {
   event: BaseDocument | null;
@@ -36,7 +40,25 @@ function EventInfoPopup({ event, onClose }: EventInfoProps) {
                 })}
               </p>
             )}
+            {event.imagePath && (
+              <img src={event.imageURL} className="img-fluid card-event" />
+            )}
             {event.description && <p>{event.description}</p>}
+            {event.items && event.items.length > 0 && (
+              <>
+                <h5>Prices below</h5>
+                <div className="event-prices">
+                  <ul className="sell-items">
+                    {event.items?.map((item: EventItem, index: number) => (
+                      <li key={index}>
+                        <span className="item-name">{item.name}</span>
+                        <span className="item-price">${item.price}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </>
+            )}
             {(event as Alumni).location && (
               <p>Location: {(event as Alumni).location}</p>
             )}

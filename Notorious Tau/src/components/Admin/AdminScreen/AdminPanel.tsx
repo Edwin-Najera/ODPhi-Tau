@@ -251,6 +251,7 @@ function AdminPanel({
             </option>
             <option value="active">Active</option>
             <option value="executive">Executive</option>
+            <option value="inactive">Inactive</option>
           </select>
           <label htmlFor="name" className="admin-label">
             Enter Name
