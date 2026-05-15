@@ -11,7 +11,7 @@ function Service() {
   const { userRole } = useAuthRole();
 
   return (
-    <div className="service-page">
+    <div className="page">
       <div className="service-title">
         <h1>Service Highlights</h1>
         <div className="line-separate" style={{ padding: 0 }} />

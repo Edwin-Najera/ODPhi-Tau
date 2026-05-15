@@ -12,7 +12,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-xl fixed-top">
+    <nav className="navbar navbar-expand-xl sticky-top">
       <div className="container navbar-container">
         <Link to="/" className="navbar-brand">
           <img src={Logo} alt="Tau" className="logo" />

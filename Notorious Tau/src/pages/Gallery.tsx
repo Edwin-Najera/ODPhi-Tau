@@ -12,7 +12,7 @@ function Gallery() {
   const { userRole } = useAuthRole();
 
   return (
-    <div className="odphi-gallery-page">
+    <div className="page">
       <div className="odphi-gallery-title">
         <h1>Highlights</h1>
         <div className="line-separate" style={{ padding: 0 }} />

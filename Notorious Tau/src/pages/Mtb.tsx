@@ -45,7 +45,7 @@ function Mtb() {
 
   return (
     <>
-      <div className="mtb-page">
+      <div className="page mtb-page">
         <h1>Meet The Chapter</h1>
         <div className="member-requirements">
           <span className="member-requirement-title">

@@ -75,7 +75,7 @@ function Contact() {
   };
 
   return (
-    <div className="contact-page">
+    <div className="page contact-page">
       <h3>Contact Us</h3>
       <div className="line-separate mb-3" />
       <div className="contact-info">

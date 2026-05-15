@@ -58,7 +58,7 @@ function Login() {
   return (
     <>
       <Sparks />
-      <div className="login-page">
+      <div className="page login-page">
         <img className="sword" src={sword} alt="sword" />
         <div className="login-form" onKeyDown={handleEnter}>
           <h2>Admin Login</h2>

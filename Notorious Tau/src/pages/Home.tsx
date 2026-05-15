@@ -25,7 +25,6 @@ function App() {
           </linearGradient>
         </defs>
       </svg>
-      ;
       <div className="AppGrid">
         <div className="Welcome">
           <IntroSec />

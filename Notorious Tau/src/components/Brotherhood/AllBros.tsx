@@ -47,18 +47,15 @@ function AllBros() {
   };
 
   return (
-    <div className="all-bros-page">
+    <div className="page all-bros-page">
       <div className="top-of-page">
         <button
-          className="return-admin"
+          className="return"
           onClick={() => handlePageNavigate("onlybros")}
         >
           Admin Page
         </button>
-        <button
-          className="return-admin return-previous"
-          onClick={() => handlePageNavigate("alumni")}
-        >
+        <button className="return" onClick={() => handlePageNavigate("alumni")}>
           Alumni Page
         </button>
       </div>

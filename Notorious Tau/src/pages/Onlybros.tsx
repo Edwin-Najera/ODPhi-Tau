@@ -35,7 +35,7 @@ function Onlybros() {
   };
 
   return (
-    <div className="admin-page">
+    <div className="page admin-page">
       <div className="admin-sidebar">
         <div className="admin-page-row">
           <button
@@ -50,7 +50,7 @@ function Onlybros() {
             type="button"
             onClick={() => navigate("/Onlybros/AllBros")}
           >
-            Brotherhood Events
+            All Brothers
           </button>
         </div>
         {panels.map(({ id, label }) => (

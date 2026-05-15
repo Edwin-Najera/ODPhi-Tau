@@ -62,6 +62,7 @@
   display: grid;
   height: 100%;
   width: 100%;
+  background: black;
   @media (max-width: 992px) {
     /* The rows will dynamically change as the max-width gets smaller and smaller */
     grid-template-areas:
@@ -91,7 +92,7 @@
   align-content: center;
   position: relative;
   z-index: 2;
-  color: white;
+  color: rgb(220, 10, 10);
   height: 100%;
   width: 100%;
 
@@ -128,26 +129,8 @@
   }
 }
 
-.relative-container {
-  @media (max-width: 990px) {
-    opacity: 0.5;
-    background-color: black;
-  }
-  @media (min-width: 1920px) {
-    background-position: 300px center;
-  }
-  @media (min-width: 990px) {
-    /* Whenever we are on a bigger screen we will make sure that the left hand will contain a background image */
-    height: 100%;
-    background-color: black;
-    background-image: url(./Photos/Knights_return.jpg);
-    background-position: 0 -800px;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-}
-
 .text-left {
+  background: black;
   font-size: 4rem;
   font-style: italic;
   font-family: "times new roman", times, serif;
@@ -160,7 +143,7 @@
   opacity: 0;
 
   @media (min-width: 992px) {
-    -webkit-text-stroke: 10px black;
+    -webkit-text-stroke: 3px silver;
     paint-order: stroke;
   }
 
@@ -659,6 +642,13 @@ a.click-button {
     animation: blazeInMobile 1s forwards;
     height: 55vh;
   }
+
+  @media (min-width: 1500px) {
+    background-size: 80%;
+    background-position: -1000px -25px;
+    animation: blazeInBig 1s forwards;
+    height: 55vh;
+  }
 }
 
 .school-container h1 {
@@ -682,6 +672,12 @@ a.click-button {
 @keyframes blazeIn {
   to {
     background-position: -250px -50px;
+  }
+}
+
+@keyframes blazeInBig {
+  to {
+    background-position: -175px -25px;
   }
 }
 
@@ -946,6 +942,66 @@ a.click-button {
 .footer-container span {
   font-weight: 700;
 }
+/*---------------------------------------------------------------------------------- */
+
+/* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+/* |||||||||||||||||||||||||    Pages    ||||||||||||||||||||||||| */
+/* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
+
+/* ----------------------------------------------------------------------------------- */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 100%;
+  width: 100vw;
+  min-height: calc(100dvh - 100px);
+  padding-bottom: 25px;
+  align-self: start;
+  @media (max-width: 992px) {
+    min-height: calc(100dvh - 120px);
+  }
+}
+
+.admin-page {
+  flex-direction: row;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    padding: 0 10px;
+  }
+}
+
+.login-page {
+  justify-content: center;
+  overflow: hidden;
+  color: white;
+  background-color: rgba(111, 105, 105, 0.51);
+}
+
+.alumni-page,
+.all-bros-page {
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 992px) {
+    padding: 0 10px;
+  }
+}
+
+.mtb-page {
+  gap: 50px;
+  overflow-y: hidden;
+}
+
+.contact-page {
+  justify-content: center;
+  overflow-x: hidden;
+  @media (max-width: 992px) {
+    padding-top: 120px;
+    box-sizing: border-box;
+  }
+}
 
 /* ----------------------------------------------------------------------------------- */
 
@@ -954,20 +1010,6 @@ a.click-button {
 /* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
 /* ----------------------------------------------------------------------------------- */
-
-.odphi-gallery-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  width: 100vw;
-  max-width: 100%;
-  min-height: 100vh;
-  padding-top: 100px;
-  @media (max-width: 992px) {
-    padding-top: 120px;
-  }
-}
 
 .odphi-gallery-title {
   display: flex;
@@ -1095,19 +1137,6 @@ a.click-button {
 
 /* ----------------------------------------------------------------------------------- */
 
-.service-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 100%;
-  width: 100vw;
-  padding: 100px 0 20px;
-  min-height: 100vh;
-  @media (max-width: 992px) {
-    padding-top: 120px;
-  }
-}
-
 .service-title {
   display: flex;
   flex-direction: column;
@@ -1156,42 +1185,22 @@ a.click-button {
 
 /* ----------------------------------------------------------------------------------- */
 
-.admin-page {
-  display: block;
-  max-width: 100%;
-  width: 100vw;
-  height: max-content;
-  margin-top: 100px;
-  @media (max-width: 992px) {
-    align-items: start;
-  }
-}
-
 .admin-sidebar {
-  position: fixed;
-  top: 100px;
-  left: 0;
-  width: 300px;
-  height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   border-right: solid rgba(0, 0, 0, 0.4);
-  padding: 0 5px;
-  padding-bottom: 0;
-
+  justify-content: space-evenly;
+  width: 300px;
+  height: calc(100vh - 100px);
+  padding: 0 15px;
   @media (max-width: 992px) {
     flex-direction: row;
-    bottom: 0;
-    top: unset;
-    left: unset;
     height: 125px;
     width: 100%;
     align-items: center;
     gap: 10px;
     overflow-x: auto;
     overflow-y: hidden;
-    flex-wrap: nowrap;
   }
 }
 
@@ -1199,6 +1208,8 @@ a.click-button {
   display: flex;
   flex-direction: row;
   width: 100%;
+  gap: 10px;
+  justify-content: center;
   @media (max-width: 992px) {
     flex-direction: column;
     width: auto;
@@ -1209,15 +1220,10 @@ a.click-button {
 
 .admin-page-swap {
   padding: 5px 10px;
-  background-color: red;
-  margin-left: 3%;
   border-radius: 12px;
-  font-size: 1.25em;
   font-weight: 500;
   color: silver;
   cursor: pointer;
-  margin-bottom: 10px;
-  width: fit-content;
   @media (max-width: 992px) {
     white-space: nowrap;
     flex-shrink: 0;
@@ -1239,11 +1245,9 @@ a.click-button {
   display: block;
   width: calc(100% - 300px);
   justify-content: center;
-  margin-left: 300px;
   @media (max-width: 992px) {
     width: 100%;
-    margin-left: 0;
-    margin-bottom: 125px;
+    margin-bottom: 10px;
   }
 }
 
@@ -1683,7 +1687,6 @@ a.click-button {
   grid-template-columns: 1fr 1fr;
   height: calc(100vh - 100px);
   overflow: hidden;
-
   @media (max-width: 992px) {
     grid-template-areas:
       "Title"
@@ -1857,21 +1860,6 @@ a.click-button {
 /* |||||||||||||||||||| Login.tsx |||||||||||||||||||| */
 /* ||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
-.login-page {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  max-width: 100%;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  margin: 0;
-  padding-top: 75px;
-  height: 100vh;
-  color: white;
-  background-color: rgba(111, 105, 105, 0.51);
-}
-
 .password-wrapper {
   position: relative;
   width: 30%;
@@ -2033,65 +2021,32 @@ a.click-button {
 /* |||||||||||||||||||| Alumni.tsx & AllBros.tsx |||||||||||||||||||| */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
-.alumni-page,
-.all-bros-page {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  max-width: 100%;
-  padding: 75px 2% 0;
-  justify-content: center;
-  align-items: center;
-  margin: 30px 0;
-  @media (max-width: 992px) {
-    margin-top: 90px;
-  }
-}
-
 .top-of-page {
-  position: fixed;
+  display: flex;
+  align-items: center;
   width: 100%;
-  height: 75px;
-  top: 6.25em;
   z-index: 10;
   background-color: white;
+  gap: 10px;
+  margin: 5px;
+  padding-left: 5px;
 }
 
-.return-admin {
-  position: fixed;
-  top: 2.75em;
+.return {
   background-color: #ffffff;
-  color: white;
   max-width: fit-content;
-  padding: 1px 10px;
-  margin: 60px 0 5px 10px;
   border-radius: 4px;
   border: solid black;
   color: black;
-  align-self: start;
-  z-index: 100;
-  @media (max-width: 992px) {
-    top: 4em;
-  }
-}
-
-.return-previous {
-  left: 10em;
+  padding: 4px 5px;
 }
 
 .page-header {
-  position: fixed;
-  top: 3.5em;
   text-align: center;
   width: 90%;
   height: fit-content;
-  padding: 5px 25px;
-  margin: 5px 25px;
   background-color: red;
   z-index: 1000;
-  @media (max-width: 992px) {
-    top: 5.75em;
-  }
 }
 
 .all-events {
@@ -2103,7 +2058,6 @@ a.click-button {
   grid-template-rows: 1fr 3fr;
   width: 100%;
   height: calc(100vh - 8.5em);
-  padding-top: 8%;
   gap: 1px;
   overflow-y: hidden;
   @media (max-width: 992px) {
@@ -2116,7 +2070,6 @@ a.click-button {
     grid-template-rows: auto;
     height: auto;
     overflow-y: auto;
-    padding-top: 15%;
   }
 }
 
@@ -2129,7 +2082,6 @@ a.click-button {
   grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
   width: 100%;
   height: calc(100vh - 8.5em);
-  padding-top: 8%;
   gap: 1px;
   overflow-y: hidden;
   @media (max-width: 992px) {
@@ -2143,7 +2095,6 @@ a.click-button {
     grid-template-rows: auto;
     height: auto;
     overflow-y: auto;
-    padding-top: 15%;
   }
 }
 
@@ -2441,22 +2392,6 @@ a.click-button {
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* |||||||||| This and below will be for the Meet The bros |||||||||| */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
-
-.mtb-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 100px 0 20px;
-  max-width: 100%;
-  width: 100vw;
-  gap: 50px;
-  min-height: 100vh;
-  overflow-y: hidden;
-  @media (max-width: 992px) {
-    padding-top: 120px;
-  }
-}
 
 .member-requirements {
   display: flex;

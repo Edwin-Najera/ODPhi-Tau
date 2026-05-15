@@ -86,19 +86,16 @@ function Alumni() {
   };
 
   return (
-    <div className="alumni-page">
+    <div className="page alumni-page">
       <div className="top-of-page">
         <button
-          className="return-admin"
+          className="return"
           onClick={() => handlePageNavigate("onlybros")}
         >
           Admin Page
         </button>
-        <button
-          className="return-admin return-previous"
-          onClick={() => handlePageNavigate("alumni")}
-        >
-          Brotherhood Page
+        <button className="return" onClick={() => handlePageNavigate("alumni")}>
+          All Brothers Page
         </button>
       </div>
       {selectedEvent && (
