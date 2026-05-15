@@ -8,12 +8,12 @@ type Props = {
   hasAwards?: boolean;
 };
 
-function KnightCards({ knight, index, hasAwards = false }: Props) {
+function KnightCard({ knight, index, hasAwards = false }: Props) {
   const { ref: myRef, inView: visibleElement } = useInView({
     triggerOnce: true,
   });
 
-  const cardClass = `knight-card${visibleElement ? "show" : ""}`;
+  const cardClass = `knight-card ${visibleElement ? "show" : ""}`;
 
   if (hasAwards) {
     return (
@@ -36,15 +36,16 @@ function KnightCards({ knight, index, hasAwards = false }: Props) {
       className={cardClass}
       style={{ animationDelay: `${index * 250}ms` }}
     >
+      <span className="knight-info">{knight.position}</span>
       <div className="image-wrapper">
         <img src={knight.imageURL} alt="knight image" />
       </div>
       <div className="mtb-knight">
-        <span className="knight-name">{knight.name}</span>
-        <span className="knight-line-number">Knight #{knight.lineNumber}</span>
+        <span className="knight-info name">{knight.name}</span>
+        <span className="knight-info">Knight #{knight.lineNumber}</span>
       </div>
     </div>
   );
 }
 
-export default KnightCards;
+export default KnightCard;

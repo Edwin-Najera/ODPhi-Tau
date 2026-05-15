@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useCollection } from "../utils/auth";
-import KnightCards from "../components/AboutFolder/Knights";
+import KnightCard from "../components/AboutFolder/KnightCard";
 import crown from "../components/Photos/ODP Minimal Crown - Black.png";
 import memories from "../components/Photos/memories.jpeg";
 import founders from "../components/Photos/founders.jpeg";
@@ -67,7 +67,7 @@ function Mtb() {
           <div className="recognition">
             <h5>Spotlight</h5>
             {recognized.map((knight, index) => (
-              <KnightCards knight={knight} index={index} hasAwards={true} />
+              <KnightCard knight={knight} index={index} hasAwards={true} />
             ))}
           </div>
         )}
@@ -77,7 +77,7 @@ function Mtb() {
           <div className="mtb-knights-container">
             {executives.map((knight, index) => (
               <Fragment key={knight.id}>
-                <KnightCards knight={knight} index={index} />
+                <KnightCard knight={knight} index={index} />
               </Fragment>
             ))}
           </div>
@@ -87,7 +87,7 @@ function Mtb() {
           <div className="mtb-knights-container">
             {actives.map((knight, index) => (
               <Fragment key={knight.id}>
-                <KnightCards knight={knight} index={index} />
+                <KnightCard knight={knight} index={index} />
               </Fragment>
             ))}
           </div>

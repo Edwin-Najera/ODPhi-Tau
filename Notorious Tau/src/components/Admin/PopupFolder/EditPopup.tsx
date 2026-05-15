@@ -251,9 +251,9 @@ function EditPopup({
                 {document?.description && (
                   <>
                     <label htmlFor="documentDescription">Description: </label>
-                    <input
+                    <textarea
                       id="documentDescription"
-                      type="text"
+                      className="description-input"
                       value={editDescription}
                       onChange={(e) => setEditDescription(e.target.value)}
                       placeholder={document?.description}

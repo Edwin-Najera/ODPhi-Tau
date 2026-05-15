@@ -2060,6 +2060,7 @@ a.click-button {
   height: calc(100vh - 8.5em);
   gap: 1px;
   overflow-y: hidden;
+  padding: 0 15px;
   @media (max-width: 992px) {
     grid-template-areas:
       "events"
@@ -2084,6 +2085,7 @@ a.click-button {
   height: calc(100vh - 8.5em);
   gap: 1px;
   overflow-y: hidden;
+  padding: 0 15px;
   @media (max-width: 992px) {
     grid-template-areas:
       "important"
@@ -2486,8 +2488,9 @@ a.click-button {
   min-height: 300px;
 }
 
-.knight-card img {
+.image-wrapper img {
   width: 200px;
+  z-index: 0;
   border-radius: 15px;
   clip-path: none;
   @media (max-width: 992px) {
@@ -2499,19 +2502,15 @@ a.click-button {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  align-items: center;
 }
 
-.knight-name {
-  position: relative;
-  font-weight: 600;
-  padding-bottom: 50px;
+.knight-info {
+  padding: 5px 15px;
 }
 
-.knight-line-number {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+.knight-info.name {
+  font-weight: 800;
 }
 
 .line-separate {
