@@ -30,7 +30,9 @@ function App() {
           <IntroSec />
         </div>
         <div className="gap">
-          <div className="chevron" />
+          <div className="chevron-wrapper">
+            <div className="chevron" />
+          </div>
         </div>
         <div className="Events">
           <Events />

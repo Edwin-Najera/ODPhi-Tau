@@ -1,45 +1,33 @@
-import {} from "react/jsx-runtime";
-import { useRef, useEffect } from "react";
+import { useEffect, useState } from "react";
 import tau from "../Photos/Tau1.jpeg";
 import "../global.css";
 
 function IntroSec() {
-  const textRefLeft = useRef<HTMLDivElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 1320px)");
+    const mediaQuery = window.matchMedia("(max-width: 992px)");
 
-    function handleScreenChange(event: MediaQueryList | MediaQueryListEvent) {
-      const element = textRefLeft.current;
-      if (!element) {
-        console.error("Element not found");
-        return;
-      }
-      if (event.matches) {
-        element.innerHTML = "The Notorious Tau Omega Delta Phi Inc.";
-      } else {
-        element.innerHTML = "The Notorious Tau <br /> Omega Delta Phi Inc.";
-      }
-    }
-
-    handleScreenChange(mediaQuery);
-
-    mediaQuery.addEventListener("change", handleScreenChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleScreenChange);
+    const handleScreenChange = (e: MediaQueryList | MediaQueryListEvent) => {
+      setIsMobile(e.matches);
     };
+    handleScreenChange(mediaQuery);
+    mediaQuery.addEventListener("change", handleScreenChange);
+    return () => mediaQuery.removeEventListener("change", handleScreenChange);
   }, []);
 
   return (
-    <div className="home-grid">
-      <div className="left-half">
-        <div className="relative-container"></div>
-        <h2 className="text-left" ref={textRefLeft}></h2>
-      </div>
-      <div className="right-half">
-        <img src={tau} alt="TAU" />
-      </div>
+    <div className="intro">
+      <h2 className="text-left">
+        {isMobile ? (
+          "The Notorious Tau of Omega Delta Phi Inc."
+        ) : (
+          <>
+            The Notorious Tau <br /> of Omega Delta Phi Inc.
+          </>
+        )}
+      </h2>
+      <img src={tau} alt="TAU" />
     </div>
   );
 }

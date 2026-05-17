@@ -64,29 +64,21 @@ img {
 
 .AppGrid > .Welcome {
   grid-area: Welcome;
-  height: 82vh;
-  position: relative;
+  height: calc(100vh - 150px);
   z-index: 1;
+  background: black;
 }
 
 .AppGrid > .gap {
   grid-area: gap;
   position: relative;
   display: flex;
-  align-content: center;
-  align-items: center;
-  height: 10vh;
-  justify-items: center;
+  height: 50px;
+  background: linear-gradient(to bottom, black, white);
   justify-content: center;
-  z-index: 3;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0) 20%,
-    rgba(255, 255, 255) 100%
-  );
+  align-items: center;
   @media (max-width: 992px) {
     flex-direction: column;
-    top: -5vh;
   }
 }
 
@@ -146,22 +138,25 @@ img {
   height: max-content;
 }
 
+.chevron-wrapper {
+  display: flex;
+  animation: bounce 1.5s ease-in 2;
+}
+
 .chevron {
   width: 16px;
   height: 16px;
   border-right: 3px solid black;
   border-bottom: 3px solid black;
-  transform: rotate(45deg);
-  animation: bounce 1.5s ease-in 2;
-  justify-self: center;
+  transform: rotate(45deg) translateY(-25%);
 }
 
 @keyframes bounce {
   0%,
   100% {
-    transform: rotate(45deg) translate(10px, 10px);
+    transform: translateY(-25%);
   }
   50% {
-    transform: rotate(45deg) translate(25px, 25px);
+    transform: translateY(95%);
   }
 }

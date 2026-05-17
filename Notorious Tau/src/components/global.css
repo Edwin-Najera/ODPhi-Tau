@@ -57,109 +57,31 @@
 /* ||||||||| This and below is for the Home Page |||||||| */
 /* |||||||||||||||||||| HomePage.tsx |||||||||||||||||||| */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||| */
-
-.home-grid {
-  display: grid;
-  height: 100%;
+.intro {
+  display: flex;
   width: 100%;
-  background: black;
-  @media (max-width: 992px) {
-    /* The rows will dynamically change as the max-width gets smaller and smaller */
-    grid-template-areas:
-      "lHalf"
-      "rHalf";
-    grid-template-rows: 12vh 68vh;
-  }
-  @media (max-width: 850px) {
-    grid-template-rows: 20vh 60vh;
-  }
-  @media (max-width: 450px) {
-    grid-template-rows: 30vh 40vh;
-  }
-
-  @media (min-width: 992px) {
-    grid-template-areas: "lHalf rHalf";
-    grid-template-columns: 100% 67%;
-    justify-content: space-between;
-    overflow: hidden;
-  }
-}
-
-/* The left half and right half will overlap and have animations */
-.home-grid > .left-half {
-  /* The left hand is for text, will have the chapter and org name */
-  grid-area: lHalf;
-  align-content: center;
-  position: relative;
-  z-index: 2;
-  color: rgb(220, 10, 10);
   height: 100%;
-  width: 100%;
-
-  @media (min-width: 992px) {
-    z-index: 1;
-  }
-}
-
-.home-grid > .right-half {
-  /* Right side is dedicated to an image of the active house */
-  grid-area: rHalf;
-  background-color: black;
-  overflow: hidden;
-  position: relative;
-  display: block;
-
-  @media (max-width: 991px) {
-    margin-bottom: -12vh;
-    z-index: 1;
-  }
-
-  @media (max-width: 870px) {
-    margin-bottom: -20vh;
-  }
-
-  @media (max-width: 450px) {
-    top: -30vh;
-    margin-bottom: -40vh;
-  }
-
-  @media (min-width: 992px) {
-    left: -100%;
-    background: transparent;
-  }
+  justify-content: space-between;
+  align-items: center;
 }
 
 .text-left {
-  background: black;
+  animation: comeIn 1s forwards;
+  animation-delay: 500ms;
   font-size: 4rem;
   font-style: italic;
   font-family: "times new roman", times, serif;
   font-weight: lighter;
-  position: absolute;
-  top: 30vh;
-  transform: translate(500px, 0);
-  animation: comeIn 1s forwards;
-  animation-delay: 500ms;
+  -webkit-text-stroke: 3px silver;
+  paint-order: stroke;
   opacity: 0;
-
-  @media (min-width: 992px) {
-    -webkit-text-stroke: 3px silver;
-    paint-order: stroke;
-  }
-
-  @media (max-width: 992px) {
-    color: white;
-    animation: comeUp 1s forwards;
-    animation-delay: 500ms;
-    opacity: 0;
-    transform: translate(0, 15vh);
-    font-size: 2em;
-  }
+  transform: translateX(100%);
+  z-index: 1;
 }
 
 @keyframes comeIn {
   to {
-    transform: translate(20px, 0);
+    transform: translate(10%, 0);
     opacity: 1;
   }
 }
@@ -171,15 +93,18 @@
   }
 }
 
-.right-half img {
+.intro img {
   /* This is specifically for the image on the right half, 
   This allows for the image to fade into the back and be able to blend seamlessly */
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center bottom;
+  animation: fadeIn 1s forwards;
+  animation-delay: 300ms;
+  clip-path: none;
+  width: 60%;
+  object-fit: contain;
+  align-self: start;
+  transform: translateY(-50%);
+  opacity: 0;
+  z-index: 2;
   -webkit-mask-image:
     linear-gradient(to right, transparent 0%, black 15%),
     linear-gradient(to top, transparent 0%, black 40%);
@@ -188,16 +113,7 @@
     linear-gradient(to right, transparent 0%, black 15%),
     linear-gradient(to top, transparent 0%, black 40%);
   mask-composite: intersect;
-  border-bottom-left-radius: 4em;
-  @media (min-width: 992px) {
-    z-index: 3;
-    top: -100vh;
-    left: 5vw;
-    animation: fadeIn 1s forwards;
-    animation-delay: 800ms;
-    clip-path: none;
-  }
-  @media (max-width: 991px) {
+  @media (max-width: 992px) {
     width: 100%;
     height: 100%;
     mask-image: linear-gradient(to top, transparent 0%, black 30%);
@@ -208,8 +124,8 @@
 
 @keyframes fadeIn {
   to {
-    left: 5vw;
-    top: -5vh;
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
@@ -2830,20 +2746,6 @@ a.click-button {
   transform: scaleX(-1);
 }
 /* Contact.tsx */
-.contact-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 100%;
-  width: 100vw;
-  padding: 100px 0 20px;
-  overflow-x: hidden;
-  @media (max-width: 992px) {
-    padding-top: 120px;
-    box-sizing: border-box;
-  }
-}
 
 .contact-page h3 {
   font-size: 4em;
@@ -3081,94 +2983,4 @@ a.click-button {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
     opacity: 1;
   }
-}
-
-.campus-activity {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 75%;
-  padding: 25px;
-  color: black;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  gap: 25px;
-
-  @media (max-width: 992px) {
-    width: 90%;
-  }
-}
-
-.campus-activity-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 25px;
-  @media (max-width: 992px) {
-    flex-direction: column;
-    width: 100%;
-  }
-}
-
-.on-campus {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 400px;
-  height: 100px;
-  text-align: center;
-  border: solid white;
-  border-radius: 8px;
-  text-decoration: none;
-  position: relative;
-  overflow: hidden;
-  background: transparent;
-  color: black;
-  cursor: pointer;
-  z-index: 0;
-  transition: color 0.3s ease;
-
-  @media (max-width: 992px) {
-    width: 100%;
-  }
-}
-
-.on-campus span {
-  font-size: 2em;
-  font-weight: 600;
-}
-
-.on-campus::before,
-.on-campus::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background: black;
-  transition: transform 0.3s ease;
-  z-index: -1;
-}
-
-.on-campus::before {
-  left: 0;
-  transform: translateX(-100%);
-}
-
-.on-campus::after {
-  right: 0;
-  transform: translateX(100%);
-}
-
-.on-campus:hover::before {
-  transform: translateX(0);
-}
-
-.on-campus:hover::after {
-  transform: translateX(0);
-}
-
-.on-campus:hover {
-  color: white;
 }
