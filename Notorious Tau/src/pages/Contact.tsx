@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import Popup from "../components/Admin/PopupFolder/Popup";
 import rush from "../components/Photos/Rush ODPhi 2022 Fall shirt Design_Final_For Red Outlines.png";
 import { useInView } from "react-intersection-observer";
@@ -9,6 +8,7 @@ function Contact() {
   const sacraments = ["UNITY", "HONESTY", "INTEGRITY", "LEADERSHIP"];
   const { ref: rushImage, inView: visibleElement } = useInView({
     triggerOnce: true,
+    threshold: 0.5,
   });
   const [popup, setPopup] = useState<{
     show: boolean;

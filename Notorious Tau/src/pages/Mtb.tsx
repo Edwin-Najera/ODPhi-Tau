@@ -16,6 +16,10 @@ function Mtb() {
   const { ref: sacramentRef, inView: visible } = useInView({
     triggerOnce: true,
   });
+  const { ref: requirementRef, inView: reqVisible } = useInView({
+    triggerOnce: true,
+    threshold: 0.5,
+  });
   const allKnights = useCollection({
     collectionName: "house",
     activeHouse: true,
@@ -54,10 +58,32 @@ function Mtb() {
   ];
 
   const sacraments = [
-    { label: "UNITY", icon: <FaHandshake /> },
-    { label: "HONESTY", icon: <FaScaleUnbalanced /> },
-    { label: "INTEGRITY", icon: <FaShield /> },
-    { label: "LEADERSHIP", icon: <FaChessKing /> },
+    { label: "UNITY", icon: <FaHandshake />, left: "CRESCIT", right: "EUNDO" },
+    {
+      label: "HONESTY",
+      icon: <FaScaleUnbalanced />,
+      left: '"It Grows',
+      right: 'As It Goes"',
+    },
+    {
+      label: "INTEGRITY",
+      icon: <FaShield />,
+      left: "One",
+      right: "Culture",
+    },
+    {
+      label: "LEADERSHIP",
+      icon: <FaChessKing />,
+      left: "Any",
+      right: "Race",
+    },
+  ];
+
+  const requirements = [
+    "Be a full-time student",
+    "Have a cumulative GPA of +2.5",
+    "Not have rushed/pledged another organization",
+    "Have been handed a big by active house",
   ];
 
   return (
@@ -65,14 +91,17 @@ function Mtb() {
       <div className="page mtb-page">
         <h1>Meet The Chapter</h1>
         <div className="mtb-sacraments" ref={sacramentRef}>
-          {sacraments.map(({ label, icon }, index) => (
+          {sacraments.map(({ label, icon, left, right }, index) => (
             <div
               key={index}
               className={`card ${index % 2 === 0 ? "right" : "left"} ${visible ? "show" : ""}`}
               style={{ "--delay": `${index * 300}ms` } as React.CSSProperties}
             >
-              <div>{icon}</div> <div>{label}</div>{" "}
+              <div className="message">{left}</div>
               <div className="icon">{icon}</div>
+              <div className="label-wrapper">{label}</div>
+              <div className="icon reverse">{icon}</div>
+              <div className="message">{right}</div>
             </div>
           ))}
         </div>
@@ -80,15 +109,16 @@ function Mtb() {
           <span className="member-requirement-title">
             Membership Requirements
           </span>
-          <ul className="requirement-list">
-            <li className="requirement">Be a full-time student</li>
-            <li className="requirement">Have a cumulative GPA of +2.5</li>
-            <li className="requirement">
-              Not have rushed/pledged another organization
-            </li>
-            <li className="requirement">
-              Have been handed a big by active house
-            </li>
+          <ul className="requirement-list" ref={requirementRef}>
+            {requirements.map((requirement, index) => (
+              <li
+                key={index}
+                className={`requirement card ${index % 2 === 0 ? "right" : "left"} ${reqVisible ? "show" : ""}`}
+                style={{ "--delay": `${index * 300}ms` } as React.CSSProperties}
+              >
+                {requirement}
+              </li>
+            ))}
           </ul>
           <span className="member-requirement-bottom" />
         </div>

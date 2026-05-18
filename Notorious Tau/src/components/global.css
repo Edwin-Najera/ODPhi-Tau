@@ -63,6 +63,10 @@
   height: 100%;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
 }
 
 .text-left {
@@ -77,6 +81,10 @@
   opacity: 0;
   transform: translateX(100%);
   z-index: 1;
+  @media (max-width: 992px) {
+    font-size: 3em;
+    animation: comeUp 1s forwards;
+  }
 }
 
 @keyframes comeIn {
@@ -88,7 +96,7 @@
 
 @keyframes comeUp {
   to {
-    transform: translate(0, -25vh);
+    transform: translateY(0);
     opacity: 1;
   }
 }
@@ -115,10 +123,14 @@
   mask-composite: intersect;
   @media (max-width: 992px) {
     width: 100%;
-    height: 100%;
-    mask-image: linear-gradient(to top, transparent 0%, black 30%);
-    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 30%);
-    border-radius: 0;
+    flex: 1;
+    mask-image: linear-gradient(to top, transparent 0%, black 20%)
+      linear-gradient(to bottom, transparent 0%, black 20%);
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 20%)
+      linear-gradient(to bottom, transparent 0%, black 20%);
+    mask-composite: intersect;
+    -webkit-mask-composite: source-in;
+    object-fit: cover;
   }
 }
 
@@ -2323,7 +2335,8 @@ a.click-button {
   display: flex;
   flex-direction: column;
   text-align: center;
-  width: 40%;
+  width: 75%;
+  height: 500px;
   justify-content: center;
   align-items: center;
   @media (max-width: 992px) {
@@ -2334,24 +2347,28 @@ a.click-button {
 
 .member-requirement-title {
   display: flex;
-  flex: 1;
   width: 100%;
-  font-size: 1.25em;
+  font-size: 2em;
   font-weight: 600;
   align-items: center;
+  justify-self: start;
+
+  @media (max-width: 992px) {
+    font-size: 1.5em;
+  }
 }
 
 .member-requirement-bottom {
   display: flex;
-  flex: 1;
   width: 100%;
   align-items: center;
+  justify-self: end;
 }
 
 .member-requirement-title::before,
 .member-requirement-title::after,
 .member-requirement-bottom::after {
-  flex: 1 0 0;
+  flex: 1;
   content: "";
   height: 10px;
   border-bottom: solid black;
@@ -2361,8 +2378,25 @@ a.click-button {
 }
 
 .requirement-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   list-style-type: none;
   padding: 0;
+  gap: 15px;
+  width: 95%;
+}
+
+.requirement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  font-weight: 600;
+  width: 100%;
+  height: 25%;
+  opacity: 0;
+  background: white !important;
 }
 
 .mtb-knights-header {
@@ -2619,30 +2653,6 @@ a.click-button {
   transform-origin: right center;
 }
 
-@keyframes turnHitLeft {
-  0% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(165deg);
-  }
-  100% {
-    transform: rotate(0);
-  }
-}
-
-@keyframes turnHitRight {
-  0% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(-165deg);
-  }
-  100% {
-    transform: rotate(0);
-  }
-}
-
 .history-header {
   font-size: 1.5em;
   font-weight: 600;
@@ -2714,6 +2724,10 @@ a.click-button {
   background: rgba(0, 0, 0, 0.05);
   color: white;
   opacity: 0;
+
+  @media (max-width: 992px) {
+    font-size: 1em;
+  }
 }
 
 .card.left.show {
@@ -2743,7 +2757,35 @@ a.click-button {
 }
 
 .mtb-sacraments .icon {
+  display: flex;
+  transform: scaleX(1);
+  font-size: 2em;
+  align-items: center;
+}
+
+.mtb-sacraments .icon.reverse {
   transform: scaleX(-1);
+}
+
+.message {
+  flex: 1;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.75);
+
+  @media (max-width: 992px) {
+    display: none;
+  }
+}
+
+.label-wrapper {
+  flex: 1;
+  text-align: center;
+  font-size: 1.5em;
+  padding: 5px 10px;
+
+  @media (max-width: 992px) {
+    flex: unset;
+  }
 }
 /* Contact.tsx */
 
