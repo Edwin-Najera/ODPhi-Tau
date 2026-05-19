@@ -45,7 +45,7 @@ function KnightCard({ knight, hasAwards = false }: Props) {
                     className={`award-item ${isFlipped ? "show" : ""}`}
                     style={
                       {
-                        "--delay": `${1500 + index * 300}ms`,
+                        "--delay": `${1000 + index * 300}ms`,
                       } as React.CSSProperties
                     }
                   >

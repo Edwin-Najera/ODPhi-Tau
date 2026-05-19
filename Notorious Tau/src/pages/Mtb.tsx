@@ -27,9 +27,7 @@ function Mtb() {
     collectionName: "house",
     activeHouse: true,
     onlyPhotos: false,
-  });
-  const executives = allKnights.filter((knight) => knight.type === "Executive");
-  const actives = allKnights.filter((knight) => knight.type === "Active");
+  }).filter((knight) => knight.type !== "Inactive");
   const recognized = allKnights.filter(
     (knight) => knight.awards && knight.awards.length > 0,
   );
@@ -43,7 +41,7 @@ function Mtb() {
     "Treasurer",
   ];
 
-  const sortedExec = [...executives].sort((a: Knights, b: Knights) => {
+  const sortedKnights = [...allKnights].sort((a: Knights, b: Knights) => {
     const getIndex = (knight: Knights) => {
       if (!knight.positions || knight.positions.length === 0) return Infinity;
       return Math.min(
@@ -165,11 +163,7 @@ function Mtb() {
         <h3 className="knights-header">Active House</h3>
         <div className="mtb-active-house">
           <h3>Executives</h3>
-          <KnightCarousel knights={sortedExec} />
-        </div>
-        <div className="line-separate" />
-        <div className="mtb-active-house">
-          <KnightCarousel knights={actives} />
+          <KnightCarousel knights={sortedKnights} />
         </div>
         <div className="line-separate" />
         <div className="history-container">
