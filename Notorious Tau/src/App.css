@@ -147,14 +147,6 @@ img {
   animation: bounce 1.5s ease-in 2;
 }
 
-.chevron {
-  width: 16px;
-  height: 16px;
-  border-right: 3px solid black;
-  border-bottom: 3px solid black;
-  transform: rotate(45deg) translateY(-25%);
-}
-
 @keyframes bounce {
   0%,
   100% {

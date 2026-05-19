@@ -2399,60 +2399,215 @@ a.click-button {
   background: white !important;
 }
 
-.mtb-knights-header {
-  margin-bottom: 25px;
+.knights-carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 55dvw;
+  position: relative;
+  padding: 20px 0;
+  overflow: visible;
+  @media (max-width: 992px) {
+    width: 95dvw;
+    overflow: hidden;
+  }
 }
 
-.mtb-knights-container {
+.carousel-buttons {
   display: flex;
-  flex-direction: row;
-  gap: 15px;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding: 0 5px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.carousel-btn {
+  z-index: 10;
+  width: 45px;
+  height: 45px;
+  font-size: 1.5em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  background: transparent;
+  padding: 0;
+  border-radius: 50%;
+  pointer-events: auto;
+}
+
+.carousel-btn:hover {
+  background: rgb(170, 40, 40);
+}
+
+.carousel-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: black !important;
+  color: black;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dot.active {
+  background: black;
+}
+
+.carousel-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 500px;
+}
+
+.carousel-card {
+  position: absolute;
+  transition:
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.5s ease;
+  will-change: transform, opacity;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.carousel-card.active {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.carousel-card.side {
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: 2;
+}
+
+.carousel-card.side.left {
+  transform: translateX(calc(-50% - 280px)) scale(0.8);
+  @media (max-width: 992px) {
+    transform: translateX(calc(-50% - 150px)) scale(0.8);
+  }
+}
+
+.carousel-card.side.right {
+  transform: translateX(calc(-50% + 280px)) scale(0.8);
+  @media (max-width: 992px) {
+    transform: translateX(calc(-50% + 150px)) scale(0.8);
+  }
+}
+
+/* hidden cards */
+.carousel-card.hidden {
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transform: translateX(-50%) scale(0.6);
+}
+
+.knight-container {
+  width: 275px;
+  height: 500px;
+  perspective: 500px;
+}
+
+.knight-container.awards {
+  height: auto;
+  min-height: 350px;
+}
+
+.knight-container:hover > .knight-card {
+  cursor: pointer;
+  transform: rotateY(180deg);
+  border: 2px solid red;
+}
+
+.knight-container.awards:hover > .knight-card:hover {
+  cursor: pointer;
+  transform: rotateY(180deg);
+  max-height: 450px;
 }
 
 .knight-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 275px;
-  min-height: 400px;
+  position: relative;
+  width: 100%;
+  height: 100%;
   border-radius: 12px;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
-  padding: 5px;
   border: solid rgba(0, 0, 0, 0.3);
+  background: white;
   font-size: 1.5em;
-  transform: translateY(200px);
-  opacity: 0;
+  transition: transform 1500ms;
+  transform-style: preserve-3d;
 }
 
-.knight-card.show {
-  animation: fadeUp 1s forwards;
+.awards .knight-card {
+  height: auto;
+  min-height: 350px;
 }
 
-@keyframes fadeUp {
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.card-front,
+.card-back {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-front {
+  pointer-events: none;
+}
+
+.card-back {
+  pointer-events: auto;
+  background: white;
+  transform: rotateY(180deg);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: radial-gradient(white, black);
 }
 
 .knight-card .image-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 300px;
+  height: 300px;
 }
 
 .image-wrapper img {
   width: 200px;
-  z-index: 0;
   border-radius: 15px;
-  clip-path: none;
-  @media (max-width: 992px) {
-    width: 250px;
-  }
+  clip-path: none !important;
+  animation: none !important;
+  object-fit: contain;
+  pointer-events: none;
 }
 
 .mtb-knight {
@@ -2476,6 +2631,65 @@ a.click-button {
   justify-self: end;
 }
 
+.award-year-group {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  text-align: start;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+  justify-self: center;
+  @media (max-width: 992px) {
+    width: 100%;
+  }
+}
+
+.award-year {
+  font-weight: 700;
+  border-bottom: 2px solid black;
+  padding-bottom: 5px;
+  margin: 0 5px;
+  width: 95%;
+  @media (max-width: 992px) {
+    padding: 5px;
+    margin: 0 15px;
+  }
+}
+
+.award-item {
+  margin-left: 25px;
+  padding-left: 10px;
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
+  width: 100%;
+  overflow: hidden;
+}
+
+.award-item span {
+  display: block;
+  opacity: 0;
+}
+
+.award-item.show span {
+  animation: appear 1s forwards var(--delay);
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ---------------------------------------- */
+/* ---------------------------------------- */
+/* ---------------------------------------- */
+/* ---------------------------------------- */
+
 .line-separate {
   display: flex;
   flex: 1;
@@ -2488,6 +2702,11 @@ a.click-button {
   content: "";
   border-bottom: 1px solid black;
 }
+
+/* ---------------------------------------- */
+/* ---------------------------------------- */
+/* ---------------------------------------- */
+/* ---------------------------------------- */
 
 .history-container {
   display: flex;

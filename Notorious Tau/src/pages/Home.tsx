@@ -1,4 +1,4 @@
-import {} from "react/jsx-runtime";
+import { FaChevronDown } from "react-icons/fa";
 import IntroSec from "../components/Home/IntroSec";
 import Events from "../components/EventsFolder/Events";
 import About from "../components/Home/About";
@@ -31,7 +31,7 @@ function App() {
         </div>
         <div className="gap">
           <div className="chevron-wrapper">
-            <div className="chevron" />
+            <FaChevronDown />
           </div>
         </div>
         <div className="Events">

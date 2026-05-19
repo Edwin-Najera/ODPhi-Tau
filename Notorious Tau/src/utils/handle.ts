@@ -112,3 +112,9 @@ export const formatPrice = (value: string | undefined) => {
   if (length > 2)
     return `${digits.slice(0, length - 2)}.${digits.slice(length - 2)}`;
 };
+
+export const formatPosition = (position: string) => {
+  const firstIndex = position.slice(0, 1).toUpperCase();
+
+  return firstIndex + position.slice(1);
+};

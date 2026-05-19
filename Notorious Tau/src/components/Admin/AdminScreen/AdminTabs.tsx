@@ -2,14 +2,13 @@ import { useState, useEffect } from "react";
 import type {
   BaseDocument,
   EventItem,
-  Awards,
   Knights,
 } from "../../EventsFolder/eventData";
-import { handleDelete } from "../../../utils/handle";
 import { useCollection } from "../../../utils/auth";
 import "../../global.css";
 import AdminPanel from "./AdminPanel";
 import EditPopup from "../PopupFolder/EditPopup";
+import ConfirmDelete from "../PopupFolder/ConfirmDelete";
 
 type Props = {
   collectionName: string;
@@ -18,7 +17,7 @@ type Props = {
   hasDate?: boolean;
   onlyPhotos?: boolean;
   activeHouse?: boolean;
-  editId?: string | null;
+  documentId?: string | null;
 };
 
 function AdminTabs({
@@ -28,27 +27,29 @@ function AdminTabs({
   hasDate = false,
   onlyPhotos = false,
   activeHouse = false,
-  editId = null,
+  documentId = null,
 }: Props) {
   const documents = useCollection({ collectionName, activeHouse, onlyPhotos });
-  const [editingId, setEditingId] = useState<string | null>(editId);
-  const [editPopupOpen, setEditPopupOpen] = useState(!!editId);
+  const [action, setAction] = useState<{
+    id: string | null;
+    type: "edit" | "confirm" | null;
+  }>({ id: documentId, type: null });
+  const [popup, setPopup] = useState(!!documentId);
 
   useEffect(() => {
-    setEditingId(editId ?? null);
-    setEditPopupOpen(false);
-  }, [editId]);
-
-  useEffect(() => {
-    if (editingId && documents.length > 0) {
-      setEditPopupOpen(true);
+    if (documentId && documents.length > 0) {
+      setAction({ id: documentId, type: "edit" });
     }
-  }, [editingId, documents]);
+  }, [action, documents]);
 
-  const handleEdit = (event: BaseDocument) => {
-    setEditingId(event.id);
-    setEditPopupOpen(true);
+  const handleBtnClick = (
+    event: BaseDocument,
+    type: "edit" | "confirm" | null,
+  ) => {
+    setAction({ id: event.id, type: type });
+    setPopup(true);
   };
+
   return (
     <div className="tab-container">
       <h1>{tabTitle}</h1>
@@ -61,17 +62,27 @@ function AdminTabs({
           activeHouse={activeHouse}
         />
       </div>
-      {editPopupOpen && editingId && (
+      {popup && action.type === "edit" && action.id && (
         <EditPopup
           onClose={() => {
-            setEditPopupOpen(false);
-            setEditingId(null);
+            setPopup(false);
+            setAction({ id: null, type: null });
           }}
           collectionName={collectionName}
-          document={documents.find((event) => event.id === editingId) || null}
+          document={documents.find((event) => event.id === action.id) || null}
           hasDate={hasDate}
           hasItems={hasItems}
           activeHouse={activeHouse}
+        />
+      )}
+      {popup && action.type === "confirm" && (
+        <ConfirmDelete
+          onClose={() => {
+            setPopup(false);
+            setAction({ id: null, type: null });
+          }}
+          collectionName={collectionName}
+          document={documents.find((event) => event.id === action.id) || null}
         />
       )}
 
@@ -89,13 +100,7 @@ function AdminTabs({
                 />
                 <button
                   className="admin-btn delete-btn"
-                  onClick={() =>
-                    handleDelete(
-                      collectionName,
-                      document.id,
-                      document.imagePath,
-                    )
-                  }
+                  onClick={() => handleBtnClick(document, "confirm")}
                 >
                   Delete
                 </button>
@@ -117,31 +122,18 @@ function AdminTabs({
                 )}
                 <h6>{document.name}</h6>
                 <div>{document.type}</div>
-                <div>{document.position}</div>
                 <div>{document.crossDate}</div>
                 <div>{document.description}</div>
-                {document.awards?.map((award: Awards, index: number) => (
-                  <div className="item-row" key={index}>
-                    <span>{award.title}</span>
-                    <span>{award.year}</span>
-                  </div>
-                ))}
                 <div className="event-actions">
                   <button
                     className="admin-btn edit-btn"
-                    onClick={() => handleEdit(document)}
+                    onClick={() => handleBtnClick(document, "edit")}
                   >
                     Edit
                   </button>
                   <button
                     className="admin-btn delete-btn"
-                    onClick={() =>
-                      handleDelete(
-                        collectionName,
-                        document.id,
-                        document.imagePath,
-                      )
-                    }
+                    onClick={() => handleBtnClick(document, "confirm")}
                   >
                     Delete Event
                   </button>
@@ -179,19 +171,13 @@ function AdminTabs({
                 <div className="event-actions">
                   <button
                     className="admin-btn edit-btn"
-                    onClick={() => handleEdit(document)}
+                    onClick={() => handleBtnClick(document, "edit")}
                   >
                     Edit
                   </button>
                   <button
                     className="admin-btn delete-btn"
-                    onClick={() =>
-                      handleDelete(
-                        collectionName,
-                        document.id,
-                        document.imagePath,
-                      )
-                    }
+                    onClick={() => handleBtnClick(document, "confirm")}
                   >
                     Delete Event
                   </button>

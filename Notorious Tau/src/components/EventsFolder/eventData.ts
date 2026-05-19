@@ -16,13 +16,13 @@ export type EventItem = {
 
 export type Awards = {
   title: string;
-  year: string;
+  year: number;
 };
 
 export type Knights = BaseDocument & {
   type: string; // All items are required for knights
   name: string;
-  position: string;
+  positions: string[];
   knightName: string;
   lineNumber: string;
   lineName: string;

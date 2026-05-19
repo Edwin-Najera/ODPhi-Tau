@@ -8,6 +8,7 @@ import {
   uploadImage,
   showMessage,
   formatPrice,
+  formatPosition,
 } from "../../../utils/handle";
 import "../../global.css";
 import type {
@@ -50,7 +51,7 @@ function AdminPanel({
 
   const [knightForm, setKnightForm] = useState<Partial<Knights>>({
     name: "",
-    position: "",
+    positions: [],
     knightName: "",
     lineNumber: "",
     lineName: "",
@@ -67,7 +68,9 @@ function AdminPanel({
   });
   const [items, setItems] = useState<EventItem[]>([{ name: "", price: "" }]); //For items and prices of items
   const [imageFile, setImageFile] = useState<File | null>(null); //For the image/flyer of the event *REQUIRED*
-  const [awards, setAwards] = useState<Awards[]>([{ title: "", year: "" }]);
+  const [awards, setAwards] = useState<Awards[]>([
+    { title: "", year: new Date().getFullYear() },
+  ]);
   const [popup, setPopup] = useState<{
     show: boolean;
     message: string;
@@ -201,7 +204,7 @@ function AdminPanel({
       });
       setKnightForm({
         name: "",
-        position: "",
+        positions: [],
         knightName: "",
         lineNumber: "",
         lineName: "",
@@ -249,9 +252,9 @@ function AdminPanel({
             <option value="" disabled>
               Choose Gallery
             </option>
-            <option value="active">Active</option>
-            <option value="executive">Executive</option>
-            <option value="inactive">Inactive</option>
+            <option value="Active">Active</option>
+            <option value="Executive">Executive</option>
+            <option value="Inactive">Inactive</option>
           </select>
           <label htmlFor="name" className="admin-label">
             Enter Name
@@ -263,17 +266,6 @@ function AdminPanel({
             value={knightForm.name}
             placeholder="Name"
             onChange={(e) => handleKnightChange("name", e.target.value)}
-          />
-          <label htmlFor="position" className="admin-label">
-            Enter Position
-          </label>
-          <input
-            className="knight-input"
-            id="position"
-            type="text"
-            value={knightForm.position}
-            placeholder="Position"
-            onChange={(e) => handleKnightChange("position", e.target.value)}
           />
           <label htmlFor="knight-name" className="admin-label">
             Enter Knight Name
@@ -319,6 +311,47 @@ function AdminPanel({
             placeholder="Cross Date Semester-Year"
             onChange={(e) => handleKnightChange("crossDate", e.target.value)}
           />
+          <label htmlFor="position" className="admin-label">
+            Enter Positions
+          </label>
+          <div className="item-input">
+            {knightForm.positions?.map((position, index) => (
+              <div key={index} className="item-row">
+                <input
+                  className="knight-input"
+                  type="text"
+                  value={position}
+                  placeholder="Position"
+                  onChange={(e) => {
+                    const updated = [...(knightForm.positions || [])];
+                    updated[index] = formatPosition(e.target.value);
+                    setKnightForm((prev) => ({ ...prev, positions: updated }));
+                  }}
+                />
+                <button
+                  className="admin-btn delete-btn item-delete"
+                  onClick={() => {
+                    const updated =
+                      knightForm.positions?.filter((_, i) => i !== index) || [];
+                    setKnightForm((prev) => ({ ...prev, positions: updated }));
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+            <button
+              className="admin-btn"
+              onClick={() =>
+                setKnightForm((prev) => ({
+                  ...prev,
+                  positions: [...(prev.positions || []), ""],
+                }))
+              }
+            >
+              + Add Position
+            </button>
+          </div>
           <ImageInput
             label="Enter Knight Image"
             imageFile={imageFile}
@@ -375,7 +408,11 @@ function AdminPanel({
             <button
               className="admin-btn"
               onClick={() =>
-                handleAddArrayItem({ title: "", year: "" }, awards, setAwards)
+                handleAddArrayItem(
+                  { title: "", year: new Date().getFullYear() },
+                  awards,
+                  setAwards,
+                )
               }
             >
               + Add Another Award

@@ -11,6 +11,7 @@ import {
   showMessage,
   handleArrayChange,
   formatPrice,
+  formatPosition,
 } from "../../../utils/handle";
 import "../../global.css";
 import Popup from "./Popup";
@@ -40,9 +41,9 @@ function EditPopup({
     [],
   );
   const [editType, setEditType] = useState("");
-  const [editPosition, setEditPosition] = useState("");
+  const [editPositions, setEditPositions] = useState<string[]>([]);
   const [editAwards, setEditAwards] = useState<
-    { title: string; year: string }[]
+    { title: string; year: number }[]
   >([]);
   const [editCountdownEvents, setEditCountdownEvents] = useState<
     {
@@ -65,7 +66,7 @@ function EditPopup({
     if (activeHouse) {
       const knightDoc = document as Knights;
       setEditType(knightDoc.type);
-      setEditPosition(knightDoc.position);
+      setEditPositions(knightDoc.positions || []);
       setEditAwards(knightDoc.awards);
     } else if (collectionName === "countdown") {
       const countdownDoc = document as Countdown;
@@ -92,7 +93,7 @@ function EditPopup({
       if (activeHouse) {
         const updateKnight: Partial<Knights> = {
           type: editType,
-          position: editPosition,
+          positions: editPositions,
           awards: editAwards,
         };
 
@@ -136,7 +137,10 @@ function EditPopup({
   };
 
   const addAwardField = () => {
-    setEditAwards([...editAwards, { title: "", year: "" }]);
+    setEditAwards([
+      ...editAwards,
+      { title: "", year: new Date().getFullYear() },
+    ]);
   };
 
   const deleteField = (index: number) => {
@@ -178,17 +182,43 @@ function EditPopup({
                   <option value="" disabled>
                     Choose Gallery
                   </option>
-                  <option value="active">Active</option>
-                  <option value="executive">Executive</option>
+                  <option value="Active">Active</option>
+                  <option value="Executive">Executive</option>
+                  <option value="Inactive">Inactive</option>
                 </select>
-                <label htmlFor="knightPosition">Position: </label>
-                <input
-                  id="knightPosition"
-                  type="text"
-                  value={editPosition}
-                  onChange={(e) => setEditPosition(e.target.value)}
-                  placeholder={(document as Knights).position}
-                />
+                <div className="item-input mt-3">
+                  {editPositions.map((position, index) => (
+                    <div key={index} className="item-row">
+                      <input
+                        className="knight-input"
+                        type="text"
+                        value={position}
+                        placeholder="Position"
+                        onChange={(e) => {
+                          const updated = [...editPositions];
+                          updated[index] = formatPosition(e.target.value);
+                          setEditPositions(updated);
+                        }}
+                      />
+                      <button
+                        className="admin-btn delete-btn item-delete"
+                        onClick={() => {
+                          setEditPositions(
+                            editPositions.filter((_, i) => i !== index),
+                          );
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    className="admin-btn"
+                    onClick={() => setEditPositions([...editPositions, ""])}
+                  >
+                    + Add Position
+                  </button>
+                </div>
                 <div className="awards-input">
                   <label htmlFor="awards" className="admin-label">
                     Enter awards
@@ -223,7 +253,7 @@ function EditPopup({
                             setEditAwards,
                           )
                         }
-                        placeholder={award.year || "Year"}
+                        placeholder={award.year.toString()}
                       />
                       <button
                         className="admin-btn delete-btn item-delete"

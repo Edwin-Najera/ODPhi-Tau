@@ -1,5 +1,4 @@
-import { Fragment } from "react";
-import { useInView } from "react-intersection-observer";
+import { useState } from "react";
 import type { Knights } from "../EventsFolder/eventData";
 
 type Props = {
@@ -8,42 +7,74 @@ type Props = {
   hasAwards?: boolean;
 };
 
-function KnightCard({ knight, index, hasAwards = false }: Props) {
-  const { ref: myRef, inView: visibleElement } = useInView({
-    triggerOnce: true,
-  });
-
-  const cardClass = `knight-card ${visibleElement ? "show" : ""}`;
-
+function KnightCard({ knight, hasAwards = false }: Props) {
   if (hasAwards) {
+    const [isFlipped, setIsFlipped] = useState(false);
+    const sortedAwards = knight.awards.sort((a, b) => b.year - a.year);
+
+    const groupedAwards = sortedAwards.reduce(
+      (acc, award) => {
+        const year = award.year;
+        if (!acc[year]) acc[year] = [];
+        acc[year].push(award);
+        return acc;
+      },
+      {} as Record<number, typeof sortedAwards>,
+    );
+
     return (
-      <div ref={myRef} className={cardClass}>
-        <div>
-          <span>{knight.name}</span>
-          {knight.awards.map((award, index) => (
-            <Fragment key={index}>
-              <span>{award.title}</span>
-              <span>{award.year}</span>
-            </Fragment>
-          ))}
+      <div className="knight-container awards">
+        <div
+          className="knight-card"
+          onMouseEnter={() => setIsFlipped(true)}
+          onMouseLeave={() => setIsFlipped(false)}
+        >
+          <div className="card-front">
+            <div className="image-wrapper">
+              <img src={knight.imageURL} alt="knight image" />
+            </div>
+            <span className="knight-info">{knight.name}</span>
+          </div>
+          <div className="card-back">
+            {Object.entries(groupedAwards).map(([year, awards]) => (
+              <div key={year} className="award-year-group">
+                <h4 className="award-year">{year}</h4>
+                {awards.map((award, index) => (
+                  <div
+                    key={index}
+                    className={`award-item ${isFlipped ? "show" : ""}`}
+                    style={
+                      {
+                        "--delay": `${1500 + index * 300}ms`,
+                      } as React.CSSProperties
+                    }
+                  >
+                    <span>{award.title}</span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
   }
   return (
-    <div
-      ref={myRef}
-      className={cardClass}
-      style={{ animationDelay: `${index * 250}ms` }}
-    >
-      <div className="image-wrapper">
-        <img src={knight.imageURL} alt="knight image" />
+    <div className="knight-container">
+      <div className="knight-card">
+        <div className="image-wrapper">
+          <img src={knight.imageURL} alt="knight image" />
+        </div>
+        <div className="mtb-knight">
+          <span className="knight-info name">{knight.name}</span>
+          {knight.positions?.map((position) => (
+            <span key={position} className="knight-info">
+              {position}
+            </span>
+          ))}
+        </div>
+        <span className="knight-info number">Knight #{knight.lineNumber}</span>
       </div>
-      <div className="mtb-knight">
-        <span className="knight-info name">{knight.name}</span>
-        <span className="knight-info">{knight.position}</span>
-      </div>
-      <span className="knight-info number">Knight #{knight.lineNumber}</span>
     </div>
   );
 }
