@@ -38,7 +38,7 @@ function KnightCard({ knight, hasAwards = false }: Props) {
           <div className="card-back">
             {Object.entries(groupedAwards).map(([year, awards]) => (
               <div key={year} className="award-year-group">
-                <h4 className="award-year">{year}</h4>
+                <h4 className="list-title">{year}</h4>
                 {awards.map((award, index) => (
                   <div
                     key={index}
@@ -62,16 +62,21 @@ function KnightCard({ knight, hasAwards = false }: Props) {
   return (
     <div className="knight-container">
       <div className="knight-card">
-        <div className="image-wrapper">
-          <img src={knight.imageURL} alt="knight image" />
-        </div>
-        <div className="mtb-knight">
+        <div className="card-front">
+          <div className="image-wrapper">
+            <img src={knight.imageURL} alt="knight image" />
+          </div>
           <span className="knight-info name">{knight.name}</span>
-          {knight.positions?.map((position) => (
-            <span key={position} className="knight-info">
-              {position}
-            </span>
-          ))}
+        </div>
+        <div className="card-back">
+          <div className="positions">
+            <h3 className="list-title">Positions</h3>
+            {knight.positions?.map((position) => (
+              <div key={position} className="knight-info card">
+                <div className="card-body">{position}</div>
+              </div>
+            ))}
+          </div>
         </div>
         <span className="knight-info number">Knight #{knight.lineNumber}</span>
       </div>

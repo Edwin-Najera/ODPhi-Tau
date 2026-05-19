@@ -21,7 +21,7 @@ function Mtb() {
   });
   const { ref: requirementRef, inView: reqVisible } = useInView({
     triggerOnce: true,
-    threshold: 0.5,
+    threshold: 0.75,
   });
   const allKnights = useCollection({
     collectionName: "house",
@@ -112,7 +112,7 @@ function Mtb() {
   ];
 
   const requirements = [
-    "Be a full-time student",
+    "Be a full-time student (12+ Enrolled Credit Hours)",
     "Have a cumulative GPA of +2.5",
     "Not have rushed/pledged another organization",
     "Have been handed a bid by active house",
@@ -138,8 +138,8 @@ function Mtb() {
           ))}
         </div>
         {recognized.length > 0 && (
-          <div className="recognition">
-            <h5>Award Spotlight</h5>
+          <div className="knights-display">
+            <h2 className="knights-header">Award Spotlight</h2>
             <KnightCarousel knights={recognized} hasAwards={true} />
           </div>
         )}
@@ -160,9 +160,8 @@ function Mtb() {
           </ul>
           <span className="member-requirement-bottom" />
         </div>
-        <h3 className="knights-header">Active House</h3>
-        <div className="mtb-active-house">
-          <h3>Executives</h3>
+        <div className="knights-display">
+          <h2 className="knights-header">Active House</h2>
           <KnightCarousel knights={sortedKnights} />
         </div>
         <div className="line-separate" />

@@ -885,6 +885,7 @@ a.click-button {
   text-align: center;
   width: 100dvw;
   min-height: calc(100dvh - 100px);
+  padding-bottom: 25px;
   align-self: start;
   @media (max-width: 992px) {
     min-height: calc(100dvh - 120px);
@@ -893,6 +894,7 @@ a.click-button {
 
 .admin-page {
   flex-direction: row;
+  padding-bottom: 0;
   @media (max-width: 992px) {
     flex-direction: column;
     padding: 0 10px;
@@ -2397,6 +2399,18 @@ a.click-button {
   background: white !important;
 }
 
+.knights-display {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.knights-display h2 {
+  font-size: 2em;
+  font-weight: 800;
+}
+
 .knights-carousel {
   display: flex;
   flex-direction: column;
@@ -2404,7 +2418,6 @@ a.click-button {
   justify-content: center;
   width: 55dvw;
   position: relative;
-  padding: 20px 0;
   overflow: visible;
   @media (max-width: 992px) {
     width: 95dvw;
@@ -2526,7 +2539,7 @@ a.click-button {
 
 .knight-container {
   width: 275px;
-  height: 500px;
+  height: 400px;
   perspective: 500px;
 }
 
@@ -2608,16 +2621,16 @@ a.click-button {
   pointer-events: none;
 }
 
-.mtb-knight {
+.positions {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
-  flex: 1;
+  gap: 15px;
 }
 
 .knight-info {
   padding: 5px 15px;
+  width: 95%;
 }
 
 .knight-info.name {
@@ -2643,7 +2656,7 @@ a.click-button {
   }
 }
 
-.award-year {
+.list-title {
   font-weight: 700;
   border-bottom: 2px solid black;
   padding-bottom: 5px;
