@@ -48,7 +48,7 @@ function AllBros() {
 
   return (
     <div className="page all-bros-page">
-      <div className="top-of-page">
+      <div className="flex-center flex-start w-100 gap-3 m-1 ps-1 z-5">
         <button
           className="return"
           onClick={() => handlePageNavigate("onlybros")}
@@ -68,15 +68,17 @@ function AllBros() {
       {showPopup && (
         <Popup message={message} onClose={() => setShowPopup(false)} />
       )}
-      <h1 className="page-header">Tau Events</h1>
-      <div className="all-events">
-        <div className="brotherhood-events">
-          <div className="card">
+      <h1 className="page-header text-center z-5">Tau Events</h1>
+      <div className="all-events w-100 gap-1">
+        <div className="brotherhood-events flex-col-center h-100">
+          <div className="card w-100">
             <div className="card-body">
-              <h2 className="card-title">Brotherhood Events</h2>
+              <h2 className="card-title align-self-start">
+                Brotherhood Events
+              </h2>
               {brotherhood.length === 0 && <NoEvents />}
               {brotherhood.length > 0 && (
-                <div className="card-text">
+                <div className="card-text gap-3">
                   {brotherhood.map((event) => (
                     <EventCard
                       key={event.id}
@@ -92,13 +94,13 @@ function AllBros() {
             </div>
           </div>
         </div>
-        <div className="alumni-events">
-          <div className="card">
+        <div className="alumni-events flex-col-center h-100">
+          <div className="card w-100">
             <div className="card-body">
-              <h2 className="card-title">Alumni Events</h2>
+              <h2 className="card-title align-self-start">Alumni Events</h2>
               {alumniEvents.length === 0 && <NoEvents />}
               {alumniEvents.length > 0 && (
-                <div className="card-text">
+                <div className="card-text gap-3">
                   {alumniEvents.map((event) => (
                     <EventCard
                       key={event.id}
@@ -114,12 +116,15 @@ function AllBros() {
             </div>
           </div>
         </div>
-        <div className="regular-events">
+        <div className="regular-events flex-col-center h-100 gap-2">
           <h2>Events Happening</h2>
           {events.length === 0 && <NoEvents />}
           {events.length > 0 &&
             events.map((event) => (
-              <div key={event.id} className="all-event-wrapper card regular">
+              <div
+                key={event.id}
+                className="card regular pointer flex-col flex-between pos-relative w-100"
+              >
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
@@ -129,14 +134,16 @@ function AllBros() {
                     />
                   </div>
                   <div className="col-md-8">
-                    <div className="card-body">
-                      <h4 className="card-title">{event.title}</h4>
+                    <div className="card-body flex-col-center text-start flex-grow-1 h-100">
+                      <h4 className="card-title align-self-start">
+                        {event.title}
+                      </h4>
                       <p>{event.description}</p>
                       {event.items.length > 0 && (
                         <>
-                          <h6 className="price-title">Event Prices: </h6>
-                          <div className="event-prices">
-                            <ul className="sell-items">
+                          <h6 className="align-self-start">Event Prices: </h6>
+                          <div className="event-prices flex-grow-1">
+                            <ul className="sell-items flex-col flex-around h-100">
                               {event.items.map(
                                 (item: EventItem, index: number) => (
                                   <li key={index}>
@@ -165,9 +172,9 @@ function AllBros() {
               </div>
             ))}
         </div>
-        <div className="side-bar">
+        <div className="side-bar flex-col-center h-100 gap-2">
           <h3>Connect</h3>
-          <ul className="connect-options">
+          <ul className="connect-options flex-col flex-around flex-grow-1 p-2">
             <li onClick={() => navigate("/Mtb")}>Active Brothers</li>
             <li onClick={() => navigate("/")}>Events</li>
             <li onClick={() => navigate("/Service")}>Service</li>

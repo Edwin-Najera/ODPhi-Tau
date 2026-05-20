@@ -110,14 +110,14 @@ function Contact() {
     <div className="page contact-page">
       <h3>Contact Us</h3>
       <div className="line-separate mb-3" />
-      <div className="contact-info">
+      <div className="contact-info flex flex-col-mobile">
         <div className="reach-info">
           <h5>Recruitment & President</h5>
           <div className="line-separate" />
           <div>
             For any question or concerns reach out to our recruitment chair
           </div>
-          <div className="reach-email">
+          <div className="reach-email flex-col">
             <span>recruitment.tau@omegadeltaphi.org</span>
             <span>president.tau@omegadeltaphi.org</span>
           </div>
@@ -127,10 +127,10 @@ function Contact() {
             more
           </div>
         </div>
-        <div className="core-values">
+        <div className="core-values flex-col">
           <h5>Our Core Values</h5>
           <div className="line-separate mb-4" />
-          <ul className="core-values-list">
+          <ul className="core-values-list flex-col">
             {sacraments.map((sacrament, index) => (
               <li
                 key={sacrament}
@@ -143,52 +143,49 @@ function Contact() {
           </ul>
         </div>
       </div>
-      <div className="interest-form mt-4">
+      <div className="interest-form mt-4 flex-center flex-col-mobile">
         <img
           ref={rushImage}
-          className={`rush-image ${visibleElement ? "rush-effect" : ""}`}
+          className={`rush-image hide-mobile ${visibleElement ? "rush-effect" : ""}`}
           src={rush}
         />
-        <div className="form">
+        <div className="form flex-col">
           <h4>Interest Form</h4>
-          <div className="row-form">
-            <div className="col-form">
+          <div className="flex flex-col-mobile flex-between w-100 gap-3">
+            <div className="flex-col w-100">
               <label>First Name</label>
               <input
                 type="text"
                 name="firstName"
                 value={formData.firstName}
-                className="interest-name"
                 onChange={handleChange}
                 placeholder="First Name"
               />
             </div>
-            <div className="col-form">
+            <div className="flex-col w-100">
               <label htmlFor="last">Last Name</label>
               <input
                 type="text"
                 name="lastName"
                 id="last"
                 value={formData.lastName}
-                className="interest-name"
                 onChange={handleChange}
                 placeholder="Last Name"
               />
             </div>
           </div>
-          <div className="col-form">
+          <div className="flex-col w-100">
             <label>Email</label>
             <input
               type="text"
               name="email"
               value={formData.email}
-              className="interest-email"
               onChange={handleChange}
               placeholder="name@email.com"
             />
           </div>
-          <div className="row-form">
-            <div className="col-form year">
+          <div className="flex flex-col-mobile flex-between w-100 gap-3">
+            <div className="flex-col w-100">
               <label>Classification</label>
               <select name="year" value={formData.year} onChange={handleChange}>
                 <option value="" disabled>
@@ -201,7 +198,7 @@ function Contact() {
                 <option value="senior">Senior</option>
               </select>
             </div>
-            <div className="col-form">
+            <div className="flex-col w-100">
               <label>Instagram</label>
               <input
                 type="text"
@@ -211,7 +208,7 @@ function Contact() {
                 onChange={handleChange}
               />
             </div>
-            <div className="col-form num">
+            <div className="flex-col w-100">
               <label>Phone Number</label>
               <input
                 type="tel"
@@ -234,11 +231,11 @@ function Contact() {
         </div>
         <img
           ref={rushImage}
-          className={`rush-image ${visibleElement ? "rush-effect" : ""}`}
+          className={`rush-image hide-mobile ${visibleElement ? "rush-effect" : ""}`}
           src={rush}
         />
       </div>
-      <div className="faq-container mt-5">
+      <div className="faq flex-col-center w-100 mt-5">
         <h2>Frequently Asked Questions</h2>
         <div className="line-separate" />
         <div className="accordion accordion-flush mt-3" id="faq-accordion">

@@ -219,7 +219,7 @@ function EditPopup({
                     + Add Position
                   </button>
                 </div>
-                <div className="awards-input">
+                <div className="item-input">
                   <label htmlFor="awards" className="admin-label">
                     Enter awards
                   </label>
@@ -319,7 +319,6 @@ function EditPopup({
                       {document?.items?.map((item, index) => (
                         <div key={index} className="item-row">
                           <input
-                            className="input-event"
                             type="text"
                             value={editItems[index]?.name || ""}
                             onChange={(e) =>
@@ -336,7 +335,7 @@ function EditPopup({
                           <div className="price-wrapper">
                             <span>$</span>
                             <input
-                              className="input-event price-input"
+                              className="price-input"
                               type="text"
                               value={editItems[index]?.price || ""}
                               onChange={(e) =>

@@ -122,18 +122,27 @@ function Mtb() {
     <>
       <div className="page mtb-page">
         <h1>Meet The Chapter</h1>
-        <div className="mtb-sacraments" ref={sacramentRef}>
+        <div
+          className="mtb-sacraments flex-col-center w-75 gap-3"
+          ref={sacramentRef}
+        >
           {sacraments.map(({ label, icon, left, right }, index) => (
             <div
               key={index}
-              className={`card ${index % 2 === 0 ? "right" : "left"} ${visible ? "show" : ""}`}
+              className={`flex-center card gap-4 ${index % 2 === 0 ? "right" : "left"} ${visible ? "show" : ""}`}
               style={{ "--delay": `${index * 300}ms` } as React.CSSProperties}
             >
-              <div className="message">{left}</div>
-              <div className="icon">{icon}</div>
-              <div className="label-wrapper">{label}</div>
-              <div className="icon reverse">{icon}</div>
-              <div className="message">{right}</div>
+              <div className="message flex-grow-1 text-center hide-mobile">
+                {left}
+              </div>
+              <div className="icon flex-center">{icon}</div>
+              <div className="label-wrapper flex-grow-1 text-center">
+                {label}
+              </div>
+              <div className="icon reverse flex-center">{icon}</div>
+              <div className="message flex-grow-1 text-center hide-mobile">
+                {right}
+              </div>
             </div>
           ))}
         </div>
@@ -143,38 +152,41 @@ function Mtb() {
             <KnightCarousel knights={recognized} hasAwards={true} />
           </div>
         )}
-        <div className="member-requirements">
-          <span className="member-requirement-title">
+        <div className="member-requirements flex-col-center text-center w-75 w-100-mobile">
+          <span className="member-requirement-title flex-center w-100">
             Membership Requirements
           </span>
-          <ul className="requirement-list" ref={requirementRef}>
+          <ul className="requirement-list flex-col" ref={requirementRef}>
             {requirements.map((requirement, index) => (
               <li
                 key={index}
-                className={`requirement card ${index % 2 === 0 ? "right" : "left"} ${reqVisible ? "show" : ""}`}
+                className={`requirement flex-center card ${index % 2 === 0 ? "right" : "left"} ${reqVisible ? "show" : ""}`}
                 style={{ "--delay": `${index * 300}ms` } as React.CSSProperties}
               >
                 {requirement}
               </li>
             ))}
           </ul>
-          <span className="member-requirement-bottom" />
+          <span className="member-requirement-bottom flex-center w-100" />
         </div>
-        <div className="knights-display">
-          <h2 className="knights-header">Active House</h2>
+        <div className="display flex-col-center w-100">
+          <h2>Active House</h2>
           <KnightCarousel knights={sortedKnights} />
         </div>
         <div className="line-separate" />
-        <div className="history-container">
-          <div className="founding-lines">
-            <div className="founders-container">
-              <div className="history-header">
+        <div className="hist-container flex-col flex-even w-75">
+          <div className="founding-lines flex flex-col-mobile flex-even w-100">
+            <div className="flex-col-center w-50 w-100-mobile h-100">
+              <div className="hist-header">
                 <img className="crown" src={crown} alt="Crown" />
                 <div>Founders</div>
               </div>
-              <ul className="founders-list">
+              <ul className="flex-col-center flex-around w-100 h-100 gap-3 p-0">
                 {foundingMembers.map((founder, index) => (
-                  <li key={index} className="member-name">
+                  <li
+                    key={index}
+                    className="member-name flex-center flex-grow-1 w-100"
+                  >
                     <div className="handle-left" />
                     {founder}
                     <div className="handle-right" />
@@ -182,14 +194,17 @@ function Mtb() {
                 ))}
               </ul>
             </div>
-            <div className="charter-container">
-              <div className="history-header">
+            <div className="flex-col-center w-50 w-100-mobile h-100">
+              <div className="hist-header text-center">
                 <img className="crown" src={crown} alt="Crown" />
                 <div>Charter Class</div>
               </div>
-              <ul className="charter-list">
+              <ul className="flex-col-center flex-around w-100 h-100 gap-3 p-0">
                 {charterMembers.map((charter, index) => (
-                  <li key={index} className="member-name">
+                  <li
+                    key={index}
+                    className="member-name flex-center flex-grow-1 w-100"
+                  >
                     <div className="handle-left" />
                     {charter}
                     <div className="handle-right" />
@@ -198,14 +213,14 @@ function Mtb() {
               </ul>
             </div>
           </div>
-          <div className="tau-history-container row">
-            <h3 className="row">Tau Chapter History</h3>
+          <div className="tau-hist-container flex-center row w-100 gap-3">
+            <h3 className="w-100 text-center">Tau Chapter History</h3>
             <img
               className="col img-fluid memories ms-3 p-3 card"
               src={memories}
             />
-            <div className="col text-col">
-              <div className="tau-history">
+            <div className="col flex-col-center w-75">
+              <div className="w-100 gap-3">
                 <p>
                   The Tau Chapter of Omega Delta Phi Fraternity, Inc. was
                   established at the University of Texas at Arlington to
@@ -235,9 +250,9 @@ function Mtb() {
               </div>
             </div>
           </div>
-          <div className="tau-history-container row">
-            <h3 className="row">Our Mission Statement</h3>
-            <div className="purpose col">
+          <div className="tau-hist-container flex-center row w-100 gap-3">
+            <h3 className="w-100 text-center">Our Mission Statement</h3>
+            <div className="col w-100 gap-3">
               <p>
                 The purpose of this brotherhood, a{" "}
                 <strong>Service/Social</strong> fraternity dedicated to the
@@ -261,7 +276,7 @@ function Mtb() {
               </div>
             </div>
             <img
-              className="col img-fluid memories me-3 card"
+              className="col img-fluid memories me-3 card hide-mobile"
               src={founders}
               alt="Founder"
             />
@@ -282,32 +297,32 @@ function KnightCarousel({ knights, hasAwards = false }: CarouselProps) {
 
   const getCardClass = (index: number) => {
     const diff = index - currentIndex;
-    if (diff === 0) return "carousel-card active";
+    if (diff === 0) return "carousel-card pos-absolute active";
     if (diff === -1 || (currentIndex === 0 && index === knights.length - 1))
-      return "carousel-card side left";
+      return "carousel-card pos-absolute side left";
     if (diff === 1 || (currentIndex === knights.length - 1 && index === 0))
-      return "carousel-card side right";
-    return "carousel-card hidden";
+      return "carousel-card pos-absolute side right";
+    return "carousel-card pos-absolute hidden";
   };
 
   return (
-    <div className="knights-carousel">
-      <div className="carousel-buttons">
-        <button className="carousel-btn" onClick={handlePrev}>
+    <div className="knights-carousel flex-col-center pos-relative">
+      <div className="carousel-buttons flex-center flex-between pos-absolute w-100 h-50">
+        <button className="carousel-btn flex-center p-0" onClick={handlePrev}>
           <FaChevronLeft />
         </button>
-        <button className="carousel-btn" onClick={handleNext}>
+        <button className="carousel-btn flex-center p-0" onClick={handleNext}>
           <FaChevronRight />
         </button>
       </div>
-      <div className="carousel-track">
+      <div className="carousel-track flex-center pos-relative w-100">
         {knights.map((knight, index) => (
           <div key={knight.id} className={getCardClass(index)}>
             <KnightCard knight={knight} index={index} hasAwards={hasAwards} />
           </div>
         ))}
       </div>
-      <div className="carousel-dots">
+      <div className="flex-center mt-3 gap-2">
         {knights.map((_, i) => (
           <div
             key={i}

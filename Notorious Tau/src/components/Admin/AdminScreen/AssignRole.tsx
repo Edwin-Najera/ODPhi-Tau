@@ -37,8 +37,8 @@ function AssignRole() {
   };
 
   return (
-    <div className="assign-role-container">
-      <h2>Assign User Role</h2>
+    <div className="assign-role-container flex-col gap-2 w-75 align-self-center">
+      <h2 className="text-center">Assign User Role</h2>
 
       <input
         className="uid-input"

@@ -82,8 +82,13 @@ function Spark() {
   }, []);
 
   return (
-    <div className="spark-container">
-      <canvas ref={canvasRef} className="spark" width={600} height={300} />
+    <div className="spark-container z-1 w-100 h-100">
+      <canvas
+        ref={canvasRef}
+        className="spark w-100 vh-100 z-5"
+        width={600}
+        height={300}
+      />
     </div>
   );
 }

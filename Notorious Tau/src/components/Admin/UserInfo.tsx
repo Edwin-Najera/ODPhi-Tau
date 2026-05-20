@@ -11,9 +11,12 @@ function UserInfo() {
   const username = userEmail?.split("0")[0].split(".")[0].toUpperCase();
 
   return (
-    <div className="user-info-container">
+    <div className="user-info-container flex">
       {username} | {userRole?.toUpperCase()} |
-      <button className="logout-btn" onClick={() => handleLogout(navigate)}>
+      <button
+        className="logout-btn flex-center"
+        onClick={() => handleLogout(navigate)}
+      >
         Logout
       </button>
     </div>

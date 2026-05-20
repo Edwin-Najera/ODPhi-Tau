@@ -61,10 +61,26 @@
 /* ----------------------------------------------------- */
 /* GENERALIZED CLASSES --- REPEATED STYLES */
 
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-col-mobile {
+  @media (max-width: 992px) {
+    flex-direction: column !important;
+  }
+}
+
 .flex-center {
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
 }
 
 .flex-col-center {
@@ -74,16 +90,52 @@
   justify-content: center;
 }
 
-.space-between {
+.flex-start {
+  justify-content: start;
+}
+
+.flex-between {
   justify-content: space-between;
 }
 
-.space-around {
+.flex-around {
   justify-content: space-around;
 }
 
-.space-even {
+.flex-even {
   justify-content: space-evenly;
+}
+
+.text-start {
+  text-align: start;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pos-relative {
+  position: relative;
+}
+
+.pos-absolute {
+  position: absolute;
+}
+
+.hide-mobile {
+  @media (max-width: 992px) {
+    display: none;
+  }
+}
+
+.w-100-mobile {
+  @media (max-width: 992px) {
+    width: 100%;
+  }
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 /* ----------------------------------------------------- */
@@ -1282,11 +1334,8 @@ a.click-button {
 /* ----------------------------------------------------------------------------------- */
 
 .admin-container {
-  display: flex;
-  flex-direction: column;
   max-width: 600px;
   margin: 40px auto;
-  padding: 10px;
   background: white;
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.25);
@@ -1294,25 +1343,7 @@ a.click-button {
     max-width: 350px;
     width: 400px;
     overflow-x: hidden;
-    margin: 0;
-    padding: 10px;
   }
-}
-
-.admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  align-self: center;
-  text-align: center;
-}
-
-.event-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  margin-top: 5px;
 }
 
 .admin-btn {
@@ -1326,11 +1357,6 @@ a.click-button {
 .admin-label {
   align-self: start;
   font-weight: 500;
-}
-
-.checkbox-form {
-  display: flex;
-  align-items: center;
 }
 
 .admin-checkbox {
@@ -1351,7 +1377,6 @@ a.click-button {
 }
 
 .item-input,
-.awards-input,
 .event-countdown-input-container {
   display: flex;
   flex-direction: column;
@@ -1362,8 +1387,10 @@ a.click-button {
   margin-bottom: 5px;
 }
 
-.input-event,
-.knight-input,
+.item-input input {
+  width: 100%;
+}
+
 .countdown-event-input {
   width: 100%;
 }
@@ -1844,7 +1871,6 @@ a.click-button {
 /* ||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
 .password-wrapper {
-  position: relative;
   width: 30%;
   margin: 25px 0;
   background: transparent;
@@ -1860,13 +1886,11 @@ a.click-button {
 }
 
 .show-password {
-  position: absolute;
   right: 1%;
   top: 50%;
   transform: translateY(-50%);
   background: transparent;
   border: none;
-  cursor: pointer;
   color: gray;
   font-size: 0.85em;
 }
@@ -1904,32 +1928,19 @@ a.click-button {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
   background-color: black;
-  z-index: 1;
 }
 
 .spark {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 100;
 }
 
 .login-form {
   position: fixed;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  width: 100vw;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
+  width: 100dvw;
   background: transparent;
   pointer-events: none;
 }
@@ -1955,19 +1966,10 @@ a.click-button {
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
 .assign-role-container {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 75%;
   margin: 10px 12px;
   padding: 10px 12px;
-  align-self: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   border-radius: 12px;
-}
-
-.assign-role-container h2 {
-  text-align: center;
 }
 
 .uid-input,
@@ -1978,8 +1980,6 @@ a.click-button {
 
 /*  UserInfo.tsx   */
 .user-info-container {
-  display: flex;
-  flex-direction: row;
   font-size: 0.75em;
   @media (max-width: 992px) {
     margin: 5px 0 5px 0;
@@ -1987,10 +1987,7 @@ a.click-button {
 }
 
 .logout-btn {
-  display: flex;
-  align-items: center;
   background-color: #ffffff;
-  color: white;
   max-width: fit-content;
   height: 20px;
   padding: 1px 10px;
@@ -2004,17 +2001,6 @@ a.click-button {
 /* |||||||||||||||||||| Alumni.tsx & AllBros.tsx |||||||||||||||||||| */
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
-.top-of-page {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  z-index: 10;
-  background-color: white;
-  gap: 10px;
-  margin: 5px;
-  padding-left: 5px;
-}
-
 .return {
   background-color: #ffffff;
   max-width: fit-content;
@@ -2025,11 +2011,9 @@ a.click-button {
 }
 
 .page-header {
-  text-align: center;
   width: 90%;
   height: fit-content;
   background-color: red;
-  z-index: 100;
 }
 
 .all-events {
@@ -2039,9 +2023,7 @@ a.click-button {
     "alumni events events bar";
   grid-template-columns: 2fr 2fr 2fr 1fr;
   grid-template-rows: 1fr 3fr;
-  width: 100%;
   height: calc(100vh - 8.5em);
-  gap: 1px;
   overflow-y: hidden;
   padding: 0 15px;
   @media (max-width: 992px) {
@@ -2064,9 +2046,7 @@ a.click-button {
     "important brotherhood photos";
   grid-template-columns: 1fr 2fr 1fr;
   grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
-  width: 100%;
   height: calc(100vh - 8.5em);
-  gap: 1px;
   overflow-y: hidden;
   padding: 0 15px;
   @media (max-width: 992px) {
@@ -2088,15 +2068,12 @@ a.click-button {
 .alumni-all-events > .tau-brotherhood,
 .alumni-all-events > .important-events,
 .alumni-all-events > .photos-side-bar,
-.all-events > .brotherhood-events-container,
+.all-events > .brotherhood-events,
 .all-events > .regular-events,
 .all-events > .alumni-events,
 .all-events > .side-bar {
   overflow-y: auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: unset;
   @media (max-width: 992px) {
     height: auto;
     overflow-y: visible;
@@ -2117,7 +2094,6 @@ a.click-button {
 .all-events > .regular-events,
 .alumni-all-events > .tau-events {
   grid-area: events;
-  gap: 15px;
 }
 
 .all-events > .alumni-events {
@@ -2130,20 +2106,14 @@ a.click-button {
 
 .all-events > .side-bar {
   grid-area: bar;
-  gap: 10px;
   font-size: 1.5em;
   border-left: solid rgba(0, 0, 0, 0.4);
   padding-left: 15px;
 }
 
 .connect-options {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
   list-style-type: none;
-  padding: 10px;
   align-items: start;
-  justify-content: space-around;
 }
 
 .connect-options li {
@@ -2177,140 +2147,54 @@ a.click-button {
   width: 100%;
 }
 
-.all-events .card,
-.alumni-all-events .card {
-  width: 100%;
-}
-
-.all-events .card-text {
-  gap: 25px;
-}
-
-.all-event-wrapper {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  cursor: pointer;
-}
-
-.all-event-wrapper.regular {
+.regular {
   width: 90%;
-  cursor: default;
-}
-
-.regular .card-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: start;
-  flex: 1;
-  height: 100%;
-}
-
-.regular .card-title,
-.price-title {
-  align-self: start;
-}
-
-.regular .event-prices {
-  flex: 1;
-}
-
-.regular .sell-items {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-around;
-}
-
-.all-event-wrapper h4::before {
-  content: ">";
-  margin: 0 15px 0 5px;
-}
-
-.all-event-wrapper p {
-  color: grey;
-  text-decoration-style: grey underline solid;
 }
 
 /* This is for Alumni.tsx */
 .alumni-all-events > .alumni-contact {
   grid-area: form;
-  position: relative;
 }
 
 .alumni-submit {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   top: 3%;
   right: 3%;
   border-radius: 15px;
   height: 25px;
-  width: max-content;
   background: rgba(0, 0, 0, 0.4);
 }
 .alumni-all-events > .important-events {
   grid-area: important;
-  width: 100%;
 }
 
 .alumni-all-events > .photos-side-bar {
   grid-area: photos;
   grid-row: 1/3;
-  align-items: center;
   overflow: hidden;
-  height: 100%;
   @media (max-width: 992px) {
     grid-row: auto; /* remove the span */
     height: 250px; /* fixed height for the image loop */
   }
 }
 
-.tau-brotherhood .card-text,
-.tau-events .card-text {
-  gap: 10px;
-}
-
 .photos-side-bar .card {
-  height: 100%;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-
   @media (max-width: 992px) {
-    height: 100%;
-    flex-direction: row;
+    flex-direction: row !important;
   }
 }
 
 .photos-side-bar .card-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 100%;
-  flex: 1;
   overflow: hidden;
 }
 
 .alumni-image-wrapper {
-  width: 75%;
   margin: 0 auto;
   overflow: hidden;
   border-radius: 8px;
-
-  @media (max-width: 992px) {
-    width: 100%;
-  }
 }
 
 .alumni-image-wrapper img {
-  width: 100%;
-  height: auto;
   object-fit: cover;
   object-position: center;
 }
@@ -2321,27 +2205,18 @@ a.click-button {
 /* ------------------------------------------------- */
 
 .continous-loop {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   overflow: hidden;
-  flex: 1;
-  width: 100%;
-  align-items: center;
+  justify-content: unset;
   @media (max-width: 992px) {
-    flex-direction: row;
+    flex-direction: row !important;
   }
 }
 
 .loop-track {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  align-items: center;
+  justify-content: unset;
   animation: scrollLoopY 10s linear infinite;
   @media (max-width: 992px) {
-    flex-direction: row;
+    flex-direction: row !important;
     animation: scrollLoopX 10s linear infinite;
   }
 }
@@ -2369,17 +2244,6 @@ a.click-button {
 /* ------------------------------------------------- */
 /* ------------------------------------------------- */
 
-.alumni-all-events .card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.tau-events h2,
-.tau-brotherhood h2 {
-  align-self: center;
-}
-
 .important-events .card {
   align-items: stretch !important;
 }
@@ -2389,13 +2253,7 @@ a.click-button {
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 
 .member-requirements {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  width: 75%;
   height: 500px;
-  justify-content: center;
-  align-items: center;
   @media (max-width: 992px) {
     width: 100%;
     padding: 5px;
@@ -2403,11 +2261,8 @@ a.click-button {
 }
 
 .member-requirement-title {
-  display: flex;
-  width: 100%;
   font-size: 2em;
   font-weight: 600;
-  align-items: center;
   justify-self: start;
 
   @media (max-width: 992px) {
@@ -2416,9 +2271,6 @@ a.click-button {
 }
 
 .member-requirement-bottom {
-  display: flex;
-  width: 100%;
-  align-items: center;
   justify-self: end;
 }
 
@@ -2435,8 +2287,6 @@ a.click-button {
 }
 
 .requirement-list {
-  display: flex;
-  flex-direction: column;
   flex: 1;
   list-style-type: none;
   padding: 0;
@@ -2445,9 +2295,6 @@ a.click-button {
 }
 
 .requirement {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 1em;
   font-weight: 600;
   width: 100%;
@@ -2456,25 +2303,13 @@ a.click-button {
   background: white !important;
 }
 
-.knights-display {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-}
-
-.knights-display h2 {
+.display h2 {
   font-size: 2em;
   font-weight: 800;
 }
 
 .knights-carousel {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: 55dvw;
-  position: relative;
   overflow: visible;
   @media (max-width: 992px) {
     width: 95dvw;
@@ -2483,12 +2318,6 @@ a.click-button {
 }
 
 .carousel-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 50%;
-  position: absolute;
   pointer-events: none;
   z-index: 5;
 }
@@ -2499,12 +2328,8 @@ a.click-button {
   height: 45px;
   font-size: 1.5em;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: background 0.2s;
   background: transparent;
-  padding: 0;
   border-radius: 50%;
   pointer-events: auto;
 }
@@ -2518,13 +2343,6 @@ a.click-button {
   height: 16px;
   fill: black !important;
   color: black;
-}
-
-.carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 15px;
 }
 
 .dot {
@@ -2541,16 +2359,10 @@ a.click-button {
 }
 
 .carousel-track {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 100%;
   height: 500px;
 }
 
 .carousel-card {
-  position: absolute;
   transition:
     transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
     opacity 0.5s ease;
@@ -2776,11 +2588,7 @@ a.click-button {
 /* ---------------------------------------- */
 /* ---------------------------------------- */
 
-.history-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: 75%;
+.hist-container {
   gap: 50px;
   @media (max-width: 992px) {
     width: 100%;
@@ -2790,55 +2598,23 @@ a.click-button {
 }
 
 .founding-lines {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 100%;
   height: 700px;
   gap: 25px;
   @media (max-width: 992px) {
-    flex-direction: column;
-    width: 100%;
     min-height: 1250px;
   }
 }
 
-.founders-container,
-.charter-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 50%;
-  height: 100%;
-  @media (max-width: 992px) {
-    width: 100%;
-  }
-}
-
-.history-container ul {
-  display: flex;
-  flex-direction: column;
+.hist-container ul {
   list-style-type: none;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  gap: 15px;
-  align-items: center;
-  justify-content: space-around;
 }
 
-.history-container .member-name {
-  display: flex;
-  flex: 1;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
+.member-name {
   font-weight: 900;
 }
 
-.history-container .member-name::after,
-.history-container .member-name::before {
+.member-name::after,
+.member-name::before {
   flex: 1;
   content: "";
   align-items: center;
@@ -2846,7 +2622,7 @@ a.click-button {
   min-width: 50px;
 }
 
-.history-container .member-name::after {
+.member-name::after {
   background:
     linear-gradient(
         to right,
@@ -2871,7 +2647,7 @@ a.click-button {
   );
 }
 
-.history-container .member-name::before {
+.member-name::before {
   background:
     linear-gradient(
         to left,
@@ -2940,43 +2716,20 @@ a.click-button {
   transform-origin: right center;
 }
 
-.history-header {
+.hist-header {
   font-size: 1.5em;
   font-weight: 600;
 }
 
-.history-header .crown {
+.crown {
   width: 125px;
 }
 
-.tau-history-container {
-  display: flex;
-  flex-direction: row;
+.tau-hist-container {
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.05);
   color: black;
   padding: 25px 0;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-}
-
-.tau-history-container h3 {
-  display: block;
-}
-
-.text-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 75%;
-}
-
-.tau-history,
-.purpose {
-  width: 100%;
-  gap: 15px;
 }
 
 .memories {
@@ -2985,27 +2738,16 @@ a.click-button {
   object-fit: cover;
   border-radius: 8px;
   background: white;
-
-  @media (max-width: 992px) {
-    display: none;
-  }
 }
 
 .mtb-sacraments {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: unset;
   width: 75%;
   gap: 15px;
 }
 
 .mtb-sacraments .card {
-  display: flex;
-  flex-direction: row;
   height: 100px;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
   font-size: 2em;
   font-weight: 600;
   background: rgba(0, 0, 0, 0.05);
@@ -3044,10 +2786,8 @@ a.click-button {
 }
 
 .mtb-sacraments .icon {
-  display: flex;
   transform: scaleX(1);
   font-size: 2em;
-  align-items: center;
 }
 
 .mtb-sacraments .icon.reverse {
@@ -3055,23 +2795,15 @@ a.click-button {
 }
 
 .message {
-  flex: 1;
-  text-align: center;
   color: rgba(255, 255, 255, 0.75);
-
-  @media (max-width: 992px) {
-    display: none;
-  }
 }
 
 .label-wrapper {
-  flex: 1;
-  text-align: center;
   font-size: 1.5em;
   padding: 5px 10px;
 
   @media (max-width: 992px) {
-    flex: unset;
+    flex: unset !important;
   }
 }
 
@@ -3088,15 +2820,11 @@ a.click-button {
 }
 
 .contact-info {
-  display: flex;
-  flex-direction: row;
   width: 75%;
   overflow-x: hidden;
   @media (max-width: 992px) {
-    flex-direction: column;
     width: 100%;
     padding: 0 10px;
-    overflow-x: hidden;
   }
 }
 
@@ -3121,8 +2849,6 @@ a.click-button {
 }
 
 .reach-email {
-  display: flex;
-  flex-direction: column;
   padding: 25px 0;
   font-weight: 900;
 
@@ -3132,8 +2858,6 @@ a.click-button {
 }
 
 .core-values {
-  display: flex;
-  flex-direction: column;
   width: 500px;
   font-size: 1.25em;
   @media (max-width: 992px) {
@@ -3148,8 +2872,6 @@ a.click-button {
 }
 
 .core-values-list {
-  display: flex;
-  flex-direction: column;
   z-index: 0;
   gap: 10px;
   list-style-type: none;
@@ -3175,9 +2897,6 @@ a.click-button {
 }
 
 .interest-form {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   width: 80%;
   color: white;
   background: black;
@@ -3185,7 +2904,6 @@ a.click-button {
   padding: 10px 25px;
 
   @media (max-width: 992px) {
-    flex-direction: column;
     width: 95%;
     padding: 10px;
   }
@@ -3196,8 +2914,6 @@ a.click-button {
 }
 
 .form {
-  display: flex;
-  flex-direction: column;
   width: 80%;
   gap: 25px;
   padding: 5px 25px;
@@ -3215,31 +2931,6 @@ a.click-button {
   color: gray;
 }
 
-.col-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.row-form {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  gap: 10px;
-
-  @media (max-width: 992px) {
-    flex-direction: column;
-  }
-}
-
-.interest-name {
-  width: 100%;
-}
-
-.last {
-  align-self: end;
-}
-
 .interest-submit {
   color: black;
   background: white;
@@ -3248,25 +2939,11 @@ a.click-button {
   overflow: hidden;
 }
 
-.interest-submit:hover {
-  background: white;
-  border: none;
-  box-shadow:
-    0 0 5px white,
-    0 0 25px white,
-    0 0 50px white,
-    0 0 200px white;
-}
-
 .rush-image {
   flex: 1;
   width: 250px;
   clip-path: polygon(0% 48%, 100% 40%, 100% 51%, 0% 60%);
   opacity: 0;
-
-  @media (max-width: 992px) {
-    display: none;
-  }
 }
 
 .rush-effect {
@@ -3317,25 +2994,7 @@ a.click-button {
   }
 }
 
-.current-jobs {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 250px;
-  margin: 25px 0;
-  padding: 0 25px;
-  overflow-x: hidden;
-  border: solid red;
-}
-
-.faq-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.faq-container h2 {
+.faq h2 {
   width: 90%;
   text-align: start;
 }

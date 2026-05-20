@@ -243,7 +243,7 @@ function AdminPanel({
   if (activeHouse) {
     return (
       <div className="row w-100 d-flex justify-content-around">
-        <div className="admin-container">
+        <div className="admin-container flex-col p-3 m-sm-0">
           <label className="admin-label">Choose a Exec/Active</label>
           <select
             value={knightForm.type ?? ""}
@@ -260,7 +260,6 @@ function AdminPanel({
             Enter Name
           </label>
           <input
-            className="knight-input"
             id="name"
             type="text"
             value={knightForm.name}
@@ -271,7 +270,6 @@ function AdminPanel({
             Enter Knight Name
           </label>
           <input
-            className="knight-input"
             id="knight-name"
             type="text"
             value={knightForm.knightName}
@@ -282,7 +280,6 @@ function AdminPanel({
             Enter Line Number
           </label>
           <input
-            className="knight-input"
             id="line-num"
             type="number"
             value={knightForm.lineNumber}
@@ -293,7 +290,6 @@ function AdminPanel({
             Enter Line Name
           </label>
           <input
-            className="knight-input"
             id="line-name"
             type="text"
             value={knightForm.lineName}
@@ -304,7 +300,6 @@ function AdminPanel({
             Enter Cross Date
           </label>
           <input
-            className="knight-input"
             id="cross-date"
             type="text"
             value={knightForm.crossDate}
@@ -318,7 +313,6 @@ function AdminPanel({
             {knightForm.positions?.map((position, index) => (
               <div key={index} className="item-row">
                 <input
-                  className="knight-input"
                   type="text"
                   value={position}
                   placeholder="Position"
@@ -358,14 +352,13 @@ function AdminPanel({
             onChange={(file) => setImageFile(file)}
           />
           <>
-            <div className="awards-input">
+            <div className="item-input">
               <label htmlFor="awards" className="admin-label">
                 Enter awards
               </label>
               {awards.map((award, index) => (
                 <div id="awards" className="knight-row" key={index}>
                   <input
-                    className="knight-input"
                     type="text"
                     placeholder="Award"
                     value={award.title}
@@ -380,7 +373,7 @@ function AdminPanel({
                     }
                   />
                   <input
-                    className="knight-input award-year"
+                    className="award-year"
                     type="number"
                     placeholder="Year"
                     value={award.year}
@@ -438,7 +431,7 @@ function AdminPanel({
   return (
     // The following is only whenever inputting events
     <div className="row w-100 d-flex justify-content-around">
-      <div className="admin-container">
+      <div className="admin-container flex-col p-3 m-sm-0">
         {onlyPhotos && (
           // Specifically for inputting only photos, only a title in which the title is the database, and photo are needed
           <>
@@ -567,7 +560,6 @@ function AdminPanel({
               {items.map((item, index) => (
                 <div className="item-row" key={index}>
                   <input
-                    className="input-event"
                     type="text"
                     placeholder="Item Title"
                     value={item.name}
@@ -584,7 +576,7 @@ function AdminPanel({
                   <div className="price-wrapper">
                     <span>$</span>
                     <input
-                      className="input-event price-input"
+                      className="price-input"
                       type="text"
                       placeholder="Price 0.00"
                       value={item.price}

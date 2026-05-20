@@ -87,7 +87,7 @@ function Alumni() {
 
   return (
     <div className="page alumni-page">
-      <div className="top-of-page">
+      <div className="flex-center flex-start w-100 gap-3 m-1 ps-1 z-5">
         <button
           className="return"
           onClick={() => handlePageNavigate("onlybros")}
@@ -110,13 +110,13 @@ function Alumni() {
           onClose={() => setPopup({ show: false, message: "", type: "save" })}
         />
       )}
-      <h1 className="page-header">Alumni Newsletter</h1>
-      <div className="alumni-all-events">
+      <h1 className="page-header text-center z-5">Alumni Newsletter</h1>
+      <div className="alumni-all-events w-100 gap-1">
         {/* Contact form for Alumni */}
-        <div className="alumni-contact">
-          <div className="card">
-            <div className="card-body">
-              <h2 className="card-title">Contact</h2>
+        <div className="alumni-contact flex-col-center pos-relative h-100">
+          <div className="card flex-col-center w-100">
+            <div className="card-body flex-col">
+              <h2 className="card-title align-self-start">Contact</h2>
 
               <div className="form-floating mb-2">
                 <input
@@ -177,7 +177,10 @@ function Alumni() {
                   </label>
                 </div>
               </div>
-              <button className="alumni-submit" onClick={handleSubmit}>
+              <button
+                className="alumni-submit flex-center pos-absolute w-max"
+                onClick={handleSubmit}
+              >
                 Submit
               </button>
             </div>
@@ -187,13 +190,13 @@ function Alumni() {
         {userRole === "alumni" ||
         userRole === "active" ||
         userRole === "admin" ? (
-          <div className="important-events">
-            <div className="card">
+          <div className="important-events flex-col-center w-100 h-100">
+            <div className="card flex-col-center w-100">
               <div className="card-body">
                 <h2 className="card-title">Important Dates</h2>
                 {important.length === 0 && <NoEvents />}
                 {important.length > 0 && (
-                  <div className="card-text">
+                  <div className="card-text gap-3">
                     {important.map((event) => (
                       <EventCard
                         key={event.id}
@@ -210,8 +213,8 @@ function Alumni() {
             </div>
           </div>
         ) : (
-          <div className="important-events">
-            <div className="card">
+          <div className="important-events flex-col-center h-100">
+            <div className="card flex-col-center w-100">
               <div className="card-body">
                 <h2 className="card-title">Important Dates</h2>
                 <p className="card-text">
@@ -225,11 +228,11 @@ function Alumni() {
           </div>
         )}
         {/* Events happening related to chapter */}
-        <div className="tau-events">
+        <div className="tau-events flex-col-center h-100 gap2">
           <h2>Tau Events</h2>
           {events.length === 0 && <NoEvents />}
           {events.length > 0 && (
-            <div className="card-text">
+            <div className="card-text gap-3 w-100">
               {events.map((event) => (
                 <EventCard
                   key={event.id}
@@ -244,11 +247,11 @@ function Alumni() {
           )}
         </div>
         {/* Brotherhood events */}
-        <div className="tau-brotherhood">
+        <div className="tau-brotherhood flex-col-center h-100">
           <h2>Tau Brotherhood</h2>
           {brotherhood.length === 0 && <NoEvents />}
           {brotherhood.length > 0 && (
-            <div className="card-text">
+            <div className="card-text gap-3">
               {brotherhood.map((event) => (
                 <EventCard
                   key={event.id}
@@ -263,19 +266,22 @@ function Alumni() {
           )}
         </div>
         {/* Recents */}
-        <div className="photos-side-bar">
-          <div className="card">
-            <div className="card-body">
+        <div className="photos-side-bar flex-col-center h-100">
+          <div className="card flex-col-center h-100">
+            <div className="card-body flex-col-center flex-start flex-grow-1 h-100">
               <h2 className="card-title">Highlight</h2>
-              <div className="continous-loop">
-                <div className="loop-track">
+              <div className="continous-loop flex-col-center gap-3 flex-grow-1 w-100">
+                <div className="loop-track flex-col-center gap-3 w-100">
                   {/* render twice for seamless loop */}
                   {[...gallery, ...gallery].map((photo, index) => (
-                    <div key={index} className="alumni-image-wrapper">
+                    <div
+                      key={index}
+                      className="alumni-image-wrapper w-75 w-100-mobile"
+                    >
                       <img
                         src={photo.imageURL}
                         alt="Alumni Image"
-                        className="img-fluid"
+                        className="img-fluid w-100 h-auto"
                       />
                     </div>
                   ))}

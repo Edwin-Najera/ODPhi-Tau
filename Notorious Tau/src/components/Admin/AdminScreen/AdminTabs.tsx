@@ -124,7 +124,7 @@ function AdminTabs({
                 <div>{document.type}</div>
                 <div>{document.crossDate}</div>
                 <div>{document.description}</div>
-                <div className="event-actions">
+                <div className="flex-col-center gap-1 mt-1">
                   <button
                     className="admin-btn edit-btn"
                     onClick={() => handleBtnClick(document, "edit")}
@@ -168,7 +168,7 @@ function AdminTabs({
                     <span>{item.price}</span>
                   </div>
                 ))}
-                <div className="event-actions">
+                <div className="flex-col-center gap-1 mt-1">
                   <button
                     className="admin-btn edit-btn"
                     onClick={() => handleBtnClick(document, "edit")}

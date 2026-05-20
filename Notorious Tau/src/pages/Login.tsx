@@ -60,21 +60,24 @@ function Login() {
       <Sparks />
       <div className="page login-page">
         <img className="sword" src={sword} alt="sword" />
-        <div className="login-form" onKeyDown={handleEnter}>
+        <div
+          className="login-form flex-col-center z-2 h-100"
+          onKeyDown={handleEnter}
+        >
           <h2>Admin Login</h2>
           <input
             type="email"
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
           />
-          <div className="password-wrapper mb-4">
+          <div className="password-wrapper pos-relative mb-4">
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
             />
             <button
-              className="show-password"
+              className="show-password pos-absolute pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <FaEye /> : <FaEyeSlash />}
