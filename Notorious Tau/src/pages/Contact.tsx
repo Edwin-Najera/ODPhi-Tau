@@ -23,6 +23,38 @@ function Contact() {
     instagram: "",
     phoneNum: "",
   });
+  const freqQuestions = [
+    {
+      question: "Where does recruitment take place?",
+      answer:
+        "Recruitment changes every semester - keep an eye on our main page or on our Instagram @tau_knights for the latest updates.",
+      elementId: "first",
+    },
+    {
+      question: "Is there a GPA requirement?",
+      answer:
+        'With "Graduating Our Brothers" being one of our goals, we strive to be excellent in all fields. Omega Delta Phi looks for individuals that have a cumulative GPA of +2.5.',
+      elementId: "second",
+    },
+    {
+      question: 'What does "One Culture, Any Race" mean?',
+      answer:
+        "Omega Delta Phi was founded on the belief that brotherhood has no racial boundaries. We welcome ANY man regardless of background, ethnicity, or culture. We celebrate diversity and believe that our differences make our brotherhood stronger.",
+      elementId: "third",
+    },
+    {
+      question: "Where do I sign up for recruitment?",
+      answer:
+        "You can fill out the interest form located above. Our recruitment chair will reach out to you regarding more information.",
+      elementId: "fourth",
+    },
+    {
+      question: "What can I gain from Omega Delta Phi?",
+      answer:
+        "Not only a brotherhood that will last a lifetime but lifelone skills, a vast network of alumni, leadership experience, community service opportunities, and the personal growth that comes with being held to a higher standard",
+      elementId: "fifth",
+    },
+  ];
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -206,7 +238,35 @@ function Contact() {
           src={rush}
         />
       </div>
-      <div className="freq-asked"></div>
+      <div className="faq-container mt-5">
+        <h2>Frequently Asked Questions</h2>
+        <div className="line-separate" />
+        <div className="accordion accordion-flush mt-3" id="faq-accordion">
+          {freqQuestions.map(({ question, answer, elementId }, index) => (
+            <div key={index} className="accordion-item">
+              <h2 className="accordion-header">
+                <button
+                  className="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#${elementId}`}
+                  aria-expanded="false"
+                  aria-controls={elementId}
+                >
+                  {question}
+                </button>
+              </h2>
+              <div
+                className="accordion-collapse collapse"
+                data-bs-parent="#faq-accordion"
+                id={elementId}
+              >
+                <div className="accordion-body">{answer}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
       {popup.show && (
         <Popup
           message={popup.message}

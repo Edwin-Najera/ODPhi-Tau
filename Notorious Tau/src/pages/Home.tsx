@@ -4,8 +4,7 @@ import Events from "../components/EventsFolder/Events";
 import About from "../components/Home/About";
 import MGC from "../components/Home/mgc";
 import School from "../components/Home/School";
-import Follow from "../components/Home/Follow";
-import Footer from "../components/Home/Footer";
+import Follow from "../components/Follow";
 
 function App() {
   return (
@@ -45,12 +44,6 @@ function App() {
         </div>
         <div className="MGC">
           <MGC />
-        </div>
-        <div className="Follow">
-          <Follow />
-        </div>
-        <div className="Footer">
-          <Footer />
         </div>
       </div>
     </>

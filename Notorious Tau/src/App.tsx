@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Mtb from "./pages/Mtb";
@@ -13,8 +13,18 @@ import AllBros from "./components/Brotherhood/AllBros";
 import ProtectedRoute from "./components/Admin/ProtectedRoute";
 import { useEffect } from "react";
 import Mgc from "./pages/Mgc";
+import Follow from "./components/Follow";
 
 function App() {
+  const location = useLocation();
+
+  const hideElement = [
+    "/Login",
+    "/Onlybros",
+    "/Onlybros/Alumni",
+    "/Onlybros/AllBros",
+  ];
+  const showElement = !hideElement.includes(location.pathname);
   const ScrollToTop = () => {
     useEffect(() => {
       const timeout = setTimeout(() => {
@@ -66,6 +76,7 @@ function App() {
         />
         <Route path="/Contact" element={<Contact />} />
       </Routes>
+      {showElement && <Follow />}
     </>
   );
 }

@@ -38,17 +38,14 @@ img {
 
 .AppGrid {
   display: grid;
-  max-width: 100%;
-  width: 100vw;
+  width: 100dvw;
   overflow: hidden;
   grid-template-areas:
     "Welcome Welcome Welcome"
     "gap gap gap"
     "Events Events Events"
     "About About About"
-    "School School MGC"
-    "Follow Follow Follow"
-    "Footer Footer Footer";
+    "School School MGC";
   @media (max-width: 992px) {
     grid-template-areas:
       "Welcome Welcome Welcome"
@@ -56,9 +53,7 @@ img {
       "Events Events Events"
       "About About About"
       "MGC MGC MGC"
-      "School School School"
-      "Follow Follow Follow"
-      "Footer Footer Footer";
+      "School School School";
   }
 }
 
@@ -128,18 +123,6 @@ img {
   @media (max-width: 992px) {
     padding-top: 1em;
   }
-}
-
-.AppGrid > .Follow {
-  grid-area: Follow;
-  background-color: #c0c0c0;
-  min-height: 35vh;
-}
-
-.AppGrid > .Footer {
-  grid-area: Footer;
-  bottom: 0;
-  height: max-content;
 }
 
 .chevron-wrapper {

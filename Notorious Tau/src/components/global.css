@@ -4,7 +4,7 @@
 .navbar {
   height: 100px;
   top: 0;
-  width: 100%;
+  width: 100dvw;
   background-color: rgb(200, 59, 59);
   font-family: "Times New Roman", Times, serif;
   font-size: 1.2em;
@@ -52,6 +52,46 @@
   animation: none;
   clip-path: none;
 }
+
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+/* GENERALIZED CLASSES --- REPEATED STYLES */
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.space-around {
+  justify-content: space-around;
+}
+
+.space-even {
+  justify-content: space-evenly;
+}
+
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
+/* ----------------------------------------------------- */
 
 /* |||||||||||||||||||||||||||||||||||||||||||||||||||||| */
 /* ||||||||| This and below is for the Home Page |||||||| */
@@ -661,16 +701,25 @@ a.click-button {
 
 .follow-container {
   display: flex;
-  position: relative;
-  width: 100%;
-  min-height: 100%;
-  align-items: center;
   justify-content: center;
+  width: 100dvw;
+  height: 35dvh;
   background: black;
-  z-index: 0;
+  z-index: 1;
+  padding-top: 25px;
+  overflow: hidden;
   @media (max-width: 992px) {
     height: auto;
   }
+}
+
+.follow-hide {
+  display: flex;
+  position: relative;
+  align-items: center;
+  width: 90%;
+  height: 85%;
+  overflow-y: hidden;
 }
 
 .follow-wrapper {
@@ -678,13 +727,12 @@ a.click-button {
   flex-direction: column;
   position: absolute;
   top: 0;
-  width: 90%;
-  height: 85%;
+  width: 100%;
+  height: 100%;
   align-items: center;
   background: rgb(200, 59, 59);
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
-
   @media (max-width: 992px) {
     position: relative;
     height: 95%;
@@ -698,11 +746,10 @@ a.click-button {
 @keyframes goDown {
   0% {
     transform: translateY(-100%);
-    z-index: -1;
   }
   100% {
     transform: translateY(0);
-    z-index: 1;
+    z-index: 0;
   }
 }
 
@@ -887,6 +934,7 @@ a.click-button {
   min-height: calc(100dvh - 100px);
   padding-bottom: 25px;
   align-self: start;
+  overflow-x: hidden;
   @media (max-width: 992px) {
     min-height: calc(100dvh - 120px);
   }
@@ -924,7 +972,6 @@ a.click-button {
 
 .contact-page {
   justify-content: center;
-  overflow-x: hidden;
   @media (max-width: 992px) {
     padding-top: 120px;
     box-sizing: border-box;
@@ -2268,6 +2315,11 @@ a.click-button {
   object-position: center;
 }
 
+/* ------------------------------------------------- */
+/* ------------------------------------------------- */
+/* ------------------------------------------------- */
+/* ------------------------------------------------- */
+
 .continous-loop {
   display: flex;
   flex-direction: column;
@@ -2296,10 +2348,10 @@ a.click-button {
 
 @keyframes scrollLoopY {
   0% {
-    transform: translateY(0);
+    transform: translateY(25%);
   }
   100% {
-    transform: translateY(-50%);
+    transform: translateY(-25%);
   }
 }
 
@@ -2311,6 +2363,11 @@ a.click-button {
     transform: translateX(-50%);
   }
 }
+
+/* ------------------------------------------------- */
+/* ------------------------------------------------- */
+/* ------------------------------------------------- */
+/* ------------------------------------------------- */
 
 .alumni-all-events .card {
   display: flex;
@@ -3017,7 +3074,10 @@ a.click-button {
     flex: unset;
   }
 }
-/* Contact.tsx */
+
+/* ||||||||||||||||||||||||||||||||||||||||||| */
+/* ||||||||||||||| Contact.tsx ||||||||||||||| */
+/* ||||||||||||||||||||||||||||||||||||||||||| */
 
 .contact-page h3 {
   font-size: 4em;
@@ -3255,4 +3315,37 @@ a.click-button {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
     opacity: 1;
   }
+}
+
+.current-jobs {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 250px;
+  margin: 25px 0;
+  padding: 0 25px;
+  overflow-x: hidden;
+  border: solid red;
+}
+
+.faq-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.faq-container h2 {
+  width: 90%;
+  text-align: start;
+}
+
+.accordion {
+  width: 75%;
+}
+
+.accordion-button:not(.collapsed),
+.accordion-button.collapsed {
+  background: white;
+  box-shadow: unset;
 }
