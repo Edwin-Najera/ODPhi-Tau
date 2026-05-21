@@ -40,7 +40,7 @@ function AdminTabs({
     if (documentId && documents.length > 0) {
       setAction({ id: documentId, type: "edit" });
     }
-  }, [action, documents]);
+  }, [documentId, documents]);
 
   const handleBtnClick = (
     event: BaseDocument,

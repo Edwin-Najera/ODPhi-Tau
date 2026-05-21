@@ -11,7 +11,7 @@ function Onlybros() {
   const [activePanel, setActivePanel] = useState(
     searchParams.get("panel") ?? "",
   );
-  const editId = searchParams.get("editId") ?? null;
+  const actionId = searchParams.get("actionId") ?? null;
 
   const panels = [
     { id: "events", label: "Events" },
@@ -69,7 +69,7 @@ function Onlybros() {
             collectionName="events"
             tabTitle="Events"
             hasItems={true}
-            editId={editId}
+            documentId={actionId}
           />
         )}
 
@@ -78,7 +78,7 @@ function Onlybros() {
             collectionName="brotherhood"
             tabTitle="Brotherhood"
             hasDate={true}
-            editId={editId}
+            documentId={actionId}
           />
         )}
 
@@ -87,7 +87,7 @@ function Onlybros() {
             collectionName="alumni"
             tabTitle="Alumni"
             hasDate={true}
-            editId={editId}
+            documentId={actionId}
           />
         )}
         {activePanel === "gallery" && (
@@ -95,7 +95,7 @@ function Onlybros() {
             collectionName="photos"
             tabTitle="Gallery Photos"
             onlyPhotos={true}
-            editId={editId}
+            documentId={actionId}
           />
         )}
 
@@ -104,7 +104,7 @@ function Onlybros() {
             collectionName="house"
             tabTitle="House & Execs"
             activeHouse={true}
-            editId={editId}
+            documentId={actionId}
           />
         )}
 

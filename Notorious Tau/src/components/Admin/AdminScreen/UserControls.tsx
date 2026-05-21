@@ -33,7 +33,7 @@ function UserControls({
             onClick={() =>
               handleNavigate(navigate, "Onlybros", {
                 panel: collectionName,
-                editId: event.id,
+                actionId: event.id,
               })
             }
           >

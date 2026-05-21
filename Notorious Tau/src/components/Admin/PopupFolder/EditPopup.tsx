@@ -12,6 +12,8 @@ import {
   handleArrayChange,
   formatPrice,
   formatPosition,
+  handleAddArrayItem,
+  handleDeleteArrayItem,
 } from "../../../utils/handle";
 import "../../global.css";
 import Popup from "./Popup";
@@ -316,7 +318,7 @@ function EditPopup({
                   <>
                     <label>Items: </label>
                     <div className="item-input">
-                      {document?.items?.map((item, index) => (
+                      {editItems?.map((item, index) => (
                         <div key={index} className="item-row">
                           <input
                             type="text"
@@ -330,7 +332,7 @@ function EditPopup({
                                 setEditItems,
                               )
                             }
-                            placeholder={item.name}
+                            placeholder={editItems[index]?.name || "Item Title"}
                           />
                           <div className="price-wrapper">
                             <span>$</span>
@@ -347,12 +349,36 @@ function EditPopup({
                                   setEditItems,
                                 )
                               }
-                              placeholder={item.price}
+                              placeholder={editItems[index]?.price || "Price"}
                             />
                           </div>
+                          <button
+                            className="admin-btn delete-btn item-delete"
+                            onClick={() =>
+                              handleDeleteArrayItem(
+                                index,
+                                editItems,
+                                setEditItems,
+                              )
+                            }
+                          >
+                            Delete
+                          </button>
                         </div>
                       ))}
                     </div>
+                    <button
+                      className="admin-btn"
+                      onClick={() =>
+                        handleAddArrayItem(
+                          { name: "", price: "" },
+                          editItems,
+                          setEditItems,
+                        )
+                      }
+                    >
+                      + Add Another Price
+                    </button>
                   </>
                 )}
               </div>
