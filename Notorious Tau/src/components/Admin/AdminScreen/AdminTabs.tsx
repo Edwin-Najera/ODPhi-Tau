@@ -112,14 +112,10 @@ function AdminTabs({
           <>
             <h2>{tabTitle.toLowerCase()}</h2>
             {(documents as Knights[]).map((document) => (
-              <div key={document.id} className="gallery-image-container card">
-                {document.imageURL && (
-                  <img
-                    className="gallery-image"
-                    src={document.imageURL}
-                    alt="knight"
-                  />
-                )}
+              <div
+                key={document.id}
+                className="knight-view-container flex-col-center flex-between card"
+              >
                 <h6>{document.name}</h6>
                 <div>{document.type}</div>
                 <div>{document.crossDate}</div>
@@ -146,11 +142,11 @@ function AdminTabs({
           <>
             <h2>Active {tabTitle.toLowerCase()}</h2>
             {(documents as BaseDocument[]).map((document) => (
-              <div key={document.id} className="view-mode-container card">
+              <div key={document.id} className="view-container card w-100">
                 <h4>{document.title}</h4>
                 <p>{document.description}</p>
                 {document.date && (
-                  <p className="date-view-container">
+                  <p className="flex-col px-3">
                     <strong>Date: </strong>
                     <br />
                     {new Date(document.date).toLocaleString("en-US", {

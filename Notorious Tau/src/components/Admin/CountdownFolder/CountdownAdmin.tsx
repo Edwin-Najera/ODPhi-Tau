@@ -81,7 +81,7 @@ function CountdownAdmin() {
 
   return (
     <div className="row w-100 d-flex justify-content-around">
-      <div className="admin-container">
+      <div className="admin-container flex-col p-3 m-sm-0">
         <h2 className="admin-header">Countdown Admin Panel</h2>
         <label className="admin-label">Countdown Title</label>
         <input
@@ -120,7 +120,7 @@ function CountdownAdmin() {
         </form>
         {hasEvents && (
           <>
-            <div className="event-countdown-input-container">
+            <div className="item-input">
               <label htmlFor="countdown" className="admin-label">
                 Enter Events
               </label>

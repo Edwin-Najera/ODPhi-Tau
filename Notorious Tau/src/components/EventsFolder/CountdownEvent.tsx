@@ -56,8 +56,8 @@ function CountdownEvent({ countdown }: { countdown: Countdown }) {
                   <li key={index} className="countdown-event-items-container">
                     <div className="event-countdown-title">{event.title}</div>
                     <hr />
-                    <div className="event-countdown-row">
-                      <div className="event-countdown-date">
+                    <div className="flex-center flex-even">
+                      <div className="flex-center flex-grow-1 m-0 gap-3">
                         <span>
                           <CiCalendar className="event-logo" />
                           {new Date(event.date).toLocaleDateString("en-US", {

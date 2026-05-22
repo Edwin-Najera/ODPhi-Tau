@@ -322,7 +322,7 @@ function EditPopup({
                         <div key={index} className="item-row">
                           <input
                             type="text"
-                            value={editItems[index]?.name || ""}
+                            value={item?.name || ""}
                             onChange={(e) =>
                               handleArrayChange(
                                 index,
@@ -332,14 +332,14 @@ function EditPopup({
                                 setEditItems,
                               )
                             }
-                            placeholder={editItems[index]?.name || "Item Title"}
+                            placeholder={item?.name || "Item Title"}
                           />
                           <div className="price-wrapper">
                             <span>$</span>
                             <input
                               className="price-input"
                               type="text"
-                              value={editItems[index]?.price || ""}
+                              value={item?.price || ""}
                               onChange={(e) =>
                                 handleArrayChange(
                                   index,
@@ -349,7 +349,7 @@ function EditPopup({
                                   setEditItems,
                                 )
                               }
-                              placeholder={editItems[index]?.price || "Price"}
+                              placeholder={item?.price || "Price"}
                             />
                           </div>
                           <button
