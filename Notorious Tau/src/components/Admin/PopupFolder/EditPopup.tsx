@@ -226,7 +226,7 @@ function EditPopup({
                     Enter awards
                   </label>
                   {editAwards.map((award, index) => (
-                    <div id="awards" className="knight-row" key={index}>
+                    <div id="awards" className="item-row" key={index}>
                       <input
                         className="knight-input"
                         type="text"

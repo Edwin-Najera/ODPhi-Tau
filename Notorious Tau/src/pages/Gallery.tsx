@@ -13,9 +13,9 @@ function Gallery() {
 
   return (
     <div className="page">
-      <div className="odphi-gallery-title">
-        <h1>Highlights</h1>
-        <div className="line-separate" style={{ padding: 0 }} />
+      <div className="flex-col-center flex-start text-center py-2 px-3 w-100">
+        <h1 className="fw-bold">Highlights</h1>
+        <div className="line-separate" />
       </div>
       <div className="odphi-gallery-container">
         {photos.map((photo, index) => (

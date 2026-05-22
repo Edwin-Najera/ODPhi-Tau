@@ -357,7 +357,7 @@ function AdminPanel({
                 Enter awards
               </label>
               {awards.map((award, index) => (
-                <div id="awards" className="knight-row" key={index}>
+                <div id="awards" className="item-row" key={index}>
                   <input
                     type="text"
                     placeholder="Award"

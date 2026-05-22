@@ -37,16 +37,16 @@ function Onlybros() {
   return (
     <div className="page admin-page">
       <div className="admin-sidebar">
-        <div className="admin-page-row">
+        <div className="admin-page-row page-btn">
           <button
-            className="admin-page-swap"
+            className="page-btn"
             type="button"
             onClick={() => navigate("/Onlybros/Alumni")}
           >
             Alumni
           </button>
           <button
-            className="admin-page-swap"
+            className="page-btn"
             type="button"
             onClick={() => navigate("/Onlybros/AllBros")}
           >

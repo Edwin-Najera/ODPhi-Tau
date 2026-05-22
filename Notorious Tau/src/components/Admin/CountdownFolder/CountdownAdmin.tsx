@@ -107,7 +107,7 @@ function CountdownAdmin() {
             }
           }}
         />
-        <form className="checkbox-form">
+        <form className="align-self-start">
           <label className="admin-label" htmlFor="has-events">
             Has Events
           </label>

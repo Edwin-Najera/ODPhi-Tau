@@ -12,13 +12,16 @@ function Service() {
 
   return (
     <div className="page">
-      <div className="service-title">
+      <div className="flex-col-center w-100">
         <h1>Service Highlights</h1>
-        <div className="line-separate" style={{ padding: 0 }} />
+        <div className="line-separate p-0" />
       </div>
-      <div className="service-event-wrapper">
+      <div className="flex flex-wrap h-auto px-2 pt-3 w-100">
         {serviceEvents.map((service) => (
-          <div key={service.id} className="service-event">
+          <div
+            key={service.id}
+            className="service-event card flex-col-center text-start pos-relative w-50"
+          >
             {userRole === "admin" && (
               <button
                 className="trash-can-wrapper"
@@ -29,13 +32,11 @@ function Service() {
                 <FaTrash className="trash-can" />{" "}
               </button>
             )}
-            <h3 className="service-title">{service.eventTitle}</h3>
-            <img
-              src={service.imageURL}
-              alt="Service Event"
-              className="service-img"
-            />
-            <p className="service-description">{service.description}</p>
+            <img src={service.imageURL} alt="Service Event" className="pt-2" />
+            <div className="card-body flex-start">
+              <h3 className="card-title">{service.title}</h3>
+              <p>{service.description}</p>
+            </div>
           </div>
         ))}
       </div>

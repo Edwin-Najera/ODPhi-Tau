@@ -1089,16 +1089,6 @@ a.click-button {
 
 /* ----------------------------------------------------------------------------------- */
 
-.odphi-gallery-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 25px;
-  text-align: center;
-  width: 100%;
-  justify-self: start;
-}
-
 .odphi-gallery-title h1 {
   font-weight: 900;
 }
@@ -1215,43 +1205,12 @@ a.click-button {
 
 /* ----------------------------------------------------------------------------------- */
 
-.service-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.service-title h1 {
-  font-weight: 900;
-}
-
-.service-event-wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 95%;
-  padding-top: 2%;
-}
-
 .service-event {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  align-items: center;
-  text-align: left;
-  width: 45%;
+  height: 500px;
 }
 
-.service-title {
-  width: 100%;
-  font-size: 1.5em;
-  font-weight: 600;
-}
-
-.service-img {
-  border: solid black;
-  border-radius: 15px;
-  width: 75%;
+.service-event img {
+  height: 350px;
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -1296,7 +1255,7 @@ a.click-button {
   }
 }
 
-.admin-page-swap {
+.page-btn {
   padding: 5px 10px;
   border-radius: 12px;
   font-weight: 500;
@@ -1305,17 +1264,6 @@ a.click-button {
   @media (max-width: 992px) {
     white-space: nowrap;
     flex-shrink: 0;
-  }
-}
-
-.admin-page-row.admin-panel-buttons {
-  gap: 25px;
-  width: 100%;
-  padding: 5px 0;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  @media (max-width: 992px) {
-    padding: 15px 0;
   }
 }
 
@@ -1455,7 +1403,6 @@ a.click-button {
 }
 
 .item-row,
-.knight-row,
 .countdown-event-row {
   display: flex;
   flex-direction: row;
@@ -1482,26 +1429,6 @@ a.click-button {
 .countdown-event-input.start,
 .countdown-event-input.end {
   width: 100%;
-}
-
-.item-row span:first-child {
-  display: flex;
-  flex: 1;
-  font-weight: 600;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.item-row span:last-child {
-  white-space: nowrap;
-  font-weight: 600;
-}
-
-.item-row span:first-child::after {
-  content: "";
-  flex: 1;
-  border-bottom: 3px dashed black;
-  margin: 0 5px;
 }
 
 .price-wrapper {
@@ -1586,7 +1513,7 @@ a.click-button {
 }
 
 .knight-view-container h6 {
-  font-weight: 600;
+  font-weight: 900;
 }
 
 /* ----------------------------------------------------------------------------------- */
