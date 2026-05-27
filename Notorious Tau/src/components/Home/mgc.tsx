@@ -13,6 +13,7 @@ function MGC() {
       <a
         href="https://www.instagram.com/utamgc/"
         target="_blank"
+        rel="noopener noreferrer"
         className="mgc-link"
       >
         <FaInstagramSquare className="mgc-icon" />
@@ -20,6 +21,7 @@ function MGC() {
       <a
         href="https://www.uta.edu/student-affairs/fsl/our-community/multicultural-greek-council"
         target="_blank"
+        rel="noopener noreferrer"
         className="mgc-link"
       >
         More!

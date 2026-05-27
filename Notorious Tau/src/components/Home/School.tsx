@@ -23,6 +23,7 @@ function School() {
                 className="click-button"
                 href="https://www.uta.edu/student-affairs/caps"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Counseling
               </a>
@@ -32,6 +33,7 @@ function School() {
                 className="click-button"
                 href="http://www.uta.edu/healthservices/"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Health Services
               </a>
@@ -41,6 +43,7 @@ function School() {
                 className="click-button"
                 href="https://www.uta.edu/student-affairs/student-support"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Students Support
               </a>
@@ -55,6 +58,7 @@ function School() {
                 className="click-button"
                 href="https://www.uta.edu/math/LRC/clinic.php"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Math Clinic
               </a>
@@ -64,6 +68,7 @@ function School() {
                 className="click-button"
                 href="http://www.uta.edu/owl/"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Writing Center
               </a>
@@ -73,6 +78,7 @@ function School() {
                 className="click-button"
                 href="https://libraries.uta.edu/services/study-spaces"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Study Rooms
               </a>
@@ -82,6 +88,7 @@ function School() {
                 className="click-button"
                 href="https://www.uta.edu/student-success/course-assistance/tutoring"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Tutoring
               </a>

@@ -118,3 +118,7 @@ export const formatPosition = (position: string) => {
 
   return firstIndex + position.slice(1);
 };
+
+export const sanitize = (text: string) => {
+  return text.trim().replace(/<[^>]*>/g, "");
+};

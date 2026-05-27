@@ -64,6 +64,15 @@ function Events() {
                   </div>
                 </>
               )}
+              {event.linkURL && (
+                <a
+                  href={event.linkURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Link
+                </a>
+              )}
             </div>
           </div>
         </div>

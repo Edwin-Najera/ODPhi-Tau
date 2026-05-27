@@ -83,14 +83,15 @@ function Contact() {
     }
 
     try {
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbx8sG6o7MEagboijrR3adKjmk7T95LwZfukH5LF5p5dNazhCK4pERogOpHFyAZMwgQsUA/exec",
-        {
-          method: "POST",
-          mode: "no-cors",
-          body: JSON.stringify({ ...formData, formType: "interest" }),
-        },
-      );
+      await fetch(import.meta.env.VITE_FIREBASE_APPSCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({
+          ...formData,
+          formType: "interest",
+          token: import.meta.env.VITE_FIREBASE_SECRET_TOKEN,
+        }),
+      });
       showMessage("Submitted successfully", "save", setPopup);
       setFormData({
         firstName: "",
@@ -123,8 +124,14 @@ function Contact() {
           </div>
           <div>
             Follow our{" "}
-            <a href="https://www.instagram.com/tau_knights/">Instagram</a> for
-            more
+            <a
+              href="https://www.instagram.com/tau_knights/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram
+            </a>{" "}
+            for more
           </div>
         </div>
         <div className="core-values flex-col">

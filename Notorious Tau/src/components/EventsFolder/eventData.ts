@@ -7,6 +7,7 @@ export type BaseDocument = {
   description?: string;
   date?: Date | any;
   items?: EventItem[];
+  linkURL?: string;
 };
 
 export type EventItem = {

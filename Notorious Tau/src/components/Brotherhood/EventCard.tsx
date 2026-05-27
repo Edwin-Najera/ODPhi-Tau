@@ -18,7 +18,7 @@ function EventCard({
   onEventClick,
 }: EventCardProps) {
   return (
-    <div className="all-event-wrapper card w-75 pointer">
+    <div className="all-event-wrapper card w-100 pointer">
       <div className="event-clickable" onClick={() => onEventClick(event)}>
         <h4>{event.title}</h4>
         <p>Click for more info</p>

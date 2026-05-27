@@ -69,14 +69,15 @@ function Alumni() {
     }
 
     try {
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbx8sG6o7MEagboijrR3adKjmk7T95LwZfukH5LF5p5dNazhCK4pERogOpHFyAZMwgQsUA/exec",
-        {
-          method: "POST",
-          mode: "no-cors",
-          body: JSON.stringify({ ...contactInfo, formType: "alumni" }),
-        },
-      );
+      await fetch(import.meta.env.VITE_FIREBASE_APPSCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({
+          ...contactInfo,
+          formType: "alumni",
+          token: import.meta.env.VITE_FIREBASE_SECRET_TOKEN,
+        }),
+      });
       showMessage("Submitted successfully", "save", setPopup);
       setContactInfo({ name: "", knightName: "", lineNumber: "", number: "" });
     } catch (error) {
@@ -251,7 +252,7 @@ function Alumni() {
           <h2>Tau Brotherhood</h2>
           {brotherhood.length === 0 && <NoEvents />}
           {brotherhood.length > 0 && (
-            <div className="card-text gap-3">
+            <div className="card-text gap-3 w-100">
               {brotherhood.map((event) => (
                 <EventCard
                   key={event.id}

@@ -386,10 +386,10 @@
   align-items: center;
   padding: 0 5%;
   width: 100%;
-  gap: 3em;
+  gap: 30px;
 
   @media (max-width: 992px) {
-    gap: 1em;
+    gap: 10px;
   }
 }
 
@@ -1089,10 +1089,6 @@ a.click-button {
 
 /* ----------------------------------------------------------------------------------- */
 
-.odphi-gallery-title h1 {
-  font-weight: 900;
-}
-
 .odphi-gallery-container {
   display: flex;
   flex-direction: row;
@@ -1116,7 +1112,7 @@ a.click-button {
   max-height: 600px;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 5px 10px 20px 5px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
   gap: 10px;
   display: flex;
   flex-direction: column;
@@ -1158,7 +1154,7 @@ a.click-button {
 }
 
 .gallery-card:hover {
-  box-shadow: 5px 10px 50px 5px;
+  box-shadow: 2px 4px 8px 2px;
   transform: translateY(-10px);
 }
 
@@ -1178,13 +1174,11 @@ a.click-button {
 .image-description {
   width: 100%;
   flex: 1;
-  border-radius: 0 0 15px 15px;
   padding: 0;
   text-align: center;
   font-size: 0.9em;
   line-height: 1.5;
   background: white;
-  border-radius: 0 0 15px 15px;
   overflow: hidden;
   display: -webkit-box;
   line-clamp: 4;
@@ -1195,22 +1189,6 @@ a.click-button {
     margin: 0;
     text-align: center;
   }
-}
-
-/* ----------------------------------------------------------------------------------- */
-
-/* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
-/* ||||||||||||||||||||||||| Service.tsx ||||||||||||||||||||||||| */
-/* ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| */
-
-/* ----------------------------------------------------------------------------------- */
-
-.service-event {
-  height: 500px;
-}
-
-.service-event img {
-  height: 350px;
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -1440,11 +1418,6 @@ a.click-button {
   margin-left: 5px;
   font-weight: 600;
   font-size: 16px;
-  margin-right: -5px;
-}
-
-.price-input {
-  width: 100px;
 }
 
 .preview-image {

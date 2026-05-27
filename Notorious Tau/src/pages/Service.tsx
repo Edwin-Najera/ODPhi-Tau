@@ -16,12 +16,9 @@ function Service() {
         <h1>Service Highlights</h1>
         <div className="line-separate p-0" />
       </div>
-      <div className="flex flex-wrap h-auto px-2 pt-3 w-100">
+      <div className="odphi-gallery-container">
         {serviceEvents.map((service) => (
-          <div
-            key={service.id}
-            className="service-event card flex-col-center text-start pos-relative w-50"
-          >
+          <div key={service.id} className="gallery-card">
             {userRole === "admin" && (
               <button
                 className="trash-can-wrapper"
@@ -32,10 +29,17 @@ function Service() {
                 <FaTrash className="trash-can" />{" "}
               </button>
             )}
-            <img src={service.imageURL} alt="Service Event" className="pt-2" />
-            <div className="card-body flex-start">
+            <img
+              src={service.imageURL}
+              alt="Service Event"
+              className="odphi-gallery-image"
+            />
+            <div className="flex-col-center align-items-start w-100 px-3">
               <h3 className="card-title">{service.title}</h3>
-              <p>{service.description}</p>
+              <div className="line-separate w-100" />
+              <p className="image-description text-start ps-2">
+                {service.description}
+              </p>
             </div>
           </div>
         ))}

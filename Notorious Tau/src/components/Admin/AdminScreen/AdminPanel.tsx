@@ -9,6 +9,7 @@ import {
   showMessage,
   formatPrice,
   formatPosition,
+  sanitize,
 } from "../../../utils/handle";
 import "../../global.css";
 import type {
@@ -47,6 +48,7 @@ function AdminPanel({
     description: "",
     date: "",
     items: [],
+    linkURL: "",
   });
 
   const [knightForm, setKnightForm] = useState<Partial<Knights>>({
@@ -78,6 +80,8 @@ function AdminPanel({
   }>({ show: false, message: "", type: null });
   const [loading, setLoading] = useState(false);
   const [displayEvents, setDisplayEvents] = useState(false);
+  const [containLink, setContainLink] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const IMPORTANT_EVENTS = [
     "Initiation",
@@ -89,7 +93,9 @@ function AdminPanel({
   ];
 
   const handleSubmit = async () => {
+    if (submitted) return;
     setLoading(true);
+    setSubmitted(true);
 
     if (!activeHouse) {
       if (!eventForm.title) {
@@ -139,17 +145,27 @@ function AdminPanel({
     try {
       const newEvent: Partial<BaseDocument> = {
         ...eventForm,
+        title: sanitize(eventForm.title || ""),
+        description: sanitize(eventForm.description || ""),
         createdAt: new Date(),
       };
 
       const newKnight: Partial<Knights> = {
         ...knightForm,
+        name: sanitize(knightForm.name || ""),
+        positions:
+          knightForm.positions?.map((pos) => formatPosition(sanitize(pos))) ||
+          [],
+        knightName: sanitize(knightForm.knightName || ""),
+        lineName: sanitize(knightForm.lineName || ""),
         createdAt: new Date(),
         awards,
       };
 
       const alumniEvent: Partial<Alumni> = {
         ...alumniForm,
+        title: sanitize(alumniForm.title || ""),
+        location: sanitize(alumniForm.location || ""),
         createdAt: new Date(),
       };
 
@@ -225,6 +241,7 @@ function AdminPanel({
       console.error(error);
     } finally {
       setLoading(false);
+      setTimeout(() => setSubmitted(false), 5000);
     }
   };
 
@@ -543,6 +560,27 @@ function AdminPanel({
             </form>
           </>
         )}
+        <form className="align-self-start">
+          <label htmlFor="containLink">Contains Link</label>
+          <input
+            type="checkbox"
+            className="admin-checkbox"
+            onChange={() => setContainLink(!containLink)}
+          />
+        </form>
+        {containLink && (
+          <>
+            <label htmlFor="linkURL" className="admin-label">
+              Link URL
+            </label>
+            <input
+              type="link"
+              placeholder="link@url.com"
+              value={eventForm.linkURL}
+              onChange={(e) => handleEventChange("linkURL", e.target.value)}
+            />
+          </>
+        )}
         {!hasDate && collectionName !== "brotherhood" && (
           // If the event requires an image, there will be an input for images
           <ImageInput
@@ -576,7 +614,6 @@ function AdminPanel({
                   <div className="price-wrapper">
                     <span>$</span>
                     <input
-                      className="price-input"
                       type="text"
                       placeholder="Price 0.00"
                       value={item.price}
