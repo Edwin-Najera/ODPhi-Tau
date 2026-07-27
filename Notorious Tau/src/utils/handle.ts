@@ -142,6 +142,8 @@ export const handlePageNavigation = (
     navigate("/Onlybros");
   } else if (location === "alumni") {
     navigate("/Onlybros/AllBros");
+  } else if (location === "allbros") {
+    navigate("/Onlybros/Alumni");
   } else {
     showMessage("Only Admin and Actives allowed", "save", setPopup);
   }

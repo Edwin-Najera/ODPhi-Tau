@@ -41,10 +41,10 @@ function AllBros() {
     <div className="page all-bros-page">
       <PageNavigate
         onAdminClick={() =>
-          handlePageNavigation("onlybros", navigate, userRole, setPopup)
+          handlePageNavigation("admin", navigate, userRole, setPopup)
         }
         onAllBrosClick={() =>
-          handlePageNavigation("alumni", navigate, userRole, setPopup)
+          handlePageNavigation("allbros", navigate, userRole, setPopup)
         }
         location={location.pathname}
         userRole={userRole}
