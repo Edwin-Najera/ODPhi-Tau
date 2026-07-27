@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCollection, useAuthRole } from "../../utils/auth";
+import { handlePageNavigation } from "../../utils/handle";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
 import EventInfoPopup from "../Admin/PopupFolder/EventInfoPopup";
 import EventCard from "./EventCard";
 import NoEvents from "./NoEvents";
 import UserControls from "../Admin/AdminScreen/UserControls";
+import PageNavigate from "./PageNavigate";
 import type { BaseDocument, EventItem } from "../EventsFolder/eventData";
 
 function AllBros() {
@@ -27,47 +29,44 @@ function AllBros() {
     onlyPhotos: false,
   }).filter((event) => !event.important);
 
-  const [showPopup, setShowPopup] = useState(false);
+  const [popup, setPopup] = useState<{
+    show: boolean;
+    message: string;
+    type: "save" | "active" | null;
+  }>({ show: false, message: "", type: null });
   const [selectedEvent, setSelectedEvent] = useState<BaseDocument | null>(null);
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
-
-  const handlePageNavigate = async (location: string) => {
-    if (
-      (userRole === "admin" || userRole === "active") &&
-      location === "onlybros"
-    ) {
-      navigate("/Onlybros");
-    } else if (location === "alumni") {
-      navigate("/Onlybros/Alumni");
-    } else {
-      setMessage("Only Admin and Actives allowed");
-      setShowPopup(true);
-    }
-  };
 
   return (
     <div className="page all-bros-page">
-      <div className="flex-center flex-start w-100 gap-3 m-1 ps-1 z-5">
-        <button
-          className="return"
-          onClick={() => handlePageNavigate("onlybros")}
-        >
-          Admin Page
-        </button>
-        <button className="return" onClick={() => handlePageNavigate("alumni")}>
-          Alumni Page
-        </button>
-      </div>
+      <PageNavigate
+        onAdminClick={() =>
+          handlePageNavigation("onlybros", navigate, userRole, setPopup)
+        }
+        onAllBrosClick={() =>
+          handlePageNavigation("alumni", navigate, userRole, setPopup)
+        }
+        location={location.pathname}
+        userRole={userRole}
+      />
       {selectedEvent && (
         <EventInfoPopup
           event={selectedEvent}
           onClose={() => setSelectedEvent(null)}
         />
       )}
-      {showPopup && (
-        <Popup message={message} onClose={() => setShowPopup(false)} />
-      )}
+      {popup.show &&
+        (popup.type === "active" ? (
+          <RushWeekPopup
+            onClose={() => setPopup({ show: false, message: "", type: null })}
+            message={popup.message}
+          />
+        ) : (
+          <Popup
+            message={popup.message}
+            onClose={() => setPopup({ show: false, message: "", type: null })}
+          />
+        ))}
       <h1 className="page-header text-center z-5">Tau Events</h1>
       <div className="all-events w-100 gap-1">
         <div className="brotherhood-events flex-col-center h-100">
@@ -179,7 +178,13 @@ function AllBros() {
             <li onClick={() => navigate("/")}>Events</li>
             <li onClick={() => navigate("/Service")}>Service</li>
             <li>MGC Related</li>
-            <li>Rush Week</li>
+            <li
+              onClick={() =>
+                setPopup({ show: true, message: "Rush Week", type: "active" })
+              }
+            >
+              Rush Week
+            </li>
             <li>Collaborate?</li>
           </ul>
         </div>
@@ -187,5 +192,23 @@ function AllBros() {
     </div>
   );
 }
+
+const RushWeekPopup = ({
+  onClose,
+  message,
+}: {
+  onClose: () => void;
+  message: string;
+}) => {
+  return (
+    <div className="popup-overlay">
+      <div className="popup-box">
+        <h2>{message}</h2>
+        <img alt="Rush-Week-Flyer" />
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
 
 export default AllBros;

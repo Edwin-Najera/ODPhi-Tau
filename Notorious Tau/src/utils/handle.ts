@@ -122,3 +122,27 @@ export const formatPosition = (position: string) => {
 export const sanitize = (text: string) => {
   return text.trim().replace(/<[^>]*>/g, "");
 };
+
+export const handlePageNavigation = (
+  location: string,
+  navigate: NavigateFunction,
+  userRole: string | null,
+  setPopup: React.Dispatch<
+    React.SetStateAction<{
+      show: boolean;
+      message: string;
+      type: "save" | "active" | null;
+    }>
+  >,
+) => {
+  if (
+    (userRole === "admin" || userRole === "active") &&
+    location === "onlybros"
+  ) {
+    navigate("/Onlybros");
+  } else if (location === "alumni") {
+    navigate("/Onlybros/AllBros");
+  } else {
+    showMessage("Only Admin and Actives allowed", "save", setPopup);
+  }
+};

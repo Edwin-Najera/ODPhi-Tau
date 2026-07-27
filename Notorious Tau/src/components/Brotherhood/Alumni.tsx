@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCollection, useAuthRole } from "../../utils/auth";
-import { showMessage, formatPhone } from "../../utils/handle";
+import {
+  showMessage,
+  formatPhone,
+  handlePageNavigation,
+} from "../../utils/handle";
 import type { BaseDocument } from "../EventsFolder/eventData";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
 import EventInfoPopup from "../Admin/PopupFolder/EventInfoPopup";
 import EventCard from "./EventCard";
 import NoEvents from "./NoEvents";
+import PageNavigate from "./PageNavigate";
 
 function Alumni() {
   const [popup, setPopup] = useState<{
@@ -45,19 +50,6 @@ function Alumni() {
   }).filter((photo) => photo.id.startsWith("alumni_"));
   const navigate = useNavigate();
 
-  const handlePageNavigate = async (location: string) => {
-    if (
-      (userRole === "admin" || userRole === "active") &&
-      location == "onlybros"
-    ) {
-      navigate("/Onlybros");
-    } else if (location === "alumni") {
-      navigate("/Onlybros/AllBros");
-    } else {
-      showMessage("Only Admin and Actives allowed", "save", setPopup);
-    }
-  };
-
   const handleContactChange = (field: string, value: string) => {
     setContactInfo((prev) => ({ ...prev, [field]: value }));
   };
@@ -88,17 +80,17 @@ function Alumni() {
 
   return (
     <div className="page alumni-page">
-      <div className="flex-center flex-start w-100 gap-3 m-1 ps-1 z-5">
-        <button
-          className="return"
-          onClick={() => handlePageNavigate("onlybros")}
-        >
-          Admin Page
-        </button>
-        <button className="return" onClick={() => handlePageNavigate("alumni")}>
-          All Brothers Page
-        </button>
-      </div>
+      <PageNavigate
+        onAdminClick={() =>
+          handlePageNavigation("onlybros", navigate, userRole, setPopup)
+        }
+        onAllBrosClick={() =>
+          handlePageNavigation("alumni", navigate, userRole, setPopup)
+        }
+        location={location.pathname}
+        userRole={userRole}
+      />
+
       {selectedEvent && (
         <EventInfoPopup
           event={selectedEvent}
