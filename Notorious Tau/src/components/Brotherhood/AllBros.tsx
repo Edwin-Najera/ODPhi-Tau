@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCollection, useAuthRole } from "../../utils/auth";
-import { handlePageNavigation } from "../../utils/handle";
+import {
+  handlePageNavigation,
+  showMessage,
+  formatPhone,
+} from "../../utils/handle";
+import { onSnapshot, doc } from "firebase/firestore";
 import "../global.css";
 import Popup from "../Admin/PopupFolder/Popup";
 import EventInfoPopup from "../Admin/PopupFolder/EventInfoPopup";
@@ -9,7 +14,9 @@ import EventCard from "./EventCard";
 import NoEvents from "./NoEvents";
 import UserControls from "../Admin/AdminScreen/UserControls";
 import PageNavigate from "./PageNavigate";
+import RushWeek from "./RushWeek";
 import type { BaseDocument, EventItem } from "../EventsFolder/eventData";
+import { db } from "../../firebase";
 
 function AllBros() {
   const { userRole } = useAuthRole();
@@ -36,12 +43,56 @@ function AllBros() {
   }>({ show: false, message: "", type: null });
   const [selectedEvent, setSelectedEvent] = useState<BaseDocument | null>(null);
   const navigate = useNavigate();
+  const [rushWeekFlyer, setRushWeekFlyer] = useState<string | null>(null);
+  const [popupType, setPopupType] = useState<"rushweek" | "collaborate" | null>(
+    null,
+  );
+  const [contactInfo, setContactInfo] = useState({
+    name: "",
+    chapter: "",
+    number: "",
+  });
+
+  const handleContactChange = (field: string, value: string) => {
+    setContactInfo((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = async () => {
+    if (!contactInfo.name || !contactInfo.number) {
+      showMessage("Name and Phone number required", "save", setPopup);
+      return;
+    }
+
+    try {
+      await fetch(import.meta.env.VITE_FIREBASE_APPSCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify({
+          ...contactInfo,
+          formType: "alumni",
+          token: import.meta.env.VITE_FIREBASE_SECRET_TOKEN,
+        }),
+      });
+      showMessage("Submitted successfully", "save", setPopup);
+      setContactInfo({ name: "", chapter: "", number: "" });
+    } catch (error) {
+      console.error(error);
+      showMessage("Unable to submit. Try again Later", "save", setPopup);
+    }
+  };
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, "rushweek", "rushweek"), (snap) => {
+      if (snap.exists()) setRushWeekFlyer(snap.data().flyerURL);
+    });
+    return () => unsub();
+  });
 
   return (
     <div className="page all-bros-page">
       <PageNavigate
         onAdminClick={() =>
-          handlePageNavigation("admin", navigate, userRole, setPopup)
+          handlePageNavigation("onlybros", navigate, userRole, setPopup)
         }
         onAllBrosClick={() =>
           handlePageNavigation("allbros", navigate, userRole, setPopup)
@@ -57,10 +108,22 @@ function AllBros() {
       )}
       {popup.show &&
         (popup.type === "active" ? (
-          <RushWeekPopup
-            onClose={() => setPopup({ show: false, message: "", type: null })}
-            message={popup.message}
-          />
+          popupType === "rushweek" ? (
+            <RushWeekPopup
+              onClose={() => setPopup({ show: false, message: "", type: null })}
+              message={popup.message}
+              flyerURL={rushWeekFlyer}
+              userRole={userRole}
+            />
+          ) : (
+            <CollaboratePopup
+              onClose={() => setPopup({ show: false, message: "", type: null })}
+              message={popup.message}
+              handleContactChange={handleContactChange}
+              handleSubmit={handleSubmit}
+              contactInfo={contactInfo}
+            />
+          )
         ) : (
           <Popup
             message={popup.message}
@@ -179,13 +242,25 @@ function AllBros() {
             <li onClick={() => navigate("/Service")}>Service</li>
             <li>MGC Related</li>
             <li
-              onClick={() =>
-                setPopup({ show: true, message: "Rush Week", type: "active" })
-              }
+              onClick={() => {
+                setPopup({ show: true, message: "Rush Week", type: "active" });
+                setPopupType("rushweek");
+              }}
             >
               Rush Week
             </li>
-            <li>Collaborate?</li>
+            <li
+              onClick={() => {
+                setPopup({
+                  show: true,
+                  message: "Collaborate?",
+                  type: "active",
+                });
+                setPopupType("collaborate");
+              }}
+            >
+              Collaborate?
+            </li>
           </ul>
         </div>
       </div>
@@ -196,15 +271,108 @@ function AllBros() {
 const RushWeekPopup = ({
   onClose,
   message,
+  flyerURL,
+  userRole,
 }: {
   onClose: () => void;
+  message: string;
+  flyerURL?: string | null;
+  userRole?: string | null;
+}) => {
+  console.log("Rush week flyer:", flyerURL);
+
+  return (
+    <div className="popup-overlay">
+      <div className="popup-box">
+        {(userRole === "admin" || userRole === "active") && <RushWeek />}
+        <h2>{message}</h2>
+        {flyerURL ? (
+          <img src={flyerURL} alt="Rush Week Flyer" className="preview-image" />
+        ) : (
+          <p>No flyer available yet</p>
+        )}
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
+
+const CollaboratePopup = ({
+  onClose,
+  handleContactChange,
+  handleSubmit,
+  contactInfo,
+  message,
+}: {
+  onClose: () => void;
+  handleContactChange: (field: string, value: string) => void;
+  handleSubmit: () => void;
+  contactInfo: {
+    name: string;
+    chapter: string;
+    number: string;
+  };
   message: string;
 }) => {
   return (
     <div className="popup-overlay">
       <div className="popup-box">
         <h2>{message}</h2>
-        <img alt="Rush-Week-Flyer" />
+        <div className="alumni-contact flex-col-center pos-relative h-100">
+          <div className="card flex-col-center w-100">
+            <div className="card-body flex-col">
+              <div className="form-floating mb-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="alumniName"
+                  placeholder="Joe Cereceres"
+                  value={contactInfo.name}
+                  required
+                  onChange={(e) => handleContactChange("name", e.target.value)}
+                />
+                <label htmlFor="alumniName">Name</label>
+              </div>
+              <div className="form-floating mb-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="chapterName"
+                  placeholder="Tau"
+                  value={contactInfo.chapter}
+                  required
+                  onChange={(e) =>
+                    handleContactChange("chapter", e.target.value)
+                  }
+                />
+                <label htmlFor="chapterName">Chapter</label>
+              </div>
+              <div className="form-floating col">
+                <input
+                  type="tel"
+                  className="form-control"
+                  id="phoneNumber"
+                  placeholder="(123)-456-1987"
+                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                  required
+                  value={contactInfo.number}
+                  onChange={(e) =>
+                    handleContactChange("number", formatPhone(e.target.value))
+                  }
+                />
+                <label htmlFor="phoneNumber" className="ms-2">
+                  Phone Number
+                </label>
+              </div>
+              <button
+                className="alumni-submit flex-center w-max mt-2"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
         <button onClick={onClose}>Close</button>
       </div>
     </div>

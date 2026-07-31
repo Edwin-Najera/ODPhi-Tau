@@ -15,7 +15,9 @@ function Navbar() {
     <nav className="navbar navbar-expand-xl sticky-top">
       <div className="container navbar-container">
         <Link to="/" className="navbar-brand">
-          <img src={Logo} alt="Tau" className="logo" />
+          <div className="logo-container">
+            <img src={Logo} alt="Tau" className="logo" />
+          </div>
         </Link>
         <button
           className="navbar-toggler"

@@ -51,7 +51,7 @@ function Contact() {
     {
       question: "What can I gain from Omega Delta Phi?",
       answer:
-        "Not only a brotherhood that will last a lifetime but lifelone skills, a vast network of alumni, leadership experience, community service opportunities, and the personal growth that comes with being held to a higher standard",
+        "Not only a brotherhood that will last a lifetime but lifelong skills, a vast network of alumni, leadership experience, community service opportunities, and the personal growth that comes with being held to a higher standard",
       elementId: "fifth",
     },
   ];

@@ -84,6 +84,7 @@ function AdminPanel({
   const [submitted, setSubmitted] = useState(false);
 
   const IMPORTANT_EVENTS = [
+    "Rush Week",
     "Initiation",
     "Mid-Review",
     "Activation",

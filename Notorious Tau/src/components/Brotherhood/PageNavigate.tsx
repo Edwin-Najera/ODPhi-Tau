@@ -13,7 +13,7 @@ function PageNavigate({
 }: PageNavigateProps) {
   return (
     <div className="flex-center flex-start w-100 gap-3 m-1 ps-1 z-5">
-      {userRole === "admin" ? (
+      {userRole === "admin" || userRole === "active" ? (
         <button className="return" onClick={onAdminClick}>
           Admin Page
         </button>

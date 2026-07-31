@@ -45,8 +45,17 @@
   transform: scale(1.2);
 }
 
+.logo-container {
+  display: flex;
+  width: 75px;
+  height: 75px;
+  background: rgb(211, 210, 210);
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
 .navbar-brand .logo {
-  justify-self: start;
   width: 50px;
   height: auto;
   animation: none;
