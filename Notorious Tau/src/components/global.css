@@ -6,9 +6,9 @@
   top: 0;
   width: 100dvw;
   background-color: rgb(200, 59, 59);
-  font-family: "Times New Roman", Times, serif;
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: bold;
+  font-family: "Lato", sans-serif;
   @media (max-width: 990px) {
     top: 0;
     height: 120px;

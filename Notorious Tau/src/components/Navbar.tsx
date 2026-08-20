@@ -35,7 +35,7 @@ function Navbar() {
             <UserInfo />
           </div>
           <div className="collapse navbar-collapse navbar-open" id="navbar-nav">
-            <div className="d-flex navbar-nav justify-contents-center ms-auto nav-items">
+            <div className="d-flex navbar-nav justify-content-center ms-auto nav-items w-50">
               <Link to="/Mtb" className="nav-link" onClick={closeNavbar}>
                 About
               </Link>

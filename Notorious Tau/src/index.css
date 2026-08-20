@@ -62,3 +62,8 @@ body {
   max-width: 100%;
   overflow-x: hidden;
 }
+
+input,
+input:focus {
+  outline: none;
+}
